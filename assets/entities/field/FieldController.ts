@@ -1,6 +1,7 @@
-import { _decorator, Component, Node, UITransform, instantiate, Prefab, Vec3, director, color, randomRange, randomRangeInt } from 'cc';
+import { _decorator, Component, Node, UITransform, instantiate, Prefab, Vec3, director, color, randomRange, randomRangeInt, ForwardStage } from 'cc';
 import { math } from 'cc';
 import { TileController } from '../tile/TileController';
+import { TileModel } from '../tile/TileModel';
 import { FieldModel } from './FieldModel';
 const { ccclass, property } = _decorator;
 
@@ -30,19 +31,21 @@ export class FieldController extends Component {
    */
   private generateTiles() {
 
-    console.log("[field] Rows: " + this.fieldModel.Rows + " Cols: " + this.fieldModel.Cols);
+    console.log("[field] Rows: " + this.fieldModel.rows + " Cols: " + this.fieldModel.cols);
 
     let stdTiles = this.fieldModel.getStandartTiles();
 
     this._field = [];
 
-    for (let yIndex = 0; yIndex < this.fieldModel.Rows; yIndex++) {
+    const map = this.fieldModel.getFieldMap();
+
+    for (let yIndex = 0; yIndex < this.fieldModel.rows; yIndex++) {
 
       this._field[yIndex] = [];
 
-      for (let xIndex = 0; xIndex < this.fieldModel.Rows; xIndex++) {
+      for (let xIndex = 0; xIndex < this.fieldModel.rows; xIndex++) {
 
-        let tileModel = stdTiles[randomRangeInt(0, stdTiles.length)];
+        let tileModel = this.fieldModel.getTileModelByMapMnemonic(map[yIndex][xIndex]);//stdTiles[randomRangeInt(0, stdTiles.length)];
         let tile = instantiate(this.tilePrefab);
         let tileTransform = tile.getComponent(UITransform);
         let tileController = tile.getComponent(TileController);
@@ -53,7 +56,7 @@ export class FieldController extends Component {
 
         tileController.clickedEvent.on('TileController', this.tileClicked, this)
 
-        let tW = this.tilesArea.width / this.fieldModel.Cols;
+        let tW = this.tilesArea.width / this.fieldModel.cols;
         let coef = tW / tileTransform.width;
 
         tileTransform.width = tW;
@@ -110,7 +113,7 @@ export class FieldController extends Component {
       }
     }
 
-    if (tile.row + 1 < this.fieldModel.Rows) {
+    if (tile.row + 1 < this.fieldModel.rows) {
       addTile(tile, this._field[tile.row + 1][tile.col]);
     }
 
@@ -118,7 +121,7 @@ export class FieldController extends Component {
       addTile(tile, this._field[tile.row - 1][tile.col]);
     }
 
-    if (tile.col + 1 < this.fieldModel.Cols) {
+    if (tile.col + 1 < this.fieldModel.cols) {
       addTile(tile, this._field[tile.row][tile.col + 1]);
     }
 
@@ -127,8 +130,27 @@ export class FieldController extends Component {
     }
   }
 
+  private moveAllTilesOnARote(roteId: number) {
+
+  }
+
   private moveTile(tile: TileController, col: number, row: number) {
-    
+
+  }
+
+  public getStartTile(roteId: number): TileController {
+    const startModel = this.fieldModel.getTileModel('start');
+    return this.getTile(roteId, startModel);
+  }
+
+  public getEndTile(roteId: number): TileController {
+    const startModel = this.fieldModel.getTileModel('end');
+    return this.getTile(roteId, startModel);
+  }
+
+  public getTile(roteId: number, tileType: TileModel): TileController {
+    let res = this._field.filter(ta => ta[roteId].tileTypeId == tileType.Id)[0][roteId];
+    return res;
   }
 
   update(deltaTime: number) {

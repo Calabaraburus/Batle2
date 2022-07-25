@@ -1,9 +1,14 @@
-import { _decorator, Component, Node, Sprite, SpriteFrame, random, randomRangeInt, logID, log, EventTarget, Color, Vec2 } from 'cc';
+import { _decorator, Component, Node, Sprite, SpriteFrame, random, randomRangeInt, logID, log, EventTarget, Color, Vec2, Button } from 'cc';
+import { FieldController } from '../field/FieldController';
 import { TileModel } from './TileModel';
 const { ccclass, property } = _decorator;
 
 @ccclass('TileController')
 export class TileController extends Component {
+
+    private _curSprite: Sprite;
+    private _field: FieldController;
+    private _button: Button;
 
     public clickedEvent: EventTarget = new EventTarget();
 
@@ -36,10 +41,9 @@ export class TileController extends Component {
         this._row = value;
     }
 
-    private _curSprite: Sprite;
-
     start() {
         this._curSprite = this.getComponent(Sprite);
+        this._button = this.getComponent(Button);
         this.updateSprite();
     }
 
@@ -50,6 +54,17 @@ export class TileController extends Component {
         }
 
         this.tileModel = tileModel;
+
+        if (tileModel.Name == "start" ||
+            tileModel.Name == "end" ||
+            tileModel.Name == "empty") {
+            this._button = this.getComponent(Button);
+            this._button.interactable = false;
+        }
+    }
+
+    public setField(field: FieldController) {
+        this._field = field;
     }
 
     updateSprite() {
