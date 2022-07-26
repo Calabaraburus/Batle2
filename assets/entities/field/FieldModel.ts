@@ -77,9 +77,10 @@ export class FieldModel {
 
         const textLines = this.fieldMap.text.split(/\r?\n/);
         textLines.forEach((line, i) => {
-            result[i] = [];
+            let iinv=textLines.length-i-1;
+            result[iinv] = [];
             for (let j = 0; j < line.length; j++) {
-                result[i][j] = line.charAt(j);
+                result[iinv][j] = line.charAt(j);
             }
         });
         return result;

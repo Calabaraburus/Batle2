@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, UITransform, instantiate, Prefab, Vec3, director, color, randomRange, randomRangeInt, ForwardStage } from 'cc';
+import { _decorator, Component, Node, UITransform, instantiate, Prefab, Vec3, director, color, randomRange, randomRangeInt, ForwardStage, find, WorldNode3DToLocalNodeUI } from 'cc';
 import { math } from 'cc';
 import { TileController } from '../tile/TileController';
 import { TileModel } from '../tile/TileModel';
@@ -33,8 +33,6 @@ export class FieldController extends Component {
 
     console.log("[field] Rows: " + this.fieldModel.rows + " Cols: " + this.fieldModel.cols);
 
-    let stdTiles = this.fieldModel.getStandartTiles();
-
     this._field = [];
 
     const map = this.fieldModel.getFieldMap();
@@ -45,29 +43,42 @@ export class FieldController extends Component {
 
       for (let xIndex = 0; xIndex < this.fieldModel.rows; xIndex++) {
 
-        let tileModel = this.fieldModel.getTileModelByMapMnemonic(map[yIndex][xIndex]);//stdTiles[randomRangeInt(0, stdTiles.length)];
-        let tile = instantiate(this.tilePrefab);
-        let tileTransform = tile.getComponent(UITransform);
-        let tileController = tile.getComponent(TileController);
-        tileController.setTile(tileModel);
+        let tileModel = this.fieldModel.getTileModelByMapMnemonic(map[yIndex][xIndex]);
+        let tile = this.createTile(yIndex, xIndex, tileModel);
 
-        tileController.row = yIndex;
-        tileController.col = xIndex;
-
-        tileController.clickedEvent.on('TileController', this.tileClicked, this)
-
-        let tW = this.tilesArea.width / this.fieldModel.cols;
-        let coef = tW / tileTransform.width;
-
-        tileTransform.width = tW;
-        tileTransform.height = tileTransform.height * coef;
-
-        tile.position = new Vec3(xIndex * tW, yIndex * tW);
-        tile.parent = this.node;
-
-        this._field[yIndex][xIndex] = tileController;
+        this._field[yIndex][xIndex] = tile;
       }
     }
+  }
+
+  private createTile(row: number, col: number, tileModel: TileModel, position: Vec3 = null): TileController {
+    let tile = instantiate(this.tilePrefab);
+
+    let tileController = tile.getComponent(TileController);
+    tileController.setTile(tileModel);
+
+    tileController.row = row;
+    tileController.col = col;
+
+    tileController.clickedEvent.on('TileController', this.tileClicked, this)
+
+    var tPos = this.calculateTilePosition(tile, row, col);
+
+    tile.position = position == null ? tPos : position;
+    tile.parent = this.node;
+
+    return tileController;
+  }
+
+  private calculateTilePosition(tile: Node, row: number, col: number): Vec3 {
+    let tileTransform = tile.getComponent(UITransform);
+    let tW = this.tilesArea.width / this.fieldModel.cols;
+    let coef = tW / tileTransform.width;
+
+    tileTransform.width = tW;
+    tileTransform.height = tileTransform.height * coef;
+
+    return new Vec3(col * tW, row * tW);
   }
 
   /**
@@ -79,7 +90,13 @@ export class FieldController extends Component {
     console.log("[tile] clicked. Name: " + tile.tileModel.Name)
 
     let connectedTiles = this.getConnectedTiles(tile);
+
     connectedTiles.forEach(item => item.destroyTile());
+
+    for (let index = 0; index < this.fieldModel.cols; index++) {
+      this.moveAllTilesOnARote(index);
+
+    }
   }
 
   /**
@@ -131,7 +148,38 @@ export class FieldController extends Component {
   }
 
   private moveAllTilesOnARote(roteId: number) {
+    const startTile = this.getStartTile(roteId);
+    const endTile = this.getEndTile(roteId);
 
+    if (startTile == null || endTile == null) { return; }
+
+    const findDestroiedTiles = (): TileController[] => {
+
+      let res: TileController[] = [];
+
+      this._field.forEach(row => {
+        if (row[roteId].isDestroied) {
+          res.push(row[roteId]);
+        }
+      });
+
+      return res;
+    }
+
+    const fwd = endTile.row > startTile.row;
+    const destroiedTiles=findDestroiedTiles();
+
+    const stdTileModels = this.fieldModel.getStandartTiles();
+
+    // add new tiles
+    for (let index = 0; index < destroiedTiles.length; index++) {
+      let tileRowId = fwd ? startTile.row + 1 + index : startTile.row - 1 - index;
+      let yPosIndex = fwd ? startTile.row - 1 - index : startTile.row + 1 + index;
+      var tile = this.createTile(tileRowId,
+        roteId,
+        stdTileModels[randomRangeInt(0, stdTileModels.length)],
+        this.calculateTilePosition(startTile.node, yPosIndex, startTile.col));
+    }
   }
 
   private moveTile(tile: TileController, col: number, row: number) {
@@ -149,7 +197,16 @@ export class FieldController extends Component {
   }
 
   public getTile(roteId: number, tileType: TileModel): TileController {
-    let res = this._field.filter(ta => ta[roteId].tileTypeId == tileType.Id)[0][roteId];
+
+    let res = null;
+
+    this._field.forEach((row, i) => {
+      if (row[roteId].tileTypeId == tileType.Id) {
+        res = row[roteId];
+        return;
+      }
+    });
+
     return res;
   }
 
