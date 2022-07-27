@@ -148,6 +148,8 @@
       "__id__": 7
     },
     "tileModel": null,
+    "Speed": 500,
+    "Acceleration": 1000,
     "_id": ""
   },
   {

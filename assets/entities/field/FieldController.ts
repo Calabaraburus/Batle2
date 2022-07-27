@@ -150,15 +150,19 @@ export class FieldController extends Component {
   private moveAllTilesOnARote(roteId: number) {
     const startTile = this.getStartTile(roteId);
     const endTile = this.getEndTile(roteId);
+    const emptyModel = this.fieldModel.getTileModel("empty");
 
     if (startTile == null || endTile == null) { return; }
 
-    const findDestroiedTiles = (): TileController[] => {
+    const findTiles = (destroied: boolean): TileController[] => {
 
       let res: TileController[] = [];
 
       this._field.forEach(row => {
-        if (row[roteId].isDestroied) {
+        if (row[roteId].isDestroied == destroied &&
+          (row[roteId] != startTile &&
+            row[roteId] != endTile &&
+            row[roteId].tileTypeId != emptyModel.Id)) {
           res.push(row[roteId]);
         }
       });
@@ -167,9 +171,15 @@ export class FieldController extends Component {
     }
 
     const fwd = endTile.row > startTile.row;
-    const destroiedTiles=findDestroiedTiles();
+    const destroiedTiles = findTiles(true);
+
+    if (destroiedTiles.length == 0) {
+      return;
+    }
 
     const stdTileModels = this.fieldModel.getStandartTiles();
+
+    let pathTiles = [];
 
     // add new tiles
     for (let index = 0; index < destroiedTiles.length; index++) {
@@ -179,11 +189,27 @@ export class FieldController extends Component {
         roteId,
         stdTileModels[randomRangeInt(0, stdTileModels.length)],
         this.calculateTilePosition(startTile.node, yPosIndex, startTile.col));
+
+      pathTiles[fwd ? index : destroiedTiles.length - index - 1] = tile;
     }
+
+    var liveTiles = findTiles(false);
+    liveTiles.forEach((t, i) => {
+      pathTiles[destroiedTiles.length + (fwd ? i : (liveTiles.length - i - 1))] = t;
+    });
+
+    pathTiles.forEach((t: TileController, i) => {
+      let tileRowId = fwd ? startTile.row + 1 + i : startTile.row - 1 - i;
+      t.row = tileRowId;
+
+      this._field[t.row][t.col] = t;
+
+      this.moveTile(t, this.calculateTilePosition(t.node, t.row, t.col));
+    });
   }
 
-  private moveTile(tile: TileController, col: number, row: number) {
-
+  private moveTile(tile: TileController, position: Vec3) {
+    tile.move(tile.node.position, position);
   }
 
   public getStartTile(roteId: number): TileController {
