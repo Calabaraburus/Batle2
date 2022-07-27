@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, UITransform, instantiate, Prefab, Vec3, director, color, randomRange, randomRangeInt, ForwardStage, find, WorldNode3DToLocalNodeUI } from 'cc';
+import { _decorator, Component, Node, UITransform, instantiate, Prefab, Vec3, director, color, randomRange, randomRangeInt, ForwardStage, find, WorldNode3DToLocalNodeUI, Vec2, SceneAsset } from 'cc';
 import { math } from 'cc';
 import { TileController } from '../tile/TileController';
 import { TileModel } from '../tile/TileModel';
@@ -24,6 +24,7 @@ export class FieldController extends Component {
 
   start() {
     this.generateTiles();
+    this.analizeTiles();
   }
 
   /**
@@ -55,6 +56,7 @@ export class FieldController extends Component {
     let tile = instantiate(this.tilePrefab);
 
     let tileController = tile.getComponent(TileController);
+
     tileController.setTile(tileModel);
 
     tileController.row = row;
@@ -62,23 +64,29 @@ export class FieldController extends Component {
 
     tileController.clickedEvent.on('TileController', this.tileClicked, this)
 
-    var tPos = this.calculateTilePosition(tile, row, col);
+    var tPos = this.calculateTilePosition(row, col);
 
     tile.position = position == null ? tPos : position;
     tile.parent = this.node;
 
+    const size = this.calculateTileSize(tile);
+
+    tile.scale = size;
+
     return tileController;
   }
 
-  private calculateTilePosition(tile: Node, row: number, col: number): Vec3 {
+  private calculateTilePosition(row: number, col: number): Vec3 {
+    let tW = this.tilesArea.width / this.fieldModel.cols;
+    return new Vec3(col * tW, row * tW);
+  }
+
+  private calculateTileSize(tile: Node): Vec3 {
     let tileTransform = tile.getComponent(UITransform);
     let tW = this.tilesArea.width / this.fieldModel.cols;
     let coef = tW / tileTransform.width;
 
-    tileTransform.width = tW;
-    tileTransform.height = tileTransform.height * coef;
-
-    return new Vec3(col * tW, row * tW);
+    return new Vec3(coef, coef, tile.scale.z);
   }
 
   /**
@@ -97,6 +105,8 @@ export class FieldController extends Component {
       this.moveAllTilesOnARote(index);
 
     }
+
+    this.analizeTiles();
   }
 
   /**
@@ -188,7 +198,7 @@ export class FieldController extends Component {
       var tile = this.createTile(tileRowId,
         roteId,
         stdTileModels[randomRangeInt(0, stdTileModels.length)],
-        this.calculateTilePosition(startTile.node, yPosIndex, startTile.col));
+        this.calculateTilePosition(yPosIndex, startTile.col));
 
       pathTiles[fwd ? index : destroiedTiles.length - index - 1] = tile;
     }
@@ -204,7 +214,51 @@ export class FieldController extends Component {
 
       this._field[t.row][t.col] = t;
 
-      this.moveTile(t, this.calculateTilePosition(t.node, t.row, t.col));
+      this.moveTile(t, this.calculateTilePosition(t.row, t.col));
+    });
+  }
+
+  private analizeTiles() {
+
+    this.PrepareTilesForAnalize();
+
+    this._field.forEach((row, i) => {
+      row.forEach((tile, i) => {
+        let set = new Set<TileController>();
+        this.findConnectedTiles(tile, set);
+
+        this.AnalizeConnects(set);
+      });
+    });
+  }
+
+  private AnalizeConnects(set: Set<TileController>) {
+
+    set.forEach(tile => {
+      if (tile.tileAnalized) {
+        return;
+      }
+
+      if (set.size >= this.fieldModel.quantityToStar) {
+        tile.setStar();
+      } else if (set.size >= this.fieldModel.quantityToBomb) {
+        tile.setBomb();
+      } else if (set.size >= this.fieldModel.quantityToRocket) {
+        tile.setRocket();
+      }
+
+      tile.tileAnalized = true;
+    });
+
+
+  }
+
+  private PrepareTilesForAnalize() {
+
+    this._field.forEach((row, i) => {
+      row.forEach((tile, i) => {
+        tile.tileAnalized = false;
+      });
     });
   }
 

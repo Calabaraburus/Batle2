@@ -22,6 +22,24 @@ export class FieldModel {
     rows: number;
 
     /**
+     * Quantity of tiles to create rocket
+     */
+    @property({ type: CCInteger })
+    quantityToRocket: number = 5;
+
+    /**
+    * Quantity of tiles to create bomb
+    */
+    @property({ type: CCInteger })
+    quantityToBomb: number = 8;
+
+    /**
+    * Quantity of tiles to create star
+    */
+    @property({ type: CCInteger })
+    quantityToStar: number = 11;
+
+    /**
      * Tile model collection
      */
     @property({ type: [TileModel], visible: true, tooltip: "Tile models" })
@@ -77,7 +95,7 @@ export class FieldModel {
 
         const textLines = this.fieldMap.text.split(/\r?\n/);
         textLines.forEach((line, i) => {
-            let iinv=textLines.length-i-1;
+            let iinv = textLines.length - i - 1;
             result[iinv] = [];
             for (let j = 0; j < line.length; j++) {
                 result[iinv][j] = line.charAt(j);

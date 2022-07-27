@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, Sprite, SpriteFrame, random, randomRangeInt, logID, log, EventTarget, Color, Vec2, Button, Vec3, CCFloat, Vec4 } from 'cc';
 import { FieldController } from '../field/FieldController';
 import { TileModel } from './TileModel';
+import { TileState } from './TileState';
 const { ccclass, property } = _decorator;
 
 @ccclass('TileController')
@@ -13,6 +14,10 @@ export class TileController extends Component {
     private _from: Vec3;
     private _to: Vec3;
     private _speed: number;
+    private _bombSprite: SpriteFrame;
+    private _rocketSprite: SpriteFrame;
+    private _starSprite: SpriteFrame;
+    private _state: TileState;
 
     public clickedEvent: EventTarget = new EventTarget();
 
@@ -27,6 +32,16 @@ export class TileController extends Component {
     /** Speed */
     @property(CCFloat)
     Acceleration: number = 0.1;
+
+    /** Special sprite */
+    @property(Sprite)
+    SpecialSprite: Sprite;
+
+    public tileAnalized: boolean;
+
+    public get state(): TileState {
+        return this._state;
+    }
 
     private _isDestroied = false;
     get isDestroied(): boolean {
@@ -67,12 +82,36 @@ export class TileController extends Component {
 
         this.tileModel = tileModel;
 
+        this._rocketSprite = tileModel.findAdditionalSprite("rocket");
+        this._bombSprite = tileModel.findAdditionalSprite("bomb");
+        this._starSprite = tileModel.findAdditionalSprite("star");
+
         if (tileModel.Name == "start" ||
             tileModel.Name == "end" ||
             tileModel.Name == "empty") {
             this._button = this.getComponent(Button);
             this._button.interactable = false;
         }
+    }
+
+    public setBomb() {
+        this.SpecialSprite.spriteFrame = this._bombSprite;
+        this._state = TileState.bomb;
+    }
+
+    public setRocket() {
+        this.SpecialSprite.spriteFrame = this._rocketSprite;
+        this._state = TileState.rocket;
+    }
+
+    public setStar() {
+        this.SpecialSprite.spriteFrame = this._starSprite;
+        this._state = TileState.star;
+    }
+
+    public resetSpecialSprite() {
+        this.SpecialSprite.spriteFrame = null;
+        this._state = TileState.empty;
     }
 
     public setField(field: FieldController) {
@@ -92,6 +131,7 @@ export class TileController extends Component {
     public destroyTile() {
         this._curSprite.spriteFrame = null;
         this._isDestroied = true;
+        this.resetSpecialSprite();
     }
 
 

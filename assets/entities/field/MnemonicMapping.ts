@@ -9,3 +9,5 @@ export class MnemonicMapping {
     @property({ type: CCString })
     mnemonic: string;
 }
+
+
