@@ -7,17 +7,20 @@ import {
     EventTarget,
     Button,
     Vec3,
-    CCFloat
+    CCFloat,
+    ParticleSystem2D,
+    instantiate,
+    ParticleSystem
 } from 'cc';
-import { FieldController } from '../field/FieldController';
-import { TileController } from './TileController';
-import { TileModel } from './TileModel';
-import { TileState } from './TileState';
+import { TileController } from '../TileController';
+import { TileModel } from '../TileModel';
+import { TileState } from '../TileState';
 const { ccclass, property } = _decorator;
 
 @ccclass('StdTileController')
 export class StdTileController extends TileController {
 
+    private _curSprite: Sprite;
     private _state: TileState;
     private _bombSprite: SpriteFrame;
     private _rocketSprite: SpriteFrame;
@@ -27,6 +30,20 @@ export class StdTileController extends TileController {
     @property(Sprite)
     SpecialSprite: Sprite;
 
+    /** Destroy particle system */
+    @property(ParticleSystem2D)
+    destroyPartycles: ParticleSystem2D;
+
+
+    start() {
+        super.start();
+        this.updateSprite();
+    }
+
+    updateSprite() {
+        this._curSprite = this.getComponent(Sprite);
+        this._curSprite.spriteFrame = this.tileModel.Sprite;
+    }
 
     public get state(): TileState {
         return this._state;
@@ -61,6 +78,14 @@ export class StdTileController extends TileController {
 
     public destroyTile() {
         super.destroyTile();
+
+        this._curSprite = this.getComponent(Sprite);
+        this._curSprite.spriteFrame = null;
+        this.CreateParticles();
         this.resetSpecialSprite();
+    }
+
+    private CreateParticles() {
+    this.destroyPartycles.resetSystem();
     }
 }

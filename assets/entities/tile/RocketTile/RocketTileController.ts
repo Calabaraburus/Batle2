@@ -13,7 +13,7 @@ import {
     math,
     Node
 } from 'cc';
-import { TileController } from './TileController';
+import { TileController } from '../TileController';
 const { ccclass, property } = _decorator;
 
 @ccclass('RocketTileController')
@@ -27,7 +27,6 @@ export class RocketTileController extends TileController {
     /** Horizontal sprite */
     @property(Node)
     RocketHNode: Node;
-
 
     private _isVertical: boolean;
     public set isVertical(value: boolean) {
@@ -45,10 +44,13 @@ export class RocketTileController extends TileController {
         return this._isVertical;
     }
 
+    public destroyTile() {
+        super.destroyTile()
+        this.RocketVNode.active=false;
+        this.RocketHNode.active=false;
+    }
+
     start() {
         this.isVertical = Boolean(randomRangeInt(0, 2));
     }
-
-  
-
 }

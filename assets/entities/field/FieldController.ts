@@ -1,15 +1,25 @@
-import { _decorator, Component, Node, UITransform, instantiate, Vec3, randomRangeInt } from 'cc';
+import {
+  _decorator,
+  Component,
+  Node,
+  UITransform,
+  Vec3,
+  randomRangeInt,
+  EventTarget
+} from 'cc';
 import { math } from 'cc';
-import { StdTileController } from '../tile/StdTileController';
 import { TileController } from '../tile/TileController';
 import { TileModel } from '../tile/TileModel';
 import { TileState } from '../tile/TileState';
+import { StdTileController } from '../tile/UsualTile/StdTileController';
 import { FieldModel } from './FieldModel';
 import { TileCreator } from './TileCreator';
 const { ccclass, property } = _decorator;
 
 @ccclass('FieldController')
 export class FieldController extends Component {
+
+  public tileClickedEvent: EventTarget = new EventTarget();
 
   @property({ type: [FieldModel], visible: true, tooltip: 'Field model' })
   fieldModel: FieldModel;
@@ -24,6 +34,10 @@ export class FieldController extends Component {
    * Logic field (e.g. tiles matrix)
    */
   private _field: TileController[][];
+
+  get logicField(): TileController[][] {
+    return this._field;
+  }
 
   start() {
     this.tileCreator.setModel(this.fieldModel);
@@ -49,18 +63,33 @@ export class FieldController extends Component {
       for (let xIndex = 0; xIndex < this.fieldModel.rows; xIndex++) {
 
         let tileModel = this.fieldModel.getTileModelByMapMnemonic(map[yIndex][xIndex]);
-        let tile = this.createTile(yIndex, xIndex, tileModel);
-
-        this._field[yIndex][xIndex] = tile;
+        let tile = this.createTile({ row: yIndex, col: xIndex, tileModel, putOnField: true });
       }
     }
   }
 
-  private createTile(row: number, col: number, tileModel: TileModel, position: Vec3 = null): TileController {
-    let tile = this.tileCreator.create(tileModel.Name);//instantiate(this.tilePrefab);
 
-    let tileController = tile.getComponent(TileController);
 
+  /**
+   * Creates tile instance
+   * @param row row position on logic field
+   * @param col col position on logic field
+   * @param tileModel tile model
+   * @param position real position on scene
+   * @param putOnField determines the need of putting tile on logic field
+   * (game puts tile only to the scene)
+   * @returns 
+   */
+  public createTile({ row,
+    col,
+    tileModel,
+    position = null,
+    putOnField = false }: CreateTileArgs): TileController {
+
+    const tile = this.tileCreator.create(tileModel.Name);
+
+    const tileController = tile.getComponent(TileController);
+    tileController.justCreated = true;
     tileController.setTile(tileModel);
 
     tileController.row = row;
@@ -76,6 +105,10 @@ export class FieldController extends Component {
     const size = this.calculateTileSize(tile);
 
     tile.scale = size;
+
+    if (putOnField) {
+      this._field[row][col] = tileController;
+    }
 
     return tileController;
   }
@@ -98,27 +131,13 @@ export class FieldController extends Component {
    * @param tile tile controller of clicked tile
    */
   private tileClicked(tile: TileController): void {
-
+    if (this._timeToexecute > 0) return;
     console.log("[tile] clicked. Name: " + tile.tileModel.Name)
 
-    let connectedTiles = this.getConnectedTiles(tile);
+    this.tileClickedEvent.emit('FieldController', this, tile);
 
-    const stdTile = tile as StdTileController;
-    if (stdTile != null) {
-      if (stdTile.state == TileState.rocket) {
-        var rocketModel = this.fieldModel.getTileModel('rocket')
-        this._field[tile.row][tile.col] = this.createTile(tile.row, tile.col, rocketModel);
-      }
-    }
-
-    connectedTiles.forEach(item => item.destroyTile());
-
-    for (let index = 0; index < this.fieldModel.cols; index++) {
-      this.moveAllTilesOnARote(index);
-
-    }
-
-    this.analizeTiles();
+    this._timeToexecute = .5;
+    this._canexecute = true;
   }
 
   /**
@@ -126,7 +145,7 @@ export class FieldController extends Component {
    * @param tile initial tile
    * @returns all connected tiles with same type
    */
-  private getConnectedTiles(tile: TileController): TileController[] {
+  public getConnectedTiles(tile: TileController): TileController[] {
 
     let connectedTiles: Set<TileController> = new Set<TileController>();
 
@@ -207,10 +226,12 @@ export class FieldController extends Component {
     for (let index = 0; index < destroiedTiles.length; index++) {
       let tileRowId = fwd ? startTile.row + 1 + index : startTile.row - 1 - index;
       let yPosIndex = fwd ? startTile.row - 1 - index : startTile.row + 1 + index;
-      var tile = this.createTile(tileRowId,
-        roteId,
-        stdTileModels[randomRangeInt(0, stdTileModels.length)],
-        this.calculateTilePosition(yPosIndex, startTile.col));
+      var tile = this.createTile({
+        row: tileRowId,
+        col: roteId,
+        tileModel: stdTileModels[randomRangeInt(0, stdTileModels.length)],
+        position: this.calculateTilePosition(yPosIndex, startTile.col)
+      });
 
       pathTiles[fwd ? index : destroiedTiles.length - index - 1] = tile;
     }
@@ -248,9 +269,10 @@ export class FieldController extends Component {
 
             stdTile.resetSpecialSprite();
           }
-
-          tile.tileAnalized = true;
         }
+
+        tile.justCreated = false;
+        tile.tileAnalized = true;
       });
     });
   }
@@ -276,17 +298,18 @@ export class FieldController extends Component {
           stdTile.resetSpecialSprite();
         }
       }
-
-      tile.tileAnalized = true;
     });
-
-
   }
 
   private PrepareTilesForAnalize() {
 
     this._field.forEach((row, i) => {
       row.forEach((tile, i) => {
+        if (tile.isDestroied) {
+          if (this._field[tile.row][tile.col] == tile) {
+            this._field[tile.row][tile.col] == null;
+          }
+        }
         tile.tileAnalized = false;
       });
     });
@@ -320,7 +343,31 @@ export class FieldController extends Component {
     return res;
   }
 
-  update(deltaTime: number) {
 
+  _timeToexecute = 0;
+  _canexecute = false;
+  update(deltaTime: number) {
+    if (this._timeToexecute < 0 && this._canexecute) {
+      this._canexecute = false;
+
+
+      for (let index = 0; index < this.fieldModel.cols; index++) {
+        this.moveAllTilesOnARote(index);
+      }
+
+      this.analizeTiles();
+    }
+    this._timeToexecute -= deltaTime;
   }
 }
+
+interface CreateTileArgs {
+  row: number,
+  col: number,
+  tileModel: TileModel,
+  position?: Vec3 | null,
+  putOnField?: boolean
+}
+
+
+

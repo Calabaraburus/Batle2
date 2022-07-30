@@ -9,3 +9,4 @@ export class AdittionalSprite {
     @property({ type: SpriteFrame })
     sprite: SpriteFrame;
 }
+

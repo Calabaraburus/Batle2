@@ -17,14 +17,13 @@ const { ccclass, property } = _decorator;
 @ccclass('TileController')
 export class TileController extends Component {
 
-    private _curSprite: Sprite;
     private _field: FieldController;
     private _button: Button;
     private _needMove: boolean = false;
     private _from: Vec3;
     private _to: Vec3;
     private _speed: number;
-
+    private _interactable: boolean = true;
     public clickedEvent: EventTarget = new EventTarget();
 
     /**Tile model */
@@ -46,8 +45,21 @@ export class TileController extends Component {
         return this._isDestroied;
     }
 
+    private _activating = false;
+    get activating(): boolean {
+        return this._activating;
+    }
+
     get tileTypeId(): number {
         return this.tileModel.Id;
+    }
+
+    private _justCreated: boolean = false;
+    get justCreated(): boolean {
+        return this._justCreated;
+    }
+    set justCreated(value: boolean) {
+        this._justCreated = value;
     }
 
     private _col: number = 0;
@@ -67,9 +79,7 @@ export class TileController extends Component {
     }
 
     start() {
-        this._curSprite = this.getComponent(Sprite);
         this._button = this.getComponent(Button);
-        this.updateSprite();
     }
 
     public setTile(tileModel: TileModel) {
@@ -84,7 +94,9 @@ export class TileController extends Component {
             tileModel.Name == "end" ||
             tileModel.Name == "empty") {
             this._button = this.getComponent(Button);
-            this._button.interactable = false;
+            this._interactable = false;
+            this._button.interactable = this._interactable;
+
         }
     }
 
@@ -92,21 +104,34 @@ export class TileController extends Component {
         this._field = field;
     }
 
-    updateSprite() {
-        if (this._curSprite != null) {
-            this._curSprite.spriteFrame = this.tileModel.Sprite;
-        }
-    }
-
+    /**
+     * Method called when Tile pressed
+     * @returns void
+     */
     public clicked() {
-        this.clickedEvent.emit("TileController", this);
+        this.activate();
     }
 
     public destroyTile() {
-        this._curSprite.spriteFrame = null;
         this._isDestroied = true;
     }
 
+    public activate() {
+        if (this.activating ||
+            this._justCreated ||
+            !this._interactable ||
+            this.isDestroied) {
+            return;
+        }
+
+        this._activating = true;
+        this.OnClicked();
+        this._activating = false;
+    }
+
+    private OnClicked() {
+        this.clickedEvent.emit("TileController", this);
+    }
 
     update(deltaTime: number) {
         if (this._needMove) {
