@@ -268,7 +268,7 @@
     "fileId": "0fmVtuEnhL76byPhq0KxaQ"
   },
   {
-    "__type__": "3a156jmaexMQKRQX+ethx4f",
+    "__type__": "ca3d7tZX4xK/LGI64SbtiRi",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -278,9 +278,8 @@
     "__prefab": {
       "__id__": 13
     },
-    "tileModel": null,
-    "Speed": 500,
-    "Acceleration": 1000,
+    "Speed": 5000,
+    "Acceleration": 3000,
     "SpecialSprite": {
       "__id__": 5
     },
@@ -288,7 +287,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "a902wniEJHtqMn6liQq3F2"
+    "fileId": "52sFsInnFFYYilB+4R9roz"
   },
   {
     "__type__": "cc.Button",

@@ -1,8 +1,11 @@
-import { _decorator, Component, Node, UITransform, instantiate, Prefab, Vec3, director, color, randomRange, randomRangeInt, ForwardStage, find, WorldNode3DToLocalNodeUI, Vec2, SceneAsset } from 'cc';
+import { _decorator, Component, Node, UITransform, instantiate, Vec3, randomRangeInt } from 'cc';
 import { math } from 'cc';
+import { StdTileController } from '../tile/StdTileController';
 import { TileController } from '../tile/TileController';
 import { TileModel } from '../tile/TileModel';
+import { TileState } from '../tile/TileState';
 import { FieldModel } from './FieldModel';
+import { TileCreator } from './TileCreator';
 const { ccclass, property } = _decorator;
 
 @ccclass('FieldController')
@@ -11,11 +14,11 @@ export class FieldController extends Component {
   @property({ type: [FieldModel], visible: true, tooltip: 'Field model' })
   fieldModel: FieldModel;
 
-  @property(Prefab)
-  tilePrefab: Prefab;
-
   @property(UITransform)
   tilesArea: UITransform;
+
+  @property(TileCreator)
+  tileCreator: TileCreator;
 
   /**
    * Logic field (e.g. tiles matrix)
@@ -23,6 +26,7 @@ export class FieldController extends Component {
   private _field: TileController[][];
 
   start() {
+    this.tileCreator.setModel(this.fieldModel);
     this.generateTiles();
     this.analizeTiles();
   }
@@ -53,7 +57,7 @@ export class FieldController extends Component {
   }
 
   private createTile(row: number, col: number, tileModel: TileModel, position: Vec3 = null): TileController {
-    let tile = instantiate(this.tilePrefab);
+    let tile = this.tileCreator.create(tileModel.Name);//instantiate(this.tilePrefab);
 
     let tileController = tile.getComponent(TileController);
 
@@ -98,6 +102,14 @@ export class FieldController extends Component {
     console.log("[tile] clicked. Name: " + tile.tileModel.Name)
 
     let connectedTiles = this.getConnectedTiles(tile);
+
+    const stdTile = tile as StdTileController;
+    if (stdTile != null) {
+      if (stdTile.state == TileState.rocket) {
+        var rocketModel = this.fieldModel.getTileModel('rocket')
+        this._field[tile.row][tile.col] = this.createTile(tile.row, tile.col, rocketModel);
+      }
+    }
 
     connectedTiles.forEach(item => item.destroyTile());
 
@@ -227,7 +239,18 @@ export class FieldController extends Component {
         let set = new Set<TileController>();
         this.findConnectedTiles(tile, set);
 
-        this.AnalizeConnects(set);
+        if (set.size > 1) {
+          this.AnalizeConnects(set);
+        } else {
+
+          if (tile instanceof StdTileController) {
+            const stdTile = tile as StdTileController;
+
+            stdTile.resetSpecialSprite();
+          }
+
+          tile.tileAnalized = true;
+        }
       });
     });
   }
@@ -239,12 +262,19 @@ export class FieldController extends Component {
         return;
       }
 
-      if (set.size >= this.fieldModel.quantityToStar) {
-        tile.setStar();
-      } else if (set.size >= this.fieldModel.quantityToBomb) {
-        tile.setBomb();
-      } else if (set.size >= this.fieldModel.quantityToRocket) {
-        tile.setRocket();
+      if (tile instanceof StdTileController) {
+
+        const stdTile = tile as StdTileController;
+
+        if (set.size >= this.fieldModel.quantityToStar) {
+          stdTile.setStar();
+        } else if (set.size >= this.fieldModel.quantityToBomb) {
+          stdTile.setBomb();
+        } else if (set.size >= this.fieldModel.quantityToRocket) {
+          stdTile.setRocket();
+        } else {
+          stdTile.resetSpecialSprite();
+        }
       }
 
       tile.tileAnalized = true;
