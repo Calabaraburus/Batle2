@@ -13,40 +13,41 @@ const { ccclass, property } = _decorator;
 export class RocketTileInterBehaviour extends TileInterBehaviour {
     tileClicked(field: FieldController, tile: TileController) {
 
-        if (tile instanceof RocketTileController) {
-
-            const rocketTile = tile as RocketTileController;
-
-            if (!rocketTile.isVertical) {
-                field.logicField[rocketTile.row].forEach((t) => {
-                    if (!t.isDestroied && (t.tileModel.Name == "rocket" ||
-                        t.tileModel.Name == "bomb")) {
-                        t.activate();
-                    }
-                });
-                field.logicField[rocketTile.row].forEach((t) => {
-                    if (!t.isDestroied) {
-                        t.destroyTile();
-                    }
-                });
-            } else {
-                field.logicField.forEach((row) => {
-                    const t = row[tile.col];
-                    if (!t.isDestroied && (t.tileModel.Name == "rocket" ||
-                        t.tileModel.Name == "bomb")) {
-                        t.activate();
-                    }
-                });
-                field.logicField.forEach((row) => {
-                    const t = row[tile.col];
-                    if (!t.isDestroied) {
-                        t.destroyTile()
-                    }
-                });
-            }
-
-            rocketTile.destroyTile();
-
+        if (!(tile instanceof RocketTileController)) {
+            return;
         }
+
+        const rocketTile = tile as RocketTileController;
+
+        if (!rocketTile.isVertical) {
+            field.logicField[rocketTile.row].forEach((t) => {
+                if (!t.isDestroied && (t.tileModel.Name == "rocket" ||
+                    t.tileModel.Name == "bomb")) {
+                    t.activate();
+                }
+            });
+            field.logicField[rocketTile.row].forEach((t) => {
+                if (!t.isDestroied) {
+                    t.destroyTile();
+                }
+            });
+        } else {
+            field.logicField.forEach((row) => {
+                const t = row[tile.col];
+                if (!t.isDestroied && (t.tileModel.Name == "rocket" ||
+                    t.tileModel.Name == "bomb")) {
+                    t.activate();
+                }
+            });
+            field.logicField.forEach((row) => {
+                const t = row[tile.col];
+                if (!t.isDestroied) {
+                    t.destroyTile()
+                }
+            });
+        }
+
+        rocketTile.destroyTile();
+
     }
 }

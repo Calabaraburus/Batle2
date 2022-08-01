@@ -37,7 +37,6 @@ export class RocketTileController extends TileController {
             } else {
                 this.RocketHNode.active=true;
             }
-        
     }
 
     public get isVertical() {

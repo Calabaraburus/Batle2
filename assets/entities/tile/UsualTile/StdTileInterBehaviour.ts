@@ -13,20 +13,20 @@ const { ccclass, property } = _decorator;
 export class StdTileInterBehaviour extends TileInterBehaviour {
     tileClicked(field: FieldController, tile: TileController) {
 
+        if (!(tile instanceof StdTileController)) {
+            return;
+        }
+
         let connectedTiles = field.getConnectedTiles(tile);
-
-        if (tile instanceof StdTileController) {
-
-            const stdTile = tile as StdTileController;
-            if (stdTile.state == TileState.rocket) {
-                var rocketModel = this.field.fieldModel.getTileModel('rocket');
-                const rocketTile = field.createTile({
-                    row: tile.row,
-                    col: tile.col,
-                    tileModel: rocketModel,
-                    putOnField: true
-                });
-            }
+        const stdTile = tile as StdTileController;
+        if (stdTile.state == TileState.rocket) {
+            var rocketModel = this.field.fieldModel.getTileModel('rocket');
+            const rocketTile = field.createTile({
+                row: tile.row,
+                col: tile.col,
+                tileModel: rocketModel,
+                putOnField: true
+            });
         }
 
         connectedTiles.forEach(item => item.destroyTile());

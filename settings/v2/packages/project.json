@@ -7,5 +7,19 @@
       "width": 1024,
       "height": 768
     }
-  }
+  },
+  "layer": [
+    {
+      "name": "ParticleEffects",
+      "value": 524288
+    },
+    {
+      "name": "ui_back",
+      "value": 1
+    },
+    {
+      "name": "ui_front",
+      "value": 2
+    }
+  ]
 }

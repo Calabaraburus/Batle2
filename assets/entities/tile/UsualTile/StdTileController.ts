@@ -10,7 +10,10 @@ import {
     CCFloat,
     ParticleSystem2D,
     instantiate,
-    ParticleSystem
+    ParticleSystem,
+    Node,
+    Prefab,
+    UITransform
 } from 'cc';
 import { TileController } from '../TileController';
 import { TileModel } from '../TileModel';
@@ -31,8 +34,8 @@ export class StdTileController extends TileController {
     SpecialSprite: Sprite;
 
     /** Destroy particle system */
-    @property(ParticleSystem2D)
-    destroyPartycles: ParticleSystem2D;
+    @property(Prefab)
+    destroyPartycles: Prefab;
 
 
     start() {
@@ -86,6 +89,11 @@ export class StdTileController extends TileController {
     }
 
     private CreateParticles() {
-    this.destroyPartycles.resetSystem();
+        const ps = instantiate(this.destroyPartycles)//.getComponent(ParticleSystem2D);
+        ps.parent = this.node.parent
+        const ui = this.getComponent(UITransform);
+        ps.position = new Vec3(this.node.position.x + ui.contentSize.width / 2,
+            this.node.position.y + ui.contentSize.height / 2,
+            this.node.position.z);
     }
 }
