@@ -675,6 +675,7 @@
     "__type__": "FieldModel",
     "cols": 12,
     "rows": 12,
+    "border": 1,
     "quantityToRocket": 5,
     "quantityToBomb": 8,
     "quantityToStar": 11,

@@ -68,8 +68,6 @@ export class FieldController extends Component {
     }
   }
 
-
-
   /**
    * Creates tile instance
    * @param row row position on logic field
@@ -114,14 +112,16 @@ export class FieldController extends Component {
   }
 
   private calculateTilePosition(row: number, col: number): Vec3 {
+    const border = this.fieldModel.border / 2;
     let tW = this.tilesArea.width / this.fieldModel.cols;
-    return new Vec3(col * tW, row * tW);
+    return new Vec3(col * tW + border, row * tW + border);
   }
 
   private calculateTileSize(tile: Node): Vec3 {
+    //onst border = this.fieldModel.border / 2;
     let tileTransform = tile.getComponent(UITransform);
     let tW = this.tilesArea.width / this.fieldModel.cols;
-    let coef = tW / tileTransform.width;
+    let coef = tW / (tileTransform.width + this.fieldModel.border);
 
     return new Vec3(coef, coef, tile.scale.z);
   }
@@ -136,7 +136,7 @@ export class FieldController extends Component {
 
     this.tileClickedEvent.emit('FieldController', this, tile);
 
-    this._timeToexecute = .5;
+    this._timeToexecute = .2;
     this._canexecute = true;
   }
 

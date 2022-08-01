@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec2, CCInteger, Script, TextAsset } from 'cc';
+import { _decorator, Component, Node, Vec2, CCInteger, Script, TextAsset, CCFloat } from 'cc';
 import { TileModel } from '../tile/TileModel';
 import { MnemonicMapping } from './MnemonicMapping';
 const { ccclass, property } = _decorator;
@@ -20,6 +20,12 @@ export class FieldModel {
      */
     @property({ type: CCInteger })
     rows: number;
+
+    /**
+    * Tile margin
+    */
+     @property({ type: CCFloat })
+     border: number = 0.1;
 
     /**
      * Quantity of tiles to create rocket
