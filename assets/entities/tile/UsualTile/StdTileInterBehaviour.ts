@@ -11,6 +11,17 @@ const { ccclass, property } = _decorator;
  */
 @ccclass('StdTileInterBehaviour')
 export class StdTileInterBehaviour extends TileInterBehaviour {
+
+    private tileStateToLogic: Map<TileState, string> = new Map<TileState, string>;
+
+    constructor() {
+        super();
+        this.tileStateToLogic[TileState.bomb] = "bomb";
+        this.tileStateToLogic[TileState.empty] = "empty";
+        this.tileStateToLogic[TileState.rocket] = "rocket";
+        this.tileStateToLogic[TileState.star] = "star";
+    }
+
     tileClicked(field: FieldController, tile: TileController) {
 
         if (!(tile instanceof StdTileController)) {
@@ -19,12 +30,15 @@ export class StdTileInterBehaviour extends TileInterBehaviour {
 
         let connectedTiles = field.getConnectedTiles(tile);
         const stdTile = tile as StdTileController;
-        if (stdTile.state == TileState.rocket) {
-            var rocketModel = this.field.fieldModel.getTileModel('rocket');
-            const rocketTile = field.createTile({
+
+        let modelName = this.tileStateToLogic[stdTile.state];
+        var model = this.field.fieldModel.getTileModel(modelName);
+
+        if (model != null && stdTile.state != TileState.empty) {
+            field.createTile({
                 row: tile.row,
                 col: tile.col,
-                tileModel: rocketModel,
+                tileModel: model,
                 putOnField: true
             });
         }

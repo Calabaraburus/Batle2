@@ -18,7 +18,6 @@ const { ccclass, property } = _decorator;
 
 @ccclass('RocketTileController')
 export class RocketTileController extends TileController {
-    private _sprite: Sprite;
 
     /** Vertical sprite */
     @property(Node)
@@ -53,3 +52,5 @@ export class RocketTileController extends TileController {
         this.isVertical = Boolean(randomRangeInt(0, 2));
     }
 }
+
+
