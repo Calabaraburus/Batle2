@@ -82,7 +82,7 @@ export class TileController extends Component {
         this._button = this.getComponent(Button);
     }
 
-    public setTile(tileModel: TileModel) {
+    public setModel(tileModel: TileModel) {
         if (tileModel == null) {
             log("[tile] tile model can't be null");
             return;

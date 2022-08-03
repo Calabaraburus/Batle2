@@ -88,7 +88,7 @@ export class FieldController extends Component {
 
     const tileController = tile.getComponent(TileController);
     tileController.justCreated = true;
-    tileController.setTile(tileModel);
+    tileController.setModel(tileModel);
 
     tileController.row = row;
     tileController.col = col;

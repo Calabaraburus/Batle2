@@ -1,4 +1,9 @@
-export const enum TileState {
+import {
+    _decorator,
+    Enum
+} from 'cc';
+
+export enum TileState {
     empty,
     star,
     bomb,

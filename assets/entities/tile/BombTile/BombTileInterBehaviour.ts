@@ -45,14 +45,20 @@ export class BombTileInterBehaviour extends TileInterBehaviour {
         };
 
         iterateTiles((t: TileController) => {
-        
-            if (!t.isDestroied && (t.tileModel.Name == "rocket" ||
-                t.tileModel.Name == "bomb")) {
+
+            if (!t.isDestroied &&
+                (t.tileModel.Name != "star") &&
+                (t.tileModel.Name == "rocket" ||
+                    t.tileModel.Name == "bomb")) {
                 t.activate();
             }
         });
 
-        iterateTiles((t: TileController) => t.destroyTile());
+        iterateTiles((t: TileController) => {
+            if (!t.isDestroied && (t.tileModel.Name != "star")) {
+                t.destroyTile()
+            }
+        });
 
         bombTile.destroyTile();
     }

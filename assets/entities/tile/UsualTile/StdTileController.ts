@@ -72,8 +72,8 @@ export class StdTileController extends TileController {
         this._state = TileState.empty;
     }
 
-    public setTile(tileModel: TileModel) {
-        super.setTile(tileModel);
+    public setModel(tileModel: TileModel) {
+        super.setModel(tileModel);
         this._rocketSprite = tileModel.findAdditionalSprite("rocket");
         this._bombSprite = tileModel.findAdditionalSprite("bomb");
         this._starSprite = tileModel.findAdditionalSprite("star");

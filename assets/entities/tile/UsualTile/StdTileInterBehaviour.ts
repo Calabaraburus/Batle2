@@ -1,5 +1,6 @@
 import { CCString, _decorator, SpriteFrame, Component, Button } from 'cc';
 import { FieldController } from '../../field/FieldController';
+import { StarTileController } from '../StarTile/StarTileController';
 import { TileController } from '../TileController';
 import { TileInterBehaviour } from '../TileInterBehaviour';
 import { TileState } from '../TileState';
@@ -35,16 +36,19 @@ export class StdTileInterBehaviour extends TileInterBehaviour {
         var model = this.field.fieldModel.getTileModel(modelName);
 
         if (model != null && stdTile.state != TileState.empty) {
-            field.createTile({
+            const resTile = field.createTile({
                 row: tile.row,
                 col: tile.col,
                 tileModel: model,
                 putOnField: true
             });
+
+            if (resTile instanceof StarTileController) {
+                const star = resTile as StarTileController;
+                star.createdForm(tile.tileModel);
+            }
         }
 
         connectedTiles.forEach(item => item.destroyTile());
     }
 }
-
-

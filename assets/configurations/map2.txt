@@ -4,7 +4,7 @@
 -ggggrrbbbb-
 -ggggrrbbbb-
 -ggggrrbbbb-
--ggggrrbbbb-
+-gg|g|rb|bb-
 -ggggrrbbbb-
 -ggbgrrbbbb-
 -ggggrrbbbb-

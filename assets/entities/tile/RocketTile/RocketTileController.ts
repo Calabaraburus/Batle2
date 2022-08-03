@@ -30,12 +30,12 @@ export class RocketTileController extends TileController {
     private _isVertical: boolean;
     public set isVertical(value: boolean) {
         this._isVertical = value;
-        
-            if (value) {
-                this.RocketVNode.active=true;
-            } else {
-                this.RocketHNode.active=true;
-            }
+
+        if (value) {
+            this.RocketVNode.active = true;
+        } else {
+            this.RocketHNode.active = true;
+        }
     }
 
     public get isVertical() {
@@ -44,8 +44,8 @@ export class RocketTileController extends TileController {
 
     public destroyTile() {
         super.destroyTile()
-        this.RocketVNode.active=false;
-        this.RocketHNode.active=false;
+        this.RocketVNode.active = false;
+        this.RocketHNode.active = false;
     }
 
     start() {
