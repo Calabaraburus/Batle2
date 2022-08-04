@@ -49,8 +49,8 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.3,
-      "y": 0.3,
+      "x": 1,
+      "y": 1,
       "z": 1
     },
     "_layer": 1,
@@ -361,7 +361,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 61.82,
+      "width": 62.94,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -376,7 +376,7 @@
     "fileId": "a16IX+EfdEz6o5tFiXKRL2"
   },
   {
-    "__type__": "cc.RichText",
+    "__type__": "cc.Label",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -386,24 +386,42 @@
     "__prefab": {
       "__id__": 14
     },
-    "_lineHeight": 40,
+    "_visFlags": 0,
+    "_customMaterial": null,
+    "_srcBlendFactor": 2,
+    "_dstBlendFactor": 4,
+    "_color": {
+      "__type__": "cc.Color",
+      "r": 255,
+      "g": 255,
+      "b": 255,
+      "a": 255
+    },
     "_string": "15",
-    "_horizontalAlign": 0,
-    "_verticalAlign": 0,
-    "_fontSize": 55,
-    "_maxWidth": 0,
-    "_fontFamily": "MARVIN",
-    "_font": null,
-    "_isSystemFontUsed": true,
-    "_userDefinedFont": null,
+    "_horizontalAlign": 1,
+    "_verticalAlign": 1,
+    "_actualFontSize": 56,
+    "_fontSize": 56,
+    "_fontFamily": "Arial",
+    "_lineHeight": 40,
+    "_overflow": 0,
+    "_enableWrapText": true,
+    "_font": {
+      "__uuid__": "13744fa5-40c1-450a-ae25-422434b99058",
+      "__expectedType__": "cc.TTFFont"
+    },
+    "_isSystemFontUsed": false,
+    "_spacingX": 0,
+    "_isItalic": false,
+    "_isBold": false,
+    "_isUnderline": false,
+    "_underlineHeight": 2,
     "_cacheMode": 0,
-    "_imageAtlas": null,
-    "_handleTouchEvent": true,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "1eZNHmSPRPB43gYn5yz+Ke"
+    "fileId": "4ffVZ5G3BPoYQYERR6Hq8V"
   },
   {
     "__type__": "cc.PrefabInfo",

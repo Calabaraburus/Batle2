@@ -1,7 +1,7 @@
 ------------
 -ssss--ssss-
 -ggggssbbbb-
--ggggrrbbbb-
+-ggg#rrbbbb-
 -ggggrrbbbb-
 -ggggrrbbbb-
 -gg|g|rb|bb-

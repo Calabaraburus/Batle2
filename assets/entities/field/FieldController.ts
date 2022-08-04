@@ -7,12 +7,10 @@ import {
   randomRangeInt,
   EventTarget
 } from 'cc';
-import { math } from 'cc';
-import { TileController } from '../tile/TileController';
-import { TileModel } from '../tile/TileModel';
-import { TileState } from '../tile/TileState';
-import { StdTileController } from '../tile/UsualTile/StdTileController';
-import { FieldModel } from './FieldModel';
+import { TileController } from '../tiles/TileController';
+import { TileModel } from '../../models/TileModel';
+import { StdTileController } from '../tiles/UsualTile/StdTileController';
+import { FieldModel } from '../../models/FieldModel';
 import { TileCreator } from './TileCreator';
 const { ccclass, property } = _decorator;
 
@@ -21,6 +19,7 @@ export class FieldController extends Component {
 
   public tileClickedEvent: EventTarget = new EventTarget();
 
+  /** Field model */
   @property({ type: [FieldModel], visible: true, tooltip: 'Field model' })
   fieldModel: FieldModel;
 
@@ -84,7 +83,7 @@ export class FieldController extends Component {
     position = null,
     putOnField = false }: CreateTileArgs): TileController {
 
-    const tile = this.tileCreator.create(tileModel.Name);
+    const tile = this.tileCreator.create(tileModel.tileName);
 
     const tileController = tile.getComponent(TileController);
     tileController.justCreated = true;
@@ -132,7 +131,7 @@ export class FieldController extends Component {
    */
   private tileClicked(tile: TileController): void {
     if (this._timeToexecute > 0) return;
-    console.log("[tile] clicked. Name: " + tile.tileModel.Name)
+    console.log("[tile] clicked. Name: " + tile.tileModel.tileName)
 
     this.tileClickedEvent.emit('FieldController', this, tile);
 
@@ -203,7 +202,7 @@ export class FieldController extends Component {
         if (row[roteId].isDestroied == destroied &&
           (row[roteId] != startTile &&
             row[roteId] != endTile &&
-            row[roteId].tileTypeId != emptyModel.Id)) {
+            row[roteId].tileTypeId != emptyModel.tileId)) {
           res.push(row[roteId]);
         }
       });
@@ -334,7 +333,7 @@ export class FieldController extends Component {
     let res = null;
 
     this._field.forEach((row, i) => {
-      if (row[roteId].tileTypeId == tileType.Id) {
+      if (row[roteId].tileTypeId == tileType.tileId) {
         res = row[roteId];
         return;
       }
@@ -342,7 +341,6 @@ export class FieldController extends Component {
 
     return res;
   }
-
 
   _timeToexecute = 0;
   _canexecute = false;

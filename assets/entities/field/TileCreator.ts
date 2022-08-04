@@ -1,5 +1,5 @@
 import { _decorator, Component, Prefab, instantiate, Node } from 'cc';
-import { FieldModel } from './FieldModel';
+import { FieldModel } from '../../models/FieldModel';
 import { TileContollerListItem } from './TileContollerListItem';
 const { ccclass, property } = _decorator;
 
