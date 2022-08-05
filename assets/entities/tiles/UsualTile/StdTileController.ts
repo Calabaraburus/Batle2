@@ -1,17 +1,9 @@
 import {
     _decorator,
-    Component,
     Sprite,
     SpriteFrame,
-    log,
-    EventTarget,
-    Button,
     Vec3,
-    CCFloat,
-    ParticleSystem2D,
     instantiate,
-    ParticleSystem,
-    Node,
     Prefab,
     UITransform
 } from 'cc';

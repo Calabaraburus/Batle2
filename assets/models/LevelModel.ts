@@ -12,6 +12,10 @@ export class LevelModel extends Component {
     @property({ type: CCInteger })
     aimPoints: number = 200;
 
+    /** Ponts count */
+    @property({ type: CCInteger })
+    pointsCount: number = 0;
+
     /** bonus price 1 label */
     @property({ type: CCInteger })
     bonus1Price: number = 20;

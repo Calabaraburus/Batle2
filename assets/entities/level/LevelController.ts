@@ -3,6 +3,7 @@ import { LevelModel } from '../../models/LevelModel';
 import { LevelView } from './LevelView';
 const { ccclass, property } = _decorator;
 
+/** Controls level view. */
 @ccclass('LevelController')
 export class LevelController extends Component {
 
@@ -13,5 +14,9 @@ export class LevelController extends Component {
     /** Level model */
     @property({ type: LevelModel })
     model: LevelModel;
+
+    start() {
+        this.view.updateData(this.model);
+    }
 }
 
