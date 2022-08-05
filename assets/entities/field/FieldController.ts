@@ -97,7 +97,7 @@ export class FieldController extends Component {
     var tPos = this.calculateTilePosition(row, col);
 
     tile.position = position == null ? tPos : position;
-    tile.parent = this.node;
+    tile.parent = this.tilesArea.node;
 
     const size = this.calculateTileSize(tile);
 
