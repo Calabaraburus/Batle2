@@ -12,12 +12,14 @@ import { TileModel } from '../../models/TileModel';
 import { StdTileController } from '../tiles/UsualTile/StdTileController';
 import { FieldModel } from '../../models/FieldModel';
 import { TileCreator } from './TileCreator';
+import { CreateTileArgs } from './CreateTileArgs';
 const { ccclass, property } = _decorator;
 
 @ccclass('FieldController')
 export class FieldController extends Component {
 
-  public tileClickedEvent: EventTarget = new EventTarget();
+  private readonly tileClickedEvent: EventTarget = new EventTarget();
+  public readonly turnMadeEvent: EventTarget = new EventTarget();
 
   /** Field model */
   @property({ type: [FieldModel], visible: true, tooltip: 'Field model' })
@@ -254,6 +256,8 @@ export class FieldController extends Component {
 
     this.PrepareTilesForAnalize();
 
+    let turnMade = false;
+
     this._field.forEach((row, i) => {
       row.forEach((tile, i) => {
         let set = new Set<TileController>();
@@ -270,10 +274,18 @@ export class FieldController extends Component {
           }
         }
 
+        if (tile.justCreated) {
+          turnMade = true;
+        }
+
         tile.justCreated = false;
         tile.tileAnalized = true;
       });
     });
+
+    if (turnMade) {
+      this.onTurnMade();
+    }
   }
 
   private AnalizeConnects(set: Set<TileController>) {
@@ -312,6 +324,10 @@ export class FieldController extends Component {
         tile.tileAnalized = false;
       });
     });
+  }
+
+  private onTurnMade() {
+    this.turnMadeEvent.emit('FieldController', this);
   }
 
   private moveTile(tile: TileController, position: Vec3) {
@@ -358,14 +374,3 @@ export class FieldController extends Component {
     this._timeToexecute -= deltaTime;
   }
 }
-
-interface CreateTileArgs {
-  row: number,
-  col: number,
-  tileModel: TileModel,
-  position?: Vec3 | null,
-  putOnField?: boolean
-}
-
-
-

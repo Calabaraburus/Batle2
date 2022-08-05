@@ -1,4 +1,4 @@
-import { Component, Label, labelAssembler, _decorator } from 'cc';
+import { CCFloat, Component, Label, Node, Vec3, _decorator } from 'cc';
 import { LevelModel } from '../../models/LevelModel';
 import { ILevelView } from './ILevelView';
 import { LevelController } from './LevelController';
@@ -11,6 +11,8 @@ export class LevelView extends Component implements ILevelView {
 
     private _model: LevelModel;
     private _controller: LevelController;
+    private _aimPoints = 0;
+    private _pointsCount = 0;
 
     //#endregion
 
@@ -40,6 +42,13 @@ export class LevelView extends Component implements ILevelView {
     @property({ type: Node })
     loadLine: Node;
 
+    /** Load line min pos */
+    @property({ type: CCFloat })
+    loadLineZeroPos: number;
+
+    /** Load line max pos */
+    @property({ type: CCFloat })
+    loadLineEndPos: number;
 
     //#endregion
 
@@ -52,19 +61,22 @@ export class LevelView extends Component implements ILevelView {
         this.turnsCountLbl.string = value.toString();
     }
 
-    private _aimPoints;
     public get AimPoints(): number {
         return this._aimPoints;
     }
     public set AimPoints(value: number) {
         this._aimPoints = value;
+        this.updateLoadLinePos();
     }
+
 
     public get PointsCount(): number {
         return Number(this.pointsCountLbl.string);
     }
     public set PointsCount(value: number) {
         this.pointsCountLbl.string = value.toString();
+        this._pointsCount = value;
+        this.updateLoadLinePos();
     }
 
     public get Bonus1Price(): number {
@@ -96,6 +108,14 @@ export class LevelView extends Component implements ILevelView {
 
     public setController(controller: LevelController): void {
         this._controller = controller;
+    }
+
+    private updateLoadLinePos() {
+        const coef = (this.loadLineEndPos - this.loadLineZeroPos) / this._aimPoints;
+
+        this.loadLine.position =
+            new Vec3(coef * (this._aimPoints - this._pointsCount) + this.loadLineZeroPos,
+                this.loadLine.position.y, this.loadLine.position.z)
     }
 
 }

@@ -1,5 +1,6 @@
 import { Component, _decorator } from 'cc';
 import { LevelModel } from '../../models/LevelModel';
+import { FieldController } from '../field/FieldController';
 import { ILevelView } from './ILevelView';
 import { LevelView } from './LevelView';
 const { ccclass, property } = _decorator;
@@ -16,6 +17,10 @@ export class LevelController extends Component {
     @property({ type: LevelModel })
     model: LevelModel;
 
+    /** Field Controller */
+    @property({ type: FieldController })
+    fieldController: FieldController;
+
     start() {
         this.view.setController(this);
         this.updateData();
@@ -23,6 +28,7 @@ export class LevelController extends Component {
 
     public updateData() {
 
+        this.view.AimPoints = this.model.aimPoints;
         this.view.TurnsCount = this.model.turnsCount;
         this.view.PointsCount = this.model.pointsCount;
         this.view.Bonus1Price = this.model.bonus1Price;
