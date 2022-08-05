@@ -13,10 +13,19 @@ import { StdTileController } from '../tiles/UsualTile/StdTileController';
 import { FieldModel } from '../../models/FieldModel';
 import { TileCreator } from './TileCreator';
 import { CreateTileArgs } from './CreateTileArgs';
+import { FieldAnalizer } from './FieldAnalizer';
 const { ccclass, property } = _decorator;
 
 @ccclass('FieldController')
 export class FieldController extends Component {
+
+  /**
+  * Logic field (e.g. tiles matrix)
+  */
+  private _field: TileController[][];
+  private _timeToexecute = 0;
+  private _canexecute = false;
+  private _fieldAnalizer: FieldAnalizer;
 
   private readonly tileClickedEvent: EventTarget = new EventTarget();
   public readonly turnMadeEvent: EventTarget = new EventTarget();
@@ -31,17 +40,15 @@ export class FieldController extends Component {
   @property(TileCreator)
   tileCreator: TileCreator;
 
-  /**
-   * Logic field (e.g. tiles matrix)
-   */
-  private _field: TileController[][];
-
   get logicField(): TileController[][] {
     return this._field;
   }
 
   start() {
     this.tileCreator.setModel(this.fieldModel);
+
+    this._fieldAnalizer = new FieldAnalizer(this);
+
     this.generateTiles();
     this.analizeTiles();
   }
@@ -71,12 +78,12 @@ export class FieldController extends Component {
 
   /**
    * Creates tile instance
-   * @param row row position on logic field
-   * @param col col position on logic field
-   * @param tileModel tile model
-   * @param position real position on scene
+   * @param row row position on logic field                   
+   * @param col col position on logic field                            
+   * @param tileModel tile model                                        
+   * @param position real position on scene                             
    * @param putOnField determines the need of putting tile on logic field
-   * (game puts tile only to the scene)
+   * (game puts tile only to the scene)                  
    * @returns 
    */
   public createTile({ row,
@@ -150,43 +157,9 @@ export class FieldController extends Component {
 
     let connectedTiles: Set<TileController> = new Set<TileController>();
 
-    this.findConnectedTiles(tile, connectedTiles);
+    this._fieldAnalizer.findConnectedTiles(tile, connectedTiles);
 
     return Array.from(connectedTiles.values());
-  }
-
-  /**
-   * Find all connecticted tiles of same type
-   * @param tile initial tile
-   * @param resultSet set of connected tiles
-   */
-  private findConnectedTiles(tile: TileController, resultSet: Set<TileController>) {
-
-    let addTile = (current: TileController, other: TileController) => {
-
-      if (current.tileTypeId == other.tileTypeId) {
-        if (!resultSet.has(other)) {
-          resultSet.add(other);
-          this.findConnectedTiles(other, resultSet)
-        }
-      }
-    }
-
-    if (tile.row + 1 < this.fieldModel.rows) {
-      addTile(tile, this._field[tile.row + 1][tile.col]);
-    }
-
-    if (tile.row - 1 >= 0) {
-      addTile(tile, this._field[tile.row - 1][tile.col]);
-    }
-
-    if (tile.col + 1 < this.fieldModel.cols) {
-      addTile(tile, this._field[tile.row][tile.col + 1]);
-    }
-
-    if (tile.col - 1 >= 0) {
-      addTile(tile, this._field[tile.row][tile.col - 1]);
-    }
   }
 
   private moveAllTilesOnARote(roteId: number) {
@@ -253,75 +226,27 @@ export class FieldController extends Component {
   }
 
   private analizeTiles() {
+    const analizedData = this._fieldAnalizer.analize();
+    analizedData.connectedTiles.forEach(tk => {
+      tk.connectedTiles.forEach(tile => {
 
-    this.PrepareTilesForAnalize();
+        tile.justCreated = false;
 
-    let turnMade = false;
+        if (tile instanceof StdTileController) {
 
-    this._field.forEach((row, i) => {
-      row.forEach((tile, i) => {
-        let set = new Set<TileController>();
-        this.findConnectedTiles(tile, set);
+          const stdTile = tile as StdTileController;
 
-        if (set.size > 1) {
-          this.AnalizeConnects(set);
-        } else {
-
-          if (tile instanceof StdTileController) {
-            const stdTile = tile as StdTileController;
-
+          if (tk.connectedTiles.size >= this.fieldModel.quantityToStar) {
+            stdTile.setStar();
+          } else if (tk.connectedTiles.size >= this.fieldModel.quantityToBomb) {
+            stdTile.setBomb();
+          } else if (tk.connectedTiles.size >= this.fieldModel.quantityToRocket) {
+            stdTile.setRocket();
+          } else {
             stdTile.resetSpecialSprite();
           }
         }
 
-        if (tile.justCreated) {
-          turnMade = true;
-        }
-
-        tile.justCreated = false;
-        tile.tileAnalized = true;
-      });
-    });
-
-    if (turnMade) {
-      this.onTurnMade();
-    }
-  }
-
-  private AnalizeConnects(set: Set<TileController>) {
-
-    set.forEach(tile => {
-      if (tile.tileAnalized) {
-        return;
-      }
-
-      if (tile instanceof StdTileController) {
-
-        const stdTile = tile as StdTileController;
-
-        if (set.size >= this.fieldModel.quantityToStar) {
-          stdTile.setStar();
-        } else if (set.size >= this.fieldModel.quantityToBomb) {
-          stdTile.setBomb();
-        } else if (set.size >= this.fieldModel.quantityToRocket) {
-          stdTile.setRocket();
-        } else {
-          stdTile.resetSpecialSprite();
-        }
-      }
-    });
-  }
-
-  private PrepareTilesForAnalize() {
-
-    this._field.forEach((row, i) => {
-      row.forEach((tile, i) => {
-        if (tile.isDestroied) {
-          if (this._field[tile.row][tile.col] == tile) {
-            this._field[tile.row][tile.col] == null;
-          }
-        }
-        tile.tileAnalized = false;
       });
     });
   }
@@ -358,8 +283,6 @@ export class FieldController extends Component {
     return res;
   }
 
-  _timeToexecute = 0;
-  _canexecute = false;
   update(deltaTime: number) {
     if (this._timeToexecute < 0 && this._canexecute) {
       this._canexecute = false;
@@ -374,3 +297,5 @@ export class FieldController extends Component {
     this._timeToexecute -= deltaTime;
   }
 }
+
+
