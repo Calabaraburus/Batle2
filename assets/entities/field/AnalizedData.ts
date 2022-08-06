@@ -5,6 +5,7 @@ export class AnalizedData {
   destroiedTilesCount: number = 0;
   aliveTilesCount: number = 0;
   specialTiles: number = 0;
+  justCreatedTiles: TileController[] = [];
   connectedTiles: TileTypeToConnectedTiles[] = [];
   individualTiles: TileController[] = [];
 }

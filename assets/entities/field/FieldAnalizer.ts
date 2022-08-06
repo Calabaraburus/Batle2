@@ -31,6 +31,10 @@ export class FieldAnalizer {
           return;
         } else {
           result.aliveTilesCount++;
+
+          if (tile.justCreated) {
+            result.justCreatedTiles.push(tile);
+          }
         }
 
         let set = new Set<TileController>();
@@ -48,6 +52,20 @@ export class FieldAnalizer {
     });
 
     return result;
+  }
+
+  /**
+    * Get tiles that connected to each other
+    * @param tile initial tile
+    * @returns all connected tiles with same type
+    */
+  public getConnectedTiles(tile: TileController): TileController[] {
+
+    let connectedTiles: Set<TileController> = new Set<TileController>();
+
+    this.findConnectedTiles(tile, connectedTiles);
+
+    return Array.from(connectedTiles.values());
   }
 
   /**

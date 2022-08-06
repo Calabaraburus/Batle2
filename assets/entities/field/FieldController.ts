@@ -14,6 +14,7 @@ import { FieldModel } from '../../models/FieldModel';
 import { TileCreator } from './TileCreator';
 import { CreateTileArgs } from './CreateTileArgs';
 import { FieldAnalizer } from './FieldAnalizer';
+import { AnalizedData } from './AnalizedData';
 const { ccclass, property } = _decorator;
 
 @ccclass('FieldController')
@@ -39,6 +40,11 @@ export class FieldController extends Component {
 
   @property(TileCreator)
   tileCreator: TileCreator;
+  _analizedData: AnalizedData;
+
+  get fieldAnalizer(): FieldAnalizer {
+    return this._fieldAnalizer;
+  }
 
   get logicField(): TileController[][] {
     return this._field;
@@ -50,7 +56,7 @@ export class FieldController extends Component {
     this._fieldAnalizer = new FieldAnalizer(this);
 
     this.generateTiles();
-    this.analizeTiles();
+    this.EndTurn();
   }
 
   /**
@@ -126,13 +132,14 @@ export class FieldController extends Component {
   }
 
   private calculateTileSize(tile: Node): Vec3 {
-    //onst border = this.fieldModel.border / 2;
     let tileTransform = tile.getComponent(UITransform);
     let tW = this.tilesArea.width / this.fieldModel.cols;
     let coef = tW / (tileTransform.width + this.fieldModel.border);
 
     return new Vec3(coef, coef, tile.scale.z);
   }
+
+  private _firstTileActivated = false;
 
   /**
    * Method invokes when one of tiles is clicked
@@ -144,22 +151,11 @@ export class FieldController extends Component {
 
     this.tileClickedEvent.emit('FieldController', this, tile);
 
-    this._timeToexecute = .2;
-    this._canexecute = true;
-  }
-
-  /**
-   * Get tiles that connected to each other
-   * @param tile initial tile
-   * @returns all connected tiles with same type
-   */
-  public getConnectedTiles(tile: TileController): TileController[] {
-
-    let connectedTiles: Set<TileController> = new Set<TileController>();
-
-    this._fieldAnalizer.findConnectedTiles(tile, connectedTiles);
-
-    return Array.from(connectedTiles.values());
+    if (!this._firstTileActivated) {
+      this._firstTileActivated = true;
+      this._timeToexecute = .2;
+      this._canexecute = true;
+    }
   }
 
   private moveAllTilesOnARote(roteId: number) {
@@ -225,12 +221,17 @@ export class FieldController extends Component {
     });
   }
 
-  private analizeTiles() {
-    const analizedData = this._fieldAnalizer.analize();
-    analizedData.connectedTiles.forEach(tk => {
-      tk.connectedTiles.forEach(tile => {
+  private OnBeforeTilesActivation() {
 
-        tile.justCreated = false;
+  }
+
+  private OnAfterTilesActivation() {
+
+  }
+
+  private setTilesSpeciality() {
+    this._analizedData.connectedTiles.forEach(tk => {
+      tk.connectedTiles.forEach(tile => {
 
         if (tile instanceof StdTileController) {
 
@@ -246,8 +247,14 @@ export class FieldController extends Component {
             stdTile.resetSpecialSprite();
           }
         }
-
       });
+    });
+  }
+
+  /** Apply just created to false for all new tiles */
+  private fixTiles() {
+    this._analizedData.justCreatedTiles.forEach(tile => {
+      tile.justCreated = false;
     });
   }
 
@@ -283,18 +290,37 @@ export class FieldController extends Component {
     return res;
   }
 
+  private moveTiles() {
+    for (let index = 0; index < this.fieldModel.cols; index++) {
+      this.moveAllTilesOnARote(index);
+    }
+  }
+
+  /**
+   * Destroy tiles
+   * All tiles must be destroied by this method.
+   * @param tile Tile
+   */
+  //public destroyTile(tile: TileController): void {
+
+  //}
+
   update(deltaTime: number) {
     if (this._timeToexecute < 0 && this._canexecute) {
+
+      this.EndTurn()
+
       this._canexecute = false;
-
-
-      for (let index = 0; index < this.fieldModel.cols; index++) {
-        this.moveAllTilesOnARote(index);
-      }
-
-      this.analizeTiles();
+      this._firstTileActivated = false;
     }
     this._timeToexecute -= deltaTime;
+  }
+
+  private EndTurn() {
+    this._analizedData = this._fieldAnalizer.analize();
+    this.moveTiles();
+    this.setTilesSpeciality();
+    this.fixTiles();
   }
 }
 

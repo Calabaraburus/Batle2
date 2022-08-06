@@ -13,7 +13,7 @@ const { ccclass, property } = _decorator;
 @ccclass('StdTileInterBehaviour')
 export class StdTileInterBehaviour extends TileInterBehaviour {
 
-    private tileStateToLogic: Map<TileState, string> = new Map<TileState, string>;
+    private tileStateToLogic = new Map<TileState, string>();
 
     constructor() {
         super();
@@ -29,7 +29,7 @@ export class StdTileInterBehaviour extends TileInterBehaviour {
             return;
         }
 
-        let connectedTiles = field.getConnectedTiles(tile);
+        let connectedTiles = field.fieldAnalizer.getConnectedTiles(tile);
         const stdTile = tile as StdTileController;
 
         let modelName = this.tileStateToLogic[stdTile.state];
