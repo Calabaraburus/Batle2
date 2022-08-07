@@ -27,6 +27,7 @@ export class FieldController extends Component {
   private _timeToexecute = 0;
   private _canexecute = false;
   private _fieldAnalizer: FieldAnalizer;
+  private _tilesToDestroy: TileController[] = [];
 
   private readonly tileClickedEvent: EventTarget = new EventTarget();
   public readonly endTurnEvent: EventTarget = new EventTarget();
@@ -119,7 +120,7 @@ export class FieldController extends Component {
     tile.scale = size;
 
     if (putOnField) {
-      this._field[row][col] = tileController;
+      this.destroyOldTileAndPutNew(tileController, row, col);
     }
 
     return tileController;
@@ -215,10 +216,19 @@ export class FieldController extends Component {
       let tileRowId = fwd ? startTile.row + 1 + i : startTile.row - 1 - i;
       t.row = tileRowId;
 
-      this._field[t.row][t.col] = t;
+      this.destroyOldTileAndPutNew(t, t.row, t.col);
 
       this.moveTile(t, this.calculateTilePosition(t.row, t.col));
     });
+  }
+
+  private destroyOldTileAndPutNew(tile: TileController, row: number, col: number) {
+    let oldTile = this._field[row][col];
+    if (oldTile != null) {
+      //  this._tilesToDestroy.push(oldTile);
+    }
+
+    this._field[row][col] = tile;
   }
 
   private OnBeforeTilesActivation() {
@@ -263,6 +273,11 @@ export class FieldController extends Component {
     });
   }
 
+  private finalyDestroyTiles() {
+    this._tilesToDestroy.forEach(tile => tile.destroy());
+    this._tilesToDestroy.length = 0;
+  }
+
   private onEndTurn() {
     this.endTurnEvent.emit('FieldController', this, this._analizedData);
   }
@@ -295,6 +310,16 @@ export class FieldController extends Component {
     return res;
   }
 
+  public Reset() {
+    this._field.forEach(row => row.forEach(tile => {
+      tile.destroyTile();
+      // this._tilesToDestroy.push(tile);
+    }));
+
+    this.generateTiles();
+    this.EndTurn(true);
+  }
+
   private moveTiles() {
     for (let index = 0; index < this.fieldModel.cols; index++) {
       this.moveAllTilesOnARote(index);
@@ -322,15 +347,18 @@ export class FieldController extends Component {
   }
 
   private EndTurn(initial = false) {
-
+    this.finalyDestroyTiles();
     this.moveTiles();
     this._analizedData = this._fieldAnalizer.analize();
 
     this.setTilesSpeciality();
     this.fixTiles();
 
+
     if (!initial) {
-      this.onEndTurn();
+      if (this._analizedData.justCreatedTiles.length > 0) {
+        this.onEndTurn();
+      }
     }
   }
 }

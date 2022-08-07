@@ -9,6 +9,7 @@ const { ccclass, property } = _decorator;
 /** Controls level view. */
 @ccclass('LevelController')
 export class LevelController extends Component {
+    private _turnsCount: number;
 
     /** Level view */
     @property({ type: LevelView })
@@ -25,6 +26,7 @@ export class LevelController extends Component {
     start() {
         this.fieldController.endTurnEvent.on('FieldController', this.turnEnded, this);
         this.view.setController(this);
+        this._turnsCount = this.model.turnsCount;
         this.updateData();
     }
 
@@ -59,6 +61,15 @@ export class LevelController extends Component {
         this.view.Bonus1Price = this.model.bonus1Price;
         this.view.Bonus2Price = this.model.bonus2Price;
         this.view.Bonus3Price = this.model.bonus3Price;
+    }
+
+    public resetGame() {
+        this.model.pointsCount = this.model.aimPoints;
+        this.model.turnsCount = this._turnsCount;
+
+        this.updateData();
+
+        this.fieldController.Reset();
     }
 }
 

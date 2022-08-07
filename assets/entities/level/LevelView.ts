@@ -122,6 +122,12 @@ export class LevelView extends Component implements ILevelView {
 
     }
 
+    public resetGame() {
+        this.showWin(false);
+        this.showLose(false);
+        this._controller.resetGame();
+    }
+
     public setController(controller: LevelController): void {
         this._controller = controller;
     }

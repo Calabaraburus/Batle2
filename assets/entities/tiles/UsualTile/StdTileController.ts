@@ -5,7 +5,8 @@ import {
     Vec3,
     instantiate,
     Prefab,
-    UITransform
+    UITransform,
+    Node
 } from 'cc';
 import { TileController } from '../TileController';
 import { TileModel } from '../../../models/TileModel';
@@ -76,11 +77,11 @@ export class StdTileController extends TileController {
 
         this._curSprite = this.getComponent(Sprite);
         this._curSprite.spriteFrame = null;
-        this.CreateParticles();
+        this.createParticles();
         this.resetSpecialSprite();
     }
 
-    private CreateParticles() {
+    private createParticles() {
         const ps = instantiate(this.destroyPartycles)
         ps.parent = this.node.parent
         const ui = this.getComponent(UITransform);
