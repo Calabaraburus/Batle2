@@ -42,6 +42,14 @@ export class LevelView extends Component implements ILevelView {
     @property({ type: Node })
     loadLine: Node;
 
+    /** Win block */
+    @property({ type: Node })
+    winBlock: Node;
+
+    /** Lose block */
+    @property({ type: Node })
+    loseBlock: Node;
+
     /** Load line min pos */
     @property({ type: CCFloat })
     loadLineZeroPos: number;
@@ -102,7 +110,15 @@ export class LevelView extends Component implements ILevelView {
 
     //#endregion
 
-    public pause() {
+    public showWin(show: boolean) {
+        this.winBlock.active = show;
+    }
+
+    public showLose(show: boolean) {
+        this.loseBlock.active = show;
+    }
+
+    public pause(show: boolean) {
 
     }
 

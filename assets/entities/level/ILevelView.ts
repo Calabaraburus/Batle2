@@ -20,4 +20,8 @@ export interface ILevelView {
     Bonus3Price: number;
 
     setController(controller: LevelController): void;
+
+    showWin(show: boolean): void;
+
+    showLose(show: boolean): void
 }

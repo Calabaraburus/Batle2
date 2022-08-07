@@ -29,7 +29,7 @@ export class FieldController extends Component {
   private _fieldAnalizer: FieldAnalizer;
 
   private readonly tileClickedEvent: EventTarget = new EventTarget();
-  public readonly turnMadeEvent: EventTarget = new EventTarget();
+  public readonly endTurnEvent: EventTarget = new EventTarget();
 
   /** Field model */
   @property({ type: [FieldModel], visible: true, tooltip: 'Field model' })
@@ -56,7 +56,7 @@ export class FieldController extends Component {
     this._fieldAnalizer = new FieldAnalizer(this);
 
     this.generateTiles();
-    this.EndTurn();
+    this.EndTurn(true);
   }
 
   /**
@@ -230,24 +230,29 @@ export class FieldController extends Component {
   }
 
   private setTilesSpeciality() {
+
+    // Speciality for connected std tiles
     this._analizedData.connectedTiles.forEach(tk => {
       tk.connectedTiles.forEach(tile => {
-
         if (tile instanceof StdTileController) {
-
-          const stdTile = tile as StdTileController;
-
           if (tk.connectedTiles.size >= this.fieldModel.quantityToStar) {
-            stdTile.setStar();
+            tile.setStar();
           } else if (tk.connectedTiles.size >= this.fieldModel.quantityToBomb) {
-            stdTile.setBomb();
+            tile.setBomb();
           } else if (tk.connectedTiles.size >= this.fieldModel.quantityToRocket) {
-            stdTile.setRocket();
+            tile.setRocket();
           } else {
-            stdTile.resetSpecialSprite();
+            tile.resetSpecialSprite();
           }
         }
       });
+    });
+
+    // All other tiles have no speciality
+    this._analizedData.individualTiles.forEach((tile) => {
+      if (tile instanceof StdTileController) {
+        tile.resetSpecialSprite();
+      }
     });
   }
 
@@ -258,8 +263,8 @@ export class FieldController extends Component {
     });
   }
 
-  private onTurnMade() {
-    this.turnMadeEvent.emit('FieldController', this);
+  private onEndTurn() {
+    this.endTurnEvent.emit('FieldController', this, this._analizedData);
   }
 
   private moveTile(tile: TileController, position: Vec3) {
@@ -316,11 +321,17 @@ export class FieldController extends Component {
     this._timeToexecute -= deltaTime;
   }
 
-  private EndTurn() {
-    this._analizedData = this._fieldAnalizer.analize();
+  private EndTurn(initial = false) {
+
     this.moveTiles();
+    this._analizedData = this._fieldAnalizer.analize();
+
     this.setTilesSpeciality();
     this.fixTiles();
+
+    if (!initial) {
+      this.onEndTurn();
+    }
   }
 }
 
