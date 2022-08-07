@@ -14,6 +14,10 @@ const { ccclass, property } = _decorator;
 export class BombTileInterBehaviour extends TileInterBehaviour {
     tileClicked(field: FieldController, tile: TileController) {
 
+        if (field.bonus!=null) {
+            return;
+        }
+
         if (!(tile instanceof BombTileController)) {
             return;
         }
@@ -63,4 +67,5 @@ export class BombTileInterBehaviour extends TileInterBehaviour {
         bombTile.destroyTile();
     }
 }
+
 

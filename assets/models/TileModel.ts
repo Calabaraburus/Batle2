@@ -25,8 +25,8 @@ export class TileModel extends Component {
     @property({ type: SpriteFrame, visible: true })
     sprite: SpriteFrame = null;
 
-    @property({visible: true })
-    starColor: Color=new Color();
+    @property({ visible: true })
+    starColor: Color = new Color();
 
     @property({ visible: true })
     specialTile: boolean = false;

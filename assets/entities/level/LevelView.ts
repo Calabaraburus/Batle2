@@ -77,7 +77,6 @@ export class LevelView extends Component implements ILevelView {
         this.updateLoadLinePos();
     }
 
-
     public get PointsCount(): number {
         return Number(this.pointsCountLbl.string);
     }
@@ -108,8 +107,6 @@ export class LevelView extends Component implements ILevelView {
         this.bonus3PriceLbl.string = value.toString();
     }
 
-    //#endregion
-
     public showWin(show: boolean) {
         this.winBlock.active = show;
     }
@@ -118,8 +115,14 @@ export class LevelView extends Component implements ILevelView {
         this.loseBlock.active = show;
     }
 
+    //#endregion
+
     public pause(show: boolean) {
 
+    }
+
+    public bonusBtnClick(bonusName: string) {
+        this._controller.setBonus(bonusName);
     }
 
     public resetGame() {
@@ -136,7 +139,7 @@ export class LevelView extends Component implements ILevelView {
         const coef = (this.loadLineEndPos - this.loadLineZeroPos) / this._aimPoints;
 
         this.loadLine.position =
-            new Vec3(coef * (this._aimPoints - this._pointsCount) + this.loadLineZeroPos,
+            new Vec3(coef * this._pointsCount + this.loadLineZeroPos,
                 this.loadLine.position.y, this.loadLine.position.z)
     }
 

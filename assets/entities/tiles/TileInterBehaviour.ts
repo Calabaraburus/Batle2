@@ -1,4 +1,4 @@
-import { CCString, _decorator, SpriteFrame, Component, Button } from 'cc';
+import { CCString, _decorator, SpriteFrame, Component, Button, CCInteger } from 'cc';
 import { FieldController } from '../field/FieldController';
 import { TileController } from './TileController';
 
@@ -11,12 +11,14 @@ const { ccclass, property } = _decorator;
 export class TileInterBehaviour extends Component {
     private _field: FieldController;
 
+    @property({ type: CCInteger })
+    order: number = 0;
+
     get field(): FieldController {
         return this._field;
     }
-
-    start() {
-        this._field = this.getComponent(FieldController);
+    set field(value: FieldController) {
+        this._field = value;
         this._field.tileClickedEvent.on('FieldController', this.tileClicked, this);
     }
 

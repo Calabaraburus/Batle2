@@ -25,9 +25,13 @@ export class StdTileInterBehaviour extends TileInterBehaviour {
 
     tileClicked(field: FieldController, tile: TileController) {
 
+        if (field.bonus != null) {
+            return;
+        }
+
         if (!(tile instanceof StdTileController)) {
             return;
-            
+
         }
 
         let connectedTiles = field.fieldAnalizer.getConnectedTiles(tile);

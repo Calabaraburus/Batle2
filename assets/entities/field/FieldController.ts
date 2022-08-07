@@ -15,6 +15,7 @@ import { TileCreator } from './TileCreator';
 import { CreateTileArgs } from './CreateTileArgs';
 import { FieldAnalizer } from './FieldAnalizer';
 import { AnalizedData } from './AnalizedData';
+import { BonusModel } from '../../models/BonusModel';
 const { ccclass, property } = _decorator;
 
 @ccclass('FieldController')
@@ -28,8 +29,9 @@ export class FieldController extends Component {
   private _canexecute = false;
   private _fieldAnalizer: FieldAnalizer;
   private _tilesToDestroy: TileController[] = [];
+  private _bonus: BonusModel;
 
-  private readonly tileClickedEvent: EventTarget = new EventTarget();
+  public readonly tileClickedEvent: EventTarget = new EventTarget();
   public readonly endTurnEvent: EventTarget = new EventTarget();
 
   /** Field model */
@@ -49,6 +51,10 @@ export class FieldController extends Component {
 
   get logicField(): TileController[][] {
     return this._field;
+  }
+
+  get bonus(): BonusModel {
+    return this._bonus;
   }
 
   start() {
@@ -150,13 +156,21 @@ export class FieldController extends Component {
     if (this._timeToexecute > 0) return;
     console.log("[tile] clicked. Name: " + tile.tileModel.tileName)
 
+
     this.tileClickedEvent.emit('FieldController', this, tile);
 
     if (!this._firstTileActivated) {
-      this._firstTileActivated = true;
-      this._timeToexecute = .2;
-      this._canexecute = true;
+
+      if (this.bonus != null) {
+        this.setBonus(null);
+      } else {
+
+        this._firstTileActivated = true;
+        this._timeToexecute = .2;
+        this._canexecute = true;
+      }
     }
+
   }
 
   private moveAllTilesOnARote(roteId: number) {
@@ -326,14 +340,9 @@ export class FieldController extends Component {
     }
   }
 
-  /**
-   * Destroy tiles
-   * All tiles must be destroied by this method.
-   * @param tile Tile
-   */
-  //public destroyTile(tile: TileController): void {
-
-  //}
+  public setBonus(bonus: BonusModel) {
+    this._bonus = bonus;
+  }
 
   update(deltaTime: number) {
     if (this._timeToexecute < 0 && this._canexecute) {
@@ -347,6 +356,7 @@ export class FieldController extends Component {
   }
 
   private EndTurn(initial = false) {
+
     this.finalyDestroyTiles();
     this.moveTiles();
     this._analizedData = this._fieldAnalizer.analize();

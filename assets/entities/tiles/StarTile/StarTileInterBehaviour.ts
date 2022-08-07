@@ -13,6 +13,10 @@ const { ccclass, property } = _decorator;
 export class StarTileInterBehaviour extends TileInterBehaviour {
     tileClicked(field: FieldController, tile: TileController) {
 
+        if (field.bonus!=null) {
+            return;
+        }
+
         if (!(tile instanceof StarTileController)) {
             return;
         }
