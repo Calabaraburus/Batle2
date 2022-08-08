@@ -25,3 +25,4 @@ export interface ILevelView {
 
     showLose(show: boolean): void
 }
+
