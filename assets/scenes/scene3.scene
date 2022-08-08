@@ -10,7 +10,7 @@
   },
   {
     "__type__": "cc.Scene",
-    "_name": "scene1",
+    "_name": "scene3",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -33,7 +33,7 @@
     "_globals": {
       "__id__": 217
     },
-    "_id": "ac349097-7bf2-40e1-bec9-707837b989cb"
+    "_id": "0b54dfb9-c8a2-45f0-8a39-2552bdc25af4"
   },
   {
     "__type__": "cc.Node",
@@ -1180,7 +1180,7 @@
       }
     ],
     "fieldMap": {
-      "__uuid__": "4d3b16c3-14c9-4a34-83c0-0c0c7d147778",
+      "__uuid__": "b85653fa-19ca-4548-bbf8-5af81e029513",
       "__expectedType__": "cc.TextAsset"
     },
     "mnemMapping": [

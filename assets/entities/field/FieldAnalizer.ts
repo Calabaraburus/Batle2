@@ -26,6 +26,12 @@ export class FieldAnalizer {
     this._field.logicField.forEach((row, i) => {
       row.forEach((tile, i) => {
 
+        if (tile.tileModel.tileName == "start" ||
+          tile.tileModel.tileName == "empty" ||
+          tile.tileModel.tileName == "end") {
+          return;
+        }
+
         if (tile.isDestroied) {
           result.destroiedTilesCount++;
           return;

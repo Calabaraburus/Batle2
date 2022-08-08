@@ -324,6 +324,53 @@ export class FieldController extends Component {
     return res;
   }
 
+  public mixTiles(): void {
+    const rndTiles: TileController[] = [];
+
+    this._field.forEach(row => row.forEach(tile => {
+      if (!(tile.tileModel.tileName == "start" ||
+        tile.tileModel.tileName == "empty" ||
+        tile.tileModel.tileName == "end")) {
+        rndTiles.push(tile);
+      }
+    }));
+
+    const tindxs = Array.from(Array<number>(rndTiles.length).keys());
+
+    while (tindxs.length > 0) {
+      const id: number = randomRangeInt(0, tindxs.length);
+      const tndid = tindxs[id];
+      tindxs.splice(id, 1);
+      const id2: number = randomRangeInt(0, tindxs.length);
+      const tndid2 = tindxs[id2];
+      tindxs.splice(id2, 1);
+      this.exchangeTiles(rndTiles[tndid], rndTiles[tndid2]);
+    }
+
+    this._field.forEach(row => row.forEach(tile => {
+      tile.node.parent = null;
+      tile.node.parent = this.tilesArea.node;
+
+      this.moveTile(tile, this.calculateTilePosition(tile.row, tile.col));
+    }));
+
+    this._timeToexecute = 0;
+    this._canexecute = true;
+  }
+
+  private exchangeTiles(t1: TileController, t2: TileController) {
+    this._field[t1.row][t1.col] = t2;
+    this._field[t2.row][t2.col] = t1;
+
+    let tval = t1.row;
+    t1.row = t2.row;
+    t2.row = tval;
+
+    tval = t1.col;
+    t1.col = t2.col;
+    t2.col = tval;
+  }
+
   public Reset() {
     this._field.forEach(row => row.forEach(tile => {
       tile.destroyTile();
@@ -364,6 +411,9 @@ export class FieldController extends Component {
     this.setTilesSpeciality();
     this.fixTiles();
 
+    if (this._analizedData.connectedTiles.length <= 0) {
+      this.mixTiles();
+    }
 
     if (!initial) {
       if (this._analizedData.justCreatedTiles.length > 0) {
