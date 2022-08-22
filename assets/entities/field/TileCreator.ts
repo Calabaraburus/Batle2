@@ -1,12 +1,18 @@
-import { _decorator, Component, Prefab, instantiate, Node } from 'cc';
-import { FieldModel } from '../../models/FieldModel';
-import { TileContollerListItem } from './TileContollerListItem';
+//  TileCreator.ts - ClbBlast
+//
+//  Calabaraburus (c) 2022
+//
+//  Author:Natalchishin Taras
+
+import { _decorator, Component, instantiate, Node } from "cc";
+import { FieldModel } from "../../models/FieldModel";
+import { TileContollerListItem } from "./TileContollerListItem";
 const { ccclass, property } = _decorator;
 
 /**
  * This class is need to build tiles of different types (prefabs)
  */
-@ccclass('TileCreator')
+@ccclass("TileCreator")
 export class TileCreator extends Component {
   private _fieldModel: FieldModel;
 
@@ -18,31 +24,29 @@ export class TileCreator extends Component {
   }
 
   public create(name: string): Node {
-     let prefabs = this.tilePrefabs.filter(t => {
-       let names = t.name.split(';');
-       let haveResult = false;
-       names.forEach((n => {
-         if (n.trim() == name) {
-           haveResult = true;
-           return;
-         }
-       }));
- 
-       if (haveResult) {
-         return true;
-       }
- 
-       return false;
-     });
- 
-     if (prefabs.length > 0) {
-       return instantiate(prefabs[0].prefab);
-     } else {
-       return null;
-     }
+    const prefabs = this.tilePrefabs.filter((t) => {
+      const names = t.name.split(";");
+      let haveResult = false;
+      names.forEach((n) => {
+        if (n.trim() == name) {
+          haveResult = true;
+          return;
+        }
+      });
+
+      if (haveResult) {
+        return true;
+      }
+
+      return false;
+    });
+
+    if (prefabs.length > 0) {
+      return instantiate(prefabs[0].prefab);
+    } else {
+      return null;
+    }
 
     return new Node();
   }
 }
-
-

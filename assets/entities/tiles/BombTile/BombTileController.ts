@@ -1,17 +1,23 @@
-import { _decorator, Node, CCInteger } from 'cc';
-import { TileController } from '../TileController';
+//  BombTileController.ts - ClbBlast
+//
+//  Calabaraburus (c) 2022
+//
+//  Author:Natalchishin Taras
+
+import { _decorator, Node, CCInteger } from "cc";
+import { TileController } from "../TileController";
 const { ccclass, property } = _decorator;
 
-@ccclass('BombTileController')
+@ccclass("BombTileController")
 export class BombTileController extends TileController {
-    @property(Node)
-    bombSpriteNode: Node;
+  @property(Node)
+  bombSpriteNode: Node;
 
-    @property(CCInteger)
-    fireDistance: number = 2;
+  @property(CCInteger)
+  fireDistance = 2;
 
-    destroyTile() {
-        super.destroyTile();
-        this.bombSpriteNode.active = false;
-    }
+  destroyTile() {
+    super.destroyTile();
+    this.bombSpriteNode.active = false;
+  }
 }

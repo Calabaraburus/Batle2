@@ -1,13 +1,18 @@
-import { FieldModel } from '../../models/FieldModel';
-import { TileController } from '../tiles/TileController';
-import { AnalizedData, TileTypeToConnectedTiles } from './AnalizedData';
-import { FieldController } from './FieldController';
+//  FieldAnalizer.ts - ClbBlast
+//
+//  Calabaraburus (c) 2022
+//
+//  Author:Natalchishin Taras
+
+import { FieldModel } from "../../models/FieldModel";
+import { TileController } from "../tiles/TileController";
+import { AnalizedData, TileTypeToConnectedTiles } from "./AnalizedData";
+import { FieldController } from "./FieldController";
 
 /** Implement functions to analize different aspects of tile field.
  *  Find connected tiles, destroied, etc.
  */
 export class FieldAnalizer {
-
   private _field: FieldController;
   private _fieldModel: FieldModel;
 
@@ -23,12 +28,13 @@ export class FieldAnalizer {
   public analize(): AnalizedData {
     const result = new AnalizedData();
 
-    this._field.logicField.forEach((row, i) => {
-      row.forEach((tile, i) => {
-
-        if (tile.tileModel.tileName == "start" ||
+    this._field.logicField.forEach((row) => {
+      row.forEach((tile) => {
+        if (
+          tile.tileModel.tileName == "start" ||
           tile.tileModel.tileName == "empty" ||
-          tile.tileModel.tileName == "end") {
+          tile.tileModel.tileName == "end"
+        ) {
           return;
         }
 
@@ -43,7 +49,7 @@ export class FieldAnalizer {
           }
         }
 
-        let set = new Set<TileController>();
+        const set = new Set<TileController>();
         this.findConnectedTiles(tile, set);
 
         if (set.size > 1) {
@@ -61,13 +67,12 @@ export class FieldAnalizer {
   }
 
   /**
-    * Get tiles that connected to each other
-    * @param tile initial tile
-    * @returns all connected tiles with same type
-    */
+   * Get tiles that connected to each other
+   * @param tile initial tile
+   * @returns all connected tiles with same type
+   */
   public getConnectedTiles(tile: TileController): TileController[] {
-
-    let connectedTiles: Set<TileController> = new Set<TileController>();
+    const connectedTiles: Set<TileController> = new Set<TileController>();
 
     this.findConnectedTiles(tile, connectedTiles);
 
@@ -75,21 +80,22 @@ export class FieldAnalizer {
   }
 
   /**
-  * Find all connecticted tiles of same type
-  * @param tile initial tile
-  * @param resultSet set of connected tiles
-  */
-  public findConnectedTiles(tile: TileController, resultSet: Set<TileController>) {
-
-    let addTile = (current: TileController, other: TileController) => {
-
+   * Find all connecticted tiles of same type
+   * @param tile initial tile
+   * @param resultSet set of connected tiles
+   */
+  public findConnectedTiles(
+    tile: TileController,
+    resultSet: Set<TileController>
+  ) {
+    const addTile = (current: TileController, other: TileController) => {
       if (current.tileTypeId == other.tileTypeId) {
         if (!resultSet.has(other)) {
           resultSet.add(other);
-          this.findConnectedTiles(other, resultSet)
+          this.findConnectedTiles(other, resultSet);
         }
       }
-    }
+    };
 
     if (tile.row + 1 < this._fieldModel.rows) {
       addTile(tile, this._field.logicField[tile.row + 1][tile.col]);
@@ -108,5 +114,3 @@ export class FieldAnalizer {
     }
   }
 }
-
-

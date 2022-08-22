@@ -1,7 +1,13 @@
-import { _decorator, Component, Prefab, instantiate, CCString } from 'cc';
+//  TileContollerListItem.ts - ClbBlast
+//
+//  Calabaraburus (c) 2022
+//
+//  Author:Natalchishin Taras
+
+import { _decorator, Prefab, CCString } from "cc";
 const { ccclass, property } = _decorator;
 
-@ccclass('TileContollerListItem')
+@ccclass("TileContollerListItem")
 export class TileContollerListItem {
   @property(CCString)
   name: string;

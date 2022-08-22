@@ -1,13 +1,17 @@
-import { CCString, _decorator } from 'cc';
+//  MnemonicMapping.ts - ClbBlast
+//
+//  Calabaraburus (c) 2022
+//
+//  Author:Natalchishin Taras
+
+import { _decorator } from "cc";
 const { ccclass, property } = _decorator;
 
-@ccclass('MnemonicMapping')
+@ccclass("MnemonicMapping")
 export class MnemonicMapping {
-    @property({})
-    tileName: string = 'tile';
+  @property({})
+  tileName = "tile";
 
-    @property({})
-    mnemonic: string = 'mnem';
+  @property({})
+  mnemonic = "mnem";
 }
-
-

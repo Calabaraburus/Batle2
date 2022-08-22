@@ -1,15 +1,11 @@
-import { CCString, _decorator, SpriteFrame } from 'cc';
+import { _decorator, SpriteFrame } from "cc";
 const { ccclass, property } = _decorator;
 
-@ccclass('AdittionalSprite')
+@ccclass("AdittionalSprite")
 export class AdittionalSprite {
+  @property({})
+  name = "Name";
 
-    @property({})
-    name: string = "Name";
-
-    @property({ type: SpriteFrame })
-    sprite: SpriteFrame = null;
-
-    constructor() { }
+  @property({ type: SpriteFrame })
+  sprite: SpriteFrame = null;
 }
-
