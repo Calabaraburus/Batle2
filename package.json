@@ -11,9 +11,19 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
+    "@testdeck/mocha": "^0.2.0",
+    "@types/chai": "^4.3.3",
     "@typescript-eslint/eslint-plugin": "^5.33.1",
     "@typescript-eslint/parser": "^5.33.1",
+    "chai": "^4.3.6",
     "eslint": "^8.22.0",
-    "prettier": "^2.7.1"
+    "mocha": "^10.0.0",
+    "nyc": "^15.1.0",
+    "prettier": "^2.7.1",
+    "ts-node": "^10.9.1"
+  },
+  "scripts": {
+    "test2": "nyc ./node_modules/.bin/_mocha './tests/**/*.test.ts'",
+    "test": "mocha -r ts-node/register ./tests/**/*.test.ts -r ts-node/register ./cc.d.ts"
   }
 }

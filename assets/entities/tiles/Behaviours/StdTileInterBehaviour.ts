@@ -4,7 +4,7 @@ import { StarTileController } from "../StarTile/StarTileController";
 import { TileController } from "../TileController";
 import { TileInterBehaviour } from "../TileInterBehaviour";
 import { TileState } from "../TileState";
-import { StdTileController } from "./StdTileController";
+import { StdTileController } from "../UsualTile/StdTileController";
 const { ccclass } = _decorator;
 
 /**

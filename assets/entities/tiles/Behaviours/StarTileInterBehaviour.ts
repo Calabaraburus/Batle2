@@ -8,7 +8,7 @@ import { _decorator } from "cc";
 import { FieldController } from "../../field/FieldController";
 import { TileController } from "../TileController";
 import { TileInterBehaviour } from "../TileInterBehaviour";
-import { StarTileController } from "./StarTileController";
+import { StarTileController } from "../StarTile/StarTileController";
 const { ccclass } = _decorator;
 
 /**
@@ -27,12 +27,10 @@ export class StarTileInterBehaviour extends TileInterBehaviour {
 
     const starTile = tile as StarTileController;
 
-    field.logicField.forEach((r) => {
-      r.forEach((tile) => {
-        if (tile.tileModel.tileId == starTile.modelCreatedFrom.tileId) {
-          tile.destroyTile();
-        }
-      });
+    field.fieldMatrix.forEach((tile) => {
+      if (tile.tileModel.tileId == starTile.modelCreatedFrom.tileId) {
+        tile.destroyTile();
+      }
     });
 
     starTile.destroyTile();

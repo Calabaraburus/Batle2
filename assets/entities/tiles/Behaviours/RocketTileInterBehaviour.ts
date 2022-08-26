@@ -8,7 +8,7 @@ import { _decorator } from "cc";
 import { FieldController } from "../../field/FieldController";
 import { TileController } from "../TileController";
 import { TileInterBehaviour } from "../TileInterBehaviour";
-import { RocketTileController } from "./RocketTileController";
+import { RocketTileController } from "../RocketTile/RocketTileController";
 const { ccclass } = _decorator;
 
 /**
@@ -28,7 +28,7 @@ export class RocketTileInterBehaviour extends TileInterBehaviour {
     const rocketTile = tile as RocketTileController;
 
     if (!rocketTile.isVertical) {
-      field.logicField[rocketTile.row].forEach((t) => {
+      field.fieldMatrix.forEachInRow(rocketTile.row, (t) => {
         if (
           !t.isDestroied &&
           (t.tileModel.tileName == "rocket" || t.tileModel.tileName == "bomb")
@@ -36,14 +36,13 @@ export class RocketTileInterBehaviour extends TileInterBehaviour {
           t.activate();
         }
       });
-      field.logicField[rocketTile.row].forEach((t) => {
+      field.fieldMatrix.forEachInRow(rocketTile.row, (t) => {
         if (!t.isDestroied) {
           t.destroyTile();
         }
       });
     } else {
-      field.logicField.forEach((row) => {
-        const t = row[tile.col];
+      field.fieldMatrix.forEachCol(tile.col, (t) => {
         if (
           !t.isDestroied &&
           t.tileModel.tileName != "star" &&
@@ -52,8 +51,7 @@ export class RocketTileInterBehaviour extends TileInterBehaviour {
           t.activate();
         }
       });
-      field.logicField.forEach((row) => {
-        const t = row[tile.col];
+      field.fieldMatrix.forEachCol(tile.col, (t) => {
         if (!t.isDestroied && t.tileModel.tileName != "star") {
           t.destroyTile();
         }

@@ -28,39 +28,37 @@ export class FieldAnalizer {
   public analize(): AnalizedData {
     const result = new AnalizedData();
 
-    this._field.logicField.forEach((row) => {
-      row.forEach((tile) => {
-        if (
-          tile.tileModel.tileName == "start" ||
-          tile.tileModel.tileName == "empty" ||
-          tile.tileModel.tileName == "end"
-        ) {
-          return;
+    this._field.fieldMatrix.forEach((tile) => {
+      if (
+        tile.tileModel.tileName == "start" ||
+        tile.tileModel.tileName == "empty" ||
+        tile.tileModel.tileName == "end"
+      ) {
+        return;
+      }
+
+      if (tile.isDestroied) {
+        result.destroiedTilesCount++;
+        return;
+      } else {
+        result.aliveTilesCount++;
+
+        if (tile.justCreated) {
+          result.justCreatedTiles.push(tile);
         }
+      }
 
-        if (tile.isDestroied) {
-          result.destroiedTilesCount++;
-          return;
-        } else {
-          result.aliveTilesCount++;
+      const set = new Set<TileController>();
+      this.findConnectedTiles(tile, set);
 
-          if (tile.justCreated) {
-            result.justCreatedTiles.push(tile);
-          }
-        }
-
-        const set = new Set<TileController>();
-        this.findConnectedTiles(tile, set);
-
-        if (set.size > 1) {
-          const tt = new TileTypeToConnectedTiles();
-          tt.connectedTiles = set;
-          tt.tileModel = tile.tileModel;
-          result.connectedTiles.push(tt);
-        } else {
-          result.individualTiles.push(tile);
-        }
-      });
+      if (set.size > 1) {
+        const tt = new TileTypeToConnectedTiles();
+        tt.connectedTiles = set;
+        tt.tileModel = tile.tileModel;
+        result.connectedTiles.push(tt);
+      } else {
+        result.individualTiles.push(tile);
+      }
     });
 
     return result;
@@ -98,19 +96,19 @@ export class FieldAnalizer {
     };
 
     if (tile.row + 1 < this._fieldModel.rows) {
-      addTile(tile, this._field.logicField[tile.row + 1][tile.col]);
+      addTile(tile, this._field.fieldMatrix.get(tile.row + 1, tile.col));
     }
 
     if (tile.row - 1 >= 0) {
-      addTile(tile, this._field.logicField[tile.row - 1][tile.col]);
+      addTile(tile, this._field.fieldMatrix.get(tile.row - 1, tile.col));
     }
 
     if (tile.col + 1 < this._fieldModel.cols) {
-      addTile(tile, this._field.logicField[tile.row][tile.col + 1]);
+      addTile(tile, this._field.fieldMatrix.get(tile.row, tile.col + 1));
     }
 
     if (tile.col - 1 >= 0) {
-      addTile(tile, this._field.logicField[tile.row][tile.col - 1]);
+      addTile(tile, this._field.fieldMatrix.get(tile.row, tile.col - 1));
     }
   }
 }

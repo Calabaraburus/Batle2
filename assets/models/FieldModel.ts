@@ -17,7 +17,7 @@ import { MnemonicMapping } from "./MnemonicMapping";
 const { ccclass, property } = _decorator;
 
 /**
- * Represents game field model
+ * Represents game field model. This model contains field metadata
  */
 @ccclass("FieldModel")
 export class FieldModel extends Component {

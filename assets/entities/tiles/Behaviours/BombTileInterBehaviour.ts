@@ -8,13 +8,12 @@ import { _decorator } from "cc";
 import { FieldController } from "../../field/FieldController";
 import { TileController } from "../TileController";
 import { TileInterBehaviour } from "../TileInterBehaviour";
-import { BombTileController } from "./BombTileController";
+import { BombTileController } from "../BombTile/BombTileController";
 const { ccclass } = _decorator;
 
 /**
  * Implements behaviour for bomb tiles
  */
-
 @ccclass("BombTileInterBehaviour")
 export class BombTileInterBehaviour extends TileInterBehaviour {
   tileClicked(field: FieldController, tile: TileController) {
@@ -45,7 +44,7 @@ export class BombTileInterBehaviour extends TileInterBehaviour {
     const iterateTiles = (callback: (t: TileController) => void) => {
       for (let i = startRow; i <= endRow; i++) {
         for (let j = startCol; j <= endCol; j++) {
-          const t = field.logicField[i][j];
+          const t = field.fieldMatrix.get(i, j);
           callback(t);
         }
       }
