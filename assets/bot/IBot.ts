@@ -4,8 +4,6 @@
 //
 //  Author:Natalchishin Taras
 
-import { FieldController } from "../entities/field/FieldController";
-
 export interface IBot {
-  move(field: FieldController): void;
+  move(): void;
 }

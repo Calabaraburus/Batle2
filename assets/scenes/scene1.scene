@@ -22,16 +22,19 @@
       },
       {
         "__id__": 58
+      },
+      {
+        "__id__": 202
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 202
+      "__id__": 204
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 217
+      "__id__": 219
     },
     "_id": "ac349097-7bf2-40e1-bec9-707837b989cb"
   },
@@ -5344,17 +5347,71 @@
     "_id": "91VvqeeqRBRZiWdouOa1Kr"
   },
   {
+    "__type__": "cc.Node",
+    "_name": "GameManager",
+    "_objFlags": 0,
+    "_parent": {
+      "__id__": 1
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 203
+      }
+    ],
+    "_prefab": null,
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": "d8KDbqXyJJcJgDGKG/m9+n"
+  },
+  {
+    "__type__": "5e7f586cFJDo6zGlC+x1O7E",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 202
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "levelController": {
+      "__id__": 56
+    },
+    "_id": "c5g23sXKJAtqPKzKHM5lty"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "fileId": "713d70da-e944-4361-8d63-5fb217fd7910",
     "targetOverrides": [
       {
-        "__id__": 203
+        "__id__": 205
       },
       {
-        "__id__": 206
-      },
-      {
-        "__id__": 209
+        "__id__": 208
       },
       {
         "__id__": 211
@@ -5364,6 +5421,9 @@
       },
       {
         "__id__": 215
+      },
+      {
+        "__id__": 217
       }
     ],
     "nestedPrefabInstanceRoots": [
@@ -5387,7 +5447,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 204
+      "__id__": 206
     },
     "propertyPath": [
       "tilesArea"
@@ -5396,7 +5456,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 205
+      "__id__": 207
     }
   },
   {
@@ -5417,7 +5477,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 207
+      "__id__": 209
     },
     "propertyPath": [
       "tileCreator"
@@ -5426,7 +5486,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 208
+      "__id__": 210
     }
   },
   {
@@ -5454,7 +5514,7 @@
       "__id__": 113
     },
     "targetInfo": {
-      "__id__": 210
+      "__id__": 212
     }
   },
   {
@@ -5476,7 +5536,7 @@
       "__id__": 126
     },
     "targetInfo": {
-      "__id__": 212
+      "__id__": 214
     }
   },
   {
@@ -5498,7 +5558,7 @@
       "__id__": 134
     },
     "targetInfo": {
-      "__id__": 214
+      "__id__": 216
     }
   },
   {
@@ -5520,7 +5580,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 216
+      "__id__": 218
     }
   },
   {
@@ -5532,19 +5592,19 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 218
-    },
-    "shadows": {
-      "__id__": 219
-    },
-    "_skybox": {
       "__id__": 220
     },
-    "fog": {
+    "shadows": {
       "__id__": 221
     },
-    "octree": {
+    "_skybox": {
       "__id__": 222
+    },
+    "fog": {
+      "__id__": 223
+    },
+    "octree": {
+      "__id__": 224
     }
   },
   {

@@ -36,11 +36,6 @@ export class LevelController extends Component {
   behavioursNode: Node;
 
   start() {
-    this.fieldController.endTurnEvent.on(
-      "FieldController",
-      this.turnEnded,
-      this
-    );
     this.view.setController(this);
     this._turnsCount = this.model.turnsCount;
     this.updateData();

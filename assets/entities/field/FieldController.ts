@@ -40,7 +40,6 @@ export class FieldController extends Component implements ITileField {
   private _bonus: BonusModel;
 
   public readonly tileClickedEvent: EventTarget = new EventTarget();
-  public readonly endTurnEvent: EventTarget = new EventTarget();
 
   /** Field model */
   @property({ type: [FieldModel], visible: true, tooltip: "Field model" })
@@ -51,11 +50,6 @@ export class FieldController extends Component implements ITileField {
 
   @property(TileCreator)
   tileCreator: TileCreator;
-  _analizedData: AnalizedData;
-
-  get fieldAnalizer(): FieldAnalizer {
-    return this._fieldAnalizer;
-  }
 
   get fieldMatrix(): ReadonlyMatrix2D<TileController> {
     return this._field.toReadonly();
@@ -69,15 +63,12 @@ export class FieldController extends Component implements ITileField {
     this.tileCreator.setModel(this.fieldModel);
     this._field = new Matrix2D(this.fieldModel.rows, this.fieldModel.cols);
     this._fieldAnalizer = new FieldAnalizer(this);
-
-    this.generateTiles();
-    this.EndTurn(true);
   }
 
   /**
    * Generate tile field
    */
-  private generateTiles() {
+  public generateTiles() {
     console.log(
       "[field] Rows: " + this.fieldModel.rows + " Cols: " + this.fieldModel.cols
     );
@@ -267,9 +258,9 @@ export class FieldController extends Component implements ITileField {
     this._field.set(row, col, tile);
   }
 
-  private setTilesSpeciality() {
+  public setTilesSpeciality(analizedData: AnalizedData) {
     // Speciality for connected std tiles
-    this._analizedData.connectedTiles.forEach((tk) => {
+    analizedData.connectedTiles.forEach((tk) => {
       tk.connectedTiles.forEach((tile) => {
         if (tile instanceof StdTileController) {
           if (tk.connectedTiles.size >= this.fieldModel.quantityToStar) {
@@ -288,7 +279,7 @@ export class FieldController extends Component implements ITileField {
     });
 
     // All other tiles have no speciality
-    this._analizedData.individualTiles.forEach((tile) => {
+    analizedData.individualTiles.forEach((tile) => {
       if (tile instanceof StdTileController) {
         tile.resetSpecialSprite();
       }
@@ -296,8 +287,8 @@ export class FieldController extends Component implements ITileField {
   }
 
   /** Apply just created to false for all new tiles */
-  private fixTiles() {
-    this._analizedData.justCreatedTiles.forEach((tile) => {
+  public fixTiles(analizedData: AnalizedData) {
+    analizedData.justCreatedTiles.forEach((tile) => {
       tile.justCreated = false;
     });
   }
@@ -307,9 +298,9 @@ export class FieldController extends Component implements ITileField {
     this._tilesToDestroy.length = 0;
   }
 
-  private onEndTurn() {
-    this.endTurnEvent.emit("FieldController", this, this._analizedData);
-  }
+  // private onEndTurn() {
+  //   this.endTurnEvent.emit("FieldController", this, this._analizedData);
+  // }
 
   private moveTile(tile: TileController, position: Vec3) {
     tile.move(tile.node.position, position);
@@ -397,8 +388,8 @@ export class FieldController extends Component implements ITileField {
       // this._tilesToDestroy.push(tile);
     });
 
-    this.generateTiles();
-    this.EndTurn(true);
+    // this.generateTiles();
+    // this.EndTurn(true);
   }
 
   private moveTiles() {
@@ -411,32 +402,32 @@ export class FieldController extends Component implements ITileField {
     this._bonus = bonus;
   }
 
-  update(deltaTime: number) {
-    if (this._timeToexecute < 0 && this._canexecute) {
-      this.EndTurn();
+  // update(deltaTime: number) {
+  // if (this._timeToexecute < 0 && this._canexecute) {
+  //   this.EndTurn();
+  //
+  //   this._canexecute = false;
+  //   this._firstTileActivated = false;
+  // }
+  // this._timeToexecute -= deltaTime;
+  // }
 
-      this._canexecute = false;
-      this._firstTileActivated = false;
-    }
-    this._timeToexecute -= deltaTime;
-  }
-
-  private EndTurn(initial = false) {
-    this.finalyDestroyTiles();
-    this.moveTiles();
-    this._analizedData = this._fieldAnalizer.analize();
-
-    this.setTilesSpeciality();
-    this.fixTiles();
-
-    if (this._analizedData.connectedTiles.length <= 0) {
-      this.mixTiles();
-    }
-
-    if (!initial) {
-      if (this._analizedData.justCreatedTiles.length > 0) {
-        this.onEndTurn();
-      }
-    }
-  }
+  // private EndTurn(initial = false) {
+  //   this.finalyDestroyTiles();
+  //   this.moveTiles();
+  //   this._analizedData = this._fieldAnalizer.analize();
+  //
+  //   this.setTilesSpeciality();
+  //   this.fixTiles();
+  //
+  //   if (this._analizedData.connectedTiles.length <= 0) {
+  //     this.mixTiles();
+  //   }
+  //
+  //   if (!initial) {
+  //     if (this._analizedData.justCreatedTiles.length > 0) {
+  //       this.onEndTurn();
+  //     }
+  //   }
+  // }
 }

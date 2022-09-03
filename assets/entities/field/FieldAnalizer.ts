@@ -7,17 +7,17 @@
 import { FieldModel } from "../../models/FieldModel";
 import { TileController } from "../tiles/TileController";
 import { AnalizedData, TileTypeToConnectedTiles } from "./AnalizedData";
-import { FieldController } from "./FieldController";
+import { ITileField } from "./ITileField";
 
 /** Implement functions to analize different aspects of tile field.
  *  Find connected tiles, destroied, etc.
  */
 export class FieldAnalizer {
-  private _field: FieldController;
+  private _field: ITileField;
   private _fieldModel: FieldModel;
 
   /** Constructor */
-  constructor(field: FieldController) {
+  constructor(field: ITileField) {
     this._field = field;
     this._fieldModel = field.fieldModel;
   }
