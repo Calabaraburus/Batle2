@@ -1,4 +1,5 @@
 import { _decorator } from "cc";
+import { FieldAnalizer } from "../../field/FieldAnalizer";
 import { FieldController } from "../../field/FieldController";
 import { StarTileController } from "../StarTile/StarTileController";
 import { TileController } from "../TileController";
@@ -31,7 +32,7 @@ export class StdTileInterBehaviour extends TileInterBehaviour {
       return;
     }
 
-    const connectedTiles = field.fieldAnalizer.getConnectedTiles(tile);
+    const connectedTiles = new FieldAnalizer(field).getConnectedTiles(tile); //field.fieldAnalizer.getConnectedTiles(tile);
     const stdTile = tile as StdTileController;
 
     const modelName = this.tileStateToLogic[stdTile.state];
