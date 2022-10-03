@@ -1,16 +1,10 @@
 {
   /* Base configuration. Do not edit this field. */
-  "extends": "./temp/tsconfig.cocos.json"
+  "extends": "./temp/tsconfig.cocos.json",
 
   /* Add your custom configuration here. */
-  /*"compilerOptions": {
-    "strict": false,
-    "target": "es5",
-    "lib": ["es6", "dom"],
-    "types": ["reflect-metadata"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
+  "compilerOptions": {
+    "strictPropertyInitialization": false,
     "emitDecoratorMetadata": true
-  }*/
+  }
 }

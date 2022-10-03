@@ -12,6 +12,7 @@ import {
   instantiate,
   Prefab,
   UITransform,
+  Node,
 } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
@@ -20,19 +21,20 @@ const { ccclass, property } = _decorator;
 
 @ccclass("StdTileController")
 export class StdTileController extends TileController {
-  private _curSprite: Sprite;
+  private _curSprite: Sprite | null;
   private _state: TileState;
-  private _bombSprite: SpriteFrame;
-  private _rocketSprite: SpriteFrame;
-  private _starSprite: SpriteFrame;
-
-  /** Special sprite */
-  @property(Sprite)
-  SpecialSprite: Sprite;
+  private _shieldIsActivated: boolean;
 
   /** Destroy particle system */
   @property(Prefab)
   destroyPartycles: Prefab;
+
+  @property(Node)
+  shieldSprite: Node;
+
+  get shieldIsActivated() {
+    return this._shieldIsActivated;
+  }
 
   start() {
     super.start();
@@ -41,53 +43,40 @@ export class StdTileController extends TileController {
 
   updateSprite() {
     this._curSprite = this.getComponent(Sprite);
-    this._curSprite.spriteFrame = this.tileModel.sprite;
+
+    if (this._curSprite != null) {
+      this._curSprite.spriteFrame = this.tileModel.sprite;
+    }
   }
 
   public get state(): TileState {
     return this._state;
   }
 
-  public setBomb() {
-    this.SpecialSprite.spriteFrame = this._bombSprite;
-    this._state = TileState.bomb;
-  }
-
-  public setRocket() {
-    this.SpecialSprite.spriteFrame = this._rocketSprite;
-    this._state = TileState.rocket;
-  }
-
-  public setStar() {
-    this.SpecialSprite.spriteFrame = this._starSprite;
-    this._state = TileState.star;
-  }
-
-  public resetSpecialSprite() {
-    this.SpecialSprite.spriteFrame = null;
-    this._state = TileState.empty;
+  public activateShield(activate: boolean) {
+    this._shieldIsActivated = activate;
+    this.shieldSprite.active = activate;
   }
 
   public setModel(tileModel: TileModel) {
     super.setModel(tileModel);
-    this._rocketSprite = tileModel.findAdditionalSprite("rocket");
-    this._bombSprite = tileModel.findAdditionalSprite("bomb");
-    this._starSprite = tileModel.findAdditionalSprite("star");
+    this.updateSprite();
   }
 
   public destroyTile() {
-    super.destroyTile();
-
-    this._curSprite = this.getComponent(Sprite);
-    this._curSprite.spriteFrame = null;
     this.createParticles();
-    this.resetSpecialSprite();
+    super.destroyTile();
   }
 
   private createParticles() {
     const ps = instantiate(this.destroyPartycles);
     ps.parent = this.node.parent;
     const ui = this.getComponent(UITransform);
+
+    if (ui == null) {
+      return;
+    }
+
     ps.position = new Vec3(
       this.node.position.x + ui.contentSize.width / 2,
       this.node.position.y + ui.contentSize.height / 2,

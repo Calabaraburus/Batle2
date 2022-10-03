@@ -9,7 +9,7 @@ export interface CreateTileArgs {
   col: number;
 
   /** tile model */
-  tileModel: TileModel;
+  tileModel: TileModel | null;
 
   /** real position on scene  */
   position?: Vec3 | null;

@@ -2,7 +2,7 @@ import { ReadonlyMatrix2D } from "./ReadonlyMatrix2D";
 
 export class Matrix2D<T> extends ReadonlyMatrix2D<T> {
   constructor(rows: number, cols: number) {
-    super(rows, cols);
+    super(rows, cols, null);
   }
 
   set(i: number, j: number, value: T) {

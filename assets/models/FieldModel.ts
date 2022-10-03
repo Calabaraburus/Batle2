@@ -11,6 +11,9 @@ import {
   CCFloat,
   TextAsset,
   Button,
+  random,
+  randomRange,
+  randomRangeInt,
 } from "cc";
 import { TileModel } from "./TileModel";
 import { MnemonicMapping } from "./MnemonicMapping";
@@ -21,6 +24,8 @@ const { ccclass, property } = _decorator;
  */
 @ccclass("FieldModel")
 export class FieldModel extends Component {
+  private tilesGroupDict = new Map<string, TileModel[]>();
+
   /**
    * Tiles cols count
    */
@@ -101,20 +106,79 @@ export class FieldModel extends Component {
    * @param mnemonic Type name
    * @returns Tile model
    */
-  public getTileModelByMapMnemonic(mnemonic: string): TileModel {
-    const map = this.mnemMapping.filter((item) => item.mnemonic == mnemonic);
+  public getTileModelByMapMnemonic(mnemonic: string): TileModel | null {
+    const tileName = this.getTileNameByMnem(mnemonic);
 
-    if (map.length == 0) {
+    if (tileName == "") {
       return this.tiles.filter((item) => item.tileName == mnemonic)[0];
     }
-    Button;
 
-    const res = this.tiles.filter((item) => item.tileName == map[0].tileName);
+    if (tileName.startsWith("#")) {
+      return this.getTileModelByGroupName(tileName.replace("#", ""));
+    }
+
+    const res = this.tiles.filter((item) => item.tileName == tileName);
     return res.length != 0 ? res[0] : this.tiles[0];
   }
 
+  /**
+   * Get random tile model by tag
+   * @param groups Tile model tags
+   * @returns Returns tile model filtered by tags.
+   * If model not exists returns null.
+   */
+  public getTileModelByGroupName(...groups: string[]): TileModel | null {
+    let tiles: TileModel[] | undefined;
+    const jntgrp = groups.join();
+    if (!this.tilesGroupDict.has(jntgrp)) {
+      tiles = this.getTileModelsByTags(jntgrp);
+      this.tilesGroupDict.set(jntgrp, tiles);
+    }
+
+    tiles = this.tilesGroupDict.get(jntgrp);
+
+    if (tiles?.length == 0) return null;
+
+    if (tiles != null) {
+      return tiles[randomRangeInt(0, tiles?.length)];
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Get name of tile model by tile mnemonic
+   * @param mnemonic Mnemonic
+   * @returns return tile model name
+   */
+  public getTileNameByMnem(mnemonic: string): string {
+    const map = this.mnemMapping.filter((item) => item.mnemonic == mnemonic);
+    return map.length == 0 ? "" : map[0].tileName;
+  }
+
+  /**
+   * Get models by tag
+   */
+  public getTileModelsByTags(...tags: string[]): TileModel[] {
+    return this.tiles.filter((item) => {
+      let exists = false;
+      tags.forEach((tag) => {
+        if (item.containsTag(tag)) {
+          exists = true;
+          return;
+        }
+      });
+
+      return exists;
+    });
+  }
+
+  /**
+   * Get field map represented as string matrix
+   * @returns Returns string matrix, e.g.: string[][]
+   */
   public getFieldMap(): string[][] {
-    const result = [];
+    const result: string[][] = [];
 
     const textLines = this.fieldMap.text.split(/\r?\n/);
     textLines.forEach((line, i) => {
