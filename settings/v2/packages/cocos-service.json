@@ -1,14 +1,18 @@
 {
-  "__version__": "3.0.3",
+  "__version__": "3.0.4",
   "game": {
-    "name": "UNKNOW GAME",
-    "app_id": "UNKNOW",
+    "app_id": "641431216",
+    "name": "ClbBlast",
     "c_id": "0"
   },
   "appConfigMaps": [
     {
       "app_id": "UNKNOW",
       "config_id": "a9dec7"
+    },
+    {
+      "app_id": "641431216",
+      "config_id": "b1d66c"
     }
   ],
   "configs": [
@@ -18,6 +22,19 @@
       "config_name": "Default",
       "config_remarks": "",
       "services": []
+    },
+    {
+      "app_id": "641431216",
+      "config_id": "b1d66c",
+      "config_name": "Default",
+      "config_remarks": "",
+      "services": [
+        {
+          "service_id": "235",
+          "enable": false,
+          "param": {}
+        }
+      ]
     }
   ]
 }

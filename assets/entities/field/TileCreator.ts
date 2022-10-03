@@ -6,6 +6,9 @@
 
 import { _decorator, Component, instantiate, Node } from "cc";
 import { FieldModel } from "../../models/FieldModel";
+import { IObjectsCache } from "../../ObjectsCache/IObjectsCache";
+import { ObjectsCache } from "../../ObjectsCache/ObjectsCache";
+import { TileController } from "../tiles/TileController";
 import { TileContollerListItem } from "./TileContollerListItem";
 const { ccclass, property } = _decorator;
 
@@ -14,16 +17,16 @@ const { ccclass, property } = _decorator;
  */
 @ccclass("TileCreator")
 export class TileCreator extends Component {
-  private _fieldModel: FieldModel;
+  cache: IObjectsCache | null;
 
   @property(TileContollerListItem)
   tilePrefabs: TileContollerListItem[] = [];
 
-  public setModel(fieldModel: FieldModel) {
-    this._fieldModel = fieldModel;
-  }
+  public create(name: string): Node | null | undefined {
+    if (this.cache == null) {
+      this.cache = ObjectsCache.instance;
+    }
 
-  public create(name: string): Node {
     const prefabs = this.tilePrefabs.filter((t) => {
       const names = t.name.split(";");
       let haveResult = false;
@@ -42,11 +45,11 @@ export class TileCreator extends Component {
     });
 
     if (prefabs.length > 0) {
-      return instantiate(prefabs[0].prefab);
+      return this.cache?.getObjectByName<TileController>(
+        prefabs[0].prefabTypeName
+      )?.node;
     } else {
       return null;
     }
-
-    return new Node();
   }
 }

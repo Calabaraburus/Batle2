@@ -111,4 +111,38 @@ export class FieldAnalizer {
       addTile(tile, this._field.fieldMatrix.get(tile.row, tile.col - 1));
     }
   }
+
+  public findTilesByModelName(name: string): TileController[] {
+    const tileModel = this._field.fieldModel.getTileModel(name);
+    return this._field.fieldMatrix.filter((t) => t.tileModel === tileModel);
+  }
+
+  public getAttackingTiles(
+    tileNameToAttack: string,
+    ...tags: string[]
+  ): TileController[] {
+    const tilesToAtack = this.findTilesByModelName(tileNameToAttack);
+
+    const result: TileController[] = [];
+
+    const countClosestTiles = (addToRow: number) => {
+      tilesToAtack.forEach((t) => {
+        const row = t.row - addToRow;
+        if (row >= 0 && row < this._field.fieldMatrix.rows) {
+          const tile = this._field.fieldMatrix.get(row, t.col);
+          tags.forEach((tag) => {
+            if (tile.tileModel.containsTag(tag)) {
+              result.push(tile);
+              return;
+            }
+          });
+        }
+      });
+    };
+
+    countClosestTiles(-1);
+    countClosestTiles(1);
+
+    return result;
+  }
 }

@@ -1,10 +1,10 @@
-import { _decorator } from "cc";
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { director, _decorator } from "cc";
+import { helpers } from "../../../scripts/helpers";
+import { GameBehaviour } from "../../behaviours/GameBehaviour";
 import { FieldAnalizer } from "../../field/FieldAnalizer";
-import { FieldController } from "../../field/FieldController";
-import { StarTileController } from "../StarTile/StarTileController";
-import { TileController } from "../TileController";
-import { TileInterBehaviour } from "../TileInterBehaviour";
-import { TileState } from "../TileState";
+import { GameManager } from "../../game/GameManager";
+import { LevelController } from "../../level/LevelController";
 import { StdTileController } from "../UsualTile/StdTileController";
 const { ccclass } = _decorator;
 
@@ -12,46 +12,51 @@ const { ccclass } = _decorator;
  * Implements behaviour for simple tiles
  */
 @ccclass("StdTileInterBehaviour")
-export class StdTileInterBehaviour extends TileInterBehaviour {
-  private tileStateToLogic = new Map<TileState, string>();
-
+export class StdTileInterBehaviour extends GameBehaviour {
   constructor() {
     super();
-    this.tileStateToLogic[TileState.bomb] = "bomb";
-    this.tileStateToLogic[TileState.empty] = "empty";
-    this.tileStateToLogic[TileState.rocket] = "rocket";
-    this.tileStateToLogic[TileState.star] = "star";
+    this.type = helpers.typeName(StdTileController);
   }
 
-  tileClicked(field: FieldController, tile: TileController) {
-    if (field.bonus != null) {
+  start() {
+    super.start();
+  }
+
+  activateCondition(): boolean {
+    return this.playerModel?.activeBonus == null;
+  }
+
+  singleRun(): void {
+    const tile = this.target as StdTileController;
+
+    if (tile.shieldIsActivated) {
       return;
     }
 
-    if (!(tile instanceof StdTileController)) {
+    const connectedTiles = this.fieldAnalizer?.getConnectedTiles(tile);
+
+    if (connectedTiles == undefined) {
       return;
     }
 
-    const connectedTiles = new FieldAnalizer(field).getConnectedTiles(tile); //field.fieldAnalizer.getConnectedTiles(tile);
-    const stdTile = tile as StdTileController;
+    if (connectedTiles.length == 0) {
+      return;
+    }
 
-    const modelName = this.tileStateToLogic[stdTile.state];
-    const model = this.field.fieldModel.getTileModel(modelName);
-
-    if (model != null && stdTile.state != TileState.empty) {
-      const resTile = field.createTile({
-        row: tile.row,
-        col: tile.col,
-        tileModel: model,
-        putOnField: true,
-      });
-
-      if (resTile instanceof StarTileController) {
-        const star = resTile as StarTileController;
-        star.createdForm(tile.tileModel);
+    connectedTiles.forEach((item) => {
+      if (item instanceof StdTileController) {
+        if (!item.shieldIsActivated) {
+          this.field?.fakeDestroyTile(item);
+        }
+      } else {
+        this.field?.fakeDestroyTile(item);
       }
-    }
+    });
 
-    connectedTiles.forEach((item) => item.destroyTile());
+    this.updateTileField();
+
+    this.gameManager?.lockUi();
+
+    this.gameManager?.changeGameState("endTurnEvent");
   }
 }

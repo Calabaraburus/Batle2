@@ -12,25 +12,32 @@ import {
   Button,
   Vec3,
   CCFloat,
+  tween,
+  v2,
 } from "cc";
 import { TileModel } from "../../models/TileModel";
+import { CacheObject } from "../../ObjectsCache/CacheObject";
+import { ICacheObject } from "../../ObjectsCache/ICacheObject";
 import { FieldController } from "../field/FieldController";
 const { ccclass, property } = _decorator;
 
 @ccclass("TileController")
-export class TileController extends Component {
+export class TileController extends CacheObject {
   private _field: FieldController;
-  private _button: Button;
+  private _button: Button | null;
   private _needMove = false;
   private _from: Vec3;
   private _to: Vec3;
   private _speed: number;
-  private _interactable = true;
+  // private _interactable = true;
   public clickedEvent: EventTarget = new EventTarget();
+  public tileActivateEvent: EventTarget = new EventTarget();
 
   /**Tile model */
-  @property(TileModel)
-  tileModel: TileModel;
+  private _tileModel: TileModel;
+  get tileModel(): TileModel {
+    return this._tileModel;
+  }
 
   /** Speed */
   @property(CCFloat)
@@ -53,7 +60,7 @@ export class TileController extends Component {
   }
 
   get tileTypeId(): number {
-    return this.tileModel.tileId;
+    return this._tileModel.tileId;
   }
 
   private _justCreated = false;
@@ -90,7 +97,7 @@ export class TileController extends Component {
       return;
     }
 
-    this.tileModel = tileModel;
+    this._tileModel = tileModel;
 
     if (
       tileModel.tileName == "start" ||
@@ -98,8 +105,9 @@ export class TileController extends Component {
       tileModel.tileName == "empty"
     ) {
       this._button = this.getComponent(Button);
-      this._interactable = false;
-      this._button.interactable = this._interactable;
+      if (this._button != null && this._button != undefined) {
+        this._button.interactable = false;
+      }
     }
   }
 
@@ -113,24 +121,47 @@ export class TileController extends Component {
    */
   public clicked() {
     this.activate();
+    this.OnClicked();
+  }
+
+  public markAsDestroied() {
+    this._isDestroied = true;
+  }
+
+  public fakeDestroy() {
+    this._isDestroied = true;
+    this.node.active = false;
   }
 
   public destroyTile() {
     this._isDestroied = true;
+    this.cacheDestroy();
+  }
+
+  public cacheCreate(): void {
+    this._isDestroied = false;
+    this._justCreated = true;
+
+    if (this._button != null) {
+      this._button.interactable = true;
+    }
+
+    this.isDestroied;
+    super.cacheCreate();
   }
 
   public activate() {
     if (
       this.activating ||
       this._justCreated ||
-      !this._interactable ||
+      !this._button?.interactable ||
       this.isDestroied
     ) {
       return;
     }
 
     this._activating = true;
-    this.OnClicked();
+    this.OnActivate();
     this._activating = false;
   }
 
@@ -138,40 +169,26 @@ export class TileController extends Component {
     this.clickedEvent.emit("TileController", this);
   }
 
-  update(deltaTime: number) {
-    if (this._needMove) {
-      const dir: Vec3 = new Vec3();
-      Vec3.subtract(dir, this._to, this._from);
-      dir.normalize();
-
-      this._speed += this.Acceleration * deltaTime;
-
-      if (this._speed > this.Speed) {
-        this._speed = this.Speed;
-      }
-
-      const speed3D: Vec3 = new Vec3();
-      let pos: Vec3 = new Vec3();
-      const dir2: Vec3 = new Vec3();
-
-      Vec3.multiplyScalar(speed3D, dir, this._speed * deltaTime);
-      Vec3.add(pos, this.node.position, speed3D);
-      Vec3.subtract(dir2, this._to, pos);
-      dir2.normalize();
-
-      if (!dir.equals(dir2)) {
-        this._needMove = false;
-        pos = this._to;
-      }
-
-      this.node.position = pos;
-    }
+  private OnActivate() {
+    this.tileActivateEvent.emit("TileController", this);
   }
 
   move(from: Vec3, to: Vec3) {
     this._from = from;
     this._to = to;
     this._speed = 0;
-    if (!this._to.equals(this._from)) this._needMove = true;
+    if (!this._to.equals(this._from)) {
+      this._needMove = true;
+      this.node.position = this._from;
+      tween(this.node)
+        .to(this.Speed, { position: to }, { easing: "sineIn" })
+        .call(() => {
+          this._needMove = false;
+          if (this._button != null) this._button.interactable = true;
+        })
+        .start();
+
+      if (this._button != null) this._button.interactable = false;
+    }
   }
 }

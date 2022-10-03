@@ -4,7 +4,7 @@
 //
 //  Author:Natalchishin Taras
 
-import { CCFloat, Component, Label, Node, Vec3, _decorator } from "cc";
+import { Button, CCFloat, Component, Label, Node, Vec3, _decorator } from "cc";
 import { LevelModel } from "../../models/LevelModel";
 import { ILevelView } from "./ILevelView";
 import { LevelController } from "./LevelController";
@@ -17,6 +17,8 @@ export class LevelView extends Component implements ILevelView {
   private _model: LevelModel;
   private _controller: LevelController;
   private _aimPoints = 0;
+  private _enemyMaxLife = 0;
+  private _playerMaxLife = 0;
   private _pointsCount = 0;
 
   //#endregion
@@ -43,9 +45,21 @@ export class LevelView extends Component implements ILevelView {
   @property({ type: Label })
   bonus3PriceLbl: Label;
 
-  /** Load line node */
+  /** bonus price 3 label */
+  @property({ type: Label })
+  enemyLifeLbl: Label;
+
+  /** bonus price 3 label */
+  @property({ type: Label })
+  playerLifeLbl: Label;
+
+  /** Player life line node */
   @property({ type: Node })
-  loadLine: Node;
+  playerLifeLine: Node;
+
+  /** Enemy life line node */
+  @property({ type: Node })
+  enemyLifeLine: Node;
 
   /** Win block */
   @property({ type: Node })
@@ -54,6 +68,10 @@ export class LevelView extends Component implements ILevelView {
   /** Lose block */
   @property({ type: Node })
   loseBlock: Node;
+
+  /** Object wich lock interctions with field */
+  @property({ type: Button })
+  touchLockObject: Button;
 
   /** Load line min pos */
   @property({ type: CCFloat })
@@ -79,7 +97,6 @@ export class LevelView extends Component implements ILevelView {
   }
   public set AimPoints(value: number) {
     this._aimPoints = value;
-    this.updateLoadLinePos();
   }
 
   public get PointsCount(): number {
@@ -88,7 +105,6 @@ export class LevelView extends Component implements ILevelView {
   public set PointsCount(value: number) {
     this.pointsCountLbl.string = value.toString();
     this._pointsCount = value;
-    this.updateLoadLinePos();
   }
 
   public get Bonus1Price(): number {
@@ -96,6 +112,40 @@ export class LevelView extends Component implements ILevelView {
   }
   public set Bonus1Price(value: number) {
     this.bonus1PriceLbl.string = value.toString();
+  }
+
+  public get EnemyLife(): number {
+    return Number(this.enemyLifeLbl.string);
+  }
+
+  public set EnemyLife(value: number) {
+    this.updateLifeLinePos(this.enemyLifeLine, value, this._enemyMaxLife);
+    this.enemyLifeLbl.string = value.toString();
+  }
+
+  public get EnemyMaxLife(): number {
+    return this._enemyMaxLife;
+  }
+
+  public set EnemyMaxLife(value: number) {
+    this._enemyMaxLife = value;
+  }
+
+  public get PlayerLife(): number {
+    return Number(this.playerLifeLbl.string);
+  }
+
+  public set PlayerLife(value: number) {
+    this.updateLifeLinePos(this.playerLifeLine, value, this._playerMaxLife);
+    this.playerLifeLbl.string = value.toString();
+  }
+
+  public get PlayerMaxLife(): number {
+    return this._playerMaxLife;
+  }
+
+  public set PlayerMaxLife(value: number) {
+    this._playerMaxLife = value;
   }
 
   public get Bonus2Price(): number {
@@ -131,6 +181,10 @@ export class LevelView extends Component implements ILevelView {
     this._controller.setBonus(bonusName);
   }
 
+  public lockTuch(lock: boolean) {
+    this.touchLockObject.node.active = lock;
+  }
+
   public resetGame() {
     this.showWin(false);
     this.showLose(false);
@@ -141,13 +195,13 @@ export class LevelView extends Component implements ILevelView {
     this._controller = controller;
   }
 
-  private updateLoadLinePos() {
-    const coef = (this.loadLineEndPos - this.loadLineZeroPos) / this._aimPoints;
+  private updateLifeLinePos(line: Node, value: number, maxValue: number) {
+    const coef = (this.loadLineEndPos - this.loadLineZeroPos) / maxValue;
 
-    this.loadLine.position = new Vec3(
-      coef * this._pointsCount + this.loadLineZeroPos,
-      this.loadLine.position.y,
-      this.loadLine.position.z
+    line.position = new Vec3(
+      coef * value + this.loadLineZeroPos,
+      line.position.y,
+      line.position.z
     );
   }
 }

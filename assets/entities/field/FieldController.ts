@@ -12,6 +12,10 @@ import {
   Vec3,
   randomRangeInt,
   EventTarget,
+  Sprite,
+  Size,
+  Vec2,
+  CCString,
 } from "cc";
 import { TileController } from "../tiles/TileController";
 import { TileModel } from "../../models/TileModel";
@@ -25,6 +29,7 @@ import { BonusModel } from "../../models/BonusModel";
 import { Matrix2D } from "./Matrix2D";
 import { ITileField } from "./ITileField";
 import { ReadonlyMatrix2D } from "./ReadonlyMatrix2D";
+import { BackgroundTileController } from "../tiles/BackgroundTile/BackgroundTileController";
 const { ccclass, property } = _decorator;
 
 @ccclass("FieldController")
@@ -32,7 +37,8 @@ export class FieldController extends Component implements ITileField {
   /**
    * Logic field (e.g. tiles matrix)
    */
-  private _field: Matrix2D<TileController>; // TileController[][];
+  private _field: Matrix2D<TileController>;
+  private _bckgField: BackgroundTileController[][] = [];
   private _timeToexecute = 0;
   private _canexecute = false;
   private _fieldAnalizer: FieldAnalizer;
@@ -40,6 +46,7 @@ export class FieldController extends Component implements ITileField {
   private _bonus: BonusModel;
 
   public readonly tileClickedEvent: EventTarget = new EventTarget();
+  public readonly tileActivatedEvent: EventTarget = new EventTarget();
 
   /** Field model */
   @property({ type: [FieldModel], visible: true, tooltip: "Field model" })
@@ -48,8 +55,14 @@ export class FieldController extends Component implements ITileField {
   @property(UITransform)
   tilesArea: UITransform;
 
+  @property(UITransform)
+  tilesBckgArea: UITransform;
+
   @property(TileCreator)
   tileCreator: TileCreator;
+
+  @property(CCString)
+  backgroundTileName = "background";
 
   get fieldMatrix(): ReadonlyMatrix2D<TileController> {
     return this._field.toReadonly();
@@ -59,8 +72,11 @@ export class FieldController extends Component implements ITileField {
     return this._bonus;
   }
 
+  get tiles(): Array<TileController> {
+    return [];
+  }
+
   start() {
-    this.tileCreator.setModel(this.fieldModel);
     this._field = new Matrix2D(this.fieldModel.rows, this.fieldModel.cols);
     this._fieldAnalizer = new FieldAnalizer(this);
   }
@@ -74,20 +90,62 @@ export class FieldController extends Component implements ITileField {
     );
 
     const map = this.fieldModel.getFieldMap();
+    const bkgTileModel = this.fieldModel.getTileModel(this.backgroundTileName);
 
     for (let yIndex = 0; yIndex < this.fieldModel.rows; yIndex++) {
+      this._bckgField[yIndex] = [];
+
       for (let xIndex = 0; xIndex < this.fieldModel.rows; xIndex++) {
+        const bkgTile = this.createBckgTile(yIndex, xIndex, bkgTileModel);
+
+        if (bkgTile != null) {
+          this._bckgField[yIndex][xIndex] = bkgTile;
+        }
+
         const tileModel = this.fieldModel.getTileModelByMapMnemonic(
           map[yIndex][xIndex]
         );
-        this.createTile({
-          row: yIndex,
-          col: xIndex,
-          tileModel,
-          putOnField: true,
-        });
+
+        if (tileModel != null) {
+          this.createTile({
+            row: yIndex,
+            col: xIndex,
+            tileModel,
+            putOnField: true,
+          });
+        }
       }
     }
+  }
+
+  private createBckgTile(
+    row: number,
+    col: number,
+    tileModel: TileModel | null
+  ): BackgroundTileController | null {
+    if (tileModel == null) {
+      throw Error("Tile model argument is null");
+    }
+    if (tileModel == null) return null;
+
+    const tile = this.tileCreator.create(tileModel.tileName);
+
+    if (tile == null) return null;
+
+    const tileController = tile.getComponent(BackgroundTileController);
+    const uiTransform = tileController?.getComponent(UITransform);
+
+    if (tileController != null) {
+      tileController.tileModel = tileModel;
+
+      this._bckgField[row][col] = tileController;
+    }
+
+    tile.position = this.calculateTilePosition(row, col);
+    tile.parent = this.tilesBckgArea.node;
+    tile.scale = this.calculateTileSize(uiTransform);
+
+    return tileController;
   }
 
   /**
@@ -106,30 +164,46 @@ export class FieldController extends Component implements ITileField {
     tileModel,
     position = null,
     putOnField = false,
-  }: CreateTileArgs): TileController {
+  }: CreateTileArgs): TileController | null {
+    if (tileModel == null) {
+      throw Error("Tile model argument is null");
+    }
     const tile = this.tileCreator.create(tileModel.tileName);
 
+    if (tile == null) return null;
+
     const tileController = tile.getComponent(TileController);
-    tileController.justCreated = true;
-    tileController.setModel(tileModel);
 
-    tileController.row = row;
-    tileController.col = col;
+    if (tileController != null) {
+      tileController.justCreated = true;
+      tileController.setModel(tileModel);
 
-    tileController.clickedEvent.on("TileController", this.tileClicked, this);
+      tileController.row = row;
+      tileController.col = col;
+      tileController.clickedEvent.off("TileController");
+      tileController.tileActivateEvent.off("TileController");
+      tileController.clickedEvent.on("TileController", this.tileClicked, this);
+      tileController.tileActivateEvent.on(
+        "TileController",
+        this.tileActivated,
+        this
+      );
+
+      if (putOnField) {
+        this._field.set(row, col, tileController);
+      }
+    }
+
+    const uiTransform = tileController?.getComponent(UITransform);
 
     const tPos = this.calculateTilePosition(row, col);
 
     tile.position = position == null ? tPos : position;
     tile.parent = this.tilesArea.node;
 
-    const size = this.calculateTileSize(tile);
+    const size = this.calculateTileSize(uiTransform);
 
     tile.scale = size;
-
-    if (putOnField) {
-      this.destroyOldTileAndPutNew(tileController, row, col);
-    }
 
     return tileController;
   }
@@ -137,15 +211,24 @@ export class FieldController extends Component implements ITileField {
   private calculateTilePosition(row: number, col: number): Vec3 {
     const border = this.fieldModel.border / 2;
     const tW = this.tilesArea.width / this.fieldModel.cols;
-    return new Vec3(col * tW + border, row * tW + border);
+    const tilesHeight = tW * this.fieldModel.rows;
+    return new Vec3(
+      col * tW +
+        border -
+        this.tilesArea.anchorX * this.tilesArea.width +
+        tW / 2,
+      row * tW + border - this.tilesArea.anchorY * tilesHeight + tW / 2
+    );
   }
 
-  private calculateTileSize(tile: Node): Vec3 {
-    const tileTransform = tile.getComponent(UITransform);
+  private calculateTileSize(
+    tileTransform: UITransform | null | undefined
+  ): Vec3 {
     const tW = this.tilesArea.width / this.fieldModel.cols;
-    const coef = tW / (tileTransform.width + this.fieldModel.border);
+    const tileTransformwidth = tileTransform != null ? tileTransform.width : 0;
+    const coef = tW / (tileTransformwidth + this.fieldModel.border);
 
-    return new Vec3(coef, coef, tile.scale.z);
+    return new Vec3(coef, coef, 1);
   }
 
   private _firstTileActivated = false;
@@ -155,23 +238,15 @@ export class FieldController extends Component implements ITileField {
    * @param tile tile controller of clicked tile
    */
   private tileClicked(tile: TileController): void {
-    if (this._timeToexecute > 0) return;
     console.log("[tile] clicked. Name: " + tile.tileModel.tileName);
-
     this.tileClickedEvent.emit("FieldController", this, tile);
-
-    if (!this._firstTileActivated) {
-      if (this.bonus != null) {
-        this.setBonus(null);
-      } else {
-        this._firstTileActivated = true;
-        this._timeToexecute = 0.2;
-        this._canexecute = true;
-      }
-    }
   }
 
-  private moveAllTilesOnARote(roteId: number) {
+  private tileActivated(tile: TileController): void {
+    this.tileActivatedEvent.emit("FieldController", this, tile);
+  }
+
+  private moveAllTilesOnARote(roteId: number, backwards = false) {
     const startTile = this.getStartTile(roteId);
     const endTile = this.getEndTile(roteId);
     const emptyModel = this.fieldModel.getTileModel("empty");
@@ -199,90 +274,81 @@ export class FieldController extends Component implements ITileField {
       return res;
     };
 
-    const fwd = endTile.row > startTile.row;
-    const destroiedTiles = findTiles(true);
+    let fwd = endTile.row > startTile.row;
+    fwd = backwards ? !fwd : fwd;
+
+    const tStartTile = backwards ? endTile : startTile;
+
+    const destroiedTiles = findTiles(true).map((t) => new Vec2(t.col, t.row));
 
     if (destroiedTiles.length == 0) {
       return;
     }
 
-    const stdTileModels = this.fieldModel.getStandartTiles();
+    const pathTiles: TileController[] | null[] = [];
 
-    const pathTiles = [];
+    const tileMapSimbol = fwd ? "?" : "^";
 
-    // add new tiles
-    for (let index = 0; index < destroiedTiles.length; index++) {
-      const tileRowId = fwd
-        ? startTile.row + 1 + index
-        : startTile.row - 1 - index;
-      const yPosIndex = fwd
-        ? startTile.row - 1 - index
-        : startTile.row + 1 + index;
-
-      const tile = this.createTile({
-        row: tileRowId,
-        col: roteId,
-        tileModel: stdTileModels[randomRangeInt(0, stdTileModels.length)],
-        position: this.calculateTilePosition(yPosIndex, startTile.col),
-      });
-
-      pathTiles[fwd ? index : destroiedTiles.length - index - 1] = tile;
-    }
-
+    // fins all live tiles and put them to path
     const liveTiles = findTiles(false);
     liveTiles.forEach((t, i) => {
       pathTiles[destroiedTiles.length + (fwd ? i : liveTiles.length - i - 1)] =
         t;
     });
 
-    pathTiles.forEach((t: TileController, i) => {
-      const tileRowId = fwd ? startTile.row + 1 + i : startTile.row - 1 - i;
-      t.row = tileRowId;
+    // add new tiles
+    for (let index = 0; index < destroiedTiles.length; index++) {
+      const tileRowId = fwd
+        ? tStartTile.row + 1 + index
+        : tStartTile.row - 1 - index;
+      const yPosIndex = fwd
+        ? tStartTile.row - 1 - index
+        : tStartTile.row + 1 + index;
 
-      this.destroyOldTileAndPutNew(t, t.row, t.col);
+      const tile = this.createTile({
+        row: tileRowId,
+        col: roteId,
+        tileModel: this.fieldModel.getTileModelByMapMnemonic(tileMapSimbol),
+      });
 
-      this.moveTile(t, this.calculateTilePosition(t.row, t.col));
-    });
-  }
+      if (tile != null) {
+        tile.node.position = this.calculateTilePosition(
+          yPosIndex,
+          startTile.col
+        );
+      }
 
-  private destroyOldTileAndPutNew(
-    tile: TileController,
-    row: number,
-    col: number
-  ) {
-    const oldTile = this._field.get(row, col);
-    if (oldTile != null) {
-      //  this._tilesToDestroy.push(oldTile);
+      pathTiles[fwd ? index : destroiedTiles.length - index - 1] = tile;
     }
 
-    this._field.set(row, col, tile);
+    pathTiles.forEach((t: TileController | null, i) => {
+      if (t == null) {
+        throw Error("Tile in path is null. It can't be null");
+      }
+
+      const tileRowId = fwd ? tStartTile.row + 1 + i : tStartTile.row - 1 - i;
+      t.row = tileRowId;
+
+      this._field.set(t.row, t.col, t);
+    });
   }
 
-  public setTilesSpeciality(analizedData: AnalizedData) {
-    // Speciality for connected std tiles
-    analizedData.connectedTiles.forEach((tk) => {
-      tk.connectedTiles.forEach((tile) => {
-        if (tile instanceof StdTileController) {
-          if (tk.connectedTiles.size >= this.fieldModel.quantityToStar) {
-            tile.setStar();
-          } else if (tk.connectedTiles.size >= this.fieldModel.quantityToBomb) {
-            tile.setBomb();
-          } else if (
-            tk.connectedTiles.size >= this.fieldModel.quantityToRocket
-          ) {
-            tile.setRocket();
-          } else {
-            tile.resetSpecialSprite();
-          }
-        }
-      });
-    });
+  public fakeDestroyTile(tile: TileController): void {
+    tile.fakeDestroy();
+    this._tilesToDestroy.push(tile);
+  }
 
-    // All other tiles have no speciality
-    analizedData.individualTiles.forEach((tile) => {
-      if (tile instanceof StdTileController) {
-        tile.resetSpecialSprite();
-      }
+  /** Apply current state of field, destroies all fake destroied tiles. */
+  public Flush() {
+    this.finalyDestroyTiles();
+  }
+
+  /**
+   * Update background tiles
+   */
+  public updateBackground() {
+    this._field.forEach((tile: TileController) => {
+      this._bckgField[tile.row][tile.col].SetTypeBasedOnForegroundTile(tile);
     });
   }
 
@@ -294,29 +360,25 @@ export class FieldController extends Component implements ITileField {
   }
 
   private finalyDestroyTiles() {
-    this._tilesToDestroy.forEach((tile) => tile.destroy());
+    this._tilesToDestroy.forEach((tile) => tile.destroyTile());
     this._tilesToDestroy.length = 0;
   }
-
-  // private onEndTurn() {
-  //   this.endTurnEvent.emit("FieldController", this, this._analizedData);
-  // }
 
   private moveTile(tile: TileController, position: Vec3) {
     tile.move(tile.node.position, position);
   }
 
-  public getStartTile(roteId: number): TileController {
+  public getStartTile(roteId: number): TileController | null {
     const startModel = this.fieldModel.getTileModel("start");
     return this.getTile(roteId, startModel);
   }
 
-  public getEndTile(roteId: number): TileController {
+  public getEndTile(roteId: number): TileController | null {
     const startModel = this.fieldModel.getTileModel("end");
     return this.getTile(roteId, startModel);
   }
 
-  public getTile(roteId: number, tileType: TileModel): TileController {
+  public getTile(roteId: number, tileType: TileModel): TileController | null {
     let res = null;
 
     this._field.forEach((tile, i, j) => {
@@ -392,42 +454,20 @@ export class FieldController extends Component implements ITileField {
     // this.EndTurn(true);
   }
 
-  private moveTiles() {
+  public moveTilesLogicaly(backwards = false) {
     for (let index = 0; index < this.fieldModel.cols; index++) {
-      this.moveAllTilesOnARote(index);
+      this.moveAllTilesOnARote(index, backwards);
     }
+  }
+
+  /** Animate tiles moving to real position */
+  public moveTilesAnimate() {
+    this._field.forEach((t) => {
+      this.moveTile(t, this.calculateTilePosition(t.row, t.col));
+    });
   }
 
   public setBonus(bonus: BonusModel) {
     this._bonus = bonus;
   }
-
-  // update(deltaTime: number) {
-  // if (this._timeToexecute < 0 && this._canexecute) {
-  //   this.EndTurn();
-  //
-  //   this._canexecute = false;
-  //   this._firstTileActivated = false;
-  // }
-  // this._timeToexecute -= deltaTime;
-  // }
-
-  // private EndTurn(initial = false) {
-  //   this.finalyDestroyTiles();
-  //   this.moveTiles();
-  //   this._analizedData = this._fieldAnalizer.analize();
-  //
-  //   this.setTilesSpeciality();
-  //   this.fixTiles();
-  //
-  //   if (this._analizedData.connectedTiles.length <= 0) {
-  //     this.mixTiles();
-  //   }
-  //
-  //   if (!initial) {
-  //     if (this._analizedData.justCreatedTiles.length > 0) {
-  //       this.onEndTurn();
-  //     }
-  //   }
-  // }
 }

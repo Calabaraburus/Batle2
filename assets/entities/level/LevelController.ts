@@ -4,12 +4,15 @@
 //
 //  Author:Natalchishin Taras
 
-import { Component, Node, _decorator } from "cc";
+import { Component, Game, Node, _decorator } from "cc";
 import { BonusModel } from "../../models/BonusModel";
 import { LevelModel } from "../../models/LevelModel";
+import { PlayerModel } from "../../models/PlayerModel";
+import { EnemyFieldController } from "../enemyField/EnemyFieldController";
 import { AnalizedData } from "../field/AnalizedData";
 import { FieldController } from "../field/FieldController";
-import { TileInterBehaviour } from "../tiles/TileInterBehaviour";
+import { GameManager } from "../game/GameManager";
+import { PlayerFieldController } from "../playerField/PlayerFieldController";
 import { ILevelView } from "./ILevelView";
 import { LevelView } from "./LevelView";
 const { ccclass, property } = _decorator;
@@ -18,6 +21,7 @@ const { ccclass, property } = _decorator;
 @ccclass("LevelController")
 export class LevelController extends Component {
   private _turnsCount: number;
+  private _gameManager: GameManager;
 
   /** Level view */
   @property({ type: LevelView })
@@ -31,47 +35,45 @@ export class LevelController extends Component {
   @property({ type: FieldController })
   fieldController: FieldController;
 
-  /** Behaviours node */
-  @property({ type: Node })
-  behavioursNode: Node;
+  /** Player model */
+  @property({ type: PlayerModel })
+  playerModel: PlayerModel;
+
+  /** Bot model */
+  @property({ type: PlayerModel })
+  botModel: PlayerModel;
+
+  @property(PlayerFieldController)
+  playerField: PlayerFieldController;
+
+  @property(EnemyFieldController)
+  enemyField: EnemyFieldController;
+
+  /** Game manager */
+  set gameManager(manager: GameManager) {
+    this._gameManager = manager;
+  }
 
   start() {
     this.view.setController(this);
     this._turnsCount = this.model.turnsCount;
-    this.updateData();
-    this.initBehaviours();
-  }
 
-  initBehaviours() {
-    const behavs = this.behavioursNode.getComponents(TileInterBehaviour);
-
-    behavs.sort((a, b) => a.order - b.order);
-
-    behavs.forEach((b) => {
-      b.field = this.fieldController;
-    });
-  }
-
-  turnEnded(sender: FieldController, data: AnalizedData) {
-    console.log("tiles killed" + data.justCreatedTiles.length);
-
-    this.model.pointsCount += data.justCreatedTiles.length;
-    this.model.turnsCount -= 1;
-
-    if (this.model.turnsCount < 0) {
-      this.model.turnsCount = 0;
-
-      if (this.model.pointsCount < this.model.aimPoints) {
-        this.view.showLose(true);
-      }
-    }
-
-    if (this.model.pointsCount >= this.model.aimPoints) {
-      this.model.pointsCount = this.model.aimPoints;
-      this.view.showWin(true);
-    }
+    this.playerField.playerModel = this.playerModel;
+    this.enemyField.playerModel = this.botModel;
 
     this.updateData();
+  }
+
+  public showWinView(show: boolean) {
+    this.view.showWin(show);
+  }
+
+  public showLoseView(show: boolean) {
+    this.view.showLose(show);
+  }
+
+  public lockTuch(lock: boolean) {
+    this.view.lockTuch(lock);
   }
 
   public updateData() {
@@ -81,6 +83,13 @@ export class LevelController extends Component {
     this.view.Bonus1Price = this.model.bonus1Price;
     this.view.Bonus2Price = this.model.bonus2Price;
     this.view.Bonus3Price = this.model.bonus3Price;
+    this.view.PlayerLife = this.playerModel.life;
+    this.view.EnemyLife = this.botModel.life;
+    this.view.PlayerMaxLife = this.playerModel.lifeMax;
+    this.view.EnemyMaxLife = this.botModel.lifeMax;
+
+    this.playerField.updateData();
+    this.enemyField.updateData();
   }
 
   public resetGame() {
@@ -95,7 +104,7 @@ export class LevelController extends Component {
   public setBonus(name: string) {
     const bonus = new BonusModel();
     bonus.price = 15;
-    bonus.type = this.fieldController.fieldModel.getTileModel("bomb");
+    // bonus.type = this.fieldController.fieldModel.getTileModel("bomb");
     this.fieldController.setBonus(bonus);
   }
 }

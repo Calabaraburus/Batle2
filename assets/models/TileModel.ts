@@ -13,14 +13,18 @@ const { ccclass, property } = _decorator;
  */
 @ccclass("TileModel")
 export class TileModel extends Component {
-  @property({ type: CCInteger, visible: true })
-  tileId = 0;
+  static s_tileId = 0;
+  private _tileId: number;
+
+  get tileId() {
+    return this._tileId;
+  }
 
   @property({ visible: true })
   tileName = "";
 
   @property({ type: SpriteFrame, visible: true })
-  sprite: SpriteFrame = null;
+  sprite: SpriteFrame;
 
   @property({ visible: true })
   starColor: Color = new Color();
@@ -28,10 +32,42 @@ export class TileModel extends Component {
   @property({ visible: true })
   specialTile = false;
 
+  @property({ visible: true })
+  tags = "";
+
   @property({ type: AdditionalSprite, visible: true })
   additionalSprites: AdditionalSprite[] = [];
 
-  public findAdditionalSprite(name: string): SpriteFrame {
+  private splitedTags: string[] = [];
+  private t_tags: string;
+
+  public getTags(): string[] {
+    this.splitTags();
+    return this.splitedTags;
+  }
+
+  constructor() {
+    super();
+
+    this._tileId = TileModel.s_tileId;
+    TileModel.s_tileId++;
+  }
+
+  public containsTag(tag: string): boolean {
+    this.splitTags();
+    return this.splitedTags.findIndex((val) => val == tag) == -1 ? false : true;
+  }
+
+  private splitTags(): void {
+    if (this.t_tags != this.tags) {
+      this.t_tags = this.tags;
+      this.splitedTags = this.tags
+        .split(",")
+        .map((s) => s.trim().replace("#", ""));
+    }
+  }
+
+  public findAdditionalSprite(name: string): SpriteFrame | null {
     const res = this.additionalSprites.filter((item) => item.name == name);
 
     if (res.length != 0) {

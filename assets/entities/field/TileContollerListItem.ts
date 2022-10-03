@@ -12,6 +12,6 @@ export class TileContollerListItem {
   @property(CCString)
   name: string;
 
-  @property(Prefab)
-  prefab: Prefab;
+  @property(CCString)
+  prefabTypeName: string;
 }
