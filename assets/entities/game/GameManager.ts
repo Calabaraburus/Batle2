@@ -31,12 +31,10 @@ export class GameManager extends Service {
   private _cardService: CardService | null;
   private _dataService: DataService | null;
   private _tileService: TileService | null;
+  private _bot: IBot | null;
 
   @property({ type: LevelController })
   levelController: LevelController;
-
-  @property({ type: Bot })
-  bot: IBot;
 
   @property({ type: BehaviourSelector })
   behaviourSeletor: BehaviourSelector;
@@ -98,6 +96,7 @@ export class GameManager extends Service {
     this._cardService = this.getService(CardService);
     this._dataService = this.getService(DataService);
     this._tileService = this.getService(TileService);
+    this._bot = this.getService(Bot);
     this._debug = this._dataService?.debugView;
     this.levelController.gameManager = this;
     this._field = this.levelController.fieldController;
@@ -117,6 +116,7 @@ export class GameManager extends Service {
   }
 
   private tileClicked(sender: unknown, tile: TileController): void {
+    console.log("onManagerClick___________________");
     this.behaviourSeletor.run(tile);
 
     // if (!this.behaviourSeletor.hasActiveBehaviours()) {
@@ -128,12 +128,23 @@ export class GameManager extends Service {
     this._stateMachine.handle(stateName);
   }
 
+  private _uiIsLocked: boolean;
+  public get uiIsLocked() {
+    return this._uiIsLocked;
+  }
+
   public unlockUi(): void {
+    this._uiIsLocked = true;
     this.levelController.lockTuch(false);
   }
 
   public lockUi(): void {
+    this._uiIsLocked = false;
     this.levelController.lockTuch(true);
+  }
+
+  public get isBehavioursInProccess() {
+    return this.behaviourSeletor.hasBehavioursInProccess();
   }
 
   startPlayerTurn(): void {
@@ -200,7 +211,7 @@ export class GameManager extends Service {
 
   startBotTurn() {
     this._botTurn = true;
-    this.bot.move();
+    this._bot?.move();
   }
 
   countAttackingTiles(tileNameToAttack: string, ...tags: string[]): number {

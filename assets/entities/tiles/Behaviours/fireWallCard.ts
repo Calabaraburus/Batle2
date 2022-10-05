@@ -48,6 +48,7 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
   }
 
   effect(): boolean {
+    console.log("effect___________________");
     const timeObj = { time: 0 };
     const animator = tween(timeObj);
     const effects: CardEffect[] = [];

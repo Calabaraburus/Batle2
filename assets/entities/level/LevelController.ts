@@ -13,7 +13,7 @@ import { AnalizedData } from "../field/AnalizedData";
 import { FieldController } from "../field/FieldController";
 import { GameManager } from "../game/GameManager";
 import { PlayerFieldController } from "../playerField/PlayerFieldController";
-import { ILevelView } from "./ILevelView";
+import type { ILevelView } from "./ILevelView";
 import { LevelView } from "./LevelView";
 const { ccclass, property } = _decorator;
 

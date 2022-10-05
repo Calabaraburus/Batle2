@@ -13,12 +13,12 @@ export class CardService extends Service {
   }
 
   public resetBonusesForActivePlayer(): void {
-    this.getPlayerModel()?.bonuses.forEach(
+    this.getCurrentPlayerModel()?.bonuses.forEach(
       (b) => (b.alreadyUsedOnTurn = false)
     );
   }
 
-  getPlayerModel(): PlayerModel | null | undefined {
+  getCurrentPlayerModel(): PlayerModel | null | undefined {
     return this._dataService?.gameManager?.playerTurn
       ? this._dataService?.playerModel
       : this._dataService?.botModel;

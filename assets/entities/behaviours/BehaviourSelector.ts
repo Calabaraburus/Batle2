@@ -20,49 +20,73 @@ export class BehaviourSelector extends Component {
     this.fillBehavDict(this.getComponentsInChildren(Behaviour));
   }
 
+  public hasBehavioursInProccess(): boolean {
+    let has = false;
+    this._behavioursDictionary.forEach((val) => {
+      if (has) return;
+      val.forEach((b) => {
+        if (b.inProcess) {
+          has = true;
+          return;
+        }
+      });
+    });
+
+    return has;
+  }
+
   fillBehavDict(behavs: Behaviour[]): void {
-    this._debug?.log("start fill bihave dicts");
+    this._debug?.log("[behaviour][selector] start fill bihave dicts");
 
     behavs.forEach((b) => {
       if (!this._behavioursDictionary.has(b.type)) {
         this._behavioursDictionary.set(b.type, []);
-        this._debug?.log(`selector set '${b.type}'`);
+        this._debug?.log(`[behaviour][selector] selector set '${b.type}'`);
       }
 
       const list = this._behavioursDictionary.get(b.type);
       list?.push(b);
 
-      this._debug?.log(`selector push '${b.type}'`);
+      this._debug?.log(`[behaviour][selector] selector push '${b.type}'`);
     });
   }
 
   run(target: Component) {
-    this._debug?.log(`selector run`);
+    this._debug?.log(`[behaviour][selector] selector run`);
 
     if (this._curBehaviours.length <= 0) {
       this._curBehaviours = this.select(target);
     }
 
     if (this._curBehaviours.length > 0) {
-      this._debug?.log(`selector start iterate over behaves`);
+      this._debug?.log(`[behaviour][selector] start iterate over behaves`);
 
       // run all behaviours for given target
       const stopedBehaves: Behaviour[] = [];
       this._curBehaviours.forEach((b) => {
-        b.target = target;
-        if (b.isStoped) {
-          b.activate();
-        }
-        b.run();
+        try {
+          b.target = target;
+          if (b.isStoped) {
+            b.activate();
+          }
+          this._debug?.log(
+            `[behaviour][selector]Try run behaviour ${b.serviceType}`
+          );
+          b.run();
 
-        if (b.isStoped) {
-          stopedBehaves.push(b);
+          if (b.isStoped) {
+            stopedBehaves.push(b);
+          }
+        } catch (error) {
+          if (error instanceof Error) {
+            this._debug?.log(`[behaviour][selector] Error ${error.message}`);
+          }
         }
       });
 
-      this._debug?.log(`selector stop iterate over behaves`);
+      this._debug?.log(`[behaviour][selector] stop iterate over behaves`);
 
-      this._debug?.log(`selector clear stoped behaves`);
+      this._debug?.log(`[behaviour][selector] clear stoped behaves`);
 
       // remove stoped behaves
       stopedBehaves.forEach((b) => {
@@ -79,11 +103,11 @@ export class BehaviourSelector extends Component {
   }
 
   select(target: Component): Behaviour[] {
-    this._debug?.log(`select behaves for target`);
+    this._debug?.log(`[behaviour][selector] select behaves for target`);
 
     const type = js.getClassName(target);
 
-    this._debug?.log(`target type: '${type}'`);
+    this._debug?.log(`[behaviour][selector] target type: '${type}'`);
 
     const result: Behaviour[] = [];
     if (this._behavioursDictionary.has(type)) {
@@ -91,7 +115,9 @@ export class BehaviourSelector extends Component {
       list?.forEach((b) => {
         b.target = target;
         if (b.activateCondition()) {
-          this._debug?.log(`target pass condition of behave '${b.type}'`);
+          this._debug?.log(
+            `[behaviour][selector] target pass condition of behave '${b.type}'`
+          );
           result.push(b);
         }
       });
