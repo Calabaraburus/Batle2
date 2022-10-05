@@ -10,7 +10,7 @@ const { ccclass } = _decorator;
 export class Service extends Component {
   private _type = js.getClassName(this);
 
-  public serviceType() {
+  public get serviceType() {
     return this._type;
   }
 

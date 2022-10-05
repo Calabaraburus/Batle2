@@ -15,9 +15,9 @@ const { ccclass } = _decorator;
 export class CardsBehaviour extends GameBehaviour {
   private _cardsRunDict = new Map<string, ISubBehaviour>();
   private _cardsService: CardService | null;
-  private _effectsNode: Node | null | undefined;
+  private _effectsNode: Node | null;
 
-  public get effectsNode(): Node | null | undefined {
+  public get effectsNode(): Node | null {
     return this._effectsNode;
   }
   public get cardsService() {
@@ -35,17 +35,26 @@ export class CardsBehaviour extends GameBehaviour {
 
   start() {
     super.start();
-    this._effectsNode = director.getScene()?.getChildByName("ParticleEffects");
+    const scene = director.getScene();
+    if (scene != undefined) {
+      this._effectsNode = scene.getChildByName("ParticleEffects");
+    }
+
     this._cardsService = this.getService(CardService);
   }
 
   activateCondition(): boolean {
-    const model = this._cardsService?.getPlayerModel();
+    const model = this._cardsService?.getCurrentPlayerModel();
     return model != null ? model.activeBonus != null : false;
   }
 
   singleRun(): void {
-    const model = this._cardsService?.getPlayerModel();
+    if (this.target == undefined) {
+      throw Error("[behaviour][cardsBehaviour] tile cant be undefined");
+    }
+    console.log("cardsSingleRun___________________");
+    this._inProcess = true;
+    const model = this._cardsService?.getCurrentPlayerModel();
     const mnemonic = model?.activeBonus?.mnemonic;
     if (mnemonic == null) return;
 
@@ -70,7 +79,7 @@ export class CardsBehaviour extends GameBehaviour {
   }
 
   finalize(): void {
-    const model = this._cardsService?.getPlayerModel();
+    const model = this._cardsService?.getCurrentPlayerModel();
 
     if (model != null) {
       this.payCardPrice(model);
@@ -81,6 +90,7 @@ export class CardsBehaviour extends GameBehaviour {
     this.levelController?.updateData();
 
     this.updateTileField();
+    this._inProcess = false;
   }
 
   payCardPrice(model: PlayerModel): void {

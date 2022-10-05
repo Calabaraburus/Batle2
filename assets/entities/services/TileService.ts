@@ -25,4 +25,15 @@ export class TileService extends Service {
       tile.activateShield(false);
     }
   }
+
+  public getTilesByTagInColumn(colId: number, tag: string) {
+    const tiles: TileController[] = [];
+    this._dataService?.field?.fieldMatrix.forEachCol(colId, (t) => {
+      if (t.tileModel.containsTag(tag)) {
+        tiles.push(t);
+      }
+    });
+
+    return tiles;
+  }
 }

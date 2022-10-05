@@ -6,9 +6,14 @@ const { ccclass, property } = _decorator;
 export class Behaviour extends Service {
   private _target: Component;
   private _isStoped: boolean;
+  protected _inProcess: boolean;
 
   get isStoped(): boolean {
     return this._isStoped;
+  }
+
+  get inProcess(): boolean {
+    return this._inProcess;
   }
 
   get target(): Component {
