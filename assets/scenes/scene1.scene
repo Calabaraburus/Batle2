@@ -1650,7 +1650,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "firewall",
-    "price": 2,
+    "price": 6,
     "sprite": {
       "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -1711,7 +1711,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "lightning",
-    "price": 2,
+    "price": 3,
     "sprite": {
       "__uuid__": "47408ef0-8f8a-4f38-a1d8-beca307a0c2e@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -1772,7 +1772,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "shield",
-    "price": 2,
+    "price": 3,
     "sprite": {
       "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -1915,7 +1915,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "firewall",
-    "price": 2,
+    "price": 6,
     "sprite": {
       "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -1976,7 +1976,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "lightning",
-    "price": 2,
+    "price": 3,
     "sprite": {
       "__uuid__": "47408ef0-8f8a-4f38-a1d8-beca307a0c2e@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -2037,7 +2037,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "shield",
-    "price": 2,
+    "price": 3,
     "sprite": {
       "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -2055,8 +2055,8 @@
     "_enabled": true,
     "__prefab": null,
     "playerName": "bot",
-    "life": 150,
-    "lifeMax": 150,
+    "life": 100,
+    "lifeMax": 100,
     "manaMax": 50,
     "manaCurrent": 0,
     "manaIncreaseCoeficient": 1,
@@ -2263,7 +2263,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 540,
-      "y": 1200.0000000000002,
+      "y": 1199.9999999999998,
       "z": 0
     },
     "_lrot": {
@@ -2344,7 +2344,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 1200.0000000000002,
+    "_orthoHeight": 1199.9999999999998,
     "_near": 0,
     "_far": 2000,
     "_color": {
@@ -8978,8 +8978,8 @@
     "_target": null,
     "_left": 0,
     "_right": 0,
-    "_top": 2.2737367544323206e-13,
-    "_bottom": 2.2737367544323206e-13,
+    "_top": -2.2737367544323206e-13,
+    "_bottom": -2.2737367544323206e-13,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
@@ -9015,7 +9015,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 540,
-      "y": 1200.0000000000002,
+      "y": 1199.9999999999998,
       "z": 0
     },
     "_lrot": {
@@ -9052,7 +9052,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1080,
-      "height": 2400.0000000000005
+      "height": 2399.9999999999995
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
