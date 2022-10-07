@@ -4,7 +4,7 @@
 //
 //  Author:Natalchishin Taras
 
-import { Component, Game, Node, _decorator } from "cc";
+import { Component, director, Game, Node, _decorator } from "cc";
 import { BonusModel } from "../../models/BonusModel";
 import { LevelModel } from "../../models/LevelModel";
 import { PlayerModel } from "../../models/PlayerModel";
@@ -93,12 +93,13 @@ export class LevelController extends Component {
   }
 
   public resetGame() {
-    this.model.pointsCount = 0;
-    this.model.turnsCount = this._turnsCount;
+    director.loadScene("scene1");
+    //this.model.pointsCount = 0;
+    //this.model.turnsCount = this._turnsCount;
 
-    this.updateData();
+    //this.updateData();
 
-    this.fieldController.Reset();
+    //this.fieldController.Reset();
   }
 
   public setBonus(name: string) {

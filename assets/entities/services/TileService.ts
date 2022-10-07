@@ -36,4 +36,33 @@ export class TileService extends Service {
 
     return tiles;
   }
+
+  public getTilesByTag(tag: string): TileController[] {
+    const result = this._dataService?.field?.fieldMatrix.filter((t) =>
+      t.tileModel.containsTag(tag)
+    );
+
+    return result == null ? [] : result;
+  }
+
+  public getPlayerTiles(): TileController[] {
+    return this.getTilesByTag("player");
+  }
+
+  public getEnemyTiles(): TileController[] {
+    return this.getTilesByTag("enemy");
+  }
+
+  public countShielded(tiles: Set<TileController>, shielded = true): number {
+    let result = 0;
+    tiles.forEach((t) => {
+      if (t instanceof StdTileController) {
+        if (shielded ? !t.shieldIsActivated : t.shieldIsActivated) {
+          result++;
+        }
+      }
+    });
+
+    return result;
+  }
 }
