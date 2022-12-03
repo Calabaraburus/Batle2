@@ -16,6 +16,7 @@ import {
   Size,
   Vec2,
   CCString,
+  CCBoolean,
 } from "cc";
 import { TileController } from "../tiles/TileController";
 import { TileModel } from "../../models/TileModel";
@@ -64,6 +65,9 @@ export class FieldController extends Component implements ITileField {
   @property(CCString)
   backgroundTileName = "background";
 
+  @property(CCBoolean)
+  drawBackground = false;
+
   get fieldMatrix(): ReadonlyMatrix2D<TileController> {
     return this._field.toReadonly();
   }
@@ -96,10 +100,12 @@ export class FieldController extends Component implements ITileField {
       this._bckgField[yIndex] = [];
 
       for (let xIndex = 0; xIndex < this.fieldModel.rows; xIndex++) {
-        const bkgTile = this.createBckgTile(yIndex, xIndex, bkgTileModel);
+        if (this.drawBackground) {
+          const bkgTile = this.createBckgTile(yIndex, xIndex, bkgTileModel);
 
-        if (bkgTile != null) {
-          this._bckgField[yIndex][xIndex] = bkgTile;
+          if (bkgTile != null) {
+            this._bckgField[yIndex][xIndex] = bkgTile;
+          }
         }
 
         const tileModel = this.fieldModel.getTileModelByMapMnemonic(
@@ -347,6 +353,7 @@ export class FieldController extends Component implements ITileField {
    * Update background tiles
    */
   public updateBackground() {
+    if (!this.drawBackground) return;
     this._field.forEach((tile: TileController) => {
       this._bckgField[tile.row][tile.col].SetTypeBasedOnForegroundTile(tile);
     });

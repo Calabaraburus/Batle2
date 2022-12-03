@@ -1,4 +1,13 @@
-import { _decorator, Component, Sprite, Label, Button, tween, Vec3 } from "cc";
+import {
+  _decorator,
+  Component,
+  Sprite,
+  Label,
+  Button,
+  tween,
+  Vec3,
+  Node,
+} from "cc";
 import { BonusModel } from "../../../models/BonusModel";
 import { CardFieldController } from "./CardFieldController";
 const { ccclass, property } = _decorator;
@@ -15,11 +24,24 @@ export class CardController extends Component {
   private _animMultiplier = 1.2;
   private _animSift = 15;
   private _selected: boolean;
+  private _maskPos: Vec3 = new Vec3();
+  private _spritePos: Vec3 = new Vec3();
+  private _maskHeight = 200;
+
   @property(Sprite)
   sprite: Sprite;
 
+  @property(Sprite)
+  unactiveSprite: Sprite;
+
+  @property(Node)
+  maskNode: Node;
+
   @property(Label)
   lblPrice: Label;
+
+  @property(Label)
+  lblCardAmount: Label;
 
   get model(): BonusModel {
     return this._model;
@@ -59,6 +81,11 @@ export class CardController extends Component {
       this._fromPos.y + this._animSift,
       this._fromPos.z
     );
+
+    this._maskPos = this.sprite.node.position;
+    this._spritePos = this.maskNode.position;
+
+    this.updateData();
   }
 
   updateData() {
@@ -70,9 +97,33 @@ export class CardController extends Component {
     }
 
     this.sprite.spriteFrame = this._model.sprite;
-    this.lblPrice.string = this._model.price.toString();
-
+    this.unactiveSprite.spriteFrame = this._model.unactiveSprite;
+    this.lblPrice.string = this._model.currentAmmountToActivate.toString();
+    this.lblCardAmount.string = Math.floor(
+      this._model.currentAmmountToActivate / this._model.priceToActivate
+    ).toString();
     this.selected = this.model.selected;
+
+    this.moveMask();
+  }
+
+  moveMask() {
+    let coef =
+      1 - this.model.currentAmmountToActivate / this.model.priceToActivate;
+
+    coef = coef < 0 ? 0 : coef;
+
+    if (!this._button?.interactable && coef == 0) {
+      coef = 1;
+    }
+
+    let tpos = new Vec3(0, -this._maskHeight * coef, 0);
+
+    this.maskNode.setPosition(tpos);
+
+    tpos = new Vec3(0, this._maskHeight * coef, 0);
+
+    this.sprite.node.setPosition(tpos);
   }
 
   cardClick() {

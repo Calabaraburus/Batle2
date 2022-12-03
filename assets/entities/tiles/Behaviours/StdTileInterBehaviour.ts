@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { director, _decorator } from "cc";
+import { interfaces } from "inversify";
+import { TileModel } from "../../../models/TileModel";
 import { helpers } from "../../../scripts/helpers";
 import { GameBehaviour } from "../../behaviours/GameBehaviour";
 import { FieldAnalizer } from "../../field/FieldAnalizer";
@@ -68,15 +70,22 @@ export class StdTileInterBehaviour extends GameBehaviour {
 
     this.debug?.log(`[behaviour][tilesBehaviour] try to destroy tiles`);
 
+    let tilesCount = 0;
+
     connectedTiles.forEach((item) => {
       if (item instanceof StdTileController) {
         if (!item.shieldIsActivated) {
           this.field?.fakeDestroyTile(item);
+          tilesCount++;
         }
       } else {
-        this.field?.fakeDestroyTile(item);
+        //this.field?.fakeDestroyTile(item);
       }
     });
+
+    if (tilesCount > 0) {
+      this.manaUpdate(tilesCount, connectedTiles[0].tileModel);
+    }
 
     this.debug?.log(`[behaviour][tilesBehaviour] update tile field`);
     this.updateTileField();
@@ -89,5 +98,17 @@ export class StdTileInterBehaviour extends GameBehaviour {
     );
     this.gameManager?.changeGameState("endTurnEvent");
     this._inProcess = false;
+  }
+
+  manaUpdate(tilesCount: number, tileType: TileModel): void {
+    const curPlayerModel = this._cardsService?.getCurrentPlayerModel();
+    if (curPlayerModel == null) return;
+
+    curPlayerModel.bonuses.forEach((b) => {
+      if (tileType.containsTag(b.activateType)) {
+        b.currentAmmountToActivate +=
+          tilesCount > 6 ? (tilesCount > 10 ? 3 : 2) : 1;
+      }
+    });
   }
 }

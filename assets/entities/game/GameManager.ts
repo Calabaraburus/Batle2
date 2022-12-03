@@ -128,6 +128,10 @@ export class GameManager extends Service {
     this._stateMachine.handle(stateName);
   }
 
+  public currentGameState() {
+    return this._stateMachine.getCurrentState();
+  }
+
   private _uiIsLocked: boolean;
   public get uiIsLocked() {
     return this._uiIsLocked;
@@ -158,15 +162,15 @@ export class GameManager extends Service {
   }
 
   beforeBotTurn() {
-    const playerModel = this.levelController.enemyField.playerModel;
-    playerModel.manaCurrent += playerModel.manaIncreaseCoeficient;
+    // const playerModel = this.levelController.enemyField.playerModel;
+    // playerModel.manaCurrent += playerModel.manaIncreaseCoeficient;
     this._cardService?.resetBonusesForActivePlayer();
     this.levelController.updateData();
   }
 
   beforePlayerTurn() {
-    const playerModel = this.levelController.playerField.playerModel;
-    playerModel.manaCurrent += playerModel.manaIncreaseCoeficient;
+    // const playerModel = this.levelController.playerField.playerModel;
+    // playerModel.manaCurrent += playerModel.manaIncreaseCoeficient;
     this._cardService?.resetBonusesForActivePlayer();
 
     this._tileService?.prepareForNewTurn();

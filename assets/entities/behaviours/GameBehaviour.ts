@@ -1,5 +1,6 @@
 import { _decorator, debug, director, js } from "cc";
 import { PlayerModel } from "../../models/PlayerModel";
+import { ObjectsCache } from "../../ObjectsCache/ObjectsCache";
 import { helpers } from "../../scripts/helpers";
 import { EnemyFieldController } from "../enemyField/EnemyFieldController";
 import { FieldAnalizer } from "../field/FieldAnalizer";
@@ -16,9 +17,13 @@ const { ccclass } = _decorator;
 @ccclass("GameBehaviour")
 export class GameBehaviour extends Behaviour {
   private _dataService: DataService | null | undefined;
-
+  private _objectsCache: ObjectsCache | null;
   public get dataService() {
     return this._dataService;
+  }
+
+  public get objectsCache() {
+    return this._objectsCache;
   }
 
   public get gameManager() {
@@ -59,6 +64,7 @@ export class GameBehaviour extends Behaviour {
 
   start() {
     this._dataService = this.getService(DataService);
+    this._objectsCache = this.getService(ObjectsCache);
 
     this.debug?.log(`behave: '${this.serviceType}' started`);
   }

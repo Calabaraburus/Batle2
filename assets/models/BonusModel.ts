@@ -22,20 +22,33 @@ export class BonusModel extends Component {
   @property(CCString)
   mnemonic = "mnem";
 
+  //** Amount of tiles that need to be destroied to activate bonus */
   @property({ type: CCInteger })
-  public price: number;
+  public priceToActivate: number;
 
   @property({ type: SpriteFrame })
   public sprite: SpriteFrame;
 
+  @property({ type: SpriteFrame })
+  public unactiveSprite: SpriteFrame;
+
   @property({ type: CCBoolean })
   public active: boolean;
 
-  /** Turns amount bonus active for*/
-  @property({ type: CCInteger })
-  public life = 0;
+  //** Tiles of what type need to destroy to activate bonus */
+  @property(CCString)
+  public activateType = "-";
 
-  currentLife = 0;
+  //** Current amount that already destroied */
+  private _currentAmmountToActivate = 0;
+
+  get currentAmmountToActivate() {
+    return this._currentAmmountToActivate;
+  }
+
+  set currentAmmountToActivate(value) {
+    this._currentAmmountToActivate = value;
+  }
 
   selected = false;
 
