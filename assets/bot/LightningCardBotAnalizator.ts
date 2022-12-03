@@ -13,7 +13,7 @@ export class LightningCardBotAnalizator extends BotAnalizator {
     const card = this.getBonus("lightning");
     if (card == null) return 0;
 
-    if (card.price > this.bot.botModel.manaCurrent) return 0;
+    if (card.currentAmmountToActivate < card.priceToActivate) return 0;
 
     let closeColsCount = 0;
 

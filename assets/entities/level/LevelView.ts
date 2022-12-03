@@ -12,6 +12,9 @@ const { ccclass, property } = _decorator;
 
 @ccclass("LevelView")
 export class LevelView extends Component implements ILevelView {
+  Bonus1Price: number;
+  Bonus2Price: number;
+  Bonus3Price: number;
   //#region Privates
 
   private _model: LevelModel;
@@ -32,18 +35,6 @@ export class LevelView extends Component implements ILevelView {
   /** Points count label */
   @property({ type: Label })
   pointsCountLbl: Label;
-
-  /** bonus price 1 label */
-  @property({ type: Label })
-  bonus1PriceLbl: Label;
-
-  /** bonus price 2 label */
-  @property({ type: Label })
-  bonus2PriceLbl: Label;
-
-  /** bonus price 3 label */
-  @property({ type: Label })
-  bonus3PriceLbl: Label;
 
   /** bonus price 3 label */
   @property({ type: Label })
@@ -107,13 +98,6 @@ export class LevelView extends Component implements ILevelView {
     this._pointsCount = value;
   }
 
-  public get Bonus1Price(): number {
-    return Number(this.bonus1PriceLbl.string);
-  }
-  public set Bonus1Price(value: number) {
-    this.bonus1PriceLbl.string = value.toString();
-  }
-
   public get EnemyLife(): number {
     return Number(this.enemyLifeLbl.string);
   }
@@ -146,20 +130,6 @@ export class LevelView extends Component implements ILevelView {
 
   public set PlayerMaxLife(value: number) {
     this._playerMaxLife = value;
-  }
-
-  public get Bonus2Price(): number {
-    return Number(this.bonus2PriceLbl.string);
-  }
-  public set Bonus2Price(value: number) {
-    this.bonus2PriceLbl.string = value.toString();
-  }
-
-  public get Bonus3Price(): number {
-    return Number(this.bonus3PriceLbl.string);
-  }
-  public set Bonus3Price(value: number) {
-    this.bonus3PriceLbl.string = value.toString();
   }
 
   public showWin(show: boolean) {

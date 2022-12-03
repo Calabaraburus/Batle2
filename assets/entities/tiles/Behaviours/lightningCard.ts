@@ -9,6 +9,7 @@ import { lightning, LightningVector } from "../../effects/lightning";
 import { FieldController } from "../../field/FieldController";
 import { CardService } from "../../services/CardService";
 import { TileController } from "../TileController";
+import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 
 export class LightningCardSubehaviour extends CardsSubBehaviour {
@@ -19,6 +20,19 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
   private _lightning: lightning | null;
 
   prepare(): boolean {
+    const targetTile = this.parent.target as StdTileController;
+    const playerTag = this.parent.cardsService?.getPlayerTag();
+    if (playerTag == null) return false;
+    if (this.parent.cardsService == null) return false;
+
+    if (targetTile instanceof StdTileController) {
+      if (targetTile.tileModel.containsTag(playerTag)) {
+        return false;
+      }
+    } else {
+      return false;
+    }
+
     this.effectDurationValue = 1.5;
     this._cardsService = this.parent.cardsService;
     this._field = this.parent.field;

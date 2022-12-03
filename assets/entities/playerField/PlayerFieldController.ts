@@ -40,7 +40,7 @@ export class PlayerFieldController extends Component {
       this.playerModel.manaMax.toString();
 
     this.playerModel.bonuses.forEach((bonus) => {
-      if (this.playerModel.manaCurrent >= bonus.price) {
+      if (bonus.currentAmmountToActivate >= bonus.priceToActivate) {
         bonus.active = true;
       } else {
         bonus.active = false;

@@ -5,6 +5,7 @@ import { helpers } from "../../../scripts/helpers";
 import { GameBehaviour } from "../../behaviours/GameBehaviour";
 import { CardService } from "../../services/CardService";
 import { StdTileController } from "../UsualTile/StdTileController";
+import { BodyExchangeCardSubehaviour } from "./BodyExchangeCardSubehaviour";
 import { FirewallCardSubehaviour } from "./fireWallCard";
 import { ISubBehaviour } from "./ISubBehaviour";
 import { LightningCardSubehaviour } from "./lightningCard";
@@ -31,6 +32,10 @@ export class CardsBehaviour extends GameBehaviour {
     this._cardsRunDict.set("firewall", new FirewallCardSubehaviour(this));
     this._cardsRunDict.set("lightning", new LightningCardSubehaviour(this));
     this._cardsRunDict.set("shield", new ShieldCardSubehaviour(this));
+    this._cardsRunDict.set(
+      "bodyExchange",
+      new BodyExchangeCardSubehaviour(this)
+    );
   }
 
   start() {
@@ -94,7 +99,8 @@ export class CardsBehaviour extends GameBehaviour {
   }
 
   payCardPrice(model: PlayerModel): void {
-    model.manaCurrent -= model.activeBonus!.price;
+    model.activeBonus!.currentAmmountToActivate -=
+      model.activeBonus!.priceToActivate;
   }
 
   deactivateBonus(model: PlayerModel) {

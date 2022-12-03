@@ -62,7 +62,7 @@ export class TileModel extends Component {
     if (this.t_tags != this.tags) {
       this.t_tags = this.tags;
       this.splitedTags = this.tags
-        .split(",")
+        .split(" ")
         .map((s) => s.trim().replace("#", ""));
     }
   }

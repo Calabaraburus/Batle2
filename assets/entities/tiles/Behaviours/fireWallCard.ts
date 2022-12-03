@@ -16,11 +16,23 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
   private _cache: ObjectsCache | null;
 
   prepare(): boolean {
+    const maxCountForEachSide = 2;
+    const targetTile = this.parent.target as StdTileController;
+    const playerTag = this.parent.cardsService?.getPlayerTag();
+    if (playerTag == null) return false;
+    if (this.parent.cardsService == null) return false;
+
+    if (targetTile instanceof StdTileController) {
+      if (targetTile.tileModel.containsTag(playerTag)) {
+        return false;
+      }
+    } else {
+      return false;
+    }
+
     this._cache = ObjectsCache.instance;
     this.effectDurationValue = 1.8;
     this._tilesToDestroy = [];
-    const targetTile = this.parent.target as StdTileController;
-    const maxCountForEachSide = 2;
 
     this.parent.field?.fieldMatrix.forEachCol(targetTile.col, (tile, rowId) => {
       if (this.parent.cardsService == null) return;
@@ -48,7 +60,7 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
   }
 
   effect(): boolean {
-    console.log("effect___________________");
+    console.log("fire wall effect");
     const timeObj = { time: 0 };
     const animator = tween(timeObj);
     const effects: CardEffect[] = [];
