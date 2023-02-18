@@ -19,6 +19,7 @@ import { Service } from "../services/Service";
 import { CardService } from "../services/CardService";
 import { DataService } from "../services/DataService";
 import { TileService } from "../services/TileService";
+import { TileCreator } from "../field/TileCreator";
 
 const { ccclass, property } = _decorator;
 
@@ -100,6 +101,8 @@ export class GameManager extends Service {
     this._debug = this._dataService?.debugView;
     this.levelController.gameManager = this;
     this._field = this.levelController.fieldController;
+    this._field.tileCreator = this.getService(TileCreator);
+
     this._fieldAnalizer = new FieldAnalizer(this._field);
     this._stateMachine = this._stateMachineConfig.start();
     this._stateMachine.handle("gameStartEvent");
@@ -165,6 +168,9 @@ export class GameManager extends Service {
     // const playerModel = this.levelController.enemyField.playerModel;
     // playerModel.manaCurrent += playerModel.manaIncreaseCoeficient;
     this._cardService?.resetBonusesForActivePlayer();
+
+    this._cardService?.updateBonusesActiveState();
+
     this.levelController.updateData();
   }
 
@@ -172,6 +178,8 @@ export class GameManager extends Service {
     // const playerModel = this.levelController.playerField.playerModel;
     // playerModel.manaCurrent += playerModel.manaIncreaseCoeficient;
     this._cardService?.resetBonusesForActivePlayer();
+
+    this._cardService?.updateBonusesActiveState();
 
     this._tileService?.prepareForNewTurn();
 

@@ -10,6 +10,7 @@ import { FirewallCardSubehaviour } from "./fireWallCard";
 import { ISubBehaviour } from "./ISubBehaviour";
 import { LightningCardSubehaviour } from "./lightningCard";
 import { ShieldCardSubehaviour } from "./shieldCardBehave";
+import { TotemCardSubehaviour } from "./TotemCardSubehaviour";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
@@ -32,6 +33,7 @@ export class CardsBehaviour extends GameBehaviour {
     this._cardsRunDict.set("firewall", new FirewallCardSubehaviour(this));
     this._cardsRunDict.set("lightning", new LightningCardSubehaviour(this));
     this._cardsRunDict.set("shield", new ShieldCardSubehaviour(this));
+    this._cardsRunDict.set("totem", new TotemCardSubehaviour(this));
     this._cardsRunDict.set(
       "bodyExchange",
       new BodyExchangeCardSubehaviour(this)
@@ -57,7 +59,7 @@ export class CardsBehaviour extends GameBehaviour {
     if (this.target == undefined) {
       throw Error("[behaviour][cardsBehaviour] tile cant be undefined");
     }
-    console.log("cardsSingleRun___________________");
+    this.debug?.log("[behaviour][cardsBehaviour] cardsSingleRun");
     this._inProcess = true;
     const model = this._cardsService?.getCurrentPlayerModel();
     const mnemonic = model?.activeBonus?.mnemonic;
@@ -90,6 +92,7 @@ export class CardsBehaviour extends GameBehaviour {
       this.payCardPrice(model);
       model.activeBonus!.alreadyUsedOnTurn = true;
       this.deactivateBonus(model);
+      this.cardsService?.updateBonusesActiveState();
     }
 
     this.levelController?.updateData();
@@ -99,8 +102,8 @@ export class CardsBehaviour extends GameBehaviour {
   }
 
   payCardPrice(model: PlayerModel): void {
-    model.activeBonus!.currentAmmountToActivate -=
-      model.activeBonus!.priceToActivate;
+    const curPlayer = this.cardsService!.getCurrentPlayerModel();
+    curPlayer!.manaCurrent -= model.activeBonus!.priceToActivate;
   }
 
   deactivateBonus(model: PlayerModel) {

@@ -12,6 +12,17 @@ export class CardService extends Service {
     this._dataService = this.getService(DataService);
   }
 
+  public updateBonusesActiveState(): void {
+    const currentPlayer = this.getCurrentPlayerModel();
+    currentPlayer?.bonuses.forEach((bonus) => {
+      if (currentPlayer.manaCurrent >= bonus.priceToActivate) {
+        bonus.active = true;
+      } else {
+        bonus.active = false;
+      }
+    });
+  }
+
   public resetBonusesForActivePlayer(): void {
     this.getCurrentPlayerModel()?.bonuses.forEach(
       (b) => (b.alreadyUsedOnTurn = false)

@@ -91,20 +91,23 @@ export class CardController extends Component {
   updateData() {
     if (this._button == null) {
       this._button = this.getComponent(Button);
-    } else {
-      this._button.interactable =
-        this._model.active && !this.model.alreadyUsedOnTurn;
     }
+
+    if (this._button == null) {
+      return;
+    }
+
+    this._button.interactable =
+      this._model.active && !this.model.alreadyUsedOnTurn;
+
+    this.sprite.node.active = this._button.interactable;
 
     this.sprite.spriteFrame = this._model.sprite;
     this.unactiveSprite.spriteFrame = this._model.unactiveSprite;
-    this.lblPrice.string = this._model.currentAmmountToActivate.toString();
-    this.lblCardAmount.string = Math.floor(
-      this._model.currentAmmountToActivate / this._model.priceToActivate
-    ).toString();
+    this.lblCardAmount.string = this._model.priceToActivate.toString();
     this.selected = this.model.selected;
 
-    this.moveMask();
+    //this.moveMask();
   }
 
   moveMask() {

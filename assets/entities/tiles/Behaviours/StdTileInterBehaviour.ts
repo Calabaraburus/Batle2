@@ -8,6 +8,7 @@ import { FieldAnalizer } from "../../field/FieldAnalizer";
 import { GameManager } from "../../game/GameManager";
 import { LevelController } from "../../level/LevelController";
 import { CardService } from "../../services/CardService";
+import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 const { ccclass } = _decorator;
 
@@ -75,7 +76,9 @@ export class StdTileInterBehaviour extends GameBehaviour {
     connectedTiles.forEach((item) => {
       if (item instanceof StdTileController) {
         if (!item.shieldIsActivated) {
-          this.field?.fakeDestroyTile(item);
+          this.BeforeDestroy(item);
+          this.DestroyTile(item);
+
           tilesCount++;
         }
       } else {
@@ -100,15 +103,35 @@ export class StdTileInterBehaviour extends GameBehaviour {
     this._inProcess = false;
   }
 
+  private DestroyTile(tile: TileController): void {
+    this.field?.fakeDestroyTile(tile);
+  }
+
+  private BeforeDestroy(tile: TileController): void {
+    const tiles = [
+      //tile.row + 1 < m?.rows ? m?.get(tile.row + 1, tile.col) : null,
+      this.field?.fieldMatrix.get(tile.row - 1, tile.col),
+    ];
+  }
+
+  private getTile(row: number, col: number): TileController | null {
+    const m = this.field?.fieldMatrix;
+    if (m == undefined) return null;
+    //if(row>=m.rows | row<0 | col>=m.cols | )
+    return null;
+  }
+
+  private tryToAttackTile(tile: TileController | null): void {
+    if (tile == null) {
+      return;
+    }
+  }
+
   manaUpdate(tilesCount: number, tileType: TileModel): void {
     const curPlayerModel = this._cardsService?.getCurrentPlayerModel();
     if (curPlayerModel == null) return;
 
-    curPlayerModel.bonuses.forEach((b) => {
-      if (tileType.containsTag(b.activateType)) {
-        b.currentAmmountToActivate +=
-          tilesCount > 6 ? (tilesCount > 10 ? 3 : 2) : 1;
-      }
-    });
+    curPlayerModel.manaCurrent +=
+      tilesCount > 6 ? (tilesCount > 10 ? 3 : 2) : 1;
   }
 }
