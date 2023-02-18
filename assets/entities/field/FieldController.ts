@@ -45,6 +45,7 @@ export class FieldController extends Component implements ITileField {
   private _fieldAnalizer: FieldAnalizer;
   private _tilesToDestroy: TileController[] = [];
   private _bonus: BonusModel;
+  private _tileCreator: TileCreator | null = null;
 
   public readonly tileClickedEvent: EventTarget = new EventTarget();
   public readonly tileActivatedEvent: EventTarget = new EventTarget();
@@ -59,14 +60,18 @@ export class FieldController extends Component implements ITileField {
   @property(UITransform)
   tilesBckgArea: UITransform;
 
-  @property(TileCreator)
-  tileCreator: TileCreator;
-
   @property(CCString)
   backgroundTileName = "background";
 
   @property(CCBoolean)
   drawBackground = false;
+
+  public get tileCreator(): TileCreator | null {
+    return this._tileCreator;
+  }
+  public set tileCreator(value: TileCreator | null) {
+    this._tileCreator = value;
+  }
 
   get fieldMatrix(): ReadonlyMatrix2D<TileController> {
     return this._field.toReadonly();
@@ -93,13 +98,17 @@ export class FieldController extends Component implements ITileField {
       "[field] Rows: " + this.fieldModel.rows + " Cols: " + this.fieldModel.cols
     );
 
+    if (this._tileCreator == null) {
+      throw Error("Tile creator is null.");
+    }
+
     const map = this.fieldModel.getFieldMap();
     const bkgTileModel = this.fieldModel.getTileModel(this.backgroundTileName);
 
     for (let yIndex = 0; yIndex < this.fieldModel.rows; yIndex++) {
       this._bckgField[yIndex] = [];
 
-      for (let xIndex = 0; xIndex < this.fieldModel.rows; xIndex++) {
+      for (let xIndex = 0; xIndex < this.fieldModel.cols; xIndex++) {
         if (this.drawBackground) {
           const bkgTile = this.createBckgTile(yIndex, xIndex, bkgTileModel);
 
@@ -129,12 +138,16 @@ export class FieldController extends Component implements ITileField {
     col: number,
     tileModel: TileModel | null
   ): BackgroundTileController | null {
+    if (this._tileCreator == null) {
+      throw Error("Tile creator is null.");
+    }
+
     if (tileModel == null) {
       throw Error("Tile model argument is null");
     }
     if (tileModel == null) return null;
 
-    const tile = this.tileCreator.create(tileModel.tileName);
+    const tile = this._tileCreator.create(tileModel.tileName);
 
     if (tile == null) return null;
 
@@ -162,7 +175,7 @@ export class FieldController extends Component implements ITileField {
    * @param position real position on scene
    * @param putOnField determines the need of putting tile on logic field
    * (game puts tile only to the scene)
-   * @returns
+   * @returns returns tile controller
    */
   public createTile({
     row,
@@ -171,10 +184,14 @@ export class FieldController extends Component implements ITileField {
     position = null,
     putOnField = false,
   }: CreateTileArgs): TileController | null {
+    if (this._tileCreator == null) {
+      throw Error("Tile creator is null.");
+    }
+
     if (tileModel == null) {
       throw Error("Tile model argument is null");
     }
-    const tile = this.tileCreator.create(tileModel.tileName);
+    const tile = this._tileCreator.create(tileModel.tileName);
 
     if (tile == null) return null;
 

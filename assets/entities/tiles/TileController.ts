@@ -134,6 +134,7 @@ export class TileController extends CacheObject {
   }
 
   public destroyTile() {
+    this.fakeDestroy();
     this._isDestroied = true;
     this.cacheDestroy();
   }

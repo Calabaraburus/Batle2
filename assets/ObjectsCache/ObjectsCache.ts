@@ -11,6 +11,7 @@ import {
   Node,
   __private,
   Prefab,
+  js,
 } from "cc";
 import { CacheObject } from "./CacheObject";
 import { ICacheObject } from "./ICacheObject";
@@ -67,7 +68,9 @@ export class ObjectsCache extends Component implements IObjectsCache {
       bag = this._objectBags.get(typeName);
     } else {
       this._nodes?.forEach((n, i) => {
-        if (n.getComponent(typeName)) {
+        if (
+          n.components.find((c) => js.getClassName(c) == typeName) !== undefined
+        ) {
           bag = new CacheBag();
           bag.prefab = this.prefabs[i];
           this._objectBags.set(typeName, bag);

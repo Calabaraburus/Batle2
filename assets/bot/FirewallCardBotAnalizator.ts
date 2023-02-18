@@ -27,7 +27,7 @@ export class FirewallCardBotAnalizator extends BotAnalizator {
     const card = this.getBonus("firewall");
     if (card == null) return 0;
 
-    if (card.currentAmmountToActivate < card.priceToActivate) return 0;
+    if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
 
     const weightedTilesList: { weight: number; tile: TileController }[] = [];
 
