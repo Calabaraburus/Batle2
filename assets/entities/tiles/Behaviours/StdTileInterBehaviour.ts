@@ -10,6 +10,8 @@ import { LevelController } from "../../level/LevelController";
 import { CardService } from "../../services/CardService";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
+import { IAttackable, isIAttackable } from "../IAttackable";
+
 const { ccclass } = _decorator;
 
 /**
@@ -109,16 +111,32 @@ export class StdTileInterBehaviour extends GameBehaviour {
 
   private BeforeDestroy(tile: TileController): void {
     const tiles = [
-      //tile.row + 1 < m?.rows ? m?.get(tile.row + 1, tile.col) : null,
-      this.field?.fieldMatrix.get(tile.row - 1, tile.col),
+      this.getTile(tile.row + 1, tile.col),
+      this.getTile(tile.row - 1, tile.col),
+      this.getTile(tile.row, tile.col + 1),
+      this.getTile(tile.row, tile.col - 1),
     ];
+
+    tiles.forEach((t) => {
+      if (isIAttackable(t)) {
+        if (t.playerModel == this._cardsService!.getOponentModel()) {
+          (<IAttackable>t).attack(1);
+        }
+      }
+    });
   }
 
   private getTile(row: number, col: number): TileController | null {
     const m = this.field?.fieldMatrix;
-    if (m == undefined) return null;
-    //if(row>=m.rows | row<0 | col>=m.cols | )
-    return null;
+    if (m == undefined) {
+      return null;
+    }
+
+    if (row >= m.rows || row < 0 || col >= m.cols || col < 0) {
+      return null;
+    }
+
+    return m.get(row, col);
   }
 
   private tryToAttackTile(tile: TileController | null): void {

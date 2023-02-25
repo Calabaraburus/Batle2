@@ -76,10 +76,21 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
     this._tilesToTransform.forEach((item) => {
       item.destroyTile();
 
+      const pModel = this.parent.cardsService?.getCurrentPlayerModel();
+
+      if (pModel == undefined || pModel == null) {
+        this.parent.debug?.log(
+          "[totem_card_sub][error] CurrentPlayerModel is null or undefined." +
+            " return false."
+        );
+        return false;
+      }
+
       this.parent.field?.createTile({
         row: item.row,
         col: item.col,
         tileModel: model,
+        playerModel: pModel,
         position: item.node.position,
         putOnField: true,
       });

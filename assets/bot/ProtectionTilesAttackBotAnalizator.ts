@@ -17,7 +17,10 @@ export class ProtectionTilesAttackBotAnalizator extends BotAnalizator {
 
   analize(data: AnalizedData): number {
     this.weight = 0;
-    const attackingTiles = this.bot.analizer.getAttackingTiles("end", "player");
+    const attackingTiles = this.bot.analizer.getAttackingTiles(
+      "end",
+      this.bot.cardService?.getOponentModel()
+    );
 
     this.resultTiles = this.getMaxConnectedSpecCol(
       data.connectedTiles,

@@ -15,6 +15,7 @@ import {
   tween,
   v2,
 } from "cc";
+import { PlayerModel } from "../../models/PlayerModel";
 import { TileModel } from "../../models/TileModel";
 import { CacheObject } from "../../ObjectsCache/CacheObject";
 import { ICacheObject } from "../../ObjectsCache/ICacheObject";
@@ -48,6 +49,16 @@ export class TileController extends CacheObject {
   Acceleration = 0.1;
 
   public tileAnalized: boolean;
+
+  private _playerModel: PlayerModel | null;
+  /** Get player model. */
+  public get playerModel(): PlayerModel | null {
+    return this._playerModel;
+  }
+  /** Set player model. */
+  public set playerModel(value: PlayerModel | null) {
+    this._playerModel = value;
+  }
 
   private _isDestroied = false;
   get isDestroied(): boolean {
@@ -87,13 +98,21 @@ export class TileController extends CacheObject {
     this._row = value;
   }
 
+  turnBegins(): void {
+    return;
+  }
+
+  turnEnds(): void {
+    return;
+  }
+
   start() {
     this._button = this.getComponent(Button);
   }
 
   public setModel(tileModel: TileModel) {
     if (tileModel == null) {
-      log("[tile] tile model can't be null");
+      log("[tile][error] tile model can't be null");
       return;
     }
 
