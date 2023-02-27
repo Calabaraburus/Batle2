@@ -170,7 +170,7 @@ export class TileController extends CacheObject {
     this.clickedEvent.emit("TileController", this);
   }
 
-  private OnActivate() {
+  public OnActivate() {
     this.tileActivateEvent.emit("TileController", this);
   }
 
