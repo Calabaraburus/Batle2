@@ -6,11 +6,24 @@ import { GameBehaviour } from "../../behaviours/GameBehaviour";
 import { CardService } from "../../services/CardService";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { BodyExchangeCardSubehaviour } from "./BodyExchangeCardSubehaviour";
-import { FirewallCardSubehaviour } from "./fireWallCard";
+import { FirewallCardSubehaviour } from "./FirewallCardSubehaviour";
+import { FirewallLowCardSubehaviour } from "./FirewallLowCardSubehaviour";
+import { FirewallMiddleCardSubehaviour } from "./FirewallMiddleCardSubehaviour copy";
 import { ISubBehaviour } from "./ISubBehaviour";
-import { LightningCardSubehaviour } from "./lightningCard";
+import { LightningCardSubehaviour } from "./LightningCardSubehaviour";
+import { LightningLowCardSubehaviour } from "./LightningLowCardSubehaviour";
+import { LightningMiddleCardSubehaviour } from "./LightningMiddleCardSubehaviour";
+import { MeteoriteCardSubehaviour } from "./MeteoriteCardSubehaviour";
+import { MeteoriteLowCardSubehaviour } from "./MeteoriteLowCardSubehaviour";
+import { MeteoriteMiddleCardSubehaviour } from "./MeteoriteMiddleCardSubehaviour";
+import { PanicCardSubehaviour } from "./PanicCardSubehaviour";
 import { ShieldCardSubehaviour } from "./shieldCardBehave";
+import { TeleportCardSubehaviour } from "./TeleportCardSubehaviour";
 import { TotemCardSubehaviour } from "./TotemCardSubehaviour";
+import { WormCardSubehaviour } from "./WormCardSubehaviour";
+import { WormLowCardSubehaviour } from "./WormLowCardSubehaviour";
+import { WormMiddleCardSubehaviour } from "./WormMiddleCardSubehaviour";
+import { CatapultCardSubehaviour } from "./СatapultCardSubehaviour";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
@@ -30,14 +43,56 @@ export class CardsBehaviour extends GameBehaviour {
     super();
     this.type = helpers.typeName(StdTileController);
 
+    // Firewall cards
+    this._cardsRunDict.set("firewallLow", new FirewallLowCardSubehaviour(this));
+    this._cardsRunDict.set(
+      "firewallMiddle",
+      new FirewallMiddleCardSubehaviour(this)
+    );
     this._cardsRunDict.set("firewall", new FirewallCardSubehaviour(this));
+
+    // Lightning cards
+    this._cardsRunDict.set(
+      "lightningLow",
+      new LightningLowCardSubehaviour(this)
+    );
+    this._cardsRunDict.set(
+      "lightningMiddle",
+      new LightningMiddleCardSubehaviour(this)
+    );
     this._cardsRunDict.set("lightning", new LightningCardSubehaviour(this));
+
     this._cardsRunDict.set("shield", new ShieldCardSubehaviour(this));
     this._cardsRunDict.set("totem", new TotemCardSubehaviour(this));
     this._cardsRunDict.set(
       "bodyExchange",
       new BodyExchangeCardSubehaviour(this)
     );
+
+    // Metiorite cards
+    this._cardsRunDict.set(
+      "meteoriteLow",
+      new MeteoriteLowCardSubehaviour(this)
+    );
+    this._cardsRunDict.set(
+      "meteoriteMiddle",
+      new MeteoriteMiddleCardSubehaviour(this)
+    );
+    this._cardsRunDict.set("meteorite", new MeteoriteCardSubehaviour(this));
+
+    // Worm cards
+    this._cardsRunDict.set("wormLow", new WormLowCardSubehaviour(this));
+    this._cardsRunDict.set("wormMiddle", new WormMiddleCardSubehaviour(this));
+    this._cardsRunDict.set("worm", new WormCardSubehaviour(this));
+
+    // Catapult card
+    this._cardsRunDict.set("catapult", new CatapultCardSubehaviour(this));
+
+    // Panic card
+    this._cardsRunDict.set("panic", new PanicCardSubehaviour(this));
+
+    // Teleport card
+    this._cardsRunDict.set("teleport", new TeleportCardSubehaviour(this));
   }
 
   start() {

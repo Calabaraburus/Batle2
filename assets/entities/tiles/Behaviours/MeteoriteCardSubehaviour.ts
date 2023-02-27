@@ -1,9 +1,3 @@
-//  fireWallCard - ClbBlast
-//
-//  Calabaraburus (c) 2022
-//
-//  Author:Natalchishin Taras
-
 import { tween } from "cc";
 import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { CardEffect } from "../../effects/CardEffect";
@@ -11,12 +5,13 @@ import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 
-export class FirewallCardSubehaviour extends CardsSubBehaviour {
+export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
   private _tilesToDestroy: TileController[] = [];
   private _cache: ObjectsCache | null;
+  protected powerCard = 2;
 
   prepare(): boolean {
-    const maxCountForEachSide = 2;
+    const maxCountForEachSide = this.powerCard;
     const targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
     if (playerTag == null) return false;
@@ -47,6 +42,23 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
         }
       }
     });
+
+    this.parent.field?.fieldMatrix.forEachInRow(
+      targetTile.row,
+      (tile, colId) => {
+        if (this.parent.cardsService == null) return;
+        if (
+          tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
+        ) {
+          if (
+            targetTile.col + maxCountForEachSide >= colId &&
+            targetTile.col - maxCountForEachSide <= colId
+          ) {
+            this._tilesToDestroy.push(tile);
+          }
+        }
+      }
+    );
 
     return true;
   }

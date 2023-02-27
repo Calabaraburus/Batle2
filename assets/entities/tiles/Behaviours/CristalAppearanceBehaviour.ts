@@ -15,9 +15,9 @@ import { CardEffect } from "../../effects/CardEffect";
 import { CardService } from "../../services/CardService";
 import { TileService } from "../../services/TileService";
 import { StdTileController } from "../UsualTile/StdTileController";
-import { FirewallCardSubehaviour } from "./fireWallCard";
+import { FirewallCardSubehaviour } from "./FirewallCardSubehaviour";
 import { ISubBehaviour } from "./ISubBehaviour";
-import { LightningCardSubehaviour } from "./lightningCard";
+import { LightningCardSubehaviour } from "./LightningCardSubehaviour";
 import { ShieldCardSubehaviour } from "./shieldCardBehave";
 const { ccclass, property } = _decorator;
 
