@@ -14,6 +14,7 @@ import {
   CCFloat,
   tween,
   v2,
+  Sprite,
 } from "cc";
 import { PlayerModel } from "../../models/PlayerModel";
 import { TileModel } from "../../models/TileModel";
@@ -108,6 +109,7 @@ export class TileController extends CacheObject {
 
   start() {
     this._button = this.getComponent(Button);
+    this.updateSprite();
   }
 
   public setModel(tileModel: TileModel) {
@@ -127,6 +129,16 @@ export class TileController extends CacheObject {
       if (this._button != null && this._button != undefined) {
         this._button.interactable = false;
       }
+    }
+
+    this.updateSprite();
+  }
+
+  updateSprite() {
+    const sprite = this.getComponent(Sprite);
+
+    if (sprite != null) {
+      sprite.spriteFrame = this.tileModel.sprite;
     }
   }
 

@@ -38,15 +38,6 @@ export class StdTileController extends TileController {
 
   start() {
     super.start();
-    this.updateSprite();
-  }
-
-  updateSprite() {
-    this._curSprite = this.getComponent(Sprite);
-
-    if (this._curSprite != null) {
-      this._curSprite.spriteFrame = this.tileModel.sprite;
-    }
   }
 
   public get state(): TileState {
@@ -56,11 +47,6 @@ export class StdTileController extends TileController {
   public activateShield(activate: boolean) {
     this._shieldIsActivated = activate;
     this.shieldSprite.active = activate;
-  }
-
-  public setModel(tileModel: TileModel) {
-    super.setModel(tileModel);
-    this.updateSprite();
   }
 
   public destroyTile() {
