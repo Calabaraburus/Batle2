@@ -6,6 +6,7 @@ import { GameBehaviour } from "../../behaviours/GameBehaviour";
 import { CardService } from "../../services/CardService";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { BodyExchangeCardSubehaviour } from "./BodyExchangeCardSubehaviour";
+import { CounterattackCardSubehaviour } from "./CounterattackCardSubehaviour";
 import { FirewallCardSubehaviour } from "./FirewallCardSubehaviour";
 import { FirewallLowCardSubehaviour } from "./FirewallLowCardSubehaviour";
 import { FirewallMiddleCardSubehaviour } from "./FirewallMiddleCardSubehaviour copy";
@@ -17,6 +18,8 @@ import { MeteoriteCardSubehaviour } from "./MeteoriteCardSubehaviour";
 import { MeteoriteLowCardSubehaviour } from "./MeteoriteLowCardSubehaviour";
 import { MeteoriteMiddleCardSubehaviour } from "./MeteoriteMiddleCardSubehaviour";
 import { PanicCardSubehaviour } from "./PanicCardSubehaviour";
+import { PushCardSubehaviour } from "./PushCardSubehaviour";
+import { RecruitEnemyCardSubehaviour } from "./RecruitEnemyCardSubehaviour";
 import { ShieldCardSubehaviour } from "./shieldCardBehave";
 import { TeleportCardSubehaviour } from "./TeleportCardSubehaviour";
 import { TotemCardSubehaviour } from "./TotemCardSubehaviour";
@@ -93,6 +96,15 @@ export class CardsBehaviour extends GameBehaviour {
 
     // Teleport card
     this._cardsRunDict.set("teleport", new TeleportCardSubehaviour(this));
+
+    // Counterattack card
+    this._cardsRunDict.set("c_attack", new CounterattackCardSubehaviour(this));
+
+    // RecruitEnemy card
+    this._cardsRunDict.set("recruit", new RecruitEnemyCardSubehaviour(this));
+
+    // RecruitEnemy card
+    this._cardsRunDict.set("push", new PushCardSubehaviour(this));
   }
 
   start() {
