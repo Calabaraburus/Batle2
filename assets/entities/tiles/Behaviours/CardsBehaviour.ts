@@ -9,6 +9,7 @@ import { BodyExchangeCardSubehaviour } from "./BodyExchangeCardSubehaviour";
 import { FirewallCardSubehaviour } from "./fireWallCard";
 import { ISubBehaviour } from "./ISubBehaviour";
 import { LightningCardSubehaviour } from "./lightningCard";
+import { MineCardSubehaviour } from "./MineCardSubehaviour";
 import { ShieldCardSubehaviour } from "./shieldCardBehave";
 import { TotemCardSubehaviour } from "./TotemCardSubehaviour";
 const { ccclass } = _decorator;
@@ -34,6 +35,7 @@ export class CardsBehaviour extends GameBehaviour {
     this._cardsRunDict.set("lightning", new LightningCardSubehaviour(this));
     this._cardsRunDict.set("shield", new ShieldCardSubehaviour(this));
     this._cardsRunDict.set("totem", new TotemCardSubehaviour(this));
+    this._cardsRunDict.set("mine", new MineCardSubehaviour(this));
     this._cardsRunDict.set(
       "bodyExchange",
       new BodyExchangeCardSubehaviour(this)

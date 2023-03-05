@@ -15,6 +15,7 @@ import {
   tween,
   v2,
   Sprite,
+  __private,
 } from "cc";
 import { PlayerModel } from "../../models/PlayerModel";
 import { TileModel } from "../../models/TileModel";
@@ -31,6 +32,7 @@ export class TileController extends CacheObject {
   private _from: Vec3;
   private _to: Vec3;
   private _speed: number;
+
   // private _interactable = true;
   public clickedEvent: EventTarget = new EventTarget();
   public tileActivateEvent: EventTarget = new EventTarget();
@@ -39,6 +41,10 @@ export class TileController extends CacheObject {
   private _tileModel: TileModel;
   get tileModel(): TileModel {
     return this._tileModel;
+  }
+
+  get fieldController(): FieldController {
+    return this._field;
   }
 
   /** Speed */
@@ -168,6 +174,18 @@ export class TileController extends CacheObject {
     this.fakeDestroy();
     this._isDestroied = true;
     this.cacheDestroy();
+  }
+
+  protected getService<T extends Component>(
+    classConstructor:
+      | __private._types_globals__Constructor<T>
+      | __private._types_globals__AbstractedConstructor<T>
+  ): T | null {
+    if (this._field == null || this._field.dataService == null) {
+      return null;
+    }
+
+    return this._field.dataService.getService(classConstructor);
   }
 
   public cacheCreate(): void {
