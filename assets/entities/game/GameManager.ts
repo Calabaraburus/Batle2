@@ -51,10 +51,14 @@ export class GameManager extends Service {
     .onEnter(() => this.startPlayerTurn())
 
     .on("endTurnEvent")
-    .transitionTo("endTurn")
+    .transitionTo("beforeEndTurn")
     .withCondition(() => this.canEndTurn())
     .transitionTo("playerTurn")
 
+    .state("beforeEndTurn")
+    .onEnter(() => this.beforeEndTurn())
+    .on("endTurnServiceEvent")
+    .transitionTo("endTurn")
     .state("endTurn")
     .onEnter(() => this.endTurn())
 
@@ -76,7 +80,7 @@ export class GameManager extends Service {
     .onEnter(() => this.startBotTurn())
 
     .on("endTurnEvent")
-    .transitionTo("endTurn")
+    .transitionTo("beforeEndTurn")
 
     .global()
     .onStateEnter((state) => {
@@ -191,9 +195,15 @@ export class GameManager extends Service {
     this.levelController.updateData();
   }
 
-  endTurn() {
-    this.notifyTilesAboutEndOfTurn();
+  beforeEndTurn() {
+    this.scheduleOnce(() => {
+      this.notifyTilesAboutEndOfTurn();
+      this._field.moveTiles(!this.playerTurn);
+      this._stateMachine.handle("endTurnServiceEvent");
+    }, 1);
+  }
 
+  endTurn() {
     const playerModel = this.levelController.playerField.playerModel;
     const enemyModel = this.levelController.enemyField.playerModel;
 

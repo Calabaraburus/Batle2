@@ -46,6 +46,10 @@ export class FieldController extends Service implements ITileField {
   private _tileCreator: TileCreator | null;
   private _dataService: DataService | null;
 
+  public get dataService(): DataService | null {
+    return this._dataService;
+  }
+
   public readonly tileClickedEvent: EventTarget = new EventTarget();
   public readonly tileActivatedEvent: EventTarget = new EventTarget();
 
@@ -212,6 +216,7 @@ export class FieldController extends Service implements ITileField {
     if (tileController != null) {
       tileController.justCreated = true;
       tileController.setModel(tileModel);
+      tileController.setField(this);
       tileController.playerModel = playerModel;
       tileController.row = row;
       tileController.col = col;
@@ -507,6 +512,18 @@ export class FieldController extends Service implements ITileField {
     this._field.forEach((t) => {
       this.moveTile(t, this.calculateTilePosition(t.row, t.col));
     });
+  }
+
+  public moveTiles(backwards = false) {
+    const analizedData = this._fieldAnalizer?.analize();
+
+    if (analizedData != null) {
+      this.moveTilesLogicaly(backwards);
+      this.fixTiles(analizedData);
+      this.updateBackground();
+      this.Flush();
+      this.moveTilesAnimate();
+    }
   }
 
   public setBonus(bonus: BonusModel) {
