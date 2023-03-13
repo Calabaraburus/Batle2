@@ -1,5 +1,6 @@
-import { randomRangeInt } from "cc";
+import { randomRangeInt, tween } from "cc";
 import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
+import { CardEffect } from "../../effects/CardEffect";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
@@ -30,7 +31,7 @@ export class MineCardSubehaviour extends CardsSubBehaviour {
     }
 
     this._cache = ObjectsCache.instance;
-    this.effectDurationValue = 1.8;
+    this.effectDurationValue = 0.4;
 
     return true;
   }
@@ -43,7 +44,7 @@ export class MineCardSubehaviour extends CardsSubBehaviour {
 
     if (model == undefined) {
       this.parent.debug?.log(
-        "[totem_card_sub][error] Totem model is null. return false."
+        "[mine_card_sub][error] Totem model is null. return false."
       );
       return false;
     }
@@ -52,7 +53,7 @@ export class MineCardSubehaviour extends CardsSubBehaviour {
 
     if (pModel == undefined || pModel == null) {
       this.parent.debug?.log(
-        "[totem_card_sub][error] CurrentPlayerModel is null or undefined." +
+        "[mine_card_sub][error] CurrentPlayerModel is null or undefined." +
           " return false."
       );
       return false;
@@ -74,6 +75,22 @@ export class MineCardSubehaviour extends CardsSubBehaviour {
   }
 
   effect(): boolean {
+    const effect =
+      this._cache?.getObjectByPrefabName<CardEffect>("explosion2Effect");
+
+    if (effect == null) {
+      return false;
+    }
+
+    effect.node.position = this.parent.target.node.position;
+    effect.node.parent = this.parent.effectsNode;
+    effect.play();
+
+    const animator = tween(this);
+    animator.delay(1).call(() => effect.cacheDestroy());
+
+    animator.start();
+
     return true;
   }
 }

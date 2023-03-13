@@ -33,6 +33,9 @@ export class TileModel extends Component {
   specialTile = false;
 
   @property({ visible: true })
+  serviceTile = false;
+
+  @property({ visible: true })
   tags = "";
 
   @property({ type: AdditionalSprite, visible: true })

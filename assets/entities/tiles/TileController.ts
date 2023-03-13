@@ -16,12 +16,15 @@ import {
   v2,
   Sprite,
   __private,
+  spriteAssembler,
 } from "cc";
+import { NextStepAttackTilesBotAnalizator } from "../../bot/NextStepAttackTilesBotAnalizator";
 import { PlayerModel } from "../../models/PlayerModel";
 import { TileModel } from "../../models/TileModel";
 import { CacheObject } from "../../ObjectsCache/CacheObject";
 import { ICacheObject } from "../../ObjectsCache/ICacheObject";
 import { FieldController } from "../field/FieldController";
+import { CardService } from "../services/CardService";
 const { ccclass, property } = _decorator;
 
 @ccclass("TileController")
@@ -32,6 +35,15 @@ export class TileController extends CacheObject {
   private _from: Vec3;
   private _to: Vec3;
   private _speed: number;
+  private _foregroundSprite: Sprite | null;
+  private _backgroundSprite: Sprite | null;
+  private _attackPower: number;
+  public get attackPower() {
+    return this._attackPower;
+  }
+  public set attackPower(value) {
+    this._attackPower = value;
+  }
 
   // private _interactable = true;
   public clickedEvent: EventTarget = new EventTarget();
@@ -113,9 +125,29 @@ export class TileController extends CacheObject {
     return;
   }
 
+  turnBeginsAnimation(): void {
+    return;
+  }
+
+  turnEndsAnimation(): void {
+    return;
+  }
+
   start() {
     this._button = this.getComponent(Button);
+    this._attackPower = 1;
     this.updateSprite();
+  }
+
+  private getSpriteInChild(name: string): Sprite | null {
+    const node = this.node.getChildByName(name);
+    const sprite = node?.getComponent(Sprite);
+
+    if (sprite != null || sprite != undefined) {
+      return sprite;
+    } else {
+      return null;
+    }
   }
 
   public setModel(tileModel: TileModel) {
@@ -141,10 +173,26 @@ export class TileController extends CacheObject {
   }
 
   updateSprite() {
-    const sprite = this.getComponent(Sprite);
+    if (this._backgroundSprite == null)
+      this._backgroundSprite = this.getSpriteInChild("Background");
 
-    if (sprite != null) {
-      sprite.spriteFrame = this.tileModel.sprite;
+    if (this._foregroundSprite == null)
+      this._foregroundSprite = this.getSpriteInChild("Foreground");
+
+    if (this._backgroundSprite != null && this.playerModel != null) {
+      let bckgName = "oponentBackground";
+
+      if (this.playerModel == this.fieldController.dataService?.playerModel) {
+        bckgName = "playerBackground";
+      }
+
+      const tm = this.fieldController.fieldModel.getTileModel(bckgName);
+
+      this._backgroundSprite.spriteFrame = tm.sprite;
+    }
+
+    if (this._foregroundSprite != null) {
+      this._foregroundSprite.spriteFrame = this.tileModel.sprite;
     }
   }
 

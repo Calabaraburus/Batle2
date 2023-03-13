@@ -45,12 +45,22 @@ export class TileService extends Service {
     return result == null ? [] : result;
   }
 
+  public getTiles(
+    filtFunc: (val: TileController) => boolean
+  ): TileController[] {
+    const result = this._dataService?.field?.fieldMatrix.filter(filtFunc);
+
+    return result == null ? [] : result;
+  }
+
   public getPlayerTiles(): TileController[] {
-    return this.getTilesByTag("player");
+    return this.getTiles(
+      (t) => t.playerModel == this._dataService?.playerModel
+    );
   }
 
   public getEnemyTiles(): TileController[] {
-    return this.getTilesByTag("enemy");
+    return this.getTiles((t) => t.playerModel == this._dataService?.botModel);
   }
 
   public countShielded(tiles: Set<TileController>, shielded = true): number {

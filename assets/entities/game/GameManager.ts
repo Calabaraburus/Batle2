@@ -4,7 +4,7 @@
 //
 //  Author:Natalchishin Taras
 
-import { Component, debug, director, _decorator } from "cc";
+import { Component, debug, director, tween, _decorator } from "cc";
 import { Bot } from "../../bot/Bot";
 import type { IBot } from "../../bot/IBot";
 import { LevelController } from "../level/LevelController";
@@ -116,8 +116,9 @@ export class GameManager extends Service {
   initGame(): void {
     this._field.tileClickedEvent.on("FieldController", this.tileClicked, this);
     this._field.generateTiles();
-    const analizedData = this._fieldAnalizer.analize();
-    this._field.fixTiles(analizedData);
+
+    this._field.analizeTiles();
+    this._field.fixTiles();
 
     this._field.updateBackground();
     this.levelController.updateData();
@@ -196,16 +197,25 @@ export class GameManager extends Service {
   }
 
   beforeEndTurn() {
-    this.scheduleOnce(() => {
-      this.notifyTilesAboutEndOfTurn();
-      this._field.moveTiles(!this.playerTurn);
-      this._stateMachine.handle("endTurnServiceEvent");
-    }, 1);
+    const schedule = tween(this);
+
+    schedule
+      .delay(0.4)
+      .call(() => this.notifyTilesAboutEndOfTurn())
+      .delay(0.8)
+      .call(() => {
+        this._stateMachine.handle("endTurnServiceEvent");
+      });
+
+    schedule.start();
   }
 
   endTurn() {
     const playerModel = this.levelController.playerField.playerModel;
     const enemyModel = this.levelController.enemyField.playerModel;
+
+    this._field.analizeTiles();
+    this._field.fixTiles();
 
     if (this._botTurn) {
       playerModel.life -= this.countAttackingTiles("start") * enemyModel.power;
@@ -242,11 +252,14 @@ export class GameManager extends Service {
   }
 
   countAttackingTiles(tileNameToAttack: string, ...tags: string[]): number {
-    return this._fieldAnalizer.getAttackingTiles(
+    const tiles = this._fieldAnalizer.getAttackingTiles(
       tileNameToAttack,
       this._cardService?.getCurrentPlayerModel(),
       ...tags
-    ).length;
+    );
+
+    const res = tiles.reduce((sum, current) => sum + current.attackPower, 0);
+    return res;
   }
 
   playerWin() {
@@ -263,5 +276,13 @@ export class GameManager extends Service {
 
   notifyTilesAboutStartOfTurn() {
     this._field.fieldMatrix.forEach((t) => t.turnBegins());
+  }
+
+  notifyTilesToAnimateEndOfTurn() {
+    this._field.fieldMatrix.forEach((t) => t.turnBeginsAnimation());
+  }
+
+  notifyTilesToAnimateStartOfTurn() {
+    this._field.fieldMatrix.forEach((t) => t.turnEndsAnimation());
   }
 }
