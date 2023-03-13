@@ -18,7 +18,7 @@ export class ReadonlyMatrix2D<T> {
   }
 
   get(row: number, col: number): T {
-    return this.matrix[row * this.rows + col];
+    return this.matrix[col * this.rows + row];
   }
 
   forEach(callback: (item: T, i: number, j: number) => void) {

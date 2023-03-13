@@ -129,17 +129,19 @@ export class FieldController extends Service implements ITileField {
 
         const tileModel = this.fieldModel.getTileModelByMapMnemonic(mapMnem);
 
+        const playerModel =
+          mapMnem == "?"
+            ? this._dataService!.playerModel
+            : mapMnem == "^"
+            ? this._dataService!.botModel
+            : null;
+
         if (tileModel != null) {
           this.createTile({
             row: yIndex,
             col: xIndex,
             tileModel,
-            playerModel:
-              mapMnem == "?"
-                ? this._dataService!.playerModel
-                : mapMnem == "^"
-                ? this._dataService!.botModel
-                : null,
+            playerModel: playerModel,
             putOnField: true,
           });
         }
@@ -215,8 +217,6 @@ export class FieldController extends Service implements ITileField {
 
     if (tileController != null) {
       tileController.justCreated = true;
-      tileController.setModel(tileModel);
-      tileController.setField(this);
       tileController.playerModel = playerModel;
       tileController.row = row;
       tileController.col = col;
@@ -228,6 +228,9 @@ export class FieldController extends Service implements ITileField {
         this.tileActivated,
         this
       );
+
+      tileController.setField(this);
+      tileController.setModel(tileModel);
 
       if (putOnField) {
         this._field.set(row, col, tileController);
@@ -400,10 +403,34 @@ export class FieldController extends Service implements ITileField {
   }
 
   /** Apply just created to false for all new tiles */
-  public fixTiles(analizedData: AnalizedData) {
-    analizedData.justCreatedTiles.forEach((tile) => {
+  public fixTiles() {
+    this._analizedData?.justCreatedTiles.forEach((tile) => {
       tile.justCreated = false;
     });
+  }
+
+  public destroyTile(
+    row: number,
+    col: number,
+    creteria: (tc: TileController) => boolean = () => true,
+    destroyServiceTile = false
+  ) {
+    if (
+      row >= 0 &&
+      row < this.fieldMatrix.rows &&
+      col >= 0 &&
+      col < this.fieldMatrix.cols
+    ) {
+      const tile = this.fieldMatrix.get(row, col);
+      if (creteria(tile)) {
+        if (
+          (tile.tileModel.serviceTile && destroyServiceTile) ||
+          !tile.tileModel.serviceTile
+        ) {
+          tile.destroyTile();
+        }
+      }
+    }
   }
 
   private finalyDestroyTiles() {
@@ -514,12 +541,18 @@ export class FieldController extends Service implements ITileField {
     });
   }
 
-  public moveTiles(backwards = false) {
-    const analizedData = this._fieldAnalizer?.analize();
+  private _analizedData: AnalizedData | null;
 
-    if (analizedData != null) {
+  public analizeTiles() {
+    this._analizedData = this._fieldAnalizer?.analize();
+  }
+
+  public moveTiles(backwards = false) {
+    this.analizeTiles();
+
+    if (this._analizedData != null) {
       this.moveTilesLogicaly(backwards);
-      this.fixTiles(analizedData);
+      this.fixTiles();
       this.updateBackground();
       this.Flush();
       this.moveTilesAnimate();

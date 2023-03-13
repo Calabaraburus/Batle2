@@ -5,8 +5,8 @@ export class Matrix2D<T> extends ReadonlyMatrix2D<T> {
     super(rows, cols, null);
   }
 
-  set(i: number, j: number, value: T) {
-    this.matrix[i * this.rows + j] = value;
+  set(row: number, col: number, value: T) {
+    this.matrix[col * this.rows + row] = value;
   }
 
   toReadonly(): ReadonlyMatrix2D<T> {

@@ -4,6 +4,7 @@ import { PlayerModel } from "../../../models/PlayerModel";
 import { helpers } from "../../../scripts/helpers";
 import { GameBehaviour } from "../../behaviours/GameBehaviour";
 import { CardService } from "../../services/CardService";
+import { EffectsService } from "../../services/EffectsService";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { BodyExchangeCardSubehaviour } from "./BodyExchangeCardSubehaviour";
 import { FirewallCardSubehaviour } from "./fireWallCard";
@@ -44,9 +45,11 @@ export class CardsBehaviour extends GameBehaviour {
 
   start() {
     super.start();
-    const scene = director.getScene();
-    if (scene != undefined) {
-      this._effectsNode = scene.getChildByName("ParticleEffects");
+
+    const effects = this.getService(EffectsService);
+
+    if (effects != null) {
+      this._effectsNode = effects.effectsNode;
     }
 
     this._cardsService = this.getService(CardService);
