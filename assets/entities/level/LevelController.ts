@@ -104,7 +104,7 @@ export class LevelController extends Component {
 
   public setBonus(name: string) {
     const bonus = new BonusModel();
-    bonus.price = 15;
+    // bonus.price = 15;
     // bonus.type = this.fieldController.fieldModel.getTileModel("bomb");
     this.fieldController.setBonus(bonus);
   }

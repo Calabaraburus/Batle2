@@ -20,6 +20,7 @@ import { MeteoriteMiddleCardSubehaviour } from "./MeteoriteMiddleCardSubehaviour
 import { PanicCardSubehaviour } from "./PanicCardSubehaviour";
 import { PushCardSubehaviour } from "./PushCardSubehaviour";
 import { RecruitEnemyCardSubehaviour } from "./RecruitEnemyCardSubehaviour";
+import { MineCardSubehaviour } from "./MineCardSubehaviour";
 import { ShieldCardSubehaviour } from "./shieldCardBehave";
 import { TeleportCardSubehaviour } from "./TeleportCardSubehaviour";
 import { TotemCardSubehaviour } from "./TotemCardSubehaviour";
@@ -27,6 +28,7 @@ import { WormCardSubehaviour } from "./WormCardSubehaviour";
 import { WormLowCardSubehaviour } from "./WormLowCardSubehaviour";
 import { WormMiddleCardSubehaviour } from "./WormMiddleCardSubehaviour";
 import { CatapultCardSubehaviour } from "./СatapultCardSubehaviour";
+import { EffectsService } from "../../services/EffectsService";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
@@ -67,6 +69,7 @@ export class CardsBehaviour extends GameBehaviour {
 
     this._cardsRunDict.set("shield", new ShieldCardSubehaviour(this));
     this._cardsRunDict.set("totem", new TotemCardSubehaviour(this));
+    this._cardsRunDict.set("mine", new MineCardSubehaviour(this));
     this._cardsRunDict.set(
       "bodyExchange",
       new BodyExchangeCardSubehaviour(this)
@@ -109,9 +112,11 @@ export class CardsBehaviour extends GameBehaviour {
 
   start() {
     super.start();
-    const scene = director.getScene();
-    if (scene != undefined) {
-      this._effectsNode = scene.getChildByName("ParticleEffects");
+
+    const effects = this.getService(EffectsService);
+
+    if (effects != null) {
+      this._effectsNode = effects.effectsNode;
     }
 
     this._cardsService = this.getService(CardService);
