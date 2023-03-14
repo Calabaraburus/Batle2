@@ -16,8 +16,8 @@ export class DataService extends Service {
   private _manager: GameManager | null | undefined;
   private _levelController: LevelController | null | undefined;
   private _analizer: FieldAnalizer;
-  private _botModel: PlayerModel | null | undefined;
-  private _playerModel: PlayerModel | null | undefined;
+  private _botModel: PlayerModel | null;
+  private _playerModel: PlayerModel | null;
   private _field: FieldController | null | undefined;
   private _enemyFieldController: EnemyFieldController | null | undefined;
   private _playerFieldController: PlayerFieldController | null | undefined;

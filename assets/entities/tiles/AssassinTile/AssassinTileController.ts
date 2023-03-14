@@ -3,22 +3,32 @@
 //  Calabaraburus (c) 2023
 //
 
-import { _decorator, Sprite, Vec3, instantiate, Prefab, UITransform } from "cc";
+import {
+  _decorator,
+  Sprite,
+  Vec3,
+  instantiate,
+  Prefab,
+  UITransform,
+  randomRangeInt,
+} from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
-import { IAttackable } from "../IAttackable";
+import { IAttackable, isIAttackable } from "../IAttackable";
 import { GameManager } from "../../game/GameManager";
 import { CardService } from "../../services/CardService";
 import { PlayerModel } from "../../../models/PlayerModel";
+import { FieldController } from "../../field/FieldController";
 const { ccclass, property } = _decorator;
 
-@ccclass("CatapultTileController")
-export class CatapultTileController
+@ccclass("AssassinTileController")
+export class AssassinTileController
   extends TileController
   implements IAttackable
 {
   private _cardService: CardService | null;
+  // private _field: FieldController | null | undefined;
   private _curSprite: Sprite | null;
   private _state: TileState;
   private _attacksCountToDestroy: number;
@@ -27,6 +37,8 @@ export class CatapultTileController
   /** Destroy particle system */
   @property(Prefab)
   destroyPartycles: Prefab;
+  maxCount: number;
+  _tilesToDestroy: TileController[] | undefined;
 
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -47,11 +59,34 @@ export class CatapultTileController
   }
 
   turnEnds(): void {
+    this.maxCount = 2;
+    this._tilesToDestroy = [];
+
     const oponentModel = this._cardService?.getOponentModel();
+
+    const oponentTiles = this.fieldController.fieldMatrix.filter((tile) => {
+      return tile.playerModel == oponentModel;
+    });
+
+    for (let index = 0; index < this.maxCount; index++) {
+      this._tilesToDestroy.push(
+        oponentTiles[randomRangeInt(0, oponentTiles.length)]
+      );
+    }
 
     if (this._cardService?.getCurrentPlayerModel() == this.playerModel) {
       if (oponentModel || oponentModel != null) {
-        oponentModel.life = oponentModel.life - 5;
+        this._tilesToDestroy.forEach((t) => {
+          // if attack only simple tiles
+          // if (isIAttackable(t)) {
+          //   (<IAttackable>t).attack(1);
+          // } else {
+          //   this.fieldController.fakeDestroyTile(t);
+          // }
+
+          // if attack all tiles
+          this.fieldController.fakeDestroyTile(t);
+        });
       }
     }
   }

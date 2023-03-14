@@ -7,20 +7,16 @@
 import {
   _decorator,
   Component,
-  Node,
   UITransform,
   Vec3,
   randomRangeInt,
   EventTarget,
-  Sprite,
-  Size,
   Vec2,
   CCString,
   CCBoolean,
 } from "cc";
 import { TileController } from "../tiles/TileController";
 import { TileModel } from "../../models/TileModel";
-import { StdTileController } from "../tiles/UsualTile/StdTileController";
 import { FieldModel } from "../../models/FieldModel";
 import { TileCreator } from "./TileCreator";
 import { CreateTileArgs } from "./CreateTileArgs";
@@ -31,10 +27,12 @@ import { Matrix2D } from "./Matrix2D";
 import { ITileField } from "./ITileField";
 import { ReadonlyMatrix2D } from "./ReadonlyMatrix2D";
 import { BackgroundTileController } from "../tiles/BackgroundTile/BackgroundTileController";
+import { Service } from "../services/Service";
+import { DataService } from "../services/DataService";
 const { ccclass, property } = _decorator;
 
 @ccclass("FieldController")
-export class FieldController extends Component implements ITileField {
+export class FieldController extends Service implements ITileField {
   /**
    * Logic field (e.g. tiles matrix)
    */
@@ -45,7 +43,12 @@ export class FieldController extends Component implements ITileField {
   private _fieldAnalizer: FieldAnalizer;
   private _tilesToDestroy: TileController[] = [];
   private _bonus: BonusModel;
-  private _tileCreator: TileCreator | null = null;
+  private _tileCreator: TileCreator | null;
+  private _dataService: DataService | null;
+
+  public get dataService(): DataService | null {
+    return this._dataService;
+  }
 
   public readonly tileClickedEvent: EventTarget = new EventTarget();
   public readonly tileActivatedEvent: EventTarget = new EventTarget();
@@ -85,9 +88,14 @@ export class FieldController extends Component implements ITileField {
     return [];
   }
 
+  public setDataService(service: DataService | null) {
+    this._dataService = service;
+  }
+
   start() {
     this._field = new Matrix2D(this.fieldModel.rows, this.fieldModel.cols);
     this._fieldAnalizer = new FieldAnalizer(this);
+    // this._dataService = this.getService(DataService);
   }
 
   /**
@@ -117,15 +125,21 @@ export class FieldController extends Component implements ITileField {
           }
         }
 
-        const tileModel = this.fieldModel.getTileModelByMapMnemonic(
-          map[yIndex][xIndex]
-        );
+        const mapMnem = map[yIndex][xIndex];
+
+        const tileModel = this.fieldModel.getTileModelByMapMnemonic(mapMnem);
 
         if (tileModel != null) {
           this.createTile({
             row: yIndex,
             col: xIndex,
             tileModel,
+            playerModel:
+              mapMnem == "?"
+                ? this._dataService!.playerModel
+                : mapMnem == "^"
+                ? this._dataService!.botModel
+                : null,
             putOnField: true,
           });
         }
@@ -172,6 +186,7 @@ export class FieldController extends Component implements ITileField {
    * @param row row position on logic field
    * @param col col position on logic field
    * @param tileModel tile model
+   * @param playerModel player model
    * @param position real position on scene
    * @param putOnField determines the need of putting tile on logic field
    * (game puts tile only to the scene)
@@ -181,6 +196,7 @@ export class FieldController extends Component implements ITileField {
     row,
     col,
     tileModel,
+    playerModel,
     position = null,
     putOnField = false,
   }: CreateTileArgs): TileController | null {
@@ -200,7 +216,8 @@ export class FieldController extends Component implements ITileField {
     if (tileController != null) {
       tileController.justCreated = true;
       tileController.setModel(tileModel);
-
+      tileController.setField(this);
+      tileController.playerModel = playerModel;
       tileController.row = row;
       tileController.col = col;
       tileController.clickedEvent.off("TileController");
@@ -332,6 +349,12 @@ export class FieldController extends Component implements ITileField {
         row: tileRowId,
         col: roteId,
         tileModel: this.fieldModel.getTileModelByMapMnemonic(tileMapSimbol),
+        playerModel:
+          tileMapSimbol == "?"
+            ? this._dataService!.playerModel
+            : tileMapSimbol == "^"
+            ? this._dataService!.botModel
+            : null,
       });
 
       if (tile != null) {
@@ -489,6 +512,18 @@ export class FieldController extends Component implements ITileField {
     this._field.forEach((t) => {
       this.moveTile(t, this.calculateTilePosition(t.row, t.col));
     });
+  }
+
+  public moveTiles(backwards = false) {
+    const analizedData = this._fieldAnalizer?.analize();
+
+    if (analizedData != null) {
+      this.moveTilesLogicaly(backwards);
+      this.fixTiles(analizedData);
+      this.updateBackground();
+      this.Flush();
+      this.moveTilesAnimate();
+    }
   }
 
   public setBonus(bonus: BonusModel) {

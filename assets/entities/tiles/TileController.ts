@@ -14,7 +14,10 @@ import {
   CCFloat,
   tween,
   v2,
+  Sprite,
+  __private,
 } from "cc";
+import { PlayerModel } from "../../models/PlayerModel";
 import { TileModel } from "../../models/TileModel";
 import { CacheObject } from "../../ObjectsCache/CacheObject";
 import { ICacheObject } from "../../ObjectsCache/ICacheObject";
@@ -29,6 +32,7 @@ export class TileController extends CacheObject {
   private _from: Vec3;
   private _to: Vec3;
   private _speed: number;
+
   // private _interactable = true;
   public clickedEvent: EventTarget = new EventTarget();
   public tileActivateEvent: EventTarget = new EventTarget();
@@ -37,6 +41,10 @@ export class TileController extends CacheObject {
   private _tileModel: TileModel;
   get tileModel(): TileModel {
     return this._tileModel;
+  }
+
+  get fieldController(): FieldController {
+    return this._field;
   }
 
   /** Speed */
@@ -48,6 +56,16 @@ export class TileController extends CacheObject {
   Acceleration = 0.1;
 
   public tileAnalized: boolean;
+
+  private _playerModel: PlayerModel | null;
+  /** Get player model. */
+  public get playerModel(): PlayerModel | null {
+    return this._playerModel;
+  }
+  /** Set player model. */
+  public set playerModel(value: PlayerModel | null) {
+    this._playerModel = value;
+  }
 
   private _isDestroied = false;
   get isDestroied(): boolean {
@@ -87,13 +105,22 @@ export class TileController extends CacheObject {
     this._row = value;
   }
 
+  turnBegins(): void {
+    return;
+  }
+
+  turnEnds(): void {
+    return;
+  }
+
   start() {
     this._button = this.getComponent(Button);
+    this.updateSprite();
   }
 
   public setModel(tileModel: TileModel) {
     if (tileModel == null) {
-      log("[tile] tile model can't be null");
+      log("[tile][error] tile model can't be null");
       return;
     }
 
@@ -108,6 +135,16 @@ export class TileController extends CacheObject {
       if (this._button != null && this._button != undefined) {
         this._button.interactable = false;
       }
+    }
+
+    this.updateSprite();
+  }
+
+  updateSprite() {
+    const sprite = this.getComponent(Sprite);
+
+    if (sprite != null) {
+      sprite.spriteFrame = this.tileModel.sprite;
     }
   }
 
@@ -137,6 +174,18 @@ export class TileController extends CacheObject {
     this.fakeDestroy();
     this._isDestroied = true;
     this.cacheDestroy();
+  }
+
+  protected getService<T extends Component>(
+    classConstructor:
+      | __private._types_globals__Constructor<T>
+      | __private._types_globals__AbstractedConstructor<T>
+  ): T | null {
+    if (this._field == null || this._field.dataService == null) {
+      return null;
+    }
+
+    return this._field.dataService.getService(classConstructor);
   }
 
   public cacheCreate(): void {

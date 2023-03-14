@@ -8,6 +8,7 @@ import { randomRangeInt, tween, Vec2 } from "cc";
 import { lightning, LightningVector } from "../../effects/lightning";
 import { FieldController } from "../../field/FieldController";
 import { CardService } from "../../services/CardService";
+import { IAttackable, isIAttackable } from "../IAttackable";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
@@ -42,10 +43,10 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
     if (this._field == null) return false;
     this._tilesToDestroy = [];
 
-    const tag = this._cardsService.getOponentTag();
+    const oponentModel = this._cardsService.getOponentModel();
 
     const oponentTiles = this._field.fieldMatrix.filter((tile) => {
-      return tile.tileModel.containsTag(tag);
+      return tile.playerModel == oponentModel;
     });
 
     for (let index = 0; index < this.maxCount; index++) {
@@ -62,7 +63,11 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
     if (this._field == null) return false;
 
     this._tilesToDestroy.forEach((t) => {
-      this._field?.fakeDestroyTile(t);
+      if (isIAttackable(t)) {
+        (<IAttackable>t).attack(1);
+      } else {
+        this._field?.fakeDestroyTile(t);
+      }
     });
 
     return true;

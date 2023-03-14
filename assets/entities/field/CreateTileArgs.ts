@@ -1,4 +1,5 @@
 import { Vec3 } from "cc";
+import { PlayerModel } from "../../models/PlayerModel";
 import { TileModel } from "../../models/TileModel";
 
 export interface CreateTileArgs {
@@ -10,6 +11,9 @@ export interface CreateTileArgs {
 
   /** tile model */
   tileModel: TileModel | null;
+
+  /** player model */
+  playerModel: PlayerModel | null;
 
   /** real position on scene  */
   position?: Vec3 | null;

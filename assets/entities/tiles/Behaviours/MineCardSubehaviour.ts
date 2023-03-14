@@ -4,12 +4,12 @@ import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 
-export class CatapultCardSubehaviour extends CardsSubBehaviour {
+export class MineCardSubehaviour extends CardsSubBehaviour {
   private _tilesToTransform: TileController[] = [];
   private _cache: ObjectsCache | null;
 
   prepare(): boolean {
-    this.parent.debug?.log("[catapult_card_sub] Start preparing.");
+    this.parent.debug?.log("[mine_card_sub] Start preparing.");
 
     const targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
@@ -20,7 +20,8 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
 
     if (targetTile instanceof StdTileController) {
       if (
-        targetTile.playerModel == this.parent.cardsService?.getOponentModel()
+        targetTile.playerModel ==
+        this.parent.cardsService?.getCurrentPlayerModel()
       ) {
         return false;
       }
@@ -35,14 +36,14 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
   }
 
   run(): boolean {
-    this.parent.debug?.log("[catapult_card_sub] Starting run.");
+    this.parent.debug?.log("[mine_card_sub] Starting run.");
     const targetTile = this.parent.target as StdTileController;
 
-    const model = this.parent.field?.fieldModel.getTileModel("catapult");
+    const model = this.parent.field?.fieldModel.getTileModel("mine");
 
     if (model == undefined) {
       this.parent.debug?.log(
-        "[catapult_card_sub][error] Catapult model is null. return false."
+        "[totem_card_sub][error] Totem model is null. return false."
       );
       return false;
     }
@@ -51,7 +52,7 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
 
     if (pModel == undefined || pModel == null) {
       this.parent.debug?.log(
-        "[catapult_card_sub][error] CurrentPlayerModel is null or undefined." +
+        "[totem_card_sub][error] CurrentPlayerModel is null or undefined." +
           " return false."
       );
       return false;
@@ -68,7 +69,7 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
       putOnField: true,
     });
 
-    this.parent.debug?.log("[catapult_card_sub] End run with true.");
+    this.parent.debug?.log("[totem_card_sub] End run with true.");
     return true;
   }
 

@@ -37,7 +37,7 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
     this.parent.field?.fieldMatrix.forEachCol(targetTile.col, (tile, rowId) => {
       if (this.parent.cardsService == null) return;
       if (
-        tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
+        tile.playerModel == this.parent.cardsService.getCurrentPlayerModel()
       ) {
         if (
           targetTile.row + this.maxCountForEachSide >= rowId &&
