@@ -51,10 +51,14 @@ export class GameManager extends Service {
     .onEnter(() => this.startPlayerTurn())
 
     .on("endTurnEvent")
-    .transitionTo("endTurn")
+    .transitionTo("beforeEndTurn")
     .withCondition(() => this.canEndTurn())
     .transitionTo("playerTurn")
 
+    .state("beforeEndTurn")
+    .onEnter(() => this.beforeEndTurn())
+    .on("endTurnServiceEvent")
+    .transitionTo("endTurn")
     .state("endTurn")
     .onEnter(() => this.endTurn())
 
@@ -76,7 +80,7 @@ export class GameManager extends Service {
     .onEnter(() => this.startBotTurn())
 
     .on("endTurnEvent")
-    .transitionTo("endTurn")
+    .transitionTo("beforeEndTurn")
 
     .global()
     .onStateEnter((state) => {
@@ -102,6 +106,7 @@ export class GameManager extends Service {
     this.levelController.gameManager = this;
     this._field = this.levelController.fieldController;
     this._field.tileCreator = this.getService(TileCreator);
+    this._field.setDataService(this._dataService);
 
     this._fieldAnalizer = new FieldAnalizer(this._field);
     this._stateMachine = this._stateMachineConfig.start();
@@ -167,6 +172,8 @@ export class GameManager extends Service {
   beforeBotTurn() {
     // const playerModel = this.levelController.enemyField.playerModel;
     // playerModel.manaCurrent += playerModel.manaIncreaseCoeficient;
+    this.notifyTilesAboutStartOfTurn();
+
     this._cardService?.resetBonusesForActivePlayer();
 
     this._cardService?.updateBonusesActiveState();
@@ -177,6 +184,8 @@ export class GameManager extends Service {
   beforePlayerTurn() {
     // const playerModel = this.levelController.playerField.playerModel;
     // playerModel.manaCurrent += playerModel.manaIncreaseCoeficient;
+    this.notifyTilesAboutStartOfTurn();
+
     this._cardService?.resetBonusesForActivePlayer();
 
     this._cardService?.updateBonusesActiveState();
@@ -186,16 +195,22 @@ export class GameManager extends Service {
     this.levelController.updateData();
   }
 
+  beforeEndTurn() {
+    this.scheduleOnce(() => {
+      this.notifyTilesAboutEndOfTurn();
+      this._field.moveTiles(!this.playerTurn);
+      this._stateMachine.handle("endTurnServiceEvent");
+    }, 1);
+  }
+
   endTurn() {
     const playerModel = this.levelController.playerField.playerModel;
     const enemyModel = this.levelController.enemyField.playerModel;
 
     if (this._botTurn) {
-      playerModel.life -=
-        this.countAttackingTiles("start", "enemy") * enemyModel.power;
+      playerModel.life -= this.countAttackingTiles("start") * enemyModel.power;
     } else {
-      enemyModel.life -=
-        this.countAttackingTiles("end", "player") * playerModel.power;
+      enemyModel.life -= this.countAttackingTiles("end") * playerModel.power;
     }
 
     if (playerModel.life <= 0) {
@@ -227,8 +242,11 @@ export class GameManager extends Service {
   }
 
   countAttackingTiles(tileNameToAttack: string, ...tags: string[]): number {
-    return this._fieldAnalizer.getAttackingTiles(tileNameToAttack, ...tags)
-      .length;
+    return this._fieldAnalizer.getAttackingTiles(
+      tileNameToAttack,
+      this._cardService?.getCurrentPlayerModel(),
+      ...tags
+    ).length;
   }
 
   playerWin() {
@@ -237,5 +255,13 @@ export class GameManager extends Service {
 
   playerLose() {
     debug("");
+  }
+
+  notifyTilesAboutEndOfTurn() {
+    this._field.fieldMatrix.forEach((t) => t.turnEnds());
+  }
+
+  notifyTilesAboutStartOfTurn() {
+    this._field.fieldMatrix.forEach((t) => t.turnBegins());
   }
 }

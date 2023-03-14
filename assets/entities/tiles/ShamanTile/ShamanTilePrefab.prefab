@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "CatapultTilePrefab",
+    "_name": "ShamanTilePrefab",
     "_objFlags": 0,
     "_native": "",
     "data": {
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "CatapultTilePrefab",
+    "_name": "ShamanTilePrefab",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -208,7 +208,7 @@
     "customEventData": ""
   },
   {
-    "__type__": "989f11ffz1ASonSY7FcINwF",
+    "__type__": "29421bCJ4xJ7ZsRjdxMfmr2",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -218,13 +218,13 @@
     "__prefab": {
       "__id__": 10
     },
-    "Speed": 0.3,
-    "Acceleration": 3000,
+    "Speed": 1,
+    "Acceleration": 0.1,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "4d8nizdXtO867tTEUEYZEJ"
+    "fileId": "0env6WWE9GBqbZIVFjECLN"
   },
   {
     "__type__": "cc.PrefabInfo",
