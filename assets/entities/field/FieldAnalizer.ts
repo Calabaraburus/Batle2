@@ -5,6 +5,7 @@
 //  Author:Natalchishin Taras
 
 import { FieldModel } from "../../models/FieldModel";
+import { PlayerModel } from "../../models/PlayerModel";
 import { TileController } from "../tiles/TileController";
 import { AnalizedData, TileTypeToConnectedTiles } from "./AnalizedData";
 import { ITileField } from "./ITileField";
@@ -119,6 +120,7 @@ export class FieldAnalizer {
 
   public getAttackingTiles(
     tileNameToAttack: string,
+    curPlayer: PlayerModel | null | undefined,
     ...tags: string[]
   ): TileController[] {
     const tilesToAtack = this.findTilesByModelName(tileNameToAttack);
@@ -130,12 +132,22 @@ export class FieldAnalizer {
         const row = t.row - addToRow;
         if (row >= 0 && row < this._field.fieldMatrix.rows) {
           const tile = this._field.fieldMatrix.get(row, t.col);
-          tags.forEach((tag) => {
-            if (tile.tileModel.containsTag(tag)) {
+
+          if (tags == null || tags.length == 0) {
+            if (tile.playerModel == curPlayer) {
               result.push(tile);
-              return;
             }
-          });
+          } else {
+            tags.forEach((tag) => {
+              if (
+                tile.playerModel == curPlayer &&
+                tile.tileModel.containsTag(tag)
+              ) {
+                result.push(tile);
+                return;
+              }
+            });
+          }
         }
       });
     };

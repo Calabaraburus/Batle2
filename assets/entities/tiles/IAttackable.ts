@@ -11,3 +11,8 @@ export interface IAttackable {
    */
   attack(power: number): void;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isIAttackable(object: any): object is IAttackable {
+  return object != null && "attack" in object;
+}

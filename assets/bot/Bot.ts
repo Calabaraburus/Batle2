@@ -27,6 +27,8 @@ import { lightning } from "../entities/effects/lightning";
 import { MaxTilesAttackBotAnalizator } from "./MaxTilesAttackBotAnalizator";
 import { ProtectionTilesAttackBotAnalizator } from "./ProtectionTilesAttackBotAnalizator";
 import { ShieldCardBotAnalizator } from "./ShieldCardBotAnalizator";
+import { CardService } from "../entities/services/CardService";
+import { BodyExchangeCardBotAnalizator } from "./BodyExchangeCardBotAnalizator";
 const { ccclass, property } = _decorator;
 
 @ccclass("Bot")
@@ -37,6 +39,7 @@ export class Bot extends Service implements IBot {
   private _botModel: PlayerModel | null | undefined;
   private _dataService: DataService | null;
   private _tileService: TileService | null;
+  private _cardService: CardService | null;
   private _gameManager: GameManager | null;
 
   tileAnalisers = {
@@ -49,10 +52,15 @@ export class Bot extends Service implements IBot {
     new ShieldCardBotAnalizator(this),
     new LightningCardBotAnalizator(this),
     new FirewallCardBotAnalizator(this),
+    new BodyExchangeCardBotAnalizator(this),
   ];
 
   public get dataService() {
     return this._dataService;
+  }
+
+  public get cardService() {
+    return this._cardService;
   }
 
   public get tileService() {
@@ -71,6 +79,7 @@ export class Bot extends Service implements IBot {
     this._dataService = this.getService(DataService);
     this._tileService = this.getService(TileService);
     this._gameManager = this.getService(GameManager);
+    this._cardService = this.getService(CardService);
 
     if (this._dataService?.field != null)
       this._analizer = new FieldAnalizer(this._dataService?.field);
