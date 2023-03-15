@@ -2,10 +2,10 @@
   "ver": "1.0.0",
   "importer": "*",
   "imported": true,
-  "uuid": "c404ad26-4d86-4946-b5bb-7a2158f3c34d",
+  "uuid": "323e2834-01bf-45e9-84f3-0d07f6db4fa0",
   "files": [
-    ".json",
-    ".orig"
+    ".bak",
+    ".json"
   ],
   "subMetas": {},
   "userData": {}

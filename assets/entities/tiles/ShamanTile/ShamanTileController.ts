@@ -13,8 +13,8 @@ import { CardService } from "../../services/CardService";
 import { PlayerModel } from "../../../models/PlayerModel";
 const { ccclass, property } = _decorator;
 
-@ccclass("CatapultTileController")
-export class CatapultTileController
+@ccclass("ShamanTileController")
+export class ShamanTileController
   extends TileController
   implements IAttackable
 {
@@ -47,11 +47,13 @@ export class CatapultTileController
   }
 
   turnEnds(): void {
-    const oponentModel = this._cardService?.getOponentModel();
+    const playerModel = this._cardService?.getCurrentPlayerModel();
 
     if (this._cardService?.getCurrentPlayerModel() == this.playerModel) {
-      if (oponentModel || oponentModel != null) {
-        oponentModel.life = oponentModel.life - 5;
+      if (playerModel || playerModel != null) {
+        if (playerModel.life < 100) {
+          playerModel.life = playerModel.life + 5;
+        }
       }
     }
   }

@@ -36,7 +36,7 @@ export class RecruitEnemyCardSubehaviour extends CardsSubBehaviour {
 
     this._tilesToRecruit.push(currentTile);
 
-    matrix.forEachCol(targetTile.col, (tile, colId) => {
+    matrix.forEachCol(targetTile.col, (tile) => {
       if (this.parent.cardsService == null) return;
       if (
         tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
@@ -52,13 +52,35 @@ export class RecruitEnemyCardSubehaviour extends CardsSubBehaviour {
   }
 
   run(): boolean {
+    const pModel = this.parent.cardsService?.getCurrentPlayerModel();
+
+    if (pModel == undefined || pModel == null) {
+      this.parent.debug?.log(
+        "[card_sub][error] CurrentPlayerModel is null or undefined." +
+          " return false."
+      );
+      return false;
+    }
+
     this._tilesToRecruit.forEach((tile) => {
+      const tModel = this.parent.field?.fieldModel.getTileModel(
+        tile.tileModel.tileName
+      );
+
+      if (tModel == undefined) {
+        this.parent.debug?.log(
+          "[card_sub][error] TileModel is undefined." + " return false."
+        );
+        return false;
+      }
+
       tile.destroyTile();
 
       this.parent.field?.createTile({
         row: tile.row,
         col: tile.col,
-        tileModel: tile.tileModel,
+        tileModel: tModel,
+        playerModel: pModel,
         position: tile.node.position,
         putOnField: true,
       });
