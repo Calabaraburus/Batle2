@@ -2302,7 +2302,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "firewall",
-    "priceToActivate": 5,
+    "priceToActivate": 1,
     "sprite": {
       "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
       "__expectedType__": "cc.SpriteFrame"
