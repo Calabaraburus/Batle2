@@ -14,9 +14,9 @@ import { CardsSubBehaviour } from "./SubBehaviour";
 export class FirewallCardSubehaviour extends CardsSubBehaviour {
   private _tilesToDestroy: TileController[] = [];
   private _cache: ObjectsCache | null;
+  protected maxCountForEachSide = 3;
 
   prepare(): boolean {
-    const maxCountForEachSide = 2;
     const targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
     if (playerTag == null) return false;
@@ -37,11 +37,11 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
     this.parent.field?.fieldMatrix.forEachCol(targetTile.col, (tile, rowId) => {
       if (this.parent.cardsService == null) return;
       if (
-        tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
+        tile.playerModel == this.parent.cardsService.getCurrentPlayerModel()
       ) {
         if (
-          targetTile.row + maxCountForEachSide >= rowId &&
-          targetTile.row - maxCountForEachSide <= rowId
+          targetTile.row + this.maxCountForEachSide >= rowId &&
+          targetTile.row - this.maxCountForEachSide <= rowId
         ) {
           this._tilesToDestroy.push(tile);
         }
