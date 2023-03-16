@@ -31,9 +31,11 @@ export class FirewallCardBotAnalizator extends BotAnalizator {
 
     const weightedTilesList: { weight: number; tile: TileController }[] = [];
 
+    const playerModel = this.bot.dataService?.playerModel;
+
     for (let index = 0; index < this.bot.field.fieldMatrix.cols; index++) {
       const tiles = this.bot.tileService
-        .getTilesByTagInColumn(index, "player")
+        .getTilesInColumn(index, (t) => t.playerModel == playerModel)
         .filter((t) => {
           if (t instanceof StdTileController) {
             return !t.shieldIsActivated;
