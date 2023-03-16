@@ -37,6 +37,20 @@ export class TileService extends Service {
     return tiles;
   }
 
+  public getTilesInColumn(
+    colId: number,
+    filtFunc: (val: TileController) => boolean
+  ) {
+    const tiles: TileController[] = [];
+    this._dataService?.field?.fieldMatrix.forEachCol(colId, (t) => {
+      if (filtFunc(t)) {
+        tiles.push(t);
+      }
+    });
+
+    return tiles;
+  }
+
   public getTilesByTag(tag: string): TileController[] {
     const result = this._dataService?.field?.fieldMatrix.filter((t) =>
       t.tileModel.containsTag(tag)
