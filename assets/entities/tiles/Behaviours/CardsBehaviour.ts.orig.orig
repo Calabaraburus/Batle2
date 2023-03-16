@@ -11,7 +11,10 @@ import { FirewallCardSubehaviour } from "./FirewallCardSubehaviour";
 import { FirewallLowCardSubehaviour } from "./FirewallLowCardSubehaviour";
 import { FirewallMiddleCardSubehaviour } from "./FirewallMiddleCardSubehaviour copy";
 import { ISubBehaviour } from "./ISubBehaviour";
+<<<<<<< HEAD
 import { LightningCardSubehaviour } from "./LightningCardSubehaviour";
+=======
+>>>>>>> my-temporary-work
 import { LightningLowCardSubehaviour } from "./LightningLowCardSubehaviour";
 import { LightningMiddleCardSubehaviour } from "./LightningMiddleCardSubehaviour";
 import { MeteoriteCardSubehaviour } from "./MeteoriteCardSubehaviour";
@@ -20,6 +23,10 @@ import { MeteoriteMiddleCardSubehaviour } from "./MeteoriteMiddleCardSubehaviour
 import { PanicCardSubehaviour } from "./PanicCardSubehaviour";
 import { PushCardSubehaviour } from "./PushCardSubehaviour";
 import { RecruitEnemyCardSubehaviour } from "./RecruitEnemyCardSubehaviour";
+<<<<<<< HEAD
+=======
+import { LightningCardSubehaviour } from "./LightningCardSubehaviour";
+>>>>>>> my-temporary-work
 import { MineCardSubehaviour } from "./MineCardSubehaviour";
 import { ShieldCardSubehaviour } from "./shieldCardBehave";
 import { TeleportCardSubehaviour } from "./TeleportCardSubehaviour";
@@ -28,9 +35,12 @@ import { WormCardSubehaviour } from "./WormCardSubehaviour";
 import { WormLowCardSubehaviour } from "./WormLowCardSubehaviour";
 import { WormMiddleCardSubehaviour } from "./WormMiddleCardSubehaviour";
 import { CatapultCardSubehaviour } from "./СatapultCardSubehaviour";
+<<<<<<< HEAD
+import { EffectsService } from "../../services/EffectsService";
+=======
 import { AssassinCardSubehaviour } from "./AssassinCardSubehaviour";
 import { ShamanCardSubehaviour } from "./ShamanCardSubehaviour";
-import { EffectsService } from "../../services/EffectsService";
+>>>>>>> my-temporary-work
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")

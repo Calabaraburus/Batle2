@@ -505,7 +505,7 @@ export class FieldController extends Service implements ITileField {
     this._canexecute = true;
   }
 
-  private exchangeTiles(t1: TileController, t2: TileController) {
+  public exchangeTiles(t1: TileController, t2: TileController) {
     this._field.set(t1.row, t1.col, t2);
     this._field.set(t2.row, t2.col, t1);
 

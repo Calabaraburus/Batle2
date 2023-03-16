@@ -11,6 +11,7 @@ import { FirewallCardSubehaviour } from "./FirewallCardSubehaviour";
 import { FirewallLowCardSubehaviour } from "./FirewallLowCardSubehaviour";
 import { FirewallMiddleCardSubehaviour } from "./FirewallMiddleCardSubehaviour copy";
 import { ISubBehaviour } from "./ISubBehaviour";
+<<<<<<< HEAD
 import { LightningCardSubehaviour } from "./LightningCardSubehaviour";
 import { LightningLowCardSubehaviour } from "./LightningLowCardSubehaviour";
 import { LightningMiddleCardSubehaviour } from "./LightningMiddleCardSubehaviour";
@@ -20,7 +21,10 @@ import { MeteoriteMiddleCardSubehaviour } from "./MeteoriteMiddleCardSubehaviour
 import { PanicCardSubehaviour } from "./PanicCardSubehaviour";
 import { PushCardSubehaviour } from "./PushCardSubehaviour";
 import { RecruitEnemyCardSubehaviour } from "./RecruitEnemyCardSubehaviour";
+=======
+import { LightningCardSubehaviour } from "./lightningCard";
 import { MineCardSubehaviour } from "./MineCardSubehaviour";
+>>>>>>> a81004031552358f319a1034e86dae261d370dc8
 import { ShieldCardSubehaviour } from "./shieldCardBehave";
 import { TeleportCardSubehaviour } from "./TeleportCardSubehaviour";
 import { TotemCardSubehaviour } from "./TotemCardSubehaviour";
@@ -28,9 +32,6 @@ import { WormCardSubehaviour } from "./WormCardSubehaviour";
 import { WormLowCardSubehaviour } from "./WormLowCardSubehaviour";
 import { WormMiddleCardSubehaviour } from "./WormMiddleCardSubehaviour";
 import { CatapultCardSubehaviour } from "./СatapultCardSubehaviour";
-import { AssassinCardSubehaviour } from "./AssassinCardSubehaviour";
-import { ShamanCardSubehaviour } from "./ShamanCardSubehaviour";
-import { EffectsService } from "../../services/EffectsService";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
@@ -71,11 +72,7 @@ export class CardsBehaviour extends GameBehaviour {
 
     this._cardsRunDict.set("shield", new ShieldCardSubehaviour(this));
     this._cardsRunDict.set("totem", new TotemCardSubehaviour(this));
-
-    // Mine card
     this._cardsRunDict.set("mine", new MineCardSubehaviour(this));
-
-    // Bodyexchange card
     this._cardsRunDict.set(
       "bodyExchange",
       new BodyExchangeCardSubehaviour(this)
@@ -100,12 +97,6 @@ export class CardsBehaviour extends GameBehaviour {
     // Catapult card
     this._cardsRunDict.set("catapult", new CatapultCardSubehaviour(this));
 
-    // Assassin card
-    this._cardsRunDict.set("assassin", new AssassinCardSubehaviour(this));
-
-    // Shaman card
-    this._cardsRunDict.set("shaman", new ShamanCardSubehaviour(this));
-
     // Panic card
     this._cardsRunDict.set("panic", new PanicCardSubehaviour(this));
 
@@ -124,11 +115,9 @@ export class CardsBehaviour extends GameBehaviour {
 
   start() {
     super.start();
-
-    const effects = this.getService(EffectsService);
-
-    if (effects != null) {
-      this._effectsNode = effects.effectsNode;
+    const scene = director.getScene();
+    if (scene != undefined) {
+      this._effectsNode = scene.getChildByName("ParticleEffects");
     }
 
     this._cardsService = this.getService(CardService);
