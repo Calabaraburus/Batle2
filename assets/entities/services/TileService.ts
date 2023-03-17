@@ -51,6 +51,24 @@ export class TileService extends Service {
     return tiles;
   }
 
+  public getTilesInRow(
+    targetTile: TileController,
+    rowId: number,
+    power: number,
+    filtFunc: (val: TileController) => boolean
+  ) {
+    const tiles: TileController[] = [];
+    this._dataService?.field?.fieldMatrix.forEachInRow(rowId, (t, colId) => {
+      if (targetTile.col + power >= colId && targetTile.col - power <= colId) {
+        if (filtFunc(t)) {
+          tiles.push(t);
+        }
+      }
+    });
+
+    return tiles;
+  }
+
   public getTilesByTag(tag: string): TileController[] {
     const result = this._dataService?.field?.fieldMatrix.filter((t) =>
       t.tileModel.containsTag(tag)
