@@ -7,10 +7,12 @@ import { BotAnalizator } from "./BotAnalizator";
 export class MeteoriteCardBotAnalizator extends BotAnalizator {
   tileToInvoke: TileController | null;
   procentToInvoke = 0.8;
-  powerMeteorite = 2;
+  protected powerMeteorite = 2;
+  protected powerCoef = 4;
+  protected bonusName = "meteorite";
 
   decide() {
-    const card = this.getBonus("meteorite");
+    const card = this.getBonus(this.bonusName);
     if (card == null) return 0;
 
     card.active = true;
@@ -20,12 +22,12 @@ export class MeteoriteCardBotAnalizator extends BotAnalizator {
     this.bot.pressTile(this.tileToInvoke);
   }
 
-  analize(data: AnalizedData): number {
+  analize(): number {
     this.tileToInvoke = null;
     if (this.bot.tileService == null) return 0;
     if (this.bot.botModel == null) return 0;
     this.weight = 0;
-    const card = this.getBonus("meteorite");
+    const card = this.getBonus(this.bonusName);
     if (card == null) return 0;
 
     if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
@@ -47,28 +49,34 @@ export class MeteoriteCardBotAnalizator extends BotAnalizator {
 
       let tilesInRow: TileController[] = [];
 
-      tilesInCol.forEach((item) => {
-        if (this.bot.tileService == null) return;
-        tilesInRow = this.bot.tileService
-          .getTilesInRow(
-            item,
-            index,
-            this.powerMeteorite,
-            (t) => t.playerModel == playerModel
-          )
-          .filter((t) => {
-            if (t instanceof StdTileController) {
-              return !t.shieldIsActivated;
-            } else {
-              return true;
-            }
-          });
-      });
+      if (this.powerMeteorite > 0) {
+        tilesInCol.forEach((item) => {
+          if (this.bot.tileService == null) return;
+          tilesInRow = this.bot.tileService
+            .getTilesInRow(
+              item,
+              index,
+              this.powerMeteorite,
+              (t) => t.playerModel == playerModel
+            )
+            .filter((t) => {
+              if (t instanceof StdTileController) {
+                return !t.shieldIsActivated;
+              } else {
+                return true;
+              }
+            });
+        });
+      }
 
       // const tiles = tilesInCol.concat(tilesInRow);
       const coefRow = tilesInRow.length / 10 + 1;
 
-      const coef = Math.exp(-1 * ((tilesInCol.length - 4) / 5) ** 2) * coefRow;
+      const coef =
+        Math.exp(
+          -1 *
+            ((tilesInCol.length - this.powerCoef) / (this.powerCoef + 1)) ** 2
+        ) * coefRow;
 
       if (tilesInCol.length > 0) {
         const tileToInvoke = tilesInCol[Math.ceil((tilesInCol.length - 1) / 2)];
