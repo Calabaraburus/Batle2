@@ -9,7 +9,7 @@ import { BodyExchangeCardSubehaviour } from "./BodyExchangeCardSubehaviour";
 import { CounterattackCardSubehaviour } from "./CounterattackCardSubehaviour";
 import { FirewallCardSubehaviour } from "./FirewallCardSubehaviour";
 import { FirewallLowCardSubehaviour } from "./FirewallLowCardSubehaviour";
-import { FirewallMiddleCardSubehaviour } from "./FirewallMiddleCardSubehaviour copy";
+import { FirewallMiddleCardSubehaviour } from "./FirewallMiddleCardSubehaviour";
 import { ISubBehaviour } from "./ISubBehaviour";
 import { LightningCardSubehaviour } from "./LightningCardSubehaviour";
 import { LightningLowCardSubehaviour } from "./LightningLowCardSubehaviour";
