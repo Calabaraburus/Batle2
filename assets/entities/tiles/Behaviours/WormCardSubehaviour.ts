@@ -10,7 +10,7 @@ import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 
 export class WormCardSubehaviour extends CardsSubBehaviour {
-  protected maxCount = 8;
+  protected maxCount = 7;
   private _tilesToDestroy: TileController[] = [];
   private _cache: ObjectsCache | null;
   // protected powerCard = 2;

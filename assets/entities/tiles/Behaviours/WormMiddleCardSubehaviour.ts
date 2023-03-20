@@ -1,7 +1,7 @@
 import { WormCardSubehaviour } from "./WormCardSubehaviour";
 
 export class WormMiddleCardSubehaviour extends WormCardSubehaviour {
-  maxCount = 6;
+  maxCount = 5;
 
   prepare(): boolean {
     super.prepare();
