@@ -9,7 +9,7 @@ import { BodyExchangeCardSubehaviour } from "./BodyExchangeCardSubehaviour";
 import { CounterattackCardSubehaviour } from "./CounterattackCardSubehaviour";
 import { FirewallCardSubehaviour } from "./FirewallCardSubehaviour";
 import { FirewallLowCardSubehaviour } from "./FirewallLowCardSubehaviour";
-import { FirewallMiddleCardSubehaviour } from "./FirewallMiddleCardSubehaviour copy";
+import { FirewallMiddleCardSubehaviour } from "./FirewallMiddleCardSubehaviour";
 import { ISubBehaviour } from "./ISubBehaviour";
 import { LightningCardSubehaviour } from "./LightningCardSubehaviour";
 import { LightningLowCardSubehaviour } from "./LightningLowCardSubehaviour";
@@ -118,7 +118,7 @@ export class CardsBehaviour extends GameBehaviour {
     // RecruitEnemy card
     this._cardsRunDict.set("recruit", new RecruitEnemyCardSubehaviour(this));
 
-    // RecruitEnemy card
+    // Push card
     this._cardsRunDict.set("push", new PushCardSubehaviour(this));
   }
 

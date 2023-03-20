@@ -9,6 +9,7 @@ export class RecruitEnemyCardSubehaviour extends CardsSubBehaviour {
   private countForEachSide = 1;
 
   prepare(): boolean {
+    let rnd_const = 0;
     const targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
     const matrix = this.parent.field?.fieldMatrix;
@@ -42,9 +43,9 @@ export class RecruitEnemyCardSubehaviour extends CardsSubBehaviour {
         tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
       ) {
         const rnd = Math.floor(Math.random() * 2);
-        if (rnd == 0) {
+        if (rnd == 0 && rnd_const == 0) {
           this._tilesToRecruit.push(tile);
-        } else return true;
+        } else rnd_const = 1;
       }
     });
 
