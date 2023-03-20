@@ -32,6 +32,9 @@ import { BodyExchangeCardBotAnalizator } from "./BodyExchangeCardBotAnalizator";
 import { MeteoriteCardBotAnalizator } from "./MeteoriteCardBotAnalizator";
 import { MeteoriteLowCardBotAnalizator } from "./MeteoriteLowCardBotAnalizator";
 import { MeteoriteMiddleCardBotAnalizator } from "./MeteoriteMiddleCardBotAnalizator";
+import { WormCardBotAnalizator } from "./WormCardBotAnalizator";
+import { WormLowCardBotAnalizator } from "./WormLowCardBotAnalizator";
+import { WormMiddleCardBotAnalizator } from "./WormMiddleCardBotAnalizator";
 const { ccclass, property } = _decorator;
 
 @ccclass("Bot")
@@ -56,9 +59,16 @@ export class Bot extends Service implements IBot {
     new LightningCardBotAnalizator(this),
     new FirewallCardBotAnalizator(this),
     new BodyExchangeCardBotAnalizator(this),
+
+    // Meteorite cards
     new MeteoriteCardBotAnalizator(this),
     new MeteoriteLowCardBotAnalizator(this),
     new MeteoriteMiddleCardBotAnalizator(this),
+
+    // Worm cards
+    new WormCardBotAnalizator(this),
+    new WormLowCardBotAnalizator(this),
+    new WormMiddleCardBotAnalizator(this),
   ];
 
   public get dataService() {
