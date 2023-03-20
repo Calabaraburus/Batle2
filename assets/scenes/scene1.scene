@@ -1167,7 +1167,7 @@
     "__prefab": null,
     "tileName": "totem",
     "sprite": {
-      "__uuid__": "55706a95-4406-402c-91a4-7acf9857102a@f9941",
+      "__uuid__": "90863228-6cf7-483b-b360-0a64863d767c@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "starColor": {
@@ -2089,11 +2089,11 @@
     "mnemonic": "totem",
     "priceToActivate": 1,
     "sprite": {
-      "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
+      "__uuid__": "9730e565-e1f7-4f38-8833-795d7b5c8ca4@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": {
-      "__uuid__": "11dd9bfb-7466-41e8-9a0b-f54c9415b30d@f9941",
+      "__uuid__": "8e5fee5c-9144-4e02-a164-f529cbe4887f@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "activateType": "protect",
@@ -2188,7 +2188,7 @@
         "__id__": 69
       },
       {
-        "__id__": 71
+        "__id__": 73
       },
       {
         "__id__": 75
@@ -9711,7 +9711,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 540,
-      "y": 1200,
+      "y": 1199.9999999999998,
       "z": 0
     },
     "_lrot": {
@@ -9748,7 +9748,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 1080,
-      "height": 2400
+      "height": 2399.9999999999995
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
