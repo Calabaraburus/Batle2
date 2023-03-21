@@ -35,6 +35,7 @@ import { MeteoriteMiddleCardBotAnalizator } from "./MeteoriteMiddleCardBotAnaliz
 import { WormCardBotAnalizator } from "./WormCardBotAnalizator";
 import { WormLowCardBotAnalizator } from "./WormLowCardBotAnalizator";
 import { WormMiddleCardBotAnalizator } from "./WormMiddleCardBotAnalizator";
+import { CatapultCardBotAnalizator } from "./CatapultCardBotAnalizator";
 const { ccclass, property } = _decorator;
 
 @ccclass("Bot")
@@ -69,6 +70,9 @@ export class Bot extends Service implements IBot {
     new WormCardBotAnalizator(this),
     new WormLowCardBotAnalizator(this),
     new WormMiddleCardBotAnalizator(this),
+
+    //Catapult card
+    new CatapultCardBotAnalizator(this),
   ];
 
   public get dataService() {
