@@ -35,7 +35,7 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
     }
 
     this._cache = ObjectsCache.instance;
-    this.effectDurationValue = 1.8;
+    this.effectDurationValue = 0.5;
     this._tilesToTransform = [];
 
     const myTiles = this.parent.field?.fieldMatrix.filter((tile) => {
@@ -101,34 +101,35 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
   }
 
   effect(): boolean {
-    //console.log("[cards][behaviour][totem] effect");
-    //const timeObj = { time: 0 };
-    //const animator = tween(timeObj);
-    //const effects: CardEffect[] = [];
-    //this._tilesToDestroy.forEach((t, i) => {
-    //  const time = 0.1;
-    //  animator.delay(i == 0 ? 0 : time).call(() => {
-    //    const effect =
-    //      this._cache?.getObjectByPrefabName<CardEffect>("firewallEffect");
-    //    if (effect == null) {
-    //      return;
-    //    }
-    //
-    //    effect.node.position = t.node.position;
-    //    effect.node.parent = this.parent.effectsNode;
-    //    effect.play();
-    //
-    //    effects.push(effect);
-    //  });
-    //});
-    //
-    //animator
-    //  .delay(0.5)
-    //  .call(() => effects.forEach((e) => e.stopEmmit()))
-    //  .delay(5)
-    //  .call(() => effects.forEach((e) => e.cacheDestroy()));
-    //
-    //animator.start();
+    this.parent.debug?.log("[totem_card_sub] start effect.");
+
+    const effects: CardEffect[] = [];
+
+    this._tilesToTransform.forEach((element) => {
+      const effect =
+        this._cache?.getObjectByPrefabName<CardEffect>("explosion2Effect");
+
+      if (effect == null) {
+        return false;
+      }
+
+      effect.node.position = element.node.position;
+      effect.node.parent = this.parent.effectsNode;
+      effect.play();
+
+      effects.push(effect);
+    });
+
+    const animator = tween(this);
+    animator.delay(1).call(() =>
+      effects.forEach((ef) => {
+        ef.cacheDestroy();
+      })
+    );
+
+    animator.start();
+
+    this.parent.debug?.log("[totem_card_sub] End with true.");
     return true;
   }
 }
