@@ -31,14 +31,6 @@ export class TotemTileController extends TileController implements IAttackable {
     this.updateSprite();
   }
 
-  updateSprite() {
-    this._curSprite = this.getComponent(Sprite);
-
-    if (this._curSprite != null) {
-      this._curSprite.spriteFrame = this.tileModel.sprite;
-    }
-  }
-
   public get state(): TileState {
     return this._state;
   }
@@ -49,8 +41,6 @@ export class TotemTileController extends TileController implements IAttackable {
     this._attacksCountToDestroy = 1;
 
     this._attackedNumber = this.attacksCountToDestroy;
-
-    this.updateSprite();
   }
 
   public cacheCreate(): void {
