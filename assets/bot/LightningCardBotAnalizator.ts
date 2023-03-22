@@ -1,8 +1,9 @@
 import { random } from "cc";
 import { AnalizedData } from "../entities/field/AnalizedData";
 import { BotAnalizator } from "./BotAnalizator";
+import { CardAnalizator } from "./CardAnalizator";
 
-export class LightningCardBotAnalizator extends BotAnalizator {
+export class LightningCardBotAnalizator extends CardAnalizator {
   private readonly procToInvoke = 0.7;
 
   analize(data: AnalizedData): number {

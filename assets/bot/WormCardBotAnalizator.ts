@@ -2,14 +2,14 @@ import { random } from "cc";
 import { TileController } from "../entities/tiles/TileController";
 import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
 import { BotAnalizator } from "./BotAnalizator";
+import { CardAnalizator } from "./CardAnalizator";
 
-export class WormCardBotAnalizator extends BotAnalizator {
+export class WormCardBotAnalizator extends CardAnalizator {
   tileToInvoke: TileController | null;
   procentToInvoke = 0.8;
-  protected bonusName = "worm";
 
   decide() {
-    const card = this.getBonus(this.bonusName);
+    const card = this.getBonus(this.cardMnemonic);
     if (card == null) return 0;
 
     card.active = true;
@@ -24,7 +24,7 @@ export class WormCardBotAnalizator extends BotAnalizator {
     if (this.bot.tileService == null) return 0;
     if (this.bot.botModel == null) return 0;
     this.weight = 0;
-    const card = this.getBonus(this.bonusName);
+    const card = this.getBonus(this.cardMnemonic);
     if (card == null) return 0;
 
     if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
