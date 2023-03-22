@@ -35,6 +35,7 @@ import { MeteoriteMiddleCardBotAnalizator } from "./MeteoriteMiddleCardBotAnaliz
 import { WormCardBotAnalizator } from "./WormCardBotAnalizator";
 import { WormLowCardBotAnalizator } from "./WormLowCardBotAnalizator";
 import { WormMiddleCardBotAnalizator } from "./WormMiddleCardBotAnalizator";
+import { CardAnalizator } from "./CardAnalizator";
 const { ccclass, property } = _decorator;
 
 @ccclass("Bot")
@@ -54,21 +55,21 @@ export class Bot extends Service implements IBot {
     nextStep: new NextStepAttackTilesBotAnalizator(this),
   };
 
-  cardAnalizers: BotAnalizator[] = [
-    new ShieldCardBotAnalizator(this),
-    new LightningCardBotAnalizator(this),
-    new FirewallCardBotAnalizator(this),
-    new BodyExchangeCardBotAnalizator(this),
+  cardAnalizers: CardAnalizator[] = [
+    new ShieldCardBotAnalizator("shield", this),
+    new LightningCardBotAnalizator("lightning", this),
+    new FirewallCardBotAnalizator("firewall", this),
+    new BodyExchangeCardBotAnalizator("bodyExchange", this),
 
     // Meteorite cards
-    new MeteoriteCardBotAnalizator(this),
-    new MeteoriteLowCardBotAnalizator(this),
-    new MeteoriteMiddleCardBotAnalizator(this),
+    new MeteoriteCardBotAnalizator("meteorite", this),
+    new MeteoriteLowCardBotAnalizator("meteoriteLow", this),
+    new MeteoriteMiddleCardBotAnalizator("meteoriteMiddle", this),
 
     // Worm cards
-    new WormCardBotAnalizator(this),
-    new WormLowCardBotAnalizator(this),
-    new WormMiddleCardBotAnalizator(this),
+    new WormCardBotAnalizator("worm", this),
+    new WormLowCardBotAnalizator("wormLow", this),
+    new WormMiddleCardBotAnalizator("wormMiddle", this),
   ];
 
   public get dataService() {
@@ -146,7 +147,14 @@ export class Bot extends Service implements IBot {
 
     console.log("[Bot] analize cards");
 
-    this.cardAnalizers.forEach((a) => analizersQueue.push(a));
+    this.cardAnalizers.forEach((cardAnlizator) => {
+      if (
+        this._botModel?.bonuses.find(
+          (b) => b.mnemonic == cardAnlizator.cardMnemonic
+        )
+      )
+        analizersQueue.push(cardAnlizator);
+    });
 
     const childTween = tween(twobj)
       .call(() => {
