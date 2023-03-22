@@ -35,11 +35,14 @@ import { MeteoriteMiddleCardBotAnalizator } from "./MeteoriteMiddleCardBotAnaliz
 import { WormCardBotAnalizator } from "./WormCardBotAnalizator";
 import { WormLowCardBotAnalizator } from "./WormLowCardBotAnalizator";
 import { WormMiddleCardBotAnalizator } from "./WormMiddleCardBotAnalizator";
+<<<<<<< HEAD
+import { CardAnalizator } from "./CardAnalizator";
+=======
 import { CatapultCardBotAnalizator } from "./CatapultCardBotAnalizator";
 import { ShamanCardBotAnalizator } from "./ShamanCardBotAnalizator";
 import { AssassinCardBotAnalizator } from "./AssassinCardBotAnalizator";
 import { PushCardBotAnalizator } from "./PushCardBotAnalizator";
-import { CardAnalizator } from "./CardAnalizator";
+>>>>>>> ee80d6ccc17d0daaaaa6c1da0669a97d5a2be712
 const { ccclass, property } = _decorator;
 
 @ccclass("Bot")
@@ -71,21 +74,27 @@ export class Bot extends Service implements IBot {
     new MeteoriteMiddleCardBotAnalizator("meteoriteMiddle", this),
 
     // Worm cards
+<<<<<<< HEAD
     new WormCardBotAnalizator("worm", this),
     new WormLowCardBotAnalizator("wormLow", this),
     new WormMiddleCardBotAnalizator("wormMiddle", this),
+=======
+    new WormCardBotAnalizator(this),
+    new WormLowCardBotAnalizator(this),
+    new WormMiddleCardBotAnalizator(this),
 
     //Catapult card
-    new CatapultCardBotAnalizator("catapult", this),
+    new CatapultCardBotAnalizator(this),
 
     //Shaman card
-    new ShamanCardBotAnalizator("shaman", this),
+    new ShamanCardBotAnalizator(this),
 
     //Assassin card
-    new AssassinCardBotAnalizator("asassin", this),
+    new AssassinCardBotAnalizator(this),
 
     //Push card
-    new PushCardBotAnalizator("push", this),
+    new PushCardBotAnalizator(this),
+>>>>>>> ee80d6ccc17d0daaaaa6c1da0669a97d5a2be712
   ];
 
   public get dataService() {

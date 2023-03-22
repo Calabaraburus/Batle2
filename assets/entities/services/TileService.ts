@@ -1,5 +1,6 @@
 import { _decorator } from "cc";
 import { PlayerModel } from "../../models/PlayerModel";
+import { ReadonlyMatrix2D } from "../field/ReadonlyMatrix2D";
 import { TileController } from "../tiles/TileController";
 import { StdTileController } from "../tiles/UsualTile/StdTileController";
 import { DataService } from "./DataService";
@@ -9,6 +10,7 @@ const { ccclass } = _decorator;
 @ccclass("TileService")
 export class TileService extends Service {
   _dataService: DataService | null;
+  // matrix: ReadonlyMatrix2D<TileController> | undefined;
 
   start() {
     this._dataService = this.getService(DataService);
@@ -67,6 +69,70 @@ export class TileService extends Service {
     });
 
     return tiles;
+  }
+
+  public getDifferentTiles(
+    targetTile: TileController,
+    distanceMatrix: number[][],
+    filtFunc: (val: TileController) => boolean
+  ) {
+    let tilesWeight = 0;
+    const matrix = this._dataService?.field?.fieldMatrix;
+    if (matrix == undefined) return;
+    distanceMatrix.forEach((coordinates) => {
+      const tile = matrix.get(
+        targetTile.row + coordinates[1],
+        targetTile.col + coordinates[0]
+      );
+      if (tile) {
+        if (filtFunc(tile)) {
+          const w = this.checkCoordinates(
+            tile,
+            distanceMatrix,
+            targetTile,
+            filtFunc
+          );
+          if (w == 3) {
+            tilesWeight = tilesWeight + 1;
+          }
+        } else if (!filtFunc(tile)) {
+          tilesWeight = tilesWeight + 1;
+        }
+      } else if (tile == undefined) {
+        tilesWeight = tilesWeight + 1;
+      }
+    });
+
+    return tilesWeight;
+  }
+
+  private checkCoordinates(
+    tile: TileController,
+    coordinates: number[][],
+    targetTile: TileController,
+    filtFunc: (val: TileController) => boolean
+  ) {
+    // weight
+    const matrix = this._dataService?.field?.fieldMatrix;
+    if (matrix == undefined) return;
+    let w = 0;
+    coordinates.forEach((coord) => {
+      const tileCheck = matrix.get(tile.row + coord[1], tile.col + coord[0]);
+      if (tileCheck) {
+        if (filtFunc(tileCheck)) {
+          if (tileCheck.tileModel.tileId != targetTile.tileModel.tileId) {
+            if (tile.tileModel.tileName != tileCheck?.tileModel.tileName) {
+              w = w + 1;
+            }
+          }
+        } else if (!filtFunc(tileCheck)) {
+          w = w + 1;
+        }
+      } else if (tileCheck == undefined) {
+        w = w + 1;
+      }
+    });
+    return w;
   }
 
   public getTilesByTag(tag: string): TileController[] {
