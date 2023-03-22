@@ -13,7 +13,13 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
     const targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
     const matrix = this.parent.field?.fieldMatrix;
-    const targetRow = 10;
+    let targetRow = 10;
+    if (
+      this._cardsService?.getCurrentPlayerModel ==
+      this._cardsService?._dataService?.botModel
+    ) {
+      targetRow = 1;
+    }
     if (matrix == null) return false;
 
     if (playerTag == null) return false;
