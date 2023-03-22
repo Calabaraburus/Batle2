@@ -14,7 +14,10 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
     const playerTag = this.parent.cardsService?.getPlayerTag();
     const matrix = this.parent.field?.fieldMatrix;
     let targetRow = 10;
-    if (this._cardsService?._dataService?.botModel) {
+    if (
+      this._cardsService?.getCurrentPlayerModel ==
+      this._cardsService?._dataService?.botModel
+    ) {
       targetRow = 1;
     }
     if (matrix == null) return false;
