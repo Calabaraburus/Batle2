@@ -52,6 +52,7 @@ export class CristalAppearanceBehaviour extends GameBehaviour {
 
   activateCondition(): boolean {
     if (this.gameManager?.changeGameState) return true;
+    return false;
   }
 
   singleRun(): void {
