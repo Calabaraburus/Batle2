@@ -135,6 +135,26 @@ export class TileService extends Service {
     return w;
   }
 
+  public getMatrixOfTiles(
+    currentTile: TileController,
+    targetCol: number,
+    filtFunc: (val: TileController) => boolean
+  ) {
+    const tilesMatrix: TileController[] = [];
+    const matrix = this._dataService?.field?.fieldMatrix;
+    if (matrix == undefined) return;
+    matrix.forEachCol(targetCol, (tile, rowId) => {
+      if (tile) {
+        if (filtFunc(tile)) {
+          if (currentTile.row + 1 >= rowId && currentTile.row - 1 <= rowId) {
+            tilesMatrix.push(tile);
+          }
+        }
+      }
+    });
+    return tilesMatrix;
+  }
+
   public getTilesByTag(tag: string): TileController[] {
     const result = this._dataService?.field?.fieldMatrix.filter((t) =>
       t.tileModel.containsTag(tag)
