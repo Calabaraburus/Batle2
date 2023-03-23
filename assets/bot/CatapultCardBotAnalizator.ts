@@ -2,8 +2,9 @@ import { random } from "cc";
 import { TileController } from "../entities/tiles/TileController";
 import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
 import { BotAnalizator } from "./BotAnalizator";
+import { CardAnalizator } from "./CardAnalizator";
 
-export class CatapultCardBotAnalizator extends BotAnalizator {
+export class CatapultCardBotAnalizator extends CardAnalizator {
   tileToInvoke: TileController | null;
   procentToInvoke = 0.8;
   protected bonusName = "catapult";
