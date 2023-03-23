@@ -40,11 +40,9 @@ import { ShamanCardBotAnalizator } from "./ShamanCardBotAnalizator";
 import { AssassinCardBotAnalizator } from "./AssassinCardBotAnalizator";
 import { PushCardBotAnalizator } from "./PushCardBotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
+import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
+import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
 const { ccclass, property } = _decorator;
-
-interface BotAnalizatorGroup {
-  [key: string]: BotAnalizator;
-}
 
 @ccclass("Bot")
 export class Bot extends Service implements IBot {
@@ -57,39 +55,39 @@ export class Bot extends Service implements IBot {
   private _cardService: CardService | null;
   private _gameManager: GameManager | null;
 
-  private tileAnalisers: BotAnalizatorGroup = {
+  tileAnalisers = {
     largestGroup: new MaxTilesAttackBotAnalizator(this),
     protect: new ProtectionTilesAttackBotAnalizator(this),
     nextStep: new NextStepAttackTilesBotAnalizator(this),
   };
 
-  cardAnalizers: CardAnalizator[] = [
-    new ShieldCardBotAnalizator("shield", this),
-    new LightningCardBotAnalizator("lightning", this),
-    new FirewallCardBotAnalizator("firewall", this),
-    new BodyExchangeCardBotAnalizator("bodyExchange", this),
+  cardAnalizers: BotAnalizator[] = [
+    new ShieldCardBotAnalizator(this),
+    new LightningCardBotAnalizator(this),
+    new FirewallCardBotAnalizator(this),
+    new BodyExchangeCardBotAnalizator(this),
 
     // Meteorite cards
-    new MeteoriteCardBotAnalizator("meteorite", this),
-    new MeteoriteLowCardBotAnalizator("meteoriteLow", this),
-    new MeteoriteMiddleCardBotAnalizator("meteoriteMiddle", this),
+    new MeteoriteCardBotAnalizator(this),
+    new MeteoriteLowCardBotAnalizator(this),
+    new MeteoriteMiddleCardBotAnalizator(this),
 
     // Worm cards
-    new WormCardBotAnalizator("worm", this),
-    new WormLowCardBotAnalizator("wormLow", this),
-    new WormMiddleCardBotAnalizator("wormMiddle", this),
+    new WormCardBotAnalizator(this),
+    new WormLowCardBotAnalizator(this),
+    new WormMiddleCardBotAnalizator(this),
 
     //Catapult card
-    new CatapultCardBotAnalizator("catapult", this),
+    new CatapultCardBotAnalizator(this),
 
     //Shaman card
-    new ShamanCardBotAnalizator("shaman", this),
+    new ShamanCardBotAnalizator(this),
 
     //Assassin card
-    new AssassinCardBotAnalizator("asassin", this),
+    new AssassinCardBotAnalizator(this),
 
     //Push card
-    new PushCardBotAnalizator("push", this),
+    new PushCardBotAnalizator(this),
   ];
 
   public get dataService() {
@@ -167,14 +165,7 @@ export class Bot extends Service implements IBot {
 
     console.log("[Bot] analize cards");
 
-    this.cardAnalizers.forEach((cardAnlizator) => {
-      if (
-        this._botModel?.bonuses.find(
-          (b) => b.mnemonic == cardAnlizator.cardMnemonic
-        )
-      )
-        analizersQueue.push(cardAnlizator);
-    });
+    this.cardAnalizers.forEach((a) => analizersQueue.push(a));
 
     const childTween = tween(twobj)
       .call(() => {

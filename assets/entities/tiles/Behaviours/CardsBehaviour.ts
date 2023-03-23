@@ -31,6 +31,7 @@ import { CatapultCardSubehaviour } from "./СatapultCardSubehaviour";
 import { AssassinCardSubehaviour } from "./AssassinCardSubehaviour";
 import { ShamanCardSubehaviour } from "./ShamanCardSubehaviour";
 import { EffectsService } from "../../services/EffectsService";
+import { ManeuverCardSubehaviour } from "./ManeuverCardSubehaviour";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
@@ -108,6 +109,9 @@ export class CardsBehaviour extends GameBehaviour {
 
     // Panic card
     this._cardsRunDict.set("panic", new PanicCardSubehaviour(this));
+
+    // Maneuver card
+    this._cardsRunDict.set("maneuver", new ManeuverCardSubehaviour(this));
 
     // Teleport card
     this._cardsRunDict.set("teleport", new TeleportCardSubehaviour(this));
