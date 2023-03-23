@@ -65,7 +65,7 @@
         "__id__": 65
       },
       {
-        "__id__": 83
+        "__id__": 79
       }
     ],
     "_active": true,
@@ -1805,18 +1805,12 @@
       },
       {
         "__id__": 76
-      },
-      {
-        "__id__": 78
-      },
-      {
-        "__id__": 80
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 82
+        "__id__": 78
       }
     ],
     "_prefab": null,
@@ -2175,136 +2169,6 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "MeteoriteBonus",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 65
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 77
-      }
-    ],
-    "_prefab": null,
-    "_lpos": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_lrot": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_lscale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_layer": 1073741824,
-    "_euler": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": "c4ZcK50x9Dr7Wgn+fQw+Ep"
-  },
-  {
-    "__type__": "5b0dbQutWdGy6MCu08vCAc2",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 76
-    },
-    "_enabled": true,
-    "__prefab": null,
-    "mnemonic": "meteorite",
-    "priceToActivate": 1,
-    "sprite": {
-      "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
-    "unactiveSprite": {
-      "__uuid__": "e8ccf865-5d60-432d-9d1d-19d0f99801c9@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
-    "activateType": "close_range",
-    "_id": "a4W1YhyhlOK7diVTHIXw2S"
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "MeteoriteMiddleBonus",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 65
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 79
-      }
-    ],
-    "_prefab": null,
-    "_lpos": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_lrot": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_lscale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_layer": 1073741824,
-    "_euler": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": "9bhgBfSi5FQbOgpCW6c1ng"
-  },
-  {
-    "__type__": "5b0dbQutWdGy6MCu08vCAc2",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 78
-    },
-    "_enabled": true,
-    "__prefab": null,
-    "mnemonic": "meteoriteMiddle",
-    "priceToActivate": 3,
-    "sprite": {
-      "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
-    "unactiveSprite": {
-      "__uuid__": "e8ccf865-5d60-432d-9d1d-19d0f99801c9@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
-    "activateType": "close_range",
-    "_id": "3e4h7Xmb1CQrIsdEA8R1x6"
-  },
-  {
-    "__type__": "cc.Node",
     "_name": "RecruitBonus",
     "_objFlags": 0,
     "_parent": {
@@ -2314,7 +2178,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 81
+        "__id__": 77
       }
     ],
     "_prefab": null,
@@ -2351,7 +2215,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 80
+      "__id__": 76
     },
     "_enabled": true,
     "__prefab": null,
@@ -2384,7 +2248,6 @@
     "manaCurrent": 0,
     "manaIncreaseCoeficient": 1,
     "power": 5,
-    "heroSprite": null,
     "bonuses": [
       {
         "__id__": 77
@@ -2400,6 +2263,12 @@
       "__id__": 2
     },
     "_children": [
+      {
+        "__id__": 80
+      },
+      {
+        "__id__": 82
+      },
       {
         "__id__": 84
       },
@@ -2459,13 +2328,13 @@
     "_name": "FirewallBonus",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 83
+      "__id__": 79
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 85
+        "__id__": 81
       }
     ],
     "_prefab": null,
@@ -2502,7 +2371,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 84
+      "__id__": 80
     },
     "_enabled": true,
     "__prefab": null,
@@ -2524,13 +2393,13 @@
     "_name": "LightningBonus",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 83
+      "__id__": 79
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 87
+        "__id__": 83
       }
     ],
     "_prefab": null,
@@ -2567,7 +2436,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 86
+      "__id__": 82
     },
     "_enabled": true,
     "__prefab": null,
@@ -2589,13 +2458,13 @@
     "_name": "ShieldBonus",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 83
+      "__id__": 79
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 89
+        "__id__": 85
       }
     ],
     "_prefab": null,
@@ -2632,7 +2501,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 88
+      "__id__": 84
     },
     "_enabled": true,
     "__prefab": null,
@@ -2654,13 +2523,13 @@
     "_name": "MeteoriteLowBonus",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 83
+      "__id__": 79
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 91
+        "__id__": 87
       }
     ],
     "_prefab": null,
@@ -2697,7 +2566,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 90
+      "__id__": 86
     },
     "_enabled": true,
     "__prefab": null,
@@ -2719,13 +2588,13 @@
     "_name": "MeteoriteMiddleBonus",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 83
+      "__id__": 79
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 93
+        "__id__": 89
       }
     ],
     "_prefab": null,
@@ -2762,7 +2631,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 92
+      "__id__": 88
     },
     "_enabled": true,
     "__prefab": null,
@@ -2784,13 +2653,13 @@
     "_name": "MeteoriteBonus",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 83
+      "__id__": 79
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 95
+        "__id__": 91
       }
     ],
     "_prefab": null,
@@ -2827,7 +2696,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 94
+      "__id__": 90
     },
     "_enabled": true,
     "__prefab": null,
@@ -2849,13 +2718,13 @@
     "_name": "WormBonus",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 83
+      "__id__": 79
     },
     "_children": [],
     "_active": true,
     "_components": [
       {
-        "__id__": 97
+        "__id__": 93
       }
     ],
     "_prefab": null,
@@ -2892,11 +2761,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 96
+      "__id__": 92
     },
     "_enabled": true,
     "__prefab": null,
-    "mnemonic": "worm",
+    "mnemonic": "wormMiddle",
     "priceToActivate": 1,
     "sprite": {
       "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
@@ -2979,7 +2848,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 83
+      "__id__": 79
     },
     "_enabled": true,
     "__prefab": null,
@@ -3076,7 +2945,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 540,
-      "y": 1200.0000000000002,
+      "y": 1199.9999999999998,
       "z": 0
     },
     "_lrot": {
@@ -3157,7 +3026,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 1199.9999999999998,
+    "_orthoHeight": 1200,
     "_near": 0,
     "_far": 2000,
     "_color": {
@@ -3710,8 +3579,7 @@
   },
   {
     "__type__": "TileContollerListItem",
-    "name": "background",
-    "prefabTypeName": ""
+    "name": "background"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3734,8 +3602,7 @@
   },
   {
     "__type__": "TileContollerListItem",
-    "name": "background",
-    "prefabTypeName": ""
+    "name": "background"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3783,7 +3650,8 @@
     },
     "propertyPath": [
       "tilesArea"
-    ]
+    ],
+    "value": null
   },
   {
     "__type__": "cc.TargetInfo",
@@ -3821,7 +3689,7 @@
     ],
     "value": {
       "__type__": "cc.Vec2",
-      "x": 0.501,
+      "x": 0.5,
       "y": 0.5
     }
   },
@@ -3852,8 +3720,7 @@
   },
   {
     "__type__": "TileContollerListItem",
-    "name": "background",
-    "prefabTypeName": ""
+    "name": "background"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3942,13 +3809,8 @@
     },
     "propertyPath": [
       "tilesBckgArea"
-    ]
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "fa43eWwVVIebyR1Bi6UTGO"
-    ]
+    ],
+    "value": null
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -3957,13 +3819,8 @@
     },
     "propertyPath": [
       "tileCreator"
-    ]
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "fa43eWwVVIebyR1Bi6UTGO"
-    ]
+    ],
+    "value": null
   },
   {
     "__type__": "cc.TargetInfo",
@@ -8288,7 +8145,7 @@
     "_enabled": true,
     "__prefab": null,
     "playerModel": {
-      "__id__": 82
+      "__id__": 78
     },
     "cardField": {
       "__id__": 272
@@ -9773,7 +9630,7 @@
     "_left": 0,
     "_right": 0,
     "_top": -2.2737367544323206e-13,
-    "_bottom": 2.2737367544323206e-13,
+    "_bottom": -2.2737367544323206e-13,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
@@ -9888,7 +9745,7 @@
     },
     "fieldController": null,
     "playerModel": {
-      "__id__": 82
+      "__id__": 78
     },
     "botModel": {
       "__id__": 96
@@ -10039,10 +9896,6 @@
       },
       {
         "__uuid__": "b9ee88a2-54a7-4d4f-a91f-5bee96226b64",
-        "__expectedType__": "cc.Prefab"
-      },
-      {
-        "__uuid__": "dfab9f2e-4ef4-4825-89a8-1d453cc06ca5",
         "__expectedType__": "cc.Prefab"
       }
     ],
@@ -10425,7 +10278,7 @@
     },
     "sourceInfo": null,
     "propertyPath": [
-      "fieldController"
+      "field"
     ],
     "target": {
       "__id__": 107
@@ -10447,7 +10300,7 @@
     },
     "sourceInfo": null,
     "propertyPath": [
-      "field"
+      "fieldController"
     ],
     "target": {
       "__id__": 107
