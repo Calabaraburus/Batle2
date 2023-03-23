@@ -1,4 +1,5 @@
 import { random } from "cc";
+import { AnalizedData } from "../entities/field/AnalizedData";
 import { BotAnalizator } from "./BotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
 
