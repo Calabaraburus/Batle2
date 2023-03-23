@@ -18,7 +18,13 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
-    const motionForce = 8;
+    let motionForce = 8;
+    if (
+      this._cardsService?.getCurrentPlayerModel() ==
+      this._cardsService?._dataService?.botModel
+    ) {
+      motionForce = 3;
+    }
     const matrix = this.parent.field?.fieldMatrix;
     if (matrix == null) return false;
 

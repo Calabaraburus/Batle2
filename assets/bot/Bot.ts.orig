@@ -35,15 +35,21 @@ import { MeteoriteMiddleCardBotAnalizator } from "./MeteoriteMiddleCardBotAnaliz
 import { WormCardBotAnalizator } from "./WormCardBotAnalizator";
 import { WormLowCardBotAnalizator } from "./WormLowCardBotAnalizator";
 import { WormMiddleCardBotAnalizator } from "./WormMiddleCardBotAnalizator";
-<<<<<<< HEAD
-import { CardAnalizator } from "./CardAnalizator";
-=======
 import { CatapultCardBotAnalizator } from "./CatapultCardBotAnalizator";
 import { ShamanCardBotAnalizator } from "./ShamanCardBotAnalizator";
 import { AssassinCardBotAnalizator } from "./AssassinCardBotAnalizator";
 import { PushCardBotAnalizator } from "./PushCardBotAnalizator";
->>>>>>> ee80d6ccc17d0daaaaa6c1da0669a97d5a2be712
+<<<<<<< HEAD
+import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
+import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
+=======
+import { CardAnalizator } from "./CardAnalizator";
+>>>>>>> 855e3e95a6c513cab8bec9a20a3a8fe446a47ace
 const { ccclass, property } = _decorator;
+
+interface BotAnalizatorGroup {
+  [key: string]: BotAnalizator;
+}
 
 @ccclass("Bot")
 export class Bot extends Service implements IBot {
@@ -56,7 +62,7 @@ export class Bot extends Service implements IBot {
   private _cardService: CardService | null;
   private _gameManager: GameManager | null;
 
-  tileAnalisers = {
+  private tileAnalisers: BotAnalizatorGroup = {
     largestGroup: new MaxTilesAttackBotAnalizator(this),
     protect: new ProtectionTilesAttackBotAnalizator(this),
     nextStep: new NextStepAttackTilesBotAnalizator(this),
@@ -74,27 +80,31 @@ export class Bot extends Service implements IBot {
     new MeteoriteMiddleCardBotAnalizator("meteoriteMiddle", this),
 
     // Worm cards
-<<<<<<< HEAD
     new WormCardBotAnalizator("worm", this),
     new WormLowCardBotAnalizator("wormLow", this),
     new WormMiddleCardBotAnalizator("wormMiddle", this),
-=======
-    new WormCardBotAnalizator(this),
-    new WormLowCardBotAnalizator(this),
-    new WormMiddleCardBotAnalizator(this),
 
     //Catapult card
-    new CatapultCardBotAnalizator(this),
+    new CatapultCardBotAnalizator("catapult", this),
 
     //Shaman card
-    new ShamanCardBotAnalizator(this),
+    new ShamanCardBotAnalizator("shaman", this),
 
     //Assassin card
-    new AssassinCardBotAnalizator(this),
+    new AssassinCardBotAnalizator("asassin", this),
 
     //Push card
+<<<<<<< HEAD
     new PushCardBotAnalizator(this),
->>>>>>> ee80d6ccc17d0daaaaa6c1da0669a97d5a2be712
+
+    //Maneuver card
+    new ManeuverCardBotAnalizator(this),
+
+    //Panic card
+    new PanicCardBotAnalizator(this),
+=======
+    new PushCardBotAnalizator("push", this),
+>>>>>>> 855e3e95a6c513cab8bec9a20a3a8fe446a47ace
   ];
 
   public get dataService() {
