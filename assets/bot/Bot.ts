@@ -42,6 +42,7 @@ import { PushCardBotAnalizator } from "./PushCardBotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
 import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
 import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
+import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
 const { ccclass, property } = _decorator;
 
 @ccclass("Bot")
@@ -88,6 +89,9 @@ export class Bot extends Service implements IBot {
 
     //Push card
     new PushCardBotAnalizator(this),
+
+    //Counterattack card
+    new CounterattackCardBotAnalizator(this),
   ];
 
   public get dataService() {
