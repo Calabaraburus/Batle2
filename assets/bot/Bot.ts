@@ -42,6 +42,10 @@ import { PushCardBotAnalizator } from "./PushCardBotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
 const { ccclass, property } = _decorator;
 
+interface BotAnalizatorGroup {
+  [key: string]: BotAnalizator;
+}
+
 @ccclass("Bot")
 export class Bot extends Service implements IBot {
   @property({ type: FieldController })
@@ -53,7 +57,7 @@ export class Bot extends Service implements IBot {
   private _cardService: CardService | null;
   private _gameManager: GameManager | null;
 
-  tileAnalisers = {
+  private tileAnalisers: BotAnalizatorGroup = {
     largestGroup: new MaxTilesAttackBotAnalizator(this),
     protect: new ProtectionTilesAttackBotAnalizator(this),
     nextStep: new NextStepAttackTilesBotAnalizator(this),
