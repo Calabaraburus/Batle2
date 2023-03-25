@@ -45,6 +45,10 @@ import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
 import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
 const { ccclass, property } = _decorator;
 
+interface BotAnalizatorGroup {
+  [key: string]: BotAnalizator;
+}
+
 @ccclass("Bot")
 export class Bot extends Service implements IBot {
   @property({ type: FieldController })
@@ -56,42 +60,42 @@ export class Bot extends Service implements IBot {
   private _cardService: CardService | null;
   private _gameManager: GameManager | null;
 
-  tileAnalisers = {
+  private tileAnalisers: BotAnalizatorGroup = {
     largestGroup: new MaxTilesAttackBotAnalizator(this),
     protect: new ProtectionTilesAttackBotAnalizator(this),
     nextStep: new NextStepAttackTilesBotAnalizator(this),
   };
 
-  cardAnalizers: BotAnalizator[] = [
-    new ShieldCardBotAnalizator(this),
-    new LightningCardBotAnalizator(this),
-    new FirewallCardBotAnalizator(this),
-    new BodyExchangeCardBotAnalizator(this),
+  cardAnalizers: CardAnalizator[] = [
+    new ShieldCardBotAnalizator("shield", this),
+    new LightningCardBotAnalizator("lightning", this),
+    new FirewallCardBotAnalizator("firewall", this),
+    new BodyExchangeCardBotAnalizator("bodyexchange", this),
 
     // Meteorite cards
-    new MeteoriteCardBotAnalizator(this),
-    new MeteoriteLowCardBotAnalizator(this),
-    new MeteoriteMiddleCardBotAnalizator(this),
+    new MeteoriteCardBotAnalizator("meteorite", this),
+    new MeteoriteLowCardBotAnalizator("meteoriteLow", this),
+    new MeteoriteMiddleCardBotAnalizator("meteoriteModdle", this),
 
     // Worm cards
-    new WormCardBotAnalizator(this),
-    new WormLowCardBotAnalizator(this),
-    new WormMiddleCardBotAnalizator(this),
+    new WormCardBotAnalizator("worm", this),
+    new WormLowCardBotAnalizator("wormLow", this),
+    new WormMiddleCardBotAnalizator("wormMiddle", this),
 
     //Catapult card
-    new CatapultCardBotAnalizator(this),
+    new CatapultCardBotAnalizator("catapult", this),
 
     //Shaman card
-    new ShamanCardBotAnalizator(this),
+    new ShamanCardBotAnalizator("shaman", this),
 
     //Assassin card
-    new AssassinCardBotAnalizator(this),
+    new AssassinCardBotAnalizator("assasin", this),
 
     //Push card
-    new PushCardBotAnalizator(this),
+    new PushCardBotAnalizator("push", this),
 
     //Counterattack card
-    new CounterattackCardBotAnalizator(this),
+    new CounterattackCardBotAnalizator("c_attack", this),
   ];
 
   public get dataService() {
@@ -169,7 +173,11 @@ export class Bot extends Service implements IBot {
 
     console.log("[Bot] analize cards");
 
-    this.cardAnalizers.forEach((a) => analizersQueue.push(a));
+    this.cardAnalizers.forEach((a) => {
+      if (this.botModel?.bonuses.find((bm) => bm.mnemonic == a.cardMnemonic)) {
+        analizersQueue.push(a);
+      }
+    });
 
     const childTween = tween(twobj)
       .call(() => {
@@ -244,9 +252,4 @@ export class Bot extends Service implements IBot {
 
     return result;
   }
-}
-
-enum BotAnalizatorTypes {
-  Attacking = 0,
-  Protecting = 1,
 }

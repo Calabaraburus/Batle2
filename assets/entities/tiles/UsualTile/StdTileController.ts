@@ -17,6 +17,7 @@ import {
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
+import { CardService } from "../../services/CardService";
 const { ccclass, property } = _decorator;
 
 @ccclass("StdTileController")
@@ -31,6 +32,7 @@ export class StdTileController extends TileController {
 
   @property(Node)
   shieldSprite: Node;
+  private _cardService: CardService | null;
 
   get shieldIsActivated() {
     return this._shieldIsActivated;
@@ -38,6 +40,8 @@ export class StdTileController extends TileController {
 
   start() {
     super.start();
+
+    this._cardService = this.getService(CardService);
   }
 
   public get state(): TileState {
@@ -52,6 +56,15 @@ export class StdTileController extends TileController {
   public destroyTile() {
     this.createParticles();
     super.destroyTile();
+  }
+
+  turnEnds(): void {
+    if (
+      this._shieldIsActivated &&
+      this._cardService?.getOponentModel() == this.playerModel
+    ) {
+      this.activateShield(false);
+    }
   }
 
   private createParticles() {
