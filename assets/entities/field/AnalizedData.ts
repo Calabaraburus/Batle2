@@ -4,6 +4,7 @@
 //
 //  Author:Natalchishin Taras
 
+import { PlayerModel } from "../../models/PlayerModel";
 import { TileModel } from "../../models/TileModel";
 import { TileController } from "../tiles/TileController";
 
@@ -18,5 +19,6 @@ export class AnalizedData {
 
 export class TileTypeToConnectedTiles {
   tileModel: TileModel;
+  playerModel: PlayerModel | null;
   connectedTiles: Set<TileController>;
 }

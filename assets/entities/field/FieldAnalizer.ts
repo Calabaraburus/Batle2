@@ -56,6 +56,7 @@ export class FieldAnalizer {
         const tt = new TileTypeToConnectedTiles();
         tt.connectedTiles = set;
         tt.tileModel = tile.tileModel;
+        tt.playerModel = tile.playerModel;
         result.connectedTiles.push(tt);
       } else {
         result.individualTiles.push(tile);

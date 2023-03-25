@@ -1,35 +1,59 @@
 import { random } from "cc";
 import { AnalizedData } from "../entities/field/AnalizedData";
+import { TileController } from "../entities/tiles/TileController";
+import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
 import { BotAnalizator } from "./BotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
 
 export class ShieldCardBotAnalizator extends CardAnalizator {
   private readonly procToInvoke = 0.7;
+  tileToInvoke: TileController | null;
 
   analize(data: AnalizedData): number {
     console.log(`[Bot][ShieldCard] start analize`);
     this.weight = 0;
+
+    const tileService = this.bot.tileService;
+
     if (this.bot.botModel == null) return 0;
-    if (this.bot.tileService == null) return 0;
-    const card = this.getBonus("lightning");
+    if (tileService == null) return 0;
+    const card = this.getBonus("shield");
     if (card == null) return 0;
 
     if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
 
-    let closeColsCount = 0;
+    const mybotConnectedTiles = data.connectedTiles.filter((tpct) => {
+      if (tpct.playerModel == this.bot.botModel) {
+        if (tpct.connectedTiles.size > 0) {
+          let res = false;
+          const ct = tpct.connectedTiles.values().next().value;
 
-    for (let index = 0; index < this.bot.field.fieldMatrix.cols; index++) {
-      const tiles = this.bot.tileService.getTilesByTagInColumn(index, "enemy");
+          if (ct instanceof StdTileController) {
+            res = !ct.shieldIsActivated;
+          }
 
-      if (tiles.length <= 2) {
-        closeColsCount++;
+          return res;
+        }
       }
+      return false;
+    });
+
+    if (mybotConnectedTiles.length < 0) {
+      return 0;
     }
+
+    const sortedGroups = mybotConnectedTiles.sort(
+      (a, b) =>
+        -(a.connectedTiles.values.length - b.connectedTiles.values.length)
+    );
 
     const rnd = random();
     console.log(`[Bot][ShieldCard] decision value: ${rnd}`);
-    if (rnd < this.procToInvoke && closeColsCount >= 2) {
+    if (rnd < this.procToInvoke) {
       this.weight = 1;
+
+      this.tileToInvoke = sortedGroups[0].connectedTiles.values().next().value;
+
       return 1;
     }
 
@@ -41,7 +65,7 @@ export class ShieldCardBotAnalizator extends CardAnalizator {
 
     if (this.bot.tileService == null) return;
 
-    const card = this.getBonus("lightning");
+    const card = this.getBonus("shield");
     if (card == null) return;
 
     card.active = true;

@@ -65,7 +65,7 @@ export class Bot extends Service implements IBot {
     nextStep: new NextStepAttackTilesBotAnalizator(this),
   };
 
-  cardAnalizers: BotAnalizator[] = [
+  cardAnalizers: CardAnalizator[] = [
     new ShieldCardBotAnalizator("shield", this),
     new LightningCardBotAnalizator("lightning", this),
     new FirewallCardBotAnalizator("firewall", this),
@@ -169,7 +169,11 @@ export class Bot extends Service implements IBot {
 
     console.log("[Bot] analize cards");
 
-    this.cardAnalizers.forEach((a) => analizersQueue.push(a));
+    this.cardAnalizers.forEach((a) => {
+      if (this.botModel?.bonuses.find((bm) => bm.mnemonic == a.cardMnemonic)) {
+        analizersQueue.push(a);
+      }
+    });
 
     const childTween = tween(twobj)
       .call(() => {
