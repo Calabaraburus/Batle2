@@ -6,11 +6,11 @@ import { CardsSubBehaviour } from "./SubBehaviour";
 export class ShieldCardSubehaviour extends CardsSubBehaviour {
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
-    if (playerTag == null) return false;
+    const curPlayerModel = this.parent.cardsService?.getCurrentPlayerModel();
+    if (curPlayerModel == null) return false;
 
     if (targetTile instanceof StdTileController) {
-      if (targetTile.tileModel.containsTag(playerTag)) {
+      if (targetTile.playerModel == curPlayerModel) {
         return true;
       }
     } else {
