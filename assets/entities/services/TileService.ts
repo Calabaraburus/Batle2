@@ -23,9 +23,7 @@ export class TileService extends Service {
   }
 
   private prepareTileForNewTurn(tile: TileController) {
-    if (tile instanceof StdTileController) {
-      tile.activateShield(false);
-    }
+    return true;
   }
 
   public getTilesByTagInColumn(colId: number, tag: string) {

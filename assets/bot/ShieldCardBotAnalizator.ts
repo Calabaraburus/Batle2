@@ -17,7 +17,7 @@ export class ShieldCardBotAnalizator extends CardAnalizator {
 
     if (this.bot.botModel == null) return 0;
     if (tileService == null) return 0;
-    const card = this.getBonus("shield");
+    const card = this.getBonus(this.cardMnemonic);
     if (card == null) return 0;
 
     if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
@@ -43,8 +43,7 @@ export class ShieldCardBotAnalizator extends CardAnalizator {
     }
 
     const sortedGroups = mybotConnectedTiles.sort(
-      (a, b) =>
-        -(a.connectedTiles.values.length - b.connectedTiles.values.length)
+      (a, b) => -(a.connectedTiles.size - b.connectedTiles.size)
     );
 
     const rnd = random();
@@ -65,14 +64,13 @@ export class ShieldCardBotAnalizator extends CardAnalizator {
 
     if (this.bot.tileService == null) return;
 
-    const card = this.getBonus("shield");
+    const card = this.getBonus(this.cardMnemonic);
     if (card == null) return;
 
     card.active = true;
     this.bot.botModel?.setBonus(card);
     console.log("[Bot] Activate bonus: shield");
 
-    const tiles = this.bot.tileService.getPlayerTiles();
-    this.bot.pressTileArray(tiles);
+    this.bot.pressTile(this.tileToInvoke);
   }
 }
