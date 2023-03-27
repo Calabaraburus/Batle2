@@ -44,6 +44,7 @@ import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
 import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
 import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
 import { MineCardBotAnalizator } from "./MineCardBotAnalizator";
+import { TotemCardBotAnalizator } from "./TotemCardBotAnalizator";
 const { ccclass, property } = _decorator;
 
 interface BotAnalizatorGroup {
@@ -107,6 +108,9 @@ export class Bot extends Service implements IBot {
 
     // Mine card analizer
     new MineCardBotAnalizator("mine", this),
+
+    // Totem card analizator
+    new TotemCardBotAnalizator("totem", this),
   ];
 
   public get dataService() {
