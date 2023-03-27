@@ -5,13 +5,15 @@ import { CardAnalizator } from "./CardAnalizator";
 
 export class LightningCardBotAnalizator extends CardAnalizator {
   private readonly procToInvoke = 0.7;
+  protected bonusName = "lightning";
+  
 
-  analize(data: AnalizedData): number {
+  analize(): number {
     console.log(`[Bot][ligtningCard] start analize`);
     this.weight = 0;
     if (this.bot.botModel == null) return 0;
     if (this.bot.tileService == null) return 0;
-    const card = this.getBonus("lightning");
+    const card = this.getBonus(this.bonusName);
     if (card == null) return 0;
 
     if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
@@ -41,7 +43,7 @@ export class LightningCardBotAnalizator extends CardAnalizator {
 
     if (this.bot.tileService == null) return;
 
-    const card = this.getBonus("lightning");
+    const card = this.getBonus(this.bonusName);
     if (card == null) return;
 
     card.active = true;
