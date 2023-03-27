@@ -35,15 +35,23 @@ import { MeteoriteMiddleCardBotAnalizator } from "./MeteoriteMiddleCardBotAnaliz
 import { WormCardBotAnalizator } from "./WormCardBotAnalizator";
 import { WormLowCardBotAnalizator } from "./WormLowCardBotAnalizator";
 import { WormMiddleCardBotAnalizator } from "./WormMiddleCardBotAnalizator";
-<<<<<<< HEAD
-import { CardAnalizator } from "./CardAnalizator";
-=======
 import { CatapultCardBotAnalizator } from "./CatapultCardBotAnalizator";
 import { ShamanCardBotAnalizator } from "./ShamanCardBotAnalizator";
 import { AssassinCardBotAnalizator } from "./AssassinCardBotAnalizator";
 import { PushCardBotAnalizator } from "./PushCardBotAnalizator";
->>>>>>> ee80d6ccc17d0daaaaa6c1da0669a97d5a2be712
+import { CardAnalizator } from "./CardAnalizator";
+import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
+import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
+<<<<<<< HEAD
+import { MineCardBotAnalizator } from "./MineCardBotAnalizator";
+=======
+import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
+>>>>>>> 1234a3faeeaaae0a738005ac41916a425856a9ab
 const { ccclass, property } = _decorator;
+
+interface BotAnalizatorGroup {
+  [key: string]: BotAnalizator;
+}
 
 @ccclass("Bot")
 export class Bot extends Service implements IBot {
@@ -56,45 +64,54 @@ export class Bot extends Service implements IBot {
   private _cardService: CardService | null;
   private _gameManager: GameManager | null;
 
-  tileAnalisers = {
+  private tileAnalisers: BotAnalizatorGroup = {
     largestGroup: new MaxTilesAttackBotAnalizator(this),
     protect: new ProtectionTilesAttackBotAnalizator(this),
     nextStep: new NextStepAttackTilesBotAnalizator(this),
   };
 
   cardAnalizers: CardAnalizator[] = [
+    // Shield card
     new ShieldCardBotAnalizator("shield", this),
+
+    // Lightning card analiser
     new LightningCardBotAnalizator("lightning", this),
+
+    // Fire wall analizer
     new FirewallCardBotAnalizator("firewall", this),
-    new BodyExchangeCardBotAnalizator("bodyExchange", this),
+
+    // Body exchange analizer
+    new BodyExchangeCardBotAnalizator("bodyexchange", this),
 
     // Meteorite cards
     new MeteoriteCardBotAnalizator("meteorite", this),
     new MeteoriteLowCardBotAnalizator("meteoriteLow", this),
-    new MeteoriteMiddleCardBotAnalizator("meteoriteMiddle", this),
+    new MeteoriteMiddleCardBotAnalizator("meteoriteModdle", this),
 
     // Worm cards
-<<<<<<< HEAD
     new WormCardBotAnalizator("worm", this),
     new WormLowCardBotAnalizator("wormLow", this),
     new WormMiddleCardBotAnalizator("wormMiddle", this),
+
+    // Catapult card
+    new CatapultCardBotAnalizator("catapult", this),
+
+    // Shaman card
+    new ShamanCardBotAnalizator("shaman", this),
+
+    // Assassin card
+    new AssassinCardBotAnalizator("assasin", this),
+
+    // Push card
+    new PushCardBotAnalizator("push", this),
+
+<<<<<<< HEAD
+    // Mine card analizer
+    new MineCardBotAnalizator("mine", this),
 =======
-    new WormCardBotAnalizator(this),
-    new WormLowCardBotAnalizator(this),
-    new WormMiddleCardBotAnalizator(this),
-
-    //Catapult card
-    new CatapultCardBotAnalizator(this),
-
-    //Shaman card
-    new ShamanCardBotAnalizator(this),
-
-    //Assassin card
-    new AssassinCardBotAnalizator(this),
-
-    //Push card
-    new PushCardBotAnalizator(this),
->>>>>>> ee80d6ccc17d0daaaaa6c1da0669a97d5a2be712
+    //Counterattack card
+    new CounterattackCardBotAnalizator("c_attack", this),
+>>>>>>> 1234a3faeeaaae0a738005ac41916a425856a9ab
   ];
 
   public get dataService() {
@@ -172,13 +189,10 @@ export class Bot extends Service implements IBot {
 
     console.log("[Bot] analize cards");
 
-    this.cardAnalizers.forEach((cardAnlizator) => {
-      if (
-        this._botModel?.bonuses.find(
-          (b) => b.mnemonic == cardAnlizator.cardMnemonic
-        )
-      )
-        analizersQueue.push(cardAnlizator);
+    this.cardAnalizers.forEach((a) => {
+      if (this.botModel?.bonuses.find((bm) => bm.mnemonic == a.cardMnemonic)) {
+        analizersQueue.push(a);
+      }
     });
 
     const childTween = tween(twobj)
@@ -254,9 +268,4 @@ export class Bot extends Service implements IBot {
 
     return result;
   }
-}
-
-enum BotAnalizatorTypes {
-  Attacking = 0,
-  Protecting = 1,
 }
