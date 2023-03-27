@@ -1,4 +1,4 @@
-import { random } from "cc";
+import { random, randomRangeInt } from "cc";
 import { AnalizedData } from "../entities/field/AnalizedData";
 import { TileController } from "../entities/tiles/TileController";
 import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
@@ -9,7 +9,7 @@ export class MineCardBotAnalizator extends CardAnalizator {
   tileToInvoke: TileController | null;
 
   analize(data: AnalizedData): number {
-    console.log(`[Bot][ShieldCard] start analize`);
+    console.log(`[Bot][${this.cardMnemonic}Card] start analize`);
     this.weight = 0;
 
     const tileService = this.bot.tileService;
@@ -21,36 +21,41 @@ export class MineCardBotAnalizator extends CardAnalizator {
 
     if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
 
-    const mybotConnectedTiles = data.connectedTiles.filter((tpct) => {
-      if (tpct.playerModel == this.bot.botModel) {
-        if (tpct.connectedTiles.size > 0) {
-          let res = false;
-          const ct = tpct.connectedTiles.values().next().value;
+    const weightedTilesList: { weight: number; tile: TileController }[] = [];
 
-          if (ct instanceof StdTileController) {
-            res = !ct.shieldIsActivated;
+    const playerModel = this.bot.dataService?.playerModel;
+
+    for (let index = 0; index < this.bot.field.fieldMatrix.cols; index++) {
+      const tiles = tileService
+        .getTilesInColumn(index, (t) => t.playerModel == playerModel)
+        .filter((t) => {
+          if (t instanceof StdTileController) {
+            return !t.shieldIsActivated;
+          } else {
+            return true;
           }
+        });
 
-          return res;
-        }
+      const coef = Math.exp(-1 * ((tiles.length - 2) / 5) ** 2);
+
+      if (tiles.length > 0) {
+        const tileToInvoke = tiles[Math.ceil((tiles.length - 1) / 2)];
+        weightedTilesList.push({ weight: coef, tile: tileToInvoke });
       }
-      return false;
-    });
+    }
 
-    if (mybotConnectedTiles.length < 0) {
+    if (weightedTilesList.length <= 0) {
       return 0;
     }
 
-    const sortedGroups = mybotConnectedTiles.sort(
-      (a, b) => -(a.connectedTiles.size - b.connectedTiles.size)
-    );
+    const res = weightedTilesList.sort((t1, t2) => -(t1.weight - t2.weight))[0];
 
     const rnd = random();
-    console.log(`[Bot][ShieldCard] decision value: ${rnd}`);
+    console.log(`[Bot][${this.cardMnemonic}}] decision value: ${rnd}`);
     if (rnd < this.procToInvoke) {
       this.weight = 1;
 
-      this.tileToInvoke = sortedGroups[0].connectedTiles.values().next().value;
+      this.tileToInvoke = res.tile;
 
       return 1;
     }
@@ -59,7 +64,7 @@ export class MineCardBotAnalizator extends CardAnalizator {
   }
 
   decide() {
-    console.log("[Bot][ShieldCard] start to decide");
+    console.log(`[Bot][${this.cardMnemonic}card] start to decide`);
 
     if (this.bot.tileService == null) return;
 
@@ -68,7 +73,7 @@ export class MineCardBotAnalizator extends CardAnalizator {
 
     card.active = true;
     this.bot.botModel?.setBonus(card);
-    console.log("[Bot] Activate bonus: shield");
+    console.log(`[Bot] Activate bonus: ${this.cardMnemonic}`);
 
     this.bot.pressTile(this.tileToInvoke);
   }
