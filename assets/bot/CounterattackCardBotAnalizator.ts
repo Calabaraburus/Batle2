@@ -3,11 +3,11 @@ import { AnalizedData } from "../entities/field/AnalizedData";
 import { CardAnalizator } from "./CardAnalizator";
 
 export class CounterattackCardBotAnalizator extends CardAnalizator {
-  private readonly procToInvoke = 0.7;
-  private bonusName = "push";
+  private readonly procToInvoke = 0.8;
+  private bonusName = "c_attack";
 
   analize(data: AnalizedData): number {
-    console.log(`[Bot][PushCard] start analize`);
+    console.log(`[Bot][c_attackCard] start analize`);
     this.weight = 0;
     if (this.bot.botModel == null) return 0;
     if (this.bot.tileService == null) return 0;
@@ -19,15 +19,15 @@ export class CounterattackCardBotAnalizator extends CardAnalizator {
     let closeColsCount = 0;
 
     for (let index = 0; index < this.bot.field.fieldMatrix.cols; index++) {
-      const tiles = this.bot.tileService.getTilesByTagInColumn(index, "enemy");
+      const tiles = this.bot.tileService.getTilesByTagInColumn(index, "player");
 
-      if (tiles.length <= 2 || tiles.length >= 8) {
+      if (tiles.length >= 9) {
         closeColsCount++;
       }
     }
 
     const rnd = random();
-    console.log(`[Bot][PushCard] decision value: ${rnd}`);
+    console.log(`[Bot][c_attackCard] decision value: ${rnd}`);
     if (rnd <= this.procToInvoke && closeColsCount >= 2) {
       this.weight = 1;
       return 1;

@@ -39,12 +39,10 @@ import { CatapultCardBotAnalizator } from "./CatapultCardBotAnalizator";
 import { ShamanCardBotAnalizator } from "./ShamanCardBotAnalizator";
 import { AssassinCardBotAnalizator } from "./AssassinCardBotAnalizator";
 import { PushCardBotAnalizator } from "./PushCardBotAnalizator";
-<<<<<<< HEAD
+import { CardAnalizator } from "./CardAnalizator";
 import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
 import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
-=======
-import { CardAnalizator } from "./CardAnalizator";
->>>>>>> 855e3e95a6c513cab8bec9a20a3a8fe446a47ace
+import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
 const { ccclass, property } = _decorator;
 
 interface BotAnalizatorGroup {
@@ -72,12 +70,12 @@ export class Bot extends Service implements IBot {
     new ShieldCardBotAnalizator("shield", this),
     new LightningCardBotAnalizator("lightning", this),
     new FirewallCardBotAnalizator("firewall", this),
-    new BodyExchangeCardBotAnalizator("bodyExchange", this),
+    new BodyExchangeCardBotAnalizator("bodyexchange", this),
 
     // Meteorite cards
     new MeteoriteCardBotAnalizator("meteorite", this),
     new MeteoriteLowCardBotAnalizator("meteoriteLow", this),
-    new MeteoriteMiddleCardBotAnalizator("meteoriteMiddle", this),
+    new MeteoriteMiddleCardBotAnalizator("meteoriteModdle", this),
 
     // Worm cards
     new WormCardBotAnalizator("worm", this),
@@ -91,20 +89,17 @@ export class Bot extends Service implements IBot {
     new ShamanCardBotAnalizator("shaman", this),
 
     //Assassin card
-    new AssassinCardBotAnalizator("asassin", this),
+    new AssassinCardBotAnalizator("assasin", this),
 
     //Push card
 <<<<<<< HEAD
     new PushCardBotAnalizator(this),
 
-    //Maneuver card
-    new ManeuverCardBotAnalizator(this),
-
-    //Panic card
-    new PanicCardBotAnalizator(this),
+    //Counterattack card
+    new CounterattackCardBotAnalizator(this),
 =======
     new PushCardBotAnalizator("push", this),
->>>>>>> 855e3e95a6c513cab8bec9a20a3a8fe446a47ace
+>>>>>>> d4079a1500673503f49f2f34142c10e8aaf467cf
   ];
 
   public get dataService() {
@@ -182,13 +177,10 @@ export class Bot extends Service implements IBot {
 
     console.log("[Bot] analize cards");
 
-    this.cardAnalizers.forEach((cardAnlizator) => {
-      if (
-        this._botModel?.bonuses.find(
-          (b) => b.mnemonic == cardAnlizator.cardMnemonic
-        )
-      )
-        analizersQueue.push(cardAnlizator);
+    this.cardAnalizers.forEach((a) => {
+      if (this.botModel?.bonuses.find((bm) => bm.mnemonic == a.cardMnemonic)) {
+        analizersQueue.push(a);
+      }
     });
 
     const childTween = tween(twobj)
@@ -264,9 +256,4 @@ export class Bot extends Service implements IBot {
 
     return result;
   }
-}
-
-enum BotAnalizatorTypes {
-  Attacking = 0,
-  Protecting = 1,
 }
