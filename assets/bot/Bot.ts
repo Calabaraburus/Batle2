@@ -43,6 +43,11 @@ import { CardAnalizator } from "./CardAnalizator";
 import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
 import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
 import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
+import { TeleportCardBotAnalizator } from "./TeleportCardBotAnalizator";
+import { FirewallLowCardBotAnalizator } from "./FirewallLowCardBotAnalizator";
+import { FirewallMiddleCardBotAnalizator } from "./FirewallMiddleCardBotAnalizator";
+import { LightningLowCardBotAnalizator } from "./LightningLowCardBotAnalizator";
+import { LightningMiddleCardBotAnalizator } from "./LightningMiddleCardBotAnalizator";
 const { ccclass, property } = _decorator;
 
 interface BotAnalizatorGroup {
@@ -68,9 +73,17 @@ export class Bot extends Service implements IBot {
 
   cardAnalizers: CardAnalizator[] = [
     new ShieldCardBotAnalizator("shield", this),
-    new LightningCardBotAnalizator("lightning", this),
-    new FirewallCardBotAnalizator("firewall", this),
     new BodyExchangeCardBotAnalizator("bodyexchange", this),
+
+    // Firewall cards
+    new FirewallCardBotAnalizator("firewall", this),
+    new FirewallLowCardBotAnalizator("firewallLow", this),
+    new FirewallMiddleCardBotAnalizator("firewallMiddle", this),
+
+    // Lightning cards
+    new LightningCardBotAnalizator("lightning", this),
+    new LightningLowCardBotAnalizator("lightningLow", this),
+    new LightningMiddleCardBotAnalizator("lightningMiddle", this),
 
     // Meteorite cards
     new MeteoriteCardBotAnalizator("meteorite", this),
@@ -96,6 +109,9 @@ export class Bot extends Service implements IBot {
 
     //Counterattack card
     new CounterattackCardBotAnalizator("c_attack", this),
+
+    //Teleport card
+    new TeleportCardBotAnalizator("teleport", this),
   ];
 
   public get dataService() {

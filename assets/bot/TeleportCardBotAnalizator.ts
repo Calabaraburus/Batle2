@@ -1,15 +1,18 @@
-import { random, randomRange } from "cc";
-import { AnalizedData } from "../entities/field/AnalizedData";
+import { random } from "cc";
 import { TileController } from "../entities/tiles/TileController";
 import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
-import { BotAnalizator } from "./BotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
 
-export class FirewallCardBotAnalizator extends CardAnalizator {
+export class TeleportCardBotAnalizator extends CardAnalizator {
   tileToInvoke: TileController | null;
   procentToInvoke = 0.8;
-  protected powerCoef = 6;
-  protected bonusName = "firewall";
+  protected bonusName = "teleport";
+  distanceMatrix = [
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+    [1, 0],
+  ];
 
   decide() {
     const card = this.getBonus(this.bonusName);
@@ -17,7 +20,7 @@ export class FirewallCardBotAnalizator extends CardAnalizator {
 
     card.active = true;
     this.bot.botModel?.setBonus(card);
-    console.log("[Bot] Activate bonus firewall");
+    console.log("[Bot] Activate bonus teleport");
 
     this.bot.pressTile(this.tileToInvoke);
   }
@@ -41,20 +44,23 @@ export class FirewallCardBotAnalizator extends CardAnalizator {
         .getTilesInColumn(index, (t) => t.playerModel == playerModel)
         .filter((t) => {
           if (t instanceof StdTileController) {
-            return !t.shieldIsActivated;
-          } else {
             return true;
+          } else {
+            return false;
           }
         });
 
-      const coef = Math.exp(
-        -1 * ((tiles.length - this.powerCoef) / (this.powerCoef + 1)) ** 2
-      );
-
-      if (tiles.length > 0) {
-        const tileToInvoke = tiles[Math.ceil((tiles.length - 1) / 2)];
-        weightedTilesList.push({ weight: coef, tile: tileToInvoke });
-      }
+      tiles.forEach((item) => {
+        if (this.bot.tileService == null) return;
+        const tileWeight = this.bot.tileService.getIdenticalTiles(
+          item,
+          this.distanceMatrix,
+          (t) => t.playerModel == playerModel
+        );
+        if (tileWeight == undefined) return;
+        const coef = Math.exp(-1 * ((tileWeight - 4) / 5) ** 2);
+        weightedTilesList.push({ weight: coef, tile: item });
+      });
     }
 
     if (weightedTilesList.length > 0) {

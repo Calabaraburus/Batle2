@@ -69,6 +69,38 @@ export class TileService extends Service {
     return tiles;
   }
 
+  public getIdenticalTiles(
+    targetTile: TileController,
+    distanceMatrix: number[][],
+    filtFunc: (val: TileController) => boolean
+  ) {
+    let tilesWeight = 0;
+    const matrix = this._dataService?.field?.fieldMatrix;
+    if (matrix == undefined) return;
+    distanceMatrix.forEach((coordinates) => {
+      const tile = matrix.get(
+        targetTile.row + coordinates[1],
+        targetTile.col + coordinates[0]
+      );
+      if (tile) {
+        if (filtFunc(tile)) {
+          const w = this.checkCoordinates(
+            tile,
+            distanceMatrix,
+            targetTile,
+            filtFunc
+          );
+          if (w == undefined) return;
+          if (w[1] == 3) {
+            tilesWeight = tilesWeight + 1;
+          }
+        }
+      }
+    });
+
+    return tilesWeight;
+  }
+
   public getDifferentTiles(
     targetTile: TileController,
     distanceMatrix: number[][],
@@ -90,7 +122,8 @@ export class TileService extends Service {
             targetTile,
             filtFunc
           );
-          if (w == 3) {
+          if (w == undefined) return;
+          if (w[0] == 3) {
             tilesWeight = tilesWeight + 1;
           }
         } else if (!filtFunc(tile)) {
@@ -113,24 +146,29 @@ export class TileService extends Service {
     // weight
     const matrix = this._dataService?.field?.fieldMatrix;
     if (matrix == undefined) return;
-    let w = 0;
+    //for different
+    let wDifferent = 0;
+    //for same
+    let wSame = 0;
     coordinates.forEach((coord) => {
       const tileCheck = matrix.get(tile.row + coord[1], tile.col + coord[0]);
       if (tileCheck) {
         if (filtFunc(tileCheck)) {
           if (tileCheck.tileModel.tileId != targetTile.tileModel.tileId) {
             if (tile.tileModel.tileName != tileCheck?.tileModel.tileName) {
-              w = w + 1;
+              wDifferent = wDifferent + 1;
             }
+          } else if (tile.tileModel.tileName == tileCheck?.tileModel.tileName) {
+            wSame = wSame + 1;
           }
         } else if (!filtFunc(tileCheck)) {
-          w = w + 1;
+          wDifferent = wDifferent + 1;
         }
       } else if (tileCheck == undefined) {
-        w = w + 1;
+        wDifferent = wDifferent + 1;
       }
     });
-    return w;
+    return [wDifferent, wSame];
   }
 
   public getMatrixOfTiles(
