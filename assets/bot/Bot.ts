@@ -42,6 +42,7 @@ import { PushCardBotAnalizator } from "./PushCardBotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
 import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
 import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
+import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
 import { MineCardBotAnalizator } from "./MineCardBotAnalizator";
 const { ccclass, property } = _decorator;
 
@@ -100,6 +101,9 @@ export class Bot extends Service implements IBot {
 
     // Push card
     new PushCardBotAnalizator("push", this),
+
+    //Counterattack card
+    new CounterattackCardBotAnalizator("c_attack", this),
 
     // Mine card analizer
     new MineCardBotAnalizator("mine", this),

@@ -1,10 +1,9 @@
 import { random } from "cc";
 import { AnalizedData } from "../entities/field/AnalizedData";
-import { BotAnalizator } from "./BotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
 
-export class PushCardBotAnalizator extends CardAnalizator {
-  private readonly procToInvoke = 0.7;
+export class CounterattackCardBotAnalizator extends CardAnalizator {
+  private readonly procToInvoke = 0.8;
   private bonusName = "c_attack";
 
   analize(data: AnalizedData): number {
@@ -20,7 +19,7 @@ export class PushCardBotAnalizator extends CardAnalizator {
     let closeColsCount = 0;
 
     for (let index = 0; index < this.bot.field.fieldMatrix.cols; index++) {
-      const tiles = this.bot.tileService.getTilesByTagInColumn(index, "enemy");
+      const tiles = this.bot.tileService.getTilesByTagInColumn(index, "player");
 
       if (tiles.length >= 9) {
         closeColsCount++;
@@ -29,7 +28,7 @@ export class PushCardBotAnalizator extends CardAnalizator {
 
     const rnd = random();
     console.log(`[Bot][c_attackCard] decision value: ${rnd}`);
-    if (rnd <= this.procToInvoke && closeColsCount > 2) {
+    if (rnd <= this.procToInvoke && closeColsCount >= 2) {
       this.weight = 1;
       return 1;
     }
@@ -38,7 +37,7 @@ export class PushCardBotAnalizator extends CardAnalizator {
   }
 
   decide() {
-    console.log("[Bot][c_attackCard] start to decide");
+    console.log("[Bot][PushCard] start to decide");
 
     if (this.bot.tileService == null) return;
 
@@ -47,7 +46,7 @@ export class PushCardBotAnalizator extends CardAnalizator {
 
     card.active = true;
     this.bot.botModel?.setBonus(card);
-    console.log("[Bot] Activate bonus: c_attack");
+    console.log("[Bot] Activate bonus: Push");
 
     const tiles = this.bot.tileService.getPlayerTiles();
     this.bot.pressTileArray(tiles);

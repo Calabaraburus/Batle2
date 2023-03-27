@@ -18,12 +18,18 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
-    const motionForce = 8;
+    let currentTag = "enemy";
+    let motionForce = 8;
+    let addToRow = [1, 2];
+
     const matrix = this.parent.field?.fieldMatrix;
     if (matrix == null) return false;
 
     if (playerTag == null) return false;
     if (this.parent.cardsService == null) return false;
+
+    const playerModel = this.parent.cardsService.getCurrentPlayerModel();
+    const botModel = this._cardsService?._dataService?.botModel;
 
     if (targetTile instanceof StdTileController) {
       if (targetTile.tileModel.containsTag(playerTag)) {
@@ -33,25 +39,32 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
       return false;
     }
 
-    this.effectDurationValue = 0.5;
-    this._cardsService = this.parent.cardsService;
-    this._field = this.parent.field;
-
-    if (this._cardsService == null) return false;
-    if (this._field == null) return false;
     this._tilesToRun = [];
     this._borderTiles = [];
     this._tilesToDestroy = [];
 
     this._borderTiles =
       this.parent.fieldAnalizer?.findTilesByModelName("start");
+    if (playerModel == botModel) {
+      currentTag = "player";
+      motionForce = -8;
+      this._borderTiles =
+        this.parent.fieldAnalizer?.findTilesByModelName("end");
+      addToRow = [-1, -2];
+    }
+    this.effectDurationValue = 1;
+    this._cardsService = this.parent.cardsService;
+    this._field = this.parent.field;
+
+    if (this._cardsService == null) return false;
+    if (this._field == null) return false;
 
     const countClosestTiles = (addToRow: number) => {
       this._borderTiles?.forEach((t) => {
-        const row = t.row - addToRow;
+        const row = t.row + addToRow;
         if (row >= 0 && row < matrix.rows) {
           const tile = matrix.get(row, t.col);
-          if (tile.tileModel.containsTag("enemy")) {
+          if (tile.tileModel.containsTag(currentTag)) {
             this._tilesToRun?.push(tile);
             return;
           }
@@ -59,8 +72,9 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
       });
     };
 
-    countClosestTiles(-1);
-    countClosestTiles(-2);
+    addToRow.forEach((i) => {
+      countClosestTiles(i);
+    });
 
     this._tilesToRun.forEach((tile) => {
       const tileForDel: TileController = matrix?.get(
