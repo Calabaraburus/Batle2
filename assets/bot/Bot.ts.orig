@@ -42,7 +42,11 @@ import { PushCardBotAnalizator } from "./PushCardBotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
 import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
 import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
+<<<<<<< HEAD
+import { MineCardBotAnalizator } from "./MineCardBotAnalizator";
+=======
 import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
+>>>>>>> 1234a3faeeaaae0a738005ac41916a425856a9ab
 const { ccclass, property } = _decorator;
 
 interface BotAnalizatorGroup {
@@ -67,9 +71,16 @@ export class Bot extends Service implements IBot {
   };
 
   cardAnalizers: CardAnalizator[] = [
+    // Shield card
     new ShieldCardBotAnalizator("shield", this),
+
+    // Lightning card analiser
     new LightningCardBotAnalizator("lightning", this),
+
+    // Fire wall analizer
     new FirewallCardBotAnalizator("firewall", this),
+
+    // Body exchange analizer
     new BodyExchangeCardBotAnalizator("bodyexchange", this),
 
     // Meteorite cards
@@ -82,24 +93,25 @@ export class Bot extends Service implements IBot {
     new WormLowCardBotAnalizator("wormLow", this),
     new WormMiddleCardBotAnalizator("wormMiddle", this),
 
-    //Catapult card
+    // Catapult card
     new CatapultCardBotAnalizator("catapult", this),
 
-    //Shaman card
+    // Shaman card
     new ShamanCardBotAnalizator("shaman", this),
 
-    //Assassin card
+    // Assassin card
     new AssassinCardBotAnalizator("assasin", this),
 
-    //Push card
-<<<<<<< HEAD
-    new PushCardBotAnalizator(this),
-
-    //Counterattack card
-    new CounterattackCardBotAnalizator(this),
-=======
+    // Push card
     new PushCardBotAnalizator("push", this),
->>>>>>> d4079a1500673503f49f2f34142c10e8aaf467cf
+
+<<<<<<< HEAD
+    // Mine card analizer
+    new MineCardBotAnalizator("mine", this),
+=======
+    //Counterattack card
+    new CounterattackCardBotAnalizator("c_attack", this),
+>>>>>>> 1234a3faeeaaae0a738005ac41916a425856a9ab
   ];
 
   public get dataService() {

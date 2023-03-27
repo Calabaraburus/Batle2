@@ -43,11 +43,13 @@ import { CardAnalizator } from "./CardAnalizator";
 import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
 import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
 import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
-import { TeleportCardBotAnalizator } from "./TeleportCardBotAnalizator";
 import { FirewallLowCardBotAnalizator } from "./FirewallLowCardBotAnalizator";
 import { FirewallMiddleCardBotAnalizator } from "./FirewallMiddleCardBotAnalizator";
 import { LightningLowCardBotAnalizator } from "./LightningLowCardBotAnalizator";
 import { LightningMiddleCardBotAnalizator } from "./LightningMiddleCardBotAnalizator";
+import { MineCardBotAnalizator } from "./MineCardBotAnalizator";
+import { TotemCardBotAnalizator } from "./TotemCardBotAnalizator";
+import { TeleportCardBotAnalizator } from "./TeleportCardBotAnalizator";
 const { ccclass, property } = _decorator;
 
 interface BotAnalizatorGroup {
@@ -72,7 +74,10 @@ export class Bot extends Service implements IBot {
   };
 
   cardAnalizers: CardAnalizator[] = [
+    // Shield card
     new ShieldCardBotAnalizator("shield", this),
+
+    // Body exchange analizer
     new BodyExchangeCardBotAnalizator("bodyexchange", this),
 
     // Firewall cards
@@ -95,20 +100,26 @@ export class Bot extends Service implements IBot {
     new WormLowCardBotAnalizator("wormLow", this),
     new WormMiddleCardBotAnalizator("wormMiddle", this),
 
-    //Catapult card
+    // Catapult card
     new CatapultCardBotAnalizator("catapult", this),
 
-    //Shaman card
+    // Shaman card
     new ShamanCardBotAnalizator("shaman", this),
 
-    //Assassin card
+    // Assassin card
     new AssassinCardBotAnalizator("assasin", this),
 
-    //Push card
+    // Push card
     new PushCardBotAnalizator("push", this),
 
     //Counterattack card
     new CounterattackCardBotAnalizator("c_attack", this),
+
+    // Mine card analizer
+    new MineCardBotAnalizator("mine", this),
+
+    // Totem card analizator
+    new TotemCardBotAnalizator("totem", this),
 
     //Teleport card
     new TeleportCardBotAnalizator("teleport", this),
