@@ -6,7 +6,7 @@ import { CardAnalizator } from "./CardAnalizator";
 
 export class AssassinCardBotAnalizator extends CardAnalizator {
   tileToInvoke: TileController | null;
-  procentToInvoke = 0.8;
+  procentToInvoke = 0.7;
   protected bonusName = "assassin";
   distanceMatrix = [
     [-1, 0],

@@ -28,7 +28,7 @@ export class CounterattackCardBotAnalizator extends CardAnalizator {
 
     const rnd = random();
     console.log(`[Bot][c_attackCard] decision value: ${rnd}`);
-    if (rnd <= this.procToInvoke && closeColsCount < 2) {
+    if (rnd <= this.procToInvoke && closeColsCount >= 2) {
       this.weight = 1;
       return 1;
     } else if (closeColsCount >= 2) {

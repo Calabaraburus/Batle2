@@ -38,7 +38,7 @@ export class TotemTileController extends TileController implements IAttackable {
   public setModel(tileModel: TileModel) {
     super.setModel(tileModel);
 
-    this._attacksCountToDestroy = 1;
+    this._attacksCountToDestroy = 2;
 
     this._attackedNumber = this.attacksCountToDestroy;
   }

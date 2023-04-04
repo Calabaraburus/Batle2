@@ -47,11 +47,11 @@ export class ShamanTileController
   }
 
   turnEnds(): void {
-    const playerModel = this._cardService?.getCurrentPlayerModel();
+    const playerModel = this._cardService?.getOponentModel();
 
-    if (this._cardService?.getCurrentPlayerModel() == this.playerModel) {
+    if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       if (playerModel || playerModel != null) {
-        if (playerModel.life < 100) {
+        if (playerModel.life < playerModel.lifeMax) {
           playerModel.life = playerModel.life + 5;
         }
       }
