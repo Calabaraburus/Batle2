@@ -6,7 +6,6 @@ import { CardAnalizator } from "./CardAnalizator";
 export class LightningCardBotAnalizator extends CardAnalizator {
   private readonly procToInvoke = 0.7;
   protected bonusName = "lightning";
-  
 
   analize(): number {
     console.log(`[Bot][ligtningCard] start analize`);
@@ -30,7 +29,7 @@ export class LightningCardBotAnalizator extends CardAnalizator {
 
     const rnd = random();
     console.log(`[Bot][ligtningCard] decision value: ${rnd}`);
-    if (rnd < this.procToInvoke && closeColsCount >= 2) {
+    if (rnd <= this.procToInvoke && closeColsCount >= 2) {
       this.weight = 1;
       return 1;
     }

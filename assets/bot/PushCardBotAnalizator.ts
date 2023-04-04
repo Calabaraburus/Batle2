@@ -4,11 +4,11 @@ import { BotAnalizator } from "./BotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
 
 export class PushCardBotAnalizator extends CardAnalizator {
-  private readonly procToInvoke = 0.7;
-  private bonusName = "c_attack";
+  private readonly procToInvoke = 0.9;
+  private bonusName = "push";
 
   analize(data: AnalizedData): number {
-    console.log(`[Bot][c_attackCard] start analize`);
+    console.log(`[Bot][pushCard] start analize`);
     this.weight = 0;
     if (this.bot.botModel == null) return 0;
     if (this.bot.tileService == null) return 0;
@@ -22,14 +22,20 @@ export class PushCardBotAnalizator extends CardAnalizator {
     for (let index = 0; index < this.bot.field.fieldMatrix.cols; index++) {
       const tiles = this.bot.tileService.getTilesByTagInColumn(index, "enemy");
 
-      if (tiles.length >= 9) {
+      if (tiles.length >= 9 || tiles.length <= 2) {
         closeColsCount++;
       }
     }
 
     const rnd = random();
-    console.log(`[Bot][c_attackCard] decision value: ${rnd}`);
-    if (rnd <= this.procToInvoke && closeColsCount > 2) {
+    console.log(`[Bot][push] decision value: ${rnd}`);
+    if (rnd <= this.procToInvoke && closeColsCount == 2) {
+      this.weight = 1;
+      return 1;
+    } else if (rnd <= this.procToInvoke + 0.1 && closeColsCount == 3) {
+      this.weight = 1;
+      return 1;
+    } else if (closeColsCount > 3) {
       this.weight = 1;
       return 1;
     }
@@ -38,7 +44,7 @@ export class PushCardBotAnalizator extends CardAnalizator {
   }
 
   decide() {
-    console.log("[Bot][c_attackCard] start to decide");
+    console.log("[Bot][push] start to decide");
 
     if (this.bot.tileService == null) return;
 
@@ -47,7 +53,7 @@ export class PushCardBotAnalizator extends CardAnalizator {
 
     card.active = true;
     this.bot.botModel?.setBonus(card);
-    console.log("[Bot] Activate bonus: c_attack");
+    console.log("[Bot] Activate bonus: push");
 
     const tiles = this.bot.tileService.getPlayerTiles();
     this.bot.pressTileArray(tiles);

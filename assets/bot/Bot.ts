@@ -107,7 +107,7 @@ export class Bot extends Service implements IBot {
     new ShamanCardBotAnalizator("shaman", this),
 
     // Assassin card
-    new AssassinCardBotAnalizator("assasin", this),
+    new AssassinCardBotAnalizator("assassin", this),
 
     // Push card
     new PushCardBotAnalizator("push", this),
@@ -123,6 +123,9 @@ export class Bot extends Service implements IBot {
 
     //Teleport card
     new TeleportCardBotAnalizator("teleport", this),
+
+    //Teleport card
+    new PanicCardBotAnalizator("panic", this),
   ];
 
   public get dataService() {

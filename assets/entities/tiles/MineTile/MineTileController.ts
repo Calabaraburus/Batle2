@@ -16,6 +16,7 @@ import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { CardEffect } from "../../effects/CardEffect";
 import { EffectsService } from "../../services/EffectsService";
 import { GameManager } from "../../game/GameManager";
+import { IAttackable, isIAttackable } from "../IAttackable";
 const { ccclass, property } = _decorator;
 
 @ccclass("MineTileController")
@@ -39,10 +40,29 @@ export class MineTileController extends TileController {
       this.playEffect();
       this.destroyTile();
 
-      this.destroyOtherTile(this.row - 1, this.col);
-      this.destroyOtherTile(this.row, this.col - 1);
-      this.destroyOtherTile(this.row + 1, this.col);
-      this.destroyOtherTile(this.row, this.col + 1);
+      const coordTiles = [
+        [-1, 0],
+        [0, -1],
+        [1, 0],
+        [0, 1],
+      ];
+
+      coordTiles.forEach((coords) => {
+        const tile = this.fieldController.fieldMatrix.get(
+          this.row + coords[0],
+          this.col + coords[1]
+        );
+        if (isIAttackable(tile)) {
+          (<IAttackable>tile).attack(1);
+        } else {
+          this.destroyOtherTile(this.row + coords[0], this.col + coords[1]);
+        }
+      });
+
+      // this.destroyOtherTile(this.row - 1, this.col);
+      // this.destroyOtherTile(this.row, this.col - 1);
+      // this.destroyOtherTile(this.row + 1, this.col);
+      // this.destroyOtherTile(this.row, this.col + 1);
 
       this.fieldController.moveTilesLogicaly(this._gameManager?.playerTurn);
     }

@@ -2,11 +2,12 @@ import { random } from "cc";
 import { TileController } from "../entities/tiles/TileController";
 import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
 import { BotAnalizator } from "./BotAnalizator";
+import { CardAnalizator } from "./CardAnalizator";
 
-export class PanicCardBotAnalizator extends BotAnalizator {
+export class PanicCardBotAnalizator extends CardAnalizator {
   tileToInvoke: TileController | null;
-  procentToInvoke = 0.8;
-  protected bonusName = "panic";
+  procentToInvoke = 0.5;
+  private bonusName = "panic";
 
   decide() {
     const card = this.getBonus(this.bonusName);
@@ -77,9 +78,9 @@ export class PanicCardBotAnalizator extends BotAnalizator {
         });
         if (
           Math.min(...amountTileTypes) != 0 &&
-          Math.max(...amountTileTypes) >= 4
+          Math.max(...amountTileTypes) <= 5
         ) {
-          coefType = 2;
+          coefType = 0.8;
         } else {
           coefType = 0;
         }
@@ -94,8 +95,8 @@ export class PanicCardBotAnalizator extends BotAnalizator {
         }
       });
     }
-
-    if (weightedTilesList.length > 0) {
+    const rnd = random();
+    if (rnd <= this.procentToInvoke && weightedTilesList.length > 0) {
       const res = weightedTilesList.sort(
         (t1, t2) => -(t1.weight - t2.weight)
       )[0];

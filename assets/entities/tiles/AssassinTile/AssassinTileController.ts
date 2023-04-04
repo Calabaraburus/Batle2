@@ -11,6 +11,7 @@ import {
   Prefab,
   UITransform,
   randomRangeInt,
+  tween,
 } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
@@ -20,6 +21,9 @@ import { GameManager } from "../../game/GameManager";
 import { CardService } from "../../services/CardService";
 import { PlayerModel } from "../../../models/PlayerModel";
 import { FieldController } from "../../field/FieldController";
+import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
+import { CardEffect } from "../../effects/CardEffect";
+import { EffectsService } from "../../services/EffectsService";
 const { ccclass, property } = _decorator;
 
 @ccclass("AssassinTileController")
@@ -28,11 +32,13 @@ export class AssassinTileController
   implements IAttackable
 {
   private _cardService: CardService | null;
-  // private _field: FieldController | null | undefined;
+  private _effectsService: EffectsService | null;
   private _curSprite: Sprite | null;
   private _state: TileState;
   private _attacksCountToDestroy: number;
   private _attackedNumber: number;
+  private _cache: ObjectsCache | null;
+  private _gameManager: GameManager | null;
 
   /** Destroy particle system */
   @property(Prefab)
@@ -47,7 +53,10 @@ export class AssassinTileController
   start() {
     super.start();
     this._cardService = this.getService(CardService);
+    this._effectsService = this.getService(EffectsService);
     this.updateSprite();
+    this._cache = ObjectsCache.instance;
+    this._gameManager = this.getService(GameManager);
   }
 
   updateSprite() {
@@ -59,35 +68,36 @@ export class AssassinTileController
   }
 
   turnEnds(): void {
-    this.maxCount = 2;
-    this._tilesToDestroy = [];
+    if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
+      this.playEffect();
+      this.maxCount = 2;
+      this._tilesToDestroy = [];
 
-    const oponentModel = this._cardService?.getOponentModel();
+      const oponentModel = this._cardService?.getCurrentPlayerModel();
 
-    const oponentTiles = this.fieldController.fieldMatrix.filter((tile) => {
-      return tile.playerModel == oponentModel;
-    });
+      const oponentTiles = this.fieldController.fieldMatrix.filter((tile) => {
+        return tile.playerModel == oponentModel;
+      });
 
-    for (let index = 0; index < this.maxCount; index++) {
-      this._tilesToDestroy.push(
-        oponentTiles[randomRangeInt(0, oponentTiles.length)]
-      );
-    }
+      for (let index = 0; index < this.maxCount; index++) {
+        this._tilesToDestroy.push(
+          oponentTiles[randomRangeInt(0, oponentTiles.length)]
+        );
+      }
 
-    if (this._cardService?.getCurrentPlayerModel() == this.playerModel) {
       if (oponentModel || oponentModel != null) {
         this._tilesToDestroy.forEach((t) => {
-          // if attack only simple tiles
-          // if (isIAttackable(t)) {
-          //   (<IAttackable>t).attack(1);
-          // } else {
-          //   this.fieldController.fakeDestroyTile(t);
-          // }
-
-          // if attack all tiles
-          this.fieldController.fakeDestroyTile(t);
+          if (isIAttackable(t)) {
+            (<IAttackable>t).attack(1);
+          } else {
+            this.fieldController.destroyTile(t.row, t.col, (t) => {
+              return t.playerModel !== this.playerModel;
+            });
+          }
         });
       }
+
+      this.fieldController.moveTilesLogicaly(this._gameManager?.playerTurn);
     }
   }
 
@@ -143,5 +153,40 @@ export class AssassinTileController
       this.node.position.y + ui.contentSize.height / 2,
       this.node.position.z
     );
+  }
+
+  playEffect() {
+    console.log("fire wall effect");
+    const timeObj = { time: 0 };
+    const animator = tween(timeObj);
+    const effects: CardEffect[] = [];
+    // this._tilesToDestroy?.forEach((t, i) => {
+    //   const time = 0.1;
+    //   animator.delay(i == 0 ? 0 : time).call(() => {
+    // const effect =
+    //   this._cache?.getObjectByPrefabName<CardEffect>("firewallEffect");
+    // if (effect == null) {
+    //   return;
+    // }
+
+    // effect.node.position = t.node.position;
+    // effect.node.parent =
+    //   this._effectsService != null
+    //     ? this._effectsService?.effectsNode
+    //     : null;
+    // effect.play();
+
+    // effects.push(effect);
+    //   });
+    // });
+
+    animator.delay(0.1).call(() => this.fieldController.moveTilesAnimate());
+    // .delay(0.5)
+    // .call(() => effects.forEach((e) => e.stopEmmit()))
+    // .delay(5)
+    // .call(() => effects.forEach((e) => e.cacheDestroy()));
+
+    animator.start();
+    return true;
   }
 }
