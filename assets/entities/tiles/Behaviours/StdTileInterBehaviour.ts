@@ -11,6 +11,7 @@ import { CardService } from "../../services/CardService";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { IAttackable, isIAttackable } from "../IAttackable";
+import { LevelModel } from "../../../models/LevelModel";
 
 const { ccclass } = _decorator;
 
@@ -20,6 +21,7 @@ const { ccclass } = _decorator;
 @ccclass("StdTileInterBehaviour")
 export class StdTileInterBehaviour extends GameBehaviour {
   private _cardsService: CardService | null;
+  private _levelModel: LevelModel | null;
 
   constructor() {
     super();
@@ -29,6 +31,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
   start() {
     super.start();
     this._cardsService = this.getService(CardService);
+    this._levelModel = this.getService(LevelModel);
   }
 
   activateCondition(): boolean {
@@ -148,8 +151,19 @@ export class StdTileInterBehaviour extends GameBehaviour {
   manaUpdate(tilesCount: number, tileType: TileModel): void {
     const curPlayerModel = this._cardsService?.getCurrentPlayerModel();
     if (curPlayerModel == null) return;
+    if (this._levelModel?.gameMechanicType == 0) {
+      curPlayerModel.manaCurrent +=
+        tilesCount > 6 ? (tilesCount > 10 ? 3 : 2) : 1;
+    } else {
+      const tbonuses = curPlayerModel.bonuses.filter((b) =>
+        tileType.containsTag(b.activateType)
+      );
 
-    curPlayerModel.manaCurrent +=
-      tilesCount > 6 ? (tilesCount > 10 ? 3 : 2) : 1;
+      tbonuses.forEach(
+        (b) =>
+          (b.currentAmmountToActivate +=
+            tilesCount > 6 ? (tilesCount > 10 ? 3 : 2) : 1)
+      );
+    }
   }
 }
