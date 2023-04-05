@@ -1,13 +1,12 @@
 import { random } from "cc";
 import { TileController } from "../entities/tiles/TileController";
 import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
-import { BotAnalizator } from "./BotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
 
-export class ShamanCardBotAnalizator extends CardAnalizator {
+export class TeleportCardBotAnalizator extends CardAnalizator {
   tileToInvoke: TileController | null;
   procentToInvoke = 0.8;
-  protected bonusName = "shaman";
+  protected bonusName = "teleport";
   distanceMatrix = [
     [-1, 0],
     [0, 1],
@@ -21,7 +20,7 @@ export class ShamanCardBotAnalizator extends CardAnalizator {
 
     card.active = true;
     this.bot.botModel?.setBonus(card);
-    console.log("[Bot] Activate bonus shaman");
+    console.log("[Bot] Activate bonus teleport");
 
     this.bot.pressTile(this.tileToInvoke);
   }
@@ -38,11 +37,11 @@ export class ShamanCardBotAnalizator extends CardAnalizator {
 
     const weightedTilesList: { weight: number; tile: TileController }[] = [];
 
-    const botModel = this.bot.dataService?.botModel;
+    const playerModel = this.bot.dataService?.playerModel;
 
     for (let index = 0; index < this.bot.field.fieldMatrix.cols; index++) {
       const tiles = this.bot.tileService
-        .getTilesInColumn(index, (t) => t.playerModel == botModel)
+        .getTilesInColumn(index, (t) => t.playerModel == playerModel)
         .filter((t) => {
           if (t instanceof StdTileController) {
             return true;
@@ -53,10 +52,10 @@ export class ShamanCardBotAnalizator extends CardAnalizator {
 
       tiles.forEach((item) => {
         if (this.bot.tileService == null) return;
-        const tileWeight = this.bot.tileService.getDifferentTiles(
+        const tileWeight = this.bot.tileService.getIdenticalTiles(
           item,
           this.distanceMatrix,
-          (t) => t.playerModel == botModel
+          (t) => t.playerModel == playerModel
         );
         if (tileWeight == undefined) return;
         const coef = Math.exp(-1 * ((tileWeight - 4) / 5) ** 2);

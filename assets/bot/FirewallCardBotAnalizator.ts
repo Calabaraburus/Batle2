@@ -8,9 +8,11 @@ import { CardAnalizator } from "./CardAnalizator";
 export class FirewallCardBotAnalizator extends CardAnalizator {
   tileToInvoke: TileController | null;
   procentToInvoke = 0.8;
+  protected powerCoef = 6;
+  protected bonusName = "firewall";
 
   decide() {
-    const card = this.getBonus("firewall");
+    const card = this.getBonus(this.bonusName);
     if (card == null) return 0;
 
     card.active = true;
@@ -20,15 +22,15 @@ export class FirewallCardBotAnalizator extends CardAnalizator {
     this.bot.pressTile(this.tileToInvoke);
   }
 
-  analize(data: AnalizedData): number {
+  analize(): number {
     this.tileToInvoke = null;
     if (this.bot.tileService == null) return 0;
     if (this.bot.botModel == null) return 0;
     this.weight = 0;
-    const card = this.getBonus("firewall");
+    const card = this.getBonus(this.bonusName);
     if (card == null) return 0;
 
-    if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
+    if (!this.canActivateCard(card)) return 0;
 
     const weightedTilesList: { weight: number; tile: TileController }[] = [];
 
@@ -45,7 +47,9 @@ export class FirewallCardBotAnalizator extends CardAnalizator {
           }
         });
 
-      const coef = Math.exp(-1 * ((tiles.length - 4) / 5) ** 2);
+      const coef = Math.exp(
+        -1 * ((tiles.length - this.powerCoef) / (this.powerCoef + 1)) ** 2
+      );
 
       if (tiles.length > 0) {
         const tileToInvoke = tiles[Math.ceil((tiles.length - 1) / 2)];
