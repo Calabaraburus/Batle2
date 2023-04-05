@@ -47,6 +47,8 @@ export class BonusModel extends Component {
   }
 
   set currentAmmountToActivate(value) {
+    if (value < 0) value = 0;
+
     this._currentAmmountToActivate = value;
   }
 

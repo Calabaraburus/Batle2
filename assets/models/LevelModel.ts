@@ -35,15 +35,7 @@ export class LevelModel extends Component {
   @property({ type: CCInteger })
   playerPower = 2;
 
-  /** bonus price 1 label */
-  @property({ type: CCInteger })
-  bonus1Price = 20;
-
-  /** bonus price 2 label */
-  @property({ type: CCInteger })
-  bonus2Price = 30;
-
   /** bonus price 3 label */
   @property({ type: CCInteger })
-  bonus3Price = 40;
+  gameMechanicType = 0;
 }

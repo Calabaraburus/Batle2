@@ -2,8 +2,9 @@ import { random } from "cc";
 import { TileController } from "../entities/tiles/TileController";
 import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
 import { BotAnalizator } from "./BotAnalizator";
+import { CardAnalizator } from "./CardAnalizator";
 
-export class ManeuverCardBotAnalizator extends BotAnalizator {
+export class ManeuverCardBotAnalizator extends CardAnalizator {
   tileToInvoke: TileController | null;
   procentToInvoke = 0.8;
   protected bonusName = "maneuver";
@@ -27,7 +28,8 @@ export class ManeuverCardBotAnalizator extends BotAnalizator {
     const card = this.getBonus(this.bonusName);
     if (card == null) return 0;
 
-    if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
+    if (!this.canActivateCard(card)) return 0;
+
     const tService = this.bot.tileService;
     if (tService == undefined) return 0;
 
