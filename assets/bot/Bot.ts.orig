@@ -42,11 +42,17 @@ import { PushCardBotAnalizator } from "./PushCardBotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
 import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
 import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
-<<<<<<< HEAD
-import { MineCardBotAnalizator } from "./MineCardBotAnalizator";
-=======
 import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
->>>>>>> 1234a3faeeaaae0a738005ac41916a425856a9ab
+<<<<<<< HEAD
+import { TeleportCardBotAnalizator } from "./TeleportCardBotAnalizator";
+import { FirewallLowCardBotAnalizator } from "./FirewallLowCardBotAnalizator";
+import { FirewallMiddleCardBotAnalizator } from "./FirewallMiddleCardBotAnalizator";
+import { LightningLowCardBotAnalizator } from "./LightningLowCardBotAnalizator";
+import { LightningMiddleCardBotAnalizator } from "./LightningMiddleCardBotAnalizator";
+=======
+import { MineCardBotAnalizator } from "./MineCardBotAnalizator";
+import { TotemCardBotAnalizator } from "./TotemCardBotAnalizator";
+>>>>>>> 34f89c08bbe8ee32bca37fc49065e63ed937e61d
 const { ccclass, property } = _decorator;
 
 interface BotAnalizatorGroup {
@@ -73,6 +79,8 @@ export class Bot extends Service implements IBot {
   cardAnalizers: CardAnalizator[] = [
     // Shield card
     new ShieldCardBotAnalizator("shield", this),
+<<<<<<< HEAD
+=======
 
     // Lightning card analiser
     new LightningCardBotAnalizator("lightning", this),
@@ -81,7 +89,18 @@ export class Bot extends Service implements IBot {
     new FirewallCardBotAnalizator("firewall", this),
 
     // Body exchange analizer
+>>>>>>> 34f89c08bbe8ee32bca37fc49065e63ed937e61d
     new BodyExchangeCardBotAnalizator("bodyexchange", this),
+
+    // Firewall cards
+    new FirewallCardBotAnalizator("firewall", this),
+    new FirewallLowCardBotAnalizator("firewallLow", this),
+    new FirewallMiddleCardBotAnalizator("firewallMiddle", this),
+
+    // Lightning cards
+    new LightningCardBotAnalizator("lightning", this),
+    new LightningLowCardBotAnalizator("lightningLow", this),
+    new LightningMiddleCardBotAnalizator("lightningMiddle", this),
 
     // Meteorite cards
     new MeteoriteCardBotAnalizator("meteorite", this),
@@ -105,13 +124,19 @@ export class Bot extends Service implements IBot {
     // Push card
     new PushCardBotAnalizator("push", this),
 
-<<<<<<< HEAD
-    // Mine card analizer
-    new MineCardBotAnalizator("mine", this),
-=======
     //Counterattack card
     new CounterattackCardBotAnalizator("c_attack", this),
->>>>>>> 1234a3faeeaaae0a738005ac41916a425856a9ab
+
+<<<<<<< HEAD
+    //Teleport card
+    new TeleportCardBotAnalizator("teleport", this),
+=======
+    // Mine card analizer
+    new MineCardBotAnalizator("mine", this),
+
+    // Totem card analizator
+    new TotemCardBotAnalizator("totem", this),
+>>>>>>> 34f89c08bbe8ee32bca37fc49065e63ed937e61d
   ];
 
   public get dataService() {

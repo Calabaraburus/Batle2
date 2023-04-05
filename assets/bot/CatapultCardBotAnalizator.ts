@@ -6,7 +6,7 @@ import { CardAnalizator } from "./CardAnalizator";
 
 export class CatapultCardBotAnalizator extends CardAnalizator {
   tileToInvoke: TileController | null;
-  procentToInvoke = 0.8;
+  procentToInvoke = 0.6;
   protected bonusName = "catapult";
   distanceMatrix = [
     [-1, 0],
@@ -34,7 +34,7 @@ export class CatapultCardBotAnalizator extends CardAnalizator {
     const card = this.getBonus(this.bonusName);
     if (card == null) return 0;
 
-    if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
+    if (!this.canActivateCard(card)) return 0;
 
     const weightedTilesList: { weight: number; tile: TileController }[] = [];
 
@@ -59,12 +59,15 @@ export class CatapultCardBotAnalizator extends CardAnalizator {
           (t) => t.playerModel == botModel
         );
         if (tileWeight == undefined) return;
-        const coef = Math.exp(-1 * ((tileWeight - 4) / 5) ** 2);
+
+        const coef = Math.exp(-1 * ((tileWeight - 4) / 5) ** 2) * 0.97;
+
         weightedTilesList.push({ weight: coef, tile: item });
       });
     }
-
-    if (weightedTilesList.length > 0) {
+    const rnd = random();
+    console.log(`[Bot][c_attackCard] decision value: ${rnd}`);
+    if (rnd <= this.procentToInvoke && weightedTilesList.length > 0) {
       const res = weightedTilesList.sort(
         (t1, t2) => -(t1.weight - t2.weight)
       )[0];

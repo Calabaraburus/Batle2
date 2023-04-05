@@ -14,7 +14,7 @@ import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 
 export class LightningCardSubehaviour extends CardsSubBehaviour {
-  protected maxCount = 9;
+  protected maxCount = 11;
   private _tilesToDestroy: TileController[] | undefined;
   private _cardsService: CardService | null;
   private _field: FieldController | null | undefined;

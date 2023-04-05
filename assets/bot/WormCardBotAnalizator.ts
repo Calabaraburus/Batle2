@@ -27,7 +27,7 @@ export class WormCardBotAnalizator extends CardAnalizator {
     const card = this.getBonus(this.cardMnemonic);
     if (card == null) return 0;
 
-    if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
+    if (!this.canActivateCard(card)) return 0;
 
     const weightedTilesList: { weight: number; tile: TileController }[] = [];
 
@@ -67,11 +67,11 @@ export class WormCardBotAnalizator extends CardAnalizator {
 
       let coef = 0;
       if (tiles.length > 9) {
-        coef = Math.exp(-1 * ((tiles.length - 10) / 11) ** 2) * 1.1;
+        coef = Math.exp(-1 * ((tiles.length - 10) / 11) ** 2);
       } else if (tiles.length == 1 && tilesInRow.length > 2) {
-        coef = Math.exp(-1 * ((tiles.length - 1) / 2) ** 2) * 1.5;
+        coef = Math.exp(-1 * ((tiles.length - 1) / 2) ** 2);
       } else {
-        coef = Math.exp(-1 * ((tiles.length - 2) / 3) ** 2);
+        coef = 0.97;
       }
 
       if (tiles.length > 0) {
@@ -80,7 +80,8 @@ export class WormCardBotAnalizator extends CardAnalizator {
       }
     }
 
-    if (weightedTilesList.length > 0) {
+    const rnd = random();
+    if (rnd <= this.procentToInvoke && weightedTilesList.length > 0) {
       const res = weightedTilesList.sort(
         (t1, t2) => -(t1.weight - t2.weight)
       )[0];

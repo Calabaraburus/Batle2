@@ -43,8 +43,13 @@ import { CardAnalizator } from "./CardAnalizator";
 import { ManeuverCardBotAnalizator } from "./ManeuverCardBotAnalizator";
 import { PanicCardBotAnalizator } from "./PanicCardBotAnalizator";
 import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
+import { FirewallLowCardBotAnalizator } from "./FirewallLowCardBotAnalizator";
+import { FirewallMiddleCardBotAnalizator } from "./FirewallMiddleCardBotAnalizator";
+import { LightningLowCardBotAnalizator } from "./LightningLowCardBotAnalizator";
+import { LightningMiddleCardBotAnalizator } from "./LightningMiddleCardBotAnalizator";
 import { MineCardBotAnalizator } from "./MineCardBotAnalizator";
 import { TotemCardBotAnalizator } from "./TotemCardBotAnalizator";
+import { TeleportCardBotAnalizator } from "./TeleportCardBotAnalizator";
 const { ccclass, property } = _decorator;
 
 interface BotAnalizatorGroup {
@@ -72,14 +77,18 @@ export class Bot extends Service implements IBot {
     // Shield card
     new ShieldCardBotAnalizator("shield", this),
 
-    // Lightning card analiser
-    new LightningCardBotAnalizator("lightning", this),
-
-    // Fire wall analizer
-    new FirewallCardBotAnalizator("firewall", this),
-
     // Body exchange analizer
     new BodyExchangeCardBotAnalizator("bodyexchange", this),
+
+    // Firewall cards
+    new FirewallCardBotAnalizator("firewall", this),
+    new FirewallLowCardBotAnalizator("firewallLow", this),
+    new FirewallMiddleCardBotAnalizator("firewallMiddle", this),
+
+    // Lightning cards
+    new LightningCardBotAnalizator("lightning", this),
+    new LightningLowCardBotAnalizator("lightningLow", this),
+    new LightningMiddleCardBotAnalizator("lightningMiddle", this),
 
     // Meteorite cards
     new MeteoriteCardBotAnalizator("meteorite", this),
@@ -98,7 +107,7 @@ export class Bot extends Service implements IBot {
     new ShamanCardBotAnalizator("shaman", this),
 
     // Assassin card
-    new AssassinCardBotAnalizator("assasin", this),
+    new AssassinCardBotAnalizator("assassin", this),
 
     // Push card
     new PushCardBotAnalizator("push", this),
@@ -111,6 +120,12 @@ export class Bot extends Service implements IBot {
 
     // Totem card analizator
     new TotemCardBotAnalizator("totem", this),
+
+    //Teleport card
+    new TeleportCardBotAnalizator("teleport", this),
+
+    //Teleport card
+    new PanicCardBotAnalizator("panic", this),
   ];
 
   public get dataService() {

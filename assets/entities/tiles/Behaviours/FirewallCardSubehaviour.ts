@@ -10,6 +10,7 @@ import { CardEffect } from "../../effects/CardEffect";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
+import { IAttackable, isIAttackable } from "../IAttackable";
 
 export class FirewallCardSubehaviour extends CardsSubBehaviour {
   private _tilesToDestroy: TileController[] = [];
@@ -50,9 +51,13 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
   }
 
   run(): boolean {
-    this._tilesToDestroy.forEach((item) =>
-      this.parent.field?.fakeDestroyTile(item)
-    );
+    this._tilesToDestroy.forEach((item) => {
+      if (isIAttackable(item)) {
+        (<IAttackable>item).attack(1);
+      } else {
+        this.parent.field?.fakeDestroyTile(item);
+      }
+    });
 
     return true;
   }

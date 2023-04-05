@@ -3,7 +3,7 @@ import { AnalizedData } from "../entities/field/AnalizedData";
 import { CardAnalizator } from "./CardAnalizator";
 
 export class CounterattackCardBotAnalizator extends CardAnalizator {
-  private readonly procToInvoke = 0.8;
+  private readonly procToInvoke = 0.6;
   private bonusName = "c_attack";
 
   analize(data: AnalizedData): number {
@@ -14,7 +14,7 @@ export class CounterattackCardBotAnalizator extends CardAnalizator {
     const card = this.getBonus(this.bonusName);
     if (card == null) return 0;
 
-    if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
+    if (!this.canActivateCard(card)) return 0;
 
     let closeColsCount = 0;
 
@@ -29,6 +29,9 @@ export class CounterattackCardBotAnalizator extends CardAnalizator {
     const rnd = random();
     console.log(`[Bot][c_attackCard] decision value: ${rnd}`);
     if (rnd <= this.procToInvoke && closeColsCount >= 2) {
+      this.weight = 1;
+      return 1;
+    } else if (closeColsCount >= 2) {
       this.weight = 1;
       return 1;
     }

@@ -47,10 +47,16 @@ export class CatapultTileController
   turnEnds(): void {
     const damageModel = this._cardService?.getCurrentPlayerModel();
 
+<<<<<<< HEAD
+    if (this._cardService?.getCurrentPlayerModel() == this.playerModel) {
+      if (oponentModel || oponentModel != null) {
+        this.playEffect();
+        oponentModel.life = oponentModel.life - 5;
+=======
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       if (damageModel || damageModel != null) {
-        this.playEffect();
         damageModel.life = damageModel.life - 5;
+>>>>>>> 3dd8e4e306de04e048960db94b708af86f0fc488
       }
     }
   }
