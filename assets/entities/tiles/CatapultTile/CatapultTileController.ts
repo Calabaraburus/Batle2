@@ -3,14 +3,17 @@
 //  Calabaraburus (c) 2023
 //
 
-import { _decorator, Sprite, Vec3, instantiate, Prefab, UITransform } from "cc";
+import { _decorator, Sprite, tween } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
 import { IAttackable } from "../IAttackable";
-import { GameManager } from "../../game/GameManager";
 import { CardService } from "../../services/CardService";
-import { PlayerModel } from "../../../models/PlayerModel";
+import { EffectsService } from "../../services/EffectsService";
+import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
+import { BalistaCardEffect } from "../../effects/BalistaCardEffect";
+import { DataService } from "../../services/DataService";
+import { LevelView } from "../../level/LevelView";
 const { ccclass, property } = _decorator;
 
 @ccclass("CatapultTileController")
@@ -23,10 +26,10 @@ export class CatapultTileController
   private _state: TileState;
   private _attacksCountToDestroy: number;
   private _attackedNumber: number;
-
-  /** Destroy particle system */
-  @property(Prefab)
-  destroyPartycles: Prefab;
+  private _effectsService: EffectsService | null;
+  private _cache: ObjectsCache | null;
+  private _dataService: DataService | null;
+  private _levelView: LevelView | null;
 
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -35,15 +38,10 @@ export class CatapultTileController
   start() {
     super.start();
     this._cardService = this.getService(CardService);
-    this.updateSprite();
-  }
-
-  updateSprite() {
-    this._curSprite = this.getComponent(Sprite);
-
-    if (this._curSprite != null) {
-      this._curSprite.spriteFrame = this.tileModel.sprite;
-    }
+    this._effectsService = this.getService(EffectsService);
+    this._cache = ObjectsCache.instance;
+    this._dataService = this.getService(DataService);
+    this._levelView = this.getService(LevelView);
   }
 
   turnEnds(): void {
@@ -51,6 +49,7 @@ export class CatapultTileController
 
     if (this._cardService?.getCurrentPlayerModel() == this.playerModel) {
       if (oponentModel || oponentModel != null) {
+        this.playEffect();
         oponentModel.life = oponentModel.life - 5;
       }
     }
@@ -66,8 +65,6 @@ export class CatapultTileController
     this._attacksCountToDestroy = 1;
 
     this._attackedNumber = this.attacksCountToDestroy;
-
-    this.updateSprite();
   }
 
   public cacheCreate(): void {
@@ -84,29 +81,39 @@ export class CatapultTileController
       this._attackedNumber -= power;
 
       if (this._attackedNumber <= 0) {
-        this.fakeDestroy();
+        this.destroyTile();
       }
     }
   }
 
-  public destroyTile() {
-    this.createParticles();
-    super.destroyTile();
-  }
+  playEffect() {
+    const effect = this._cache?.getObject(BalistaCardEffect);
 
-  private createParticles() {
-    const ps = instantiate(this.destroyPartycles);
-    ps.parent = this.node.parent;
-    const ui = this.getComponent(UITransform);
+    if (effect != null) {
+      effect.node.position = this.node.position;
+      effect.node.parent =
+        this._effectsService != null ? this._effectsService?.effectsNode : null;
 
-    if (ui == null) {
-      return;
+      const aim = this._dataService?.enemyFieldController?.node;
+
+      if (aim == null || aim == undefined) {
+        return;
+      }
+
+      effect.aim = aim;
+
+      effect.play();
+
+      const animator = tween(effect.node);
+
+      animator
+        .to(0.8, { position: aim.position })
+        .delay(0.8)
+        .call(() => effect.stopEmmit())
+        .delay(1)
+        .call(() => effect.cacheDestroy());
+
+      animator.start();
     }
-
-    ps.position = new Vec3(
-      this.node.position.x + ui.contentSize.width / 2,
-      this.node.position.y + ui.contentSize.height / 2,
-      this.node.position.z
-    );
   }
 }
