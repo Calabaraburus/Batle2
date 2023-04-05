@@ -195,7 +195,15 @@ export class CardsBehaviour extends GameBehaviour {
 
   payCardPrice(model: PlayerModel): void {
     const curPlayer = this.cardsService!.getCurrentPlayerModel();
-    curPlayer!.manaCurrent -= model.activeBonus!.priceToActivate;
+    if (curPlayer == null) return;
+    if (model.activeBonus == null) return;
+
+    // game mechanic 0
+    curPlayer.manaCurrent -= model.activeBonus.priceToActivate;
+
+    // game mechanic 1
+    model.activeBonus.currentAmmountToActivate -=
+      model.activeBonus.priceToActivate;
   }
 
   deactivateBonus(model: PlayerModel) {

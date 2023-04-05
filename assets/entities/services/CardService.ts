@@ -1,4 +1,5 @@
 import { _decorator } from "cc";
+import { LevelModel } from "../../models/LevelModel";
 import { PlayerModel } from "../../models/PlayerModel";
 import { DataService } from "./DataService";
 import { Service } from "./Service";
@@ -7,18 +8,20 @@ const { ccclass } = _decorator;
 @ccclass("CardService")
 export class CardService extends Service {
   _dataService: DataService | null;
+  private _levelModel: LevelModel | null;
 
   start() {
     this._dataService = this.getService(DataService);
+    this._levelModel = this.getService(LevelModel);
   }
 
   public updateBonusesActiveState(): void {
     const currentPlayer = this.getCurrentPlayerModel();
     currentPlayer?.bonuses.forEach((bonus) => {
-      if (currentPlayer.manaCurrent >= bonus.priceToActivate) {
-        bonus.active = true;
+      if (this._levelModel?.gameMechanicType == 0) {
+        bonus.active = currentPlayer.manaCurrent >= bonus.priceToActivate;
       } else {
-        bonus.active = false;
+        bonus.active = bonus.currentAmmountToActivate >= bonus.priceToActivate;
       }
     });
   }

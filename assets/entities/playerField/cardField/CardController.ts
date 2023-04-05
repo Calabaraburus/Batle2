@@ -9,11 +9,13 @@ import {
   Node,
 } from "cc";
 import { BonusModel } from "../../../models/BonusModel";
+import { LevelModel } from "../../../models/LevelModel";
+import { Service } from "../../services/Service";
 import { CardFieldController } from "./CardFieldController";
 const { ccclass, property } = _decorator;
 
 @ccclass("CardController")
-export class CardController extends Component {
+export class CardController extends Service {
   private _model: BonusModel;
   private _cardField: CardFieldController | null | undefined;
   private _button: Button | null;
@@ -27,6 +29,7 @@ export class CardController extends Component {
   private _maskPos: Vec3 = new Vec3();
   private _spritePos: Vec3 = new Vec3();
   private _maskHeight = 200;
+  private _levelModel: LevelModel | null;
 
   @property(Sprite)
   sprite: Sprite;
@@ -67,6 +70,8 @@ export class CardController extends Component {
   }
 
   start() {
+    this._levelModel = this.getService(LevelModel);
+
     this._fromScale = this.node.scale.clone();
     this._toScale = new Vec3(
       this._fromScale.x * this._animMultiplier,
@@ -100,14 +105,17 @@ export class CardController extends Component {
     this._button.interactable =
       this._model.active && !this.model.alreadyUsedOnTurn;
 
-    this.sprite.node.active = this._button.interactable;
-
     this.sprite.spriteFrame = this._model.sprite;
     this.unactiveSprite.spriteFrame = this._model.unactiveSprite;
     this.lblCardAmount.string = this._model.priceToActivate.toString();
     this.selected = this.model.selected;
 
-    //this.moveMask();
+    if (this._levelModel?.gameMechanicType == 1) {
+      this.sprite.node.active = true;
+      this.moveMask();
+    } else {
+      this.sprite.node.active = this._button.interactable;
+    }
   }
 
   moveMask() {
@@ -116,7 +124,7 @@ export class CardController extends Component {
 
     coef = coef < 0 ? 0 : coef;
 
-    if (!this._button?.interactable && coef == 0) {
+    if (this.model.alreadyUsedOnTurn && coef == 0) {
       coef = 1;
     }
 

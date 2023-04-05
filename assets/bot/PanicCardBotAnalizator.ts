@@ -28,7 +28,8 @@ export class PanicCardBotAnalizator extends CardAnalizator {
     const card = this.getBonus(this.bonusName);
     if (card == null) return 0;
 
-    if (this.bot.botModel.manaCurrent < card.priceToActivate) return 0;
+    if (!this.canActivateCard(card)) return 0;
+
     const tService = this.bot.tileService;
     if (tService == undefined) return 0;
 
