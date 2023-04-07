@@ -4,7 +4,7 @@ import { BotAnalizator } from "./BotAnalizator";
 import { CardAnalizator } from "./CardAnalizator";
 
 export class PushCardBotAnalizator extends CardAnalizator {
-  private readonly procToInvoke = 0.9;
+  private readonly procToInvoke = 0.8;
   private bonusName = "push";
 
   analize(data: AnalizedData): number {

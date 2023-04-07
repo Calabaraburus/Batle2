@@ -271,18 +271,26 @@ export class GameManager extends Service {
   }
 
   notifyTilesAboutEndOfTurn() {
-    this._field.fieldMatrix.forEach((t) => t.turnEnds());
+    this._field.fieldMatrix
+      .filter(() => true)
+      .forEach((t) => {
+        if (!t.isDestroied) t.turnEnds();
+      });
   }
 
   notifyTilesAboutStartOfTurn() {
-    this._field.fieldMatrix.forEach((t) => t.turnBegins());
+    this._field.fieldMatrix.filter(() => true).forEach((t) => t.turnBegins());
   }
 
   notifyTilesToAnimateEndOfTurn() {
-    this._field.fieldMatrix.forEach((t) => t.turnBeginsAnimation());
+    this._field.fieldMatrix
+      .filter(() => true)
+      .forEach((t) => t.turnBeginsAnimation());
   }
 
   notifyTilesToAnimateStartOfTurn() {
-    this._field.fieldMatrix.forEach((t) => t.turnEndsAnimation());
+    this._field.fieldMatrix
+      .filter(() => true)
+      .forEach((t) => t.turnEndsAnimation());
   }
 }

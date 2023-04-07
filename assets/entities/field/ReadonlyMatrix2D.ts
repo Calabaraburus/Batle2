@@ -41,7 +41,7 @@ export class ReadonlyMatrix2D<T> {
     }
   }
 
-  filter(filtFunc: (val: T) => boolean): T[] {
+  filter(filtFunc: (val: T) => boolean | undefined): T[] {
     return this.matrix.filter(filtFunc);
   }
 }
