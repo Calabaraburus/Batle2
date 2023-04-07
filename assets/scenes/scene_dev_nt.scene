@@ -2500,11 +2500,11 @@
     "mnemonic": "catapult",
     "priceToActivate": 3,
     "sprite": {
-      "__uuid__": "fb25ff90-f7ad-45c7-8d90-216387f8466a@f9941",
+      "__uuid__": "7a3d6c5c-7094-4ae3-aed2-28e6929ee96e@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": {
-      "__uuid__": "dea9b166-8c03-4e6b-b675-97e470e2e0a3@f9941",
+      "__uuid__": "2d3d5453-df56-4fd9-b9b8-19d5b09a6c2c@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "activateType": "long_range",
