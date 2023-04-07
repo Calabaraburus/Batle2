@@ -75,13 +75,13 @@ export class AssassinTileController
 
       const oponentModel = this._cardService?.getCurrentPlayerModel();
       const matrix = this.fieldController.fieldMatrix;
-
-      // const oponentTiles = this.fieldController.fieldMatrix.filter((tile) => {
-      //   return tile.playerModel == oponentModel;
-      // });
+      let vectorAttack = 1;
 
       for (let index = 0; index < this.maxCount; index++) {
-        const enemyTile = matrix.get(this.row + 1, this.col);
+        if (this.playerModel == this._cardService?._dataService?.botModel) {
+          vectorAttack = -1;
+        }
+        const enemyTile = matrix.get(this.row + vectorAttack, this.col);
         if (!enemyTile) return;
         this._tilesToDestroy.push(enemyTile);
       }
@@ -94,11 +94,9 @@ export class AssassinTileController
             this.fieldController.destroyTile(t.row, t.col, (t) => {
               return t.playerModel !== this.playerModel;
             });
-            // this.fieldController.destroyTile(t.row, t.col);
           }
         });
       }
-
       this.fieldController.moveTilesLogicaly(this._gameManager?.playerTurn);
     }
   }
