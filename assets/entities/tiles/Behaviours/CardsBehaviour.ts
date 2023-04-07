@@ -33,6 +33,8 @@ import { ShamanCardSubehaviour } from "./ShamanCardSubehaviour";
 import { EffectsService } from "../../services/EffectsService";
 import { ManeuverCardSubehaviour } from "./ManeuverCardSubehaviour";
 import { HammerCardSubehaviour } from "./HammerCardSubehaviour";
+import { PikeCardSubehaviour } from "./PikeCardSubehaviour";
+import { BerserkCardSubehaviour } from "./BerserkCardSubehaviour";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
@@ -128,6 +130,12 @@ export class CardsBehaviour extends GameBehaviour {
 
     // Hammer card
     this._cardsRunDict.set("hammer", new HammerCardSubehaviour(this));
+
+    // Pike card
+    this._cardsRunDict.set("pike", new PikeCardSubehaviour(this));
+
+    // Berserk card
+    this._cardsRunDict.set("berserk", new BerserkCardSubehaviour(this));
   }
 
   start() {

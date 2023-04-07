@@ -124,7 +124,7 @@ export class Bot extends Service implements IBot {
     //Teleport card
     new TeleportCardBotAnalizator("teleport", this),
 
-    //Teleport card
+    //Panic card
     new PanicCardBotAnalizator("panic", this),
   ];
 
