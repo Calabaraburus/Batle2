@@ -271,26 +271,26 @@ export class GameManager extends Service {
   }
 
   notifyTilesAboutEndOfTurn() {
-    this._field.fieldMatrix
-      .filter(() => true)
-      .forEach((t) => {
-        if (!t.isDestroied) t.turnEnds();
-      });
+    this.forAllNotDestroiedTiles((t) => t.turnEnds());
   }
 
   notifyTilesAboutStartOfTurn() {
-    this._field.fieldMatrix.filter(() => true).forEach((t) => t.turnBegins());
+    this.forAllNotDestroiedTiles((t) => t.turnBegins());
   }
 
   notifyTilesToAnimateEndOfTurn() {
-    this._field.fieldMatrix
-      .filter(() => true)
-      .forEach((t) => t.turnBeginsAnimation());
+    this.forAllNotDestroiedTiles((t) => t.turnBeginsAnimation());
   }
 
   notifyTilesToAnimateStartOfTurn() {
+    this.forAllNotDestroiedTiles((t) => t.turnEndsAnimation());
+  }
+
+  forAllNotDestroiedTiles(action: (tile: TileController) => void) {
     this._field.fieldMatrix
       .filter(() => true)
-      .forEach((t) => t.turnEndsAnimation());
+      .forEach((t) => {
+        if (!t.isDestroied) action(t);
+      });
   }
 }

@@ -2969,13 +2969,7 @@
     "heroSprite": null,
     "bonuses": [
       {
-        "__id__": 99
-      },
-      {
-        "__id__": 93
-      },
-      {
-        "__id__": 95
+        "__id__": 91
       }
     ],
     "_id": "215eF6Wo1P0L3tBIOboJFt"
