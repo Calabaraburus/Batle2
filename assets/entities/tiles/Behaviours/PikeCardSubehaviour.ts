@@ -19,13 +19,29 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
   private _colTilesToDestroy: TileController[] = [];
   private _cache: ObjectsCache | null;
   protected powerCard = 2;
+  protected coordsCol = [
+    [-2, -1, 1, 2],
+    [-1, 1],
+    [0, 0],
+  ];
   private _targetTile: StdTileController;
   private _fieldTransform: UITransform;
 
   prepare(): boolean {
-    const maxCountLength = this.powerCard;
+    let maxCountLength = this.powerCard;
+    let maxCountLengthBot = 0;
+    const coords = this.coordsCol.slice();
     this._targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
+
+    if (
+      this.parent.cardsService?.getCurrentPlayerModel() ==
+      this.parent.cardsService?._dataService?.botModel
+    ) {
+      maxCountLength = 0;
+      maxCountLengthBot = this.powerCard;
+      coords.reverse();
+    }
 
     if (playerTag == null) return false;
     if (this.parent.cardsService == null) return false;
@@ -61,7 +77,7 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
         ) {
           if (
             this._targetTile.row + maxCountLength >= rowId &&
-            this._targetTile.row <= rowId
+            this._targetTile.row - maxCountLengthBot <= rowId
           ) {
             this._colTilesToDestroy.push(tile);
           }
@@ -69,20 +85,26 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
       }
     );
 
-    let coords = [
-      [-2, -1, 1, 2],
-      [-1, 1],
-      [0, 0],
-    ];
+    // let coords = [
+    //   [-2, -1, 1, 2],
+    //   [-1, 1],
+    //   [0, 0],
+    // ];
 
-    if (maxCountLength == 1) {
-      coords = [
-        [-1, 1],
-        [0, 0],
-      ];
-    } else if (maxCountLength == 0) {
-      coords = [[0, 0]];
-    }
+    // if (maxCountLength == 2 || maxCountLengthBot == 2) {
+    //   coords = [
+    //     [-2, -1, 1, 2],
+    //     [-1, 1],
+    //     [0, 0],
+    //   ];
+    // } else if (maxCountLength == 1 || maxCountLengthBot == 1) {
+    //   coords = [
+    //     [-1, 1],
+    //     [0, 0],
+    //   ];
+    // } else {
+    //   coords = [[0, 0]];
+    // }
 
     for (let index = 0; index < this._colTilesToDestroy.length; index++) {
       this._tilesToDestroy.push(this._colTilesToDestroy[index]);
@@ -99,6 +121,7 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
   ) {
     coords.forEach((item) => {
       const tileToDestroy = matrix?.get(tile.row, tile.col + item);
+      if (tile == tileToDestroy) return;
       if (!tileToDestroy) return;
       if (this.parent.cardsService == null) return;
       if (

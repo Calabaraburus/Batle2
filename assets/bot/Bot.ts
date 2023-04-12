@@ -50,6 +50,13 @@ import { LightningMiddleCardBotAnalizator } from "./LightningMiddleCardBotAnaliz
 import { MineCardBotAnalizator } from "./MineCardBotAnalizator";
 import { TotemCardBotAnalizator } from "./TotemCardBotAnalizator";
 import { TeleportCardBotAnalizator } from "./TeleportCardBotAnalizator";
+import { BerserkCardBotAnalizator } from "./BerserkCardBotAnalizator";
+import { HammerCardBotAnalizator } from "./HammerCardBotAnalizator";
+import { HammerLowCardBotAnalizator } from "./HammerLowCardBotAnalizator";
+import { HammerMiddleCardBotAnalizator } from "./HammerMiddleCardBotAnalizator";
+import { PikeCardBotAnalizator } from "./PikeCardBotAnalizator";
+import { PikeLowCardBotAnalizator } from "./PikeLowCardBotAnalizator";
+import { PikeMiddleCardBotAnalizator } from "./PikeMiddleCardBotAnalizator";
 const { ccclass, property } = _decorator;
 
 interface BotAnalizatorGroup {
@@ -100,6 +107,16 @@ export class Bot extends Service implements IBot {
     new WormLowCardBotAnalizator("wormLow", this),
     new WormMiddleCardBotAnalizator("wormMiddle", this),
 
+    // Hammer cards
+    new HammerCardBotAnalizator("hammer", this),
+    new HammerLowCardBotAnalizator("hammerLow", this),
+    new HammerMiddleCardBotAnalizator("hammerMiddle", this),
+
+    // Pike cards
+    new PikeCardBotAnalizator("pike", this),
+    new PikeLowCardBotAnalizator("pikeLow", this),
+    new PikeMiddleCardBotAnalizator("pikeMiddle", this),
+
     // Catapult card
     new CatapultCardBotAnalizator("catapult", this),
 
@@ -108,6 +125,9 @@ export class Bot extends Service implements IBot {
 
     // Assassin card
     new AssassinCardBotAnalizator("assassin", this),
+
+    // Berserk card
+    new BerserkCardBotAnalizator("berserk", this),
 
     // Push card
     new PushCardBotAnalizator("push", this),
@@ -126,6 +146,9 @@ export class Bot extends Service implements IBot {
 
     //Panic card
     new PanicCardBotAnalizator("panic", this),
+
+    //Maneuver card
+    new ManeuverCardBotAnalizator("maneuver", this),
   ];
 
   public get dataService() {
