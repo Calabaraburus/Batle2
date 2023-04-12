@@ -22,10 +22,19 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
   private _fieldTransform: UITransform;
 
   prepare(): boolean {
-    const maxCountLength = this.powerCard;
+    let maxCountLength = this.powerCard;
+    let maxCountLengthBot = 0;
     const maxCountForRow = 1;
     this._targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
+
+    if (
+      this.parent.cardsService?.getCurrentPlayerModel() ==
+      this.parent.cardsService?._dataService?.botModel
+    ) {
+      maxCountLength = 0;
+      maxCountLengthBot = this.powerCard;
+    }
 
     if (playerTag == null) return false;
     if (this.parent.cardsService == null) return false;
@@ -48,7 +57,7 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
     this._fieldTransform = fieldTransform;
     const matrix = this.parent.field?.fieldMatrix;
     this._cache = ObjectsCache.instance;
-    this.effectDurationValue = 1.5;
+    this.effectDurationValue = 1.8;
     this._tilesToDestroy = [];
     this._colTilesToDestroy = [];
 
@@ -61,7 +70,7 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
         ) {
           if (
             this._targetTile.row + maxCountLength >= rowId &&
-            this._targetTile.row <= rowId
+            this._targetTile.row - maxCountLengthBot <= rowId
           ) {
             this._colTilesToDestroy.push(tile);
           }
