@@ -1,7 +1,8 @@
 import { randomRangeInt, tween, Vec2 } from "cc";
 import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { CardEffect } from "../../effects/CardEffect";
-import { lightning, LightningVector } from "../../effects/lightning";
+import { lightning } from "../../effects/lightning";
+import { Line } from "../../effects/Line";
 import { FieldController } from "../../field/FieldController";
 import { ReadonlyMatrix2D } from "../../field/ReadonlyMatrix2D";
 import { CardService } from "../../services/CardService";
