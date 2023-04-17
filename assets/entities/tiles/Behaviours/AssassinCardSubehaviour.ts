@@ -1,4 +1,6 @@
+import { tween } from "cc";
 import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
+import { CardEffect } from "../../effects/CardEffect";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
@@ -28,7 +30,7 @@ export class AssassinCardSubehaviour extends CardsSubBehaviour {
     }
 
     this._cache = ObjectsCache.instance;
-    this.effectDurationValue = 1.8;
+    this.effectDurationValue = 0.5;
 
     return true;
   }
@@ -72,6 +74,24 @@ export class AssassinCardSubehaviour extends CardsSubBehaviour {
   }
 
   effect(): boolean {
+    this.parent.debug?.log("[assassin_card_sub] Start effect.");
+
+    const effect =
+      this._cache?.getObjectByPrefabName<CardEffect>("explosion2Effect");
+
+    if (effect == null) {
+      return false;
+    }
+
+    effect.node.position = this.parent.target.node.position;
+    effect.node.parent = this.parent.effectsNode;
+    effect.play();
+
+    const animator = tween(this);
+    animator.delay(1).call(() => effect.cacheDestroy());
+
+    animator.start();
+
     return true;
   }
 }

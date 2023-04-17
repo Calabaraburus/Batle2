@@ -5,7 +5,8 @@
 //  Author:Natalchishin Taras
 
 import { randomRangeInt, tween, Vec2 } from "cc";
-import { lightning, LightningVector } from "../../effects/lightning";
+import { lightning } from "../../effects/lightning";
+import { Line } from "../../effects/Line";
 import { FieldController } from "../../field/FieldController";
 import { CardService } from "../../services/CardService";
 import { IAttackable, isIAttackable } from "../IAttackable";
@@ -77,7 +78,7 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
     if (this._lightning == null) return false;
     if (this._tilesToDestroy == undefined) return false;
 
-    const vec: LightningVector[] = [];
+    const vec: Line[] = [];
 
     let prev: TileController | null = null;
 
@@ -89,7 +90,7 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
           return;
         }
 
-        const line = new LightningVector();
+        const line = new Line();
         line.startPoint = new Vec2(prev.node.position.x, prev.node.position.y);
         line.endPoint = new Vec2(t.node.position.x, t.node.position.y);
         vec.push(line);
