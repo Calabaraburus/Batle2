@@ -22,7 +22,7 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
 
     if (
       this.parent.cardsService?.getCurrentPlayerModel() ==
-      this._cardsService?._dataService?.botModel
+      this.parent.cardsService?._dataService?.botModel
     ) {
       enemySide = -1;
     }

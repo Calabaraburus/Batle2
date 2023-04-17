@@ -229,4 +229,15 @@ export class TileService extends Service {
 
     return result;
   }
+
+  public countSame(tiles: Set<TileController>): number {
+    let result = 0;
+    tiles.forEach((t) => {
+      if (t instanceof StdTileController) {
+        result++;
+      }
+    });
+
+    return result;
+  }
 }

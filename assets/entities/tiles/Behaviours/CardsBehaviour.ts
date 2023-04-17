@@ -35,6 +35,10 @@ import { ManeuverCardSubehaviour } from "./ManeuverCardSubehaviour";
 import { HammerCardSubehaviour } from "./HammerCardSubehaviour";
 import { PikeCardSubehaviour } from "./PikeCardSubehaviour";
 import { BerserkCardSubehaviour } from "./BerserkCardSubehaviour";
+import { HammerLowCardSubehaviour } from "./HammerLowCardSubehaviour";
+import { HammerMiddleCardSubehaviour } from "./HammerMiddleCardSubehaviour";
+import { PikeLowCardSubehaviour } from "./PikeLowCardSubehaviour";
+import { PikeMiddleCardSubehaviour } from "./PikeMiddleCardSubehaviour";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
@@ -101,6 +105,19 @@ export class CardsBehaviour extends GameBehaviour {
     this._cardsRunDict.set("wormMiddle", new WormMiddleCardSubehaviour(this));
     this._cardsRunDict.set("worm", new WormCardSubehaviour(this));
 
+    // Hammer card
+    this._cardsRunDict.set("hammer", new HammerCardSubehaviour(this));
+    this._cardsRunDict.set("hammerLow", new HammerLowCardSubehaviour(this));
+    this._cardsRunDict.set(
+      "hammerMiddle",
+      new HammerMiddleCardSubehaviour(this)
+    );
+
+    // Pike card
+    this._cardsRunDict.set("pike", new PikeCardSubehaviour(this));
+    this._cardsRunDict.set("pikeLow", new PikeLowCardSubehaviour(this));
+    this._cardsRunDict.set("pikeMiddle", new PikeMiddleCardSubehaviour(this));
+
     // Catapult card
     this._cardsRunDict.set("catapult", new CatapultCardSubehaviour(this));
 
@@ -127,12 +144,6 @@ export class CardsBehaviour extends GameBehaviour {
 
     // Push card
     this._cardsRunDict.set("push", new PushCardSubehaviour(this));
-
-    // Hammer card
-    this._cardsRunDict.set("hammer", new HammerCardSubehaviour(this));
-
-    // Pike card
-    this._cardsRunDict.set("pike", new PikeCardSubehaviour(this));
 
     // Berserk card
     this._cardsRunDict.set("berserk", new BerserkCardSubehaviour(this));

@@ -6,7 +6,7 @@ import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 
 export class PanicCardSubehaviour extends CardsSubBehaviour {
-  private _tilesToPanic: TileController[] = [];
+  private _tilesToPanic: TileController[] | undefined = [];
   private _tilesShufflePanic: TileController[] = [];
   private _tilesPanicCopy: TileController[] = [];
   private _cache: ObjectsCache | null;
@@ -16,6 +16,7 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
+
     if (playerTag == null) return false;
     if (this.parent.cardsService == null) return false;
 
@@ -29,17 +30,25 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
 
     this._cache = ObjectsCache.instance;
     this.effectDurationValue = 1;
-    this._tilesToPanic = [];
-    const currentTile: TileController = targetTile;
+    // this._tilesToPanic = [];
+    const oponentModel = this.parent.cardsService.getOponentModel();
+    this._tilesToPanic = this.parent.field?.fieldMatrix.filter((tile) => {
+      return tile.playerModel == oponentModel;
+    });
+
+    if (!this._tilesToPanic) return false;
+
+    // const currentTile: TileController = targetTile;
 
     // list with columns index
-    const ids = [-1, 0, 1];
+    // const ids = [-1, 0, 1];
 
-    ids.forEach((i) =>
-      this.completFieldOfTiles(currentTile, currentTile.col + i)
-    );
+    // ids.forEach((i) =>
+    //   this.completFieldOfTiles(currentTile, currentTile.col + i)
+    // );
 
     this._tilesPanicCopy = this._tilesToPanic.slice();
+
     this._tilesShufflePanic = [];
 
     while (this._tilesPanicCopy.length > 0) {
@@ -55,27 +64,29 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
   }
 
   // get tile and col to complete panic list
-  private completFieldOfTiles(currentTile: TileController, targetCol: number) {
-    this.parent.field?.fieldMatrix.forEachCol(targetCol, (tile, rowId) => {
-      if (this.parent.cardsService == null) return;
-      if (
-        tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
-      ) {
-        if (
-          currentTile.row + this.countForEachSide >= rowId &&
-          currentTile.row - this.countForEachSide <= rowId
-        ) {
-          this._tilesToPanic.push(tile);
-        }
-      }
-    });
-  }
+  // private completFieldOfTiles(currentTile: TileController, targetCol: number) {
+  //   this.parent.field?.fieldMatrix.forEachCol(targetCol, (tile, rowId) => {
+  //     if (this.parent.cardsService == null) return;
+  //     if (
+  //       tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
+  //     ) {
+  //       if (
+  //         currentTile.row + this.countForEachSide >= rowId &&
+  //         currentTile.row - this.countForEachSide <= rowId
+  //       ) {
+  //         this._tilesToPanic.push(tile);
+  //       }
+  //     }
+  //   });
+  // }
 
   run(): boolean {
     this.parent.debug?.log("[totem_card_sub] Starting run.");
 
     const matrix = this.parent.field?.fieldMatrix;
     if (matrix == null) return false;
+
+    if (!this._tilesToPanic) return false;
 
     for (let index = 0; index < this._tilesToPanic.length; index++) {
       const tile: TileController = matrix?.get(
