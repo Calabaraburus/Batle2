@@ -16,7 +16,7 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
     let targetRow = 10;
     if (
       this.parent.cardsService?.getCurrentPlayerModel() ==
-      this._cardsService?._dataService?.botModel
+      this.parent.cardsService?._dataService?.botModel
     ) {
       targetRow = 1;
     }
