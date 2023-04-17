@@ -15,6 +15,7 @@ import {
 } from "cc";
 import { ObjectsCache } from "../../ObjectsCache/ObjectsCache";
 import { CardEffect } from "./CardEffect";
+import { Line } from "./Line";
 const { ccclass, property } = _decorator;
 
 @ccclass("lightning")
@@ -97,7 +98,7 @@ export class lightning extends Component {
   }
 
   drawLightning(
-    positions: LightningVector[],
+    positions: Line[],
     color: Color,
     width: number,
     displace: number
@@ -119,10 +120,10 @@ export class lightning extends Component {
   }
 
   private redrawTime = 0;
-  private _lighningVectors: LightningVector[] = [];
+  private _lighningVectors: Line[] = [];
   private _lightningIsEnabled: boolean;
 
-  public makeLightning(vectors: LightningVector[]) {
+  public makeLightning(vectors: Line[]) {
     this._lightningIsEnabled = true;
     this._lighningVectors = [];
     const timerObj = { time: 0 };
@@ -146,7 +147,7 @@ export class lightning extends Component {
       animator.to(0.1, { time: 1 }).call(() => {
         this._lighningVectors.push(v);
         tileLightninEffect =
-          this._cache?.getObjectByPrefabName<CardEffect>("lightningEffect");
+          this._cache?.getObjectByPrefabName<CardEffect>("lightnin  gEffect");
         if (tileLightninEffect == null) return;
         effects.push(tileLightninEffect);
 
@@ -198,9 +199,4 @@ export class lightning extends Component {
     }
     this.redrawTime -= dt;
   }
-}
-
-export class LightningVector {
-  public startPoint: Vec2;
-  public endPoint: Vec2;
 }

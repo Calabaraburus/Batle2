@@ -1,5 +1,6 @@
 import { randomRangeInt, Vec2 } from "cc";
-import { lightning, LightningVector } from "../../effects/lightning";
+import { lightning } from "../../effects/lightning";
+import { Line } from "../../effects/Line";
 import { FieldAnalizer } from "../../field/FieldAnalizer";
 import { FieldController } from "../../field/FieldController";
 import { CardService } from "../../services/CardService";
