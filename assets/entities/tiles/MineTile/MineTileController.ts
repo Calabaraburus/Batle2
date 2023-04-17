@@ -59,11 +59,6 @@ export class MineTileController extends TileController {
         }
       });
 
-      // this.destroyOtherTile(this.row - 1, this.col);
-      // this.destroyOtherTile(this.row, this.col - 1);
-      // this.destroyOtherTile(this.row + 1, this.col);
-      // this.destroyOtherTile(this.row, this.col + 1);
-
       this.fieldController.moveTilesLogicaly(this._gameManager?.playerTurn);
     }
   }

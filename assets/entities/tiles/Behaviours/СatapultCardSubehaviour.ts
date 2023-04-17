@@ -30,7 +30,7 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
     }
 
     this._cache = ObjectsCache.instance;
-    this.effectDurationValue = 0.8;
+    this.effectDurationValue = 0.4;
 
     this.parent.debug?.log("[catapult_card_sub] Stop preparing with.");
     return true;

@@ -216,6 +216,7 @@ export class GameManager extends Service {
 
     this._field.analizeTiles();
     this._field.fixTiles();
+    this._field.moveTilesAnimate();
 
     if (this._botTurn) {
       playerModel.life -= this.countAttackingTiles("start") * enemyModel.power;
