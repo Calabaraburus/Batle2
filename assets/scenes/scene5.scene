@@ -40,7 +40,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 442
+      "__id__": 438
     },
     "_id": "484c1a03-f237-4c85-b8b7-46096ea3699d"
   },
@@ -2112,12 +2112,6 @@
       },
       {
         "__id__": 67
-      },
-      {
-        "__id__": 14
-      },
-      {
-        "__id__": 36
       }
     ],
     "fieldMap": {
@@ -9797,7 +9791,7 @@
         "__id__": 359
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 362
@@ -9812,8 +9806,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -538.277,
-      "y": -1136.1969999999997,
+      "x": 1340.176,
+      "y": 66.857,
       "z": 0
     },
     "_lrot": {
@@ -12326,12 +12320,6 @@
       },
       {
         "__id__": 435
-      },
-      {
-        "__id__": 438
-      },
-      {
-        "__id__": 440
       }
     ],
     "nestedPrefabInstanceRoots": [
@@ -12410,65 +12398,21 @@
     ]
   },
   {
-    "__type__": "cc.TargetOverrideInfo",
-    "source": {
-      "__id__": 420
-    },
-    "sourceInfo": null,
-    "propertyPath": [
-      "field"
-    ],
-    "target": {
-      "__id__": 151
-    },
-    "targetInfo": {
-      "__id__": 439
-    }
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "fa43eWwVVIebyR1Bi6UTGO"
-    ]
-  },
-  {
-    "__type__": "cc.TargetOverrideInfo",
-    "source": {
-      "__id__": 407
-    },
-    "sourceInfo": null,
-    "propertyPath": [
-      "fieldController"
-    ],
-    "target": {
-      "__id__": 151
-    },
-    "targetInfo": {
-      "__id__": 441
-    }
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "fa43eWwVVIebyR1Bi6UTGO"
-    ]
-  },
-  {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 443
+      "__id__": 439
     },
     "shadows": {
-      "__id__": 444
+      "__id__": 440
     },
     "_skybox": {
-      "__id__": 445
+      "__id__": 441
     },
     "fog": {
-      "__id__": 446
+      "__id__": 442
     },
     "octree": {
-      "__id__": 447
+      "__id__": 443
     }
   },
   {

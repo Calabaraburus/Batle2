@@ -12,6 +12,7 @@ import { BonusModel } from "../../../models/BonusModel";
 import { LevelModel } from "../../../models/LevelModel";
 import { Service } from "../../services/Service";
 import { CardFieldController } from "./CardFieldController";
+import { WindowManager } from "../../infoPanel/WindowManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("CardController")
@@ -30,6 +31,7 @@ export class CardController extends Service {
   private _spritePos: Vec3 = new Vec3();
   private _maskHeight = 200;
   private _levelModel: LevelModel | null;
+  private _timerFlag: boolean;
 
   @property(Sprite)
   sprite: Sprite;
@@ -90,7 +92,24 @@ export class CardController extends Service {
     this._maskPos = this.sprite.node.position;
     this._spritePos = this.maskNode.position;
 
+    this._button?.node.on(Node.EventType.TOUCH_START, this.onTouchStart, this);
+    this._button?.node.on(Node.EventType.TOUCH_END, this.onTouchEnd, this);
+
     this.updateData();
+  }
+
+  onTouchStart() {
+    this._timerFlag = false;
+    this.scheduleOnce(() => {
+      this._timerFlag = true;
+    }, 2);
+  }
+
+  onTouchEnd() {
+    const manager = this.getService(WindowManager);
+    if (this._timerFlag == true) {
+      manager?.showCardWindow(this.model);
+    }
   }
 
   updateData() {
