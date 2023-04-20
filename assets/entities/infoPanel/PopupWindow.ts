@@ -14,13 +14,13 @@ export class PopupWindow extends Component {
     this.node.scale = this.initScale;
 
     tween(this.node)
-      .to(0.8, { scale: this.finaleScale }, { easing: "backOut" })
+      .to(0.4, { scale: this.finaleScale }, { easing: "backOut" })
       .start();
   }
 
   hideWindow() {
     tween(this.node)
-      .to(0.8, { scale: this.initScale }, { easing: "backOut" })
+      .to(0.4, { scale: this.initScale }, { easing: "quadInOut" })
       .call(() => {
         this.node.active = false;
       })
