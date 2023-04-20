@@ -31,6 +31,7 @@ export class CardController extends Service {
   private _spritePos: Vec3 = new Vec3();
   private _maskHeight = 200;
   private _levelModel: LevelModel | null;
+  private _manager: WindowManager | null;
   private _timerFlag: boolean;
 
   @property(Sprite)
@@ -61,7 +62,9 @@ export class CardController extends Service {
       if (this._model.selected != value) {
         this._model.selected = value;
       }
+
       this._selected = value;
+
       this.animateSelect();
     }
   }
@@ -73,6 +76,7 @@ export class CardController extends Service {
 
   start() {
     this._levelModel = this.getService(LevelModel);
+    this._manager = this.getService(WindowManager);
 
     this._fromScale = this.node.scale.clone();
     this._toScale = new Vec3(
@@ -92,8 +96,8 @@ export class CardController extends Service {
     this._maskPos = this.sprite.node.position;
     this._spritePos = this.maskNode.position;
 
-    this._button?.node.on(Node.EventType.TOUCH_START, this.onTouchStart, this);
-    this._button?.node.on(Node.EventType.TOUCH_END, this.onTouchEnd, this);
+    this._button?.node.on(Node.EventType.MOUSE_DOWN, this.onTouchStart, this);
+    this._button?.node.on(Node.EventType.MOUSE_UP, this.onTouchEnd, this);
 
     this.updateData();
   }
@@ -106,9 +110,8 @@ export class CardController extends Service {
   }
 
   onTouchEnd() {
-    const manager = this.getService(WindowManager);
     if (this._timerFlag == true) {
-      manager?.showCardWindow(this.model);
+      this._manager?.showCardWindow(this.model);
     }
   }
 
@@ -157,9 +160,11 @@ export class CardController extends Service {
   }
 
   cardClick() {
-    this.selected = !this.selected;
+    if (this._timerFlag == false) {
+      this.selected = !this.selected;
 
-    this.node.emit("cardClicked", this, this.selected);
+      this.node.emit("cardClicked", this, this.selected);
+    }
   }
 
   animateSelect() {

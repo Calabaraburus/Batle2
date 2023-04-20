@@ -7,6 +7,7 @@
 import {
   CCBoolean,
   CCInteger,
+  CCObject,
   CCString,
   Component,
   SpriteFrame,
@@ -38,6 +39,19 @@ export class BonusModel extends Component {
   //** Tiles of what type need to destroy to activate bonus */
   @property(CCString)
   public activateType = "-";
+
+  //** Properties for info window */
+  @property(CCString)
+  cardName = "";
+
+  @property(CCString)
+  cardDescription = "";
+
+  @property({ type: SpriteFrame })
+  cardImage: SpriteFrame;
+
+  @property({ type: SpriteFrame })
+  cardImageForExample: SpriteFrame;
 
   //** Current amount that already destroied */
   private _currentAmmountToActivate = 0;
