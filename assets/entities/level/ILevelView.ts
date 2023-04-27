@@ -26,12 +26,6 @@ export interface ILevelView {
   /** bonus price 3 label */
   Bonus3Price: number;
 
-  /** enemy life label */
-  EnemyLife: number;
-
-  /** enemy max life label */
-  EnemyMaxLife: number;
-
   setController(controller: LevelController): void;
 
   showWin(show: boolean): void;
