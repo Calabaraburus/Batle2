@@ -104,8 +104,10 @@ export class CardController extends Service {
 
   onTouchStart() {
     this._timerFlag = false;
+
     this.scheduleOnce(() => {
       this._timerFlag = true;
+      this._manager?.showCardWindow(this.model);
     }, 2);
   }
 

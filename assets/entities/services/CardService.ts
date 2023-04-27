@@ -3,7 +3,7 @@ import { LevelModel } from "../../models/LevelModel";
 import { PlayerModel } from "../../models/PlayerModel";
 import { DataService } from "./DataService";
 import { Service } from "./Service";
-const { ccclass } = _decorator;
+const { ccclass, property } = _decorator;
 
 @ccclass("CardService")
 export class CardService extends Service {
