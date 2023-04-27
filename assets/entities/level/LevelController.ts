@@ -77,11 +77,6 @@ export class LevelController extends Component {
     this.view.AimPoints = this.model.aimPoints;
     this.view.TurnsCount = this.model.turnsCount;
     this.view.PointsCount = this.model.pointsCount;
-    this.view.EnemyLife = this.levelConfiguration.botModel.life;
-    this.view.EnemyMaxLife = this.levelConfiguration.botModel.lifeMax;
-
-    this.playerField.playerModel = this.levelConfiguration.playerModel;
-    this.enemyField.playerModel = this.levelConfiguration.botModel;
 
     this.playerField.updateData();
     this.enemyField.updateData();

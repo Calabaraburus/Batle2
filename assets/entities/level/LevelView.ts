@@ -46,14 +46,6 @@ export class LevelView extends Component implements ILevelView {
   @property({ type: Label })
   pointsCountLbl: Label;
 
-  /** bonus price 3 label */
-  @property({ type: Label })
-  enemyLifeLbl: Label;
-
-  /** Enemy life line node */
-  @property({ type: Node })
-  enemyLifeLine: Node;
-
   /** Win block */
   @property({ type: Node })
   winBlock: Node;
@@ -100,23 +92,6 @@ export class LevelView extends Component implements ILevelView {
     this._pointsCount = value;
   }
 
-  public get EnemyLife(): number {
-    return Number(this.enemyLifeLbl.string);
-  }
-
-  public set EnemyLife(value: number) {
-    this.updateLifeLinePos(this.enemyLifeLine, value, this._enemyMaxLife);
-    this.enemyLifeLbl.string = value.toString();
-  }
-
-  public get EnemyMaxLife(): number {
-    return this._enemyMaxLife;
-  }
-
-  public set EnemyMaxLife(value: number) {
-    this._enemyMaxLife = value;
-  }
-
   public showWin(show: boolean) {
     this.winBlock.active = show;
   }
@@ -148,15 +123,5 @@ export class LevelView extends Component implements ILevelView {
 
   public setController(controller: LevelController): void {
     this._controller = controller;
-  }
-
-  private updateLifeLinePos(line: Node, value: number, maxValue: number) {
-    const coef = (this.loadLineEndPos - this.loadLineZeroPos) / maxValue;
-
-    line.position = new Vec3(
-      coef * value + this.loadLineZeroPos,
-      line.position.y,
-      line.position.z
-    );
   }
 }

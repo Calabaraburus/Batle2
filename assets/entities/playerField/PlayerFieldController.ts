@@ -63,13 +63,9 @@ export class PlayerFieldController extends Component {
   }
 
   public updateData() {
-    this.lblMana.string =
-      this.playerModel.manaCurrent.toString() +
-      "/" +
-      this.playerModel.manaMax.toString();
-
     this.playerImage.spriteFrame = this.playerModel.heroImage;
     this.playerLifeLine.Max = this.playerModel.lifeMax;
+    this.playerLifeLine.Value = this.playerModel.life;
     this.cardField.bonuses = this.playerModel.bonuses;
     this.cardField.updateData();
   }
