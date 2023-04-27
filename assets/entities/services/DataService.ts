@@ -9,6 +9,7 @@ import { PlayerFieldController } from "../playerField/PlayerFieldController";
 import { DebugView } from "../ui/debugger/DebugView";
 const { ccclass } = _decorator;
 import { Service } from "./Service";
+import { LevelConfiguration } from "../configuration/LevelConfiguration";
 
 @ccclass("DataService")
 export class DataService extends Service {
@@ -21,6 +22,7 @@ export class DataService extends Service {
   private _field: FieldController | null | undefined;
   private _enemyFieldController: EnemyFieldController | null | undefined;
   private _playerFieldController: PlayerFieldController | null | undefined;
+  private _levelConfig: LevelConfiguration | null;
 
   public get debugView() {
     return this._debug;
@@ -39,10 +41,12 @@ export class DataService extends Service {
   }
 
   public get botModel() {
+    if (this._botModel == null) throw Error("Bot model is null");
     return this._botModel;
   }
 
   public get playerModel() {
+    if (this._playerModel == null) throw Error("Player model is null");
     return this._playerModel;
   }
 
@@ -58,22 +62,24 @@ export class DataService extends Service {
     return this._field;
   }
 
+  public get levelConfiguration() {
+    if (this._levelConfig == null) throw Error("LevelConfiguration is null");
+    return this._levelConfig;
+  }
+
   start() {
     this._debug = this.getService(DebugView);
     this._manager = this.getService(GameManager);
     this._field = this.getService(FieldController);
+    this._levelConfig = this.getService(LevelConfiguration);
 
     if (this.field != undefined) {
       this._analizer = new FieldAnalizer(this.field);
     }
 
     this._levelController = this.getService(LevelController);
-    this._botModel = this.getServices(PlayerModel).filter(
-      (pm) => pm.playerName == "bot"
-    )[0];
-    this._playerModel = this.getServices(PlayerModel).filter(
-      (pm) => pm.playerName == "player"
-    )[0];
+    this._botModel = this.levelConfiguration.botModel;
+    this._playerModel = this.levelConfiguration.playerModel;
 
     this._playerFieldController = this.getService(PlayerFieldController);
     this._enemyFieldController = this.getService(EnemyFieldController);

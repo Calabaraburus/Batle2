@@ -1,7 +1,8 @@
-import { _decorator, Component, Label } from "cc";
+import { _decorator, Component, Label, Sprite } from "cc";
 import { PlayerModel } from "../../models/PlayerModel";
 import { CardController } from "./cardField/CardController";
 import { CardFieldController } from "./cardField/CardFieldController";
+import { LoadLine } from "../ui/loadLine/LoadLine";
 const { ccclass, property } = _decorator;
 
 @ccclass("PlayerFieldController")
@@ -15,8 +16,36 @@ export class PlayerFieldController extends Component {
   @property(Label)
   lblMana: Label;
 
+  @property(Label)
+  lblName: Label;
+
+  /** Player life line node */
+  @property({ type: LoadLine })
+  playerLifeLine: LoadLine;
+
+  @property(Sprite)
+  playerImage: Sprite;
+
+  private playerLife: number;
+
+  public get PlayerLife(): number {
+    return this.playerLife;
+  }
+
+  public set PlayerLife(value: number) {
+    this.playerLife = value;
+    this.playerLifeLine.Value = value;
+  }
+
+  public get PlayerMaxLife(): number {
+    return this.playerLifeLine.Max;
+  }
+
+  public set PlayerMaxLife(value: number) {
+    this.playerLifeLine.Max = value;
+  }
+
   start() {
-    this.cardField.bonuses = this.playerModel.bonuses;
     this.cardField.node.on(
       "selectedCardChanged",
       this.selectedCardChanged,
@@ -39,6 +68,9 @@ export class PlayerFieldController extends Component {
       "/" +
       this.playerModel.manaMax.toString();
 
+    this.playerImage.spriteFrame = this.playerModel.heroImage;
+    this.playerLifeLine.Max = this.playerModel.lifeMax;
+    this.cardField.bonuses = this.playerModel.bonuses;
     this.cardField.updateData();
   }
 }

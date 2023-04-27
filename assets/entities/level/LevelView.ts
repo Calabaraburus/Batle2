@@ -4,7 +4,17 @@
 //
 //  Author:Natalchishin Taras
 
-import { Button, CCFloat, Component, Label, Node, Vec3, _decorator } from "cc";
+import {
+  Button,
+  CCFloat,
+  Component,
+  Label,
+  Node,
+  Sprite,
+  SpriteFrame,
+  Vec3,
+  _decorator,
+} from "cc";
 import { LevelModel } from "../../models/LevelModel";
 import { ILevelView } from "./ILevelView";
 import { LevelController } from "./LevelController";
@@ -39,14 +49,6 @@ export class LevelView extends Component implements ILevelView {
   /** bonus price 3 label */
   @property({ type: Label })
   enemyLifeLbl: Label;
-
-  /** bonus price 3 label */
-  @property({ type: Label })
-  playerLifeLbl: Label;
-
-  /** Player life line node */
-  @property({ type: Node })
-  playerLifeLine: Node;
 
   /** Enemy life line node */
   @property({ type: Node })
@@ -113,23 +115,6 @@ export class LevelView extends Component implements ILevelView {
 
   public set EnemyMaxLife(value: number) {
     this._enemyMaxLife = value;
-  }
-
-  public get PlayerLife(): number {
-    return Number(this.playerLifeLbl.string);
-  }
-
-  public set PlayerLife(value: number) {
-    this.updateLifeLinePos(this.playerLifeLine, value, this._playerMaxLife);
-    this.playerLifeLbl.string = value.toString();
-  }
-
-  public get PlayerMaxLife(): number {
-    return this._playerMaxLife;
-  }
-
-  public set PlayerMaxLife(value: number) {
-    this._playerMaxLife = value;
   }
 
   public showWin(show: boolean) {

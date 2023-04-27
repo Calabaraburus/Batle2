@@ -46,7 +46,8 @@ export class FieldController extends Service implements ITileField {
   private _tileCreator: TileCreator | null;
   private _dataService: DataService | null;
 
-  public get dataService(): DataService | null {
+  public get dataService(): DataService {
+    if (this._dataService == null) throw Error("DataService is null");
     return this._dataService;
   }
 
@@ -354,9 +355,9 @@ export class FieldController extends Service implements ITileField {
         tileModel: this.fieldModel.getTileModelByMapMnemonic(tileMapSimbol),
         playerModel:
           tileMapSimbol == "?"
-            ? this._dataService!.playerModel
+            ? this.dataService.playerModel
             : tileMapSimbol == "^"
-            ? this._dataService!.botModel
+            ? this.dataService.botModel
             : null,
       });
 
