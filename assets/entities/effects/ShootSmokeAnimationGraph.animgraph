@@ -31,9 +31,16 @@
       },
       {
         "__id__": 5
+      },
+      {
+        "__id__": 6
       }
     ],
-    "_transitions": [],
+    "_transitions": [
+      {
+        "__id__": 8
+      }
+    ],
     "_entryState": {
       "__id__": 3
     },
@@ -46,6 +53,11 @@
   },
   {
     "__type__": "cc.animation.State",
+    "__editorExtras__": {
+      "centerX": -136,
+      "centerY": 42,
+      "id": "16817449749410.27108337789595627"
+    },
     "name": "Entry"
   },
   {
@@ -55,5 +67,44 @@
   {
     "__type__": "cc.animation.State",
     "name": "Any"
+  },
+  {
+    "__type__": "cc.animation.Motion",
+    "__editorExtras__": {
+      "centerX": 7,
+      "centerY": 46.90625,
+      "id": "16817449721560.9955872539997543"
+    },
+    "name": "shootSmokeEffectAnimation",
+    "_components": [],
+    "motion": {
+      "__id__": 7
+    },
+    "speed": 1,
+    "speedMultiplier": "",
+    "speedMultiplierEnabled": false
+  },
+  {
+    "__type__": "cc.animation.ClipMotion",
+    "__editorExtras__": {
+      "id": "16817449721470.09170750629476476",
+      "centerX": 0,
+      "centerY": 0,
+      "name": ""
+    },
+    "clip": {
+      "__uuid__": "fd95571a-e04e-4040-9151-d1525545c75b",
+      "__expectedType__": "cc.AnimationClip"
+    }
+  },
+  {
+    "__type__": "cc.animation.Transition",
+    "from": {
+      "__id__": 3
+    },
+    "to": {
+      "__id__": 6
+    },
+    "conditions": []
   }
 ]
