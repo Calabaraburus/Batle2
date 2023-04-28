@@ -17,8 +17,7 @@ export class CardFieldController extends Component {
   private _cards: CardController[] = [];
   private _selectedCard: CardController | null = null;
 
-  @property(Prefab)
-  bonuses: BonusModel[] = [];
+  private _bonuses: BonusModel[] = [];
 
   @property(CCInteger)
   distance: number;
@@ -30,14 +29,38 @@ export class CardFieldController extends Component {
     return this._selectedCard;
   }
 
-  start() {
-    this.generateTiles();
+  get cards(): CardController[] {
+    return this._cards;
   }
 
-  private generateTiles(): void {
+  get bonuses() {
+    return this._bonuses;
+  }
+
+  set bonuses(value: BonusModel[]) {
+    if (this._bonuses != value) {
+      this._bonuses = value;
+      this.generateCardControllers();
+    }
+  }
+
+  start() {
+    this.generateCardControllers();
+  }
+
+  private generateCardControllers(): void {
+    this.clearCrads();
+
     this.bonuses.forEach((b, i) => {
       this.instantiateCard(b, i);
     });
+  }
+
+  private clearCrads() {
+    this.cards.forEach((card) => {
+      card.destroy();
+    });
+    this._cards = [];
   }
 
   private instantiateCard(bonusModel: BonusModel, index: number) {

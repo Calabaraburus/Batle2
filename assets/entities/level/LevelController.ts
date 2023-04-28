@@ -15,6 +15,7 @@ import { GameManager } from "../game/GameManager";
 import { PlayerFieldController } from "../playerField/PlayerFieldController";
 import type { ILevelView } from "./ILevelView";
 import { LevelView } from "./LevelView";
+import { LevelConfiguration } from "../configuration/LevelConfiguration";
 const { ccclass, property } = _decorator;
 
 /** Controls level view. */
@@ -36,12 +37,8 @@ export class LevelController extends Component {
   fieldController: FieldController;
 
   /** Player model */
-  @property({ type: PlayerModel })
-  playerModel: PlayerModel;
-
-  /** Bot model */
-  @property({ type: PlayerModel })
-  botModel: PlayerModel;
+  @property({ type: LevelConfiguration })
+  levelConfiguration: LevelConfiguration;
 
   @property(PlayerFieldController)
   playerField: PlayerFieldController;
@@ -58,8 +55,8 @@ export class LevelController extends Component {
     this.view.setController(this);
     this._turnsCount = this.model.turnsCount;
 
-    this.playerField.playerModel = this.playerModel;
-    this.enemyField.playerModel = this.botModel;
+    this.playerField.playerModel = this.levelConfiguration.playerModel;
+    this.enemyField.playerModel = this.levelConfiguration.botModel;
 
     this.updateData();
   }
@@ -80,10 +77,6 @@ export class LevelController extends Component {
     this.view.AimPoints = this.model.aimPoints;
     this.view.TurnsCount = this.model.turnsCount;
     this.view.PointsCount = this.model.pointsCount;
-    this.view.PlayerLife = this.playerModel.life;
-    this.view.EnemyLife = this.botModel.life;
-    this.view.PlayerMaxLife = this.playerModel.lifeMax;
-    this.view.EnemyMaxLife = this.botModel.lifeMax;
 
     this.playerField.updateData();
     this.enemyField.updateData();

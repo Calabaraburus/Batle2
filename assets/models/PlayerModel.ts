@@ -38,13 +38,25 @@ export class PlayerModel extends Component {
   power = 5;
 
   @property(SpriteFrame)
-  heroSprite: SpriteFrame;
+  heroImage: SpriteFrame;
 
   @property({ type: BonusModel })
-  bonuses: BonusModel[] = [];
+  bonusesMetaData: BonusModel[] = [];
+
+  private _bonuses: BonusModel[] = [];
+
+  get bonuses() {
+    return this._bonuses;
+  }
 
   get activeBonus(): BonusModel | null {
     return this._activeBonus;
+  }
+
+  start() {
+    this.bonusesMetaData.forEach((metadata) => {
+      this._bonuses.push(metadata.clone());
+    });
   }
 
   public unSetBonus(): void {

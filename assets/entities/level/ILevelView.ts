@@ -4,6 +4,7 @@
 //
 //  Author:Natalchishin Taras
 
+import { Sprite, SpriteFrame } from "cc";
 import { LevelController } from "./LevelController";
 
 export interface ILevelView {
@@ -24,18 +25,6 @@ export interface ILevelView {
 
   /** bonus price 3 label */
   Bonus3Price: number;
-
-  /** enemy life label */
-  EnemyLife: number;
-
-  /** player life label */
-  PlayerLife: number;
-
-  /** enemy max life label */
-  EnemyMaxLife: number;
-
-  /** player max life label */
-  PlayerMaxLife: number;
 
   setController(controller: LevelController): void;
 

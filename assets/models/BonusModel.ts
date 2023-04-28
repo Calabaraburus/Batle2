@@ -69,4 +69,23 @@ export class BonusModel extends Component {
   selected = false;
 
   alreadyUsedOnTurn = false;
+
+  public clone(): BonusModel {
+    const bonus = new BonusModel();
+    bonus.mnemonic = this.mnemonic;
+    bonus.priceToActivate = this.priceToActivate;
+    bonus.sprite = this.sprite;
+    bonus.unactiveSprite = this.unactiveSprite;
+    bonus.active = this.active;
+    bonus.activateType = this.activateType;
+    bonus.cardName = this.cardName;
+    bonus.cardDescription = this.cardDescription;
+    bonus.cardImage = this.cardImage;
+    bonus.cardImageForExample = this.cardImageForExample;
+    bonus._currentAmmountToActivate = this._currentAmmountToActivate;
+    bonus.selected = this.selected;
+    bonus.alreadyUsedOnTurn = this.alreadyUsedOnTurn;
+
+    return bonus;
+  }
 }
