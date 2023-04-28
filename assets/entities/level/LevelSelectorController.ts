@@ -6,6 +6,7 @@
 
 import { Component, director, _decorator } from "cc";
 import { ILevelSelectorController } from "./ILevelSelectorController";
+import { TransitionScene } from "../menu/TransitionScene";
 const { ccclass } = _decorator;
 
 @ccclass("LevelSelectorController")
@@ -15,5 +16,6 @@ export class LevelSelectorController
 {
   loadLevel(levelName: string): void {
     director.loadScene(levelName);
+    // this._tarnsitionScene.prepareLoadScene(levelName);
   }
 }
