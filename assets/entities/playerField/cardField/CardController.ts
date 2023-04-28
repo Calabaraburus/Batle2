@@ -103,16 +103,17 @@ export class CardController extends Service {
   }
 
   onTouchStart() {
-    this._timerFlag = false;
-    this.scheduleOnce(() => {
-      this._timerFlag = true;
-    }, 2);
+    this.scheduleOnce(this.scheduleOpenWindow, 1);
   }
 
   onTouchEnd() {
-    if (this._timerFlag == true) {
-      this._manager?.showCardWindow(this.model);
-    }
+    this.unschedule(this.scheduleOpenWindow);
+    this._timerFlag = false;
+  }
+
+  scheduleOpenWindow() {
+    this._timerFlag = true;
+    this._manager?.showCardWindow(this.model);
   }
 
   updateData() {
