@@ -63,6 +63,7 @@ export class PlayerFieldController extends Component {
   }
 
   public updateData() {
+    if (this.playerModel == null) return;
     this.playerImage.spriteFrame = this.playerModel.heroImage;
     this.playerLifeLine.Max = this.playerModel.lifeMax;
     this.playerLifeLine.Value = this.playerModel.life;

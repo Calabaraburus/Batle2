@@ -1,4 +1,4 @@
-import { _decorator } from "cc";
+import { _decorator, game } from "cc";
 import { LevelModel } from "../../models/LevelModel";
 import { PlayerModel } from "../../models/PlayerModel";
 import { DataService } from "./DataService";

@@ -13,9 +13,9 @@ const { ccclass, property } = _decorator;
 @ccclass("LevelSelectorView")
 export class LevelSelectorView extends Component implements ILevelSelectorView {
   @property({ type: LevelSelectorController })
-  controller: ILevelSelectorController;
+  controller: LevelSelectorController;
 
   public loadLevel(sender: object, levelName: string): void {
-    this.controller.loadLevel(levelName);
+    // this.controller.loadLevel(levelName);
   }
 }

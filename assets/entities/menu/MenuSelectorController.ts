@@ -1,11 +1,11 @@
 import { _decorator, director } from "cc";
 import { MainMenu } from "./MainMenu";
-import { TransitionScene } from "./TransitionScene";
+import { LoaderScreen } from "./LoaderScreen";
 const { ccclass, property } = _decorator;
 
 @ccclass("MenuSelectorController")
 export class MenuSelectorController extends MainMenu {
-  private _tarnsitionScene = new TransitionScene();
+  private _tarnsitionScene = new LoaderScreen();
   menuSections = ["mainMenuLayout", "gameMenuLayout", "optionsMenuLayout"];
 
   openSectionMenu(sender: object, sectionMenu: string): void {
