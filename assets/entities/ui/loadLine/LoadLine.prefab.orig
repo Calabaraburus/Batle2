@@ -679,13 +679,21 @@
     "_isTrimmedMode": true,
     "_useGrayscale": false,
     "_atlas": null,
+<<<<<<< HEAD
+    "_id": "5blLIrWXFMgqqmhYHw3qe/",
+=======
     "_id": "e7vn30unRHvLfHJ6BfXcr4",
+>>>>>>> 4ae5050d4bf67a0af939e4131ec2fee716452666
     "_prefab": {
       "__id__": 32
     }
   },
   {
     "__type__": "cc.CompPrefabInfo",
+<<<<<<< HEAD
+    "fileId": "40XC1Bw6ZBQIqwfRgShoVg"
+=======
     "fileId": "5apCnKJYhMhpUx/rtk3F36"
+>>>>>>> 4ae5050d4bf67a0af939e4131ec2fee716452666
   }
 ]
