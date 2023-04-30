@@ -3,7 +3,7 @@
 //  Calabaraburus (c) 2023
 //
 
-import { _decorator, Sprite, tween } from "cc";
+import { _decorator, Sprite, tween, Node, error } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
@@ -14,6 +14,7 @@ import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { BalistaCardEffect } from "../../effects/BalistaCardEffect";
 import { DataService } from "../../services/DataService";
 import { LevelView } from "../../level/LevelView";
+import { PlayerModel } from "../../../models/PlayerModel";
 const { ccclass, property } = _decorator;
 
 @ccclass("CatapultTileController")
@@ -30,18 +31,34 @@ export class CatapultTileController
   private _cache: ObjectsCache | null;
   private _dataService: DataService | null;
   private _levelView: LevelView | null;
-
+  private _aimForEffect: Node;
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
   }
 
-  start() {
+  start(): void {
     super.start();
+    this.prepare();
+    this.prepareForEffect();
+    this.rotateToEnemy(this._aimForEffect);
+  }
+
+  prepare() {
     this._cardService = this.getService(CardService);
     this._effectsService = this.getService(EffectsService);
     this._cache = ObjectsCache.instance;
     this._dataService = this.getService(DataService);
     this._levelView = this.getService(LevelView);
+  }
+
+  rotateToEnemy(enemy: Node) {
+    const dir = enemy.position.clone().subtract(this.node.position).y;
+
+    const foregroundNode = this.node.getChildByName("Foreground");
+
+    if (foregroundNode == null) throw Error("Foreground node is null");
+
+    foregroundNode.angle = dir >= 0 ? 0 : 180;
   }
 
   turnEnds(): void {
@@ -86,7 +103,24 @@ export class CatapultTileController
     }
   }
 
+  prepareForEffect() {
+    if (this._aimForEffect != null) return;
+
+    const tmpAim =
+      this.playerModel == this._dataService?.playerModel
+        ? this._dataService?.enemyFieldController?.playerImage.node
+        : this._dataService?.playerFieldController?.playerImage.node;
+
+    if (tmpAim == null) {
+      throw Error("catapult effect aim is null");
+    }
+
+    this._aimForEffect = tmpAim;
+  }
+
   playEffect() {
+    this.prepareForEffect();
+
     const effect = this._cache?.getObject(BalistaCardEffect);
 
     if (effect != null) {
@@ -94,20 +128,14 @@ export class CatapultTileController
       effect.node.parent =
         this._effectsService != null ? this._effectsService?.effectsNode : null;
 
-      const aim = this._dataService?.enemyFieldController?.node;
-
-      if (aim == null || aim == undefined) {
-        return;
-      }
-
-      effect.aim = aim;
+      effect.aim = this._aimForEffect;
 
       effect.play();
 
       const animator = tween(effect.node);
 
       animator
-        .to(0.8, { position: aim.position })
+        .to(0.8, { position: this._aimForEffect.position })
         .delay(0.8)
         .call(() => effect.stopEmmit())
         .delay(1)
