@@ -27,7 +27,7 @@ export class LevelSelectorController extends Service {
 
     if (cfgAction == null)
       throw Error("No configuration for " + levelName + " level");
-    this.sceneLoader.loadGameScene("scene_dev_nt", cfgAction);
+    this.sceneLoader.loadGameScene("scene_dev_art_1", cfgAction);
   }
 
   fillConfigurations() {
