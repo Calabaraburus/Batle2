@@ -4,14 +4,15 @@ import { PlayerModel } from "../../models/PlayerModel";
 import { PlayerInfoWindow } from "./PlayerInfoWindow";
 import { CardInfoWindow } from "./CardInfoWindow";
 import { _decorator } from "cc";
+import { PlayerInfoService } from "./PlayerInfoService";
 const { ccclass, property } = _decorator;
 
 @ccclass("WindowManager")
 export class WindowManager extends Service {
   public showPlayerWindow(playerModel: PlayerModel) {
-    const wnd = this.getService(PlayerInfoWindow);
-    wnd?.setPlayer(playerModel);
-    wnd?.showWindow();
+    const pWindow = this.getService(PlayerInfoWindow);
+    pWindow?.setPlayer(playerModel);
+    pWindow?.showWindow();
   }
 
   public showCardWindow(cardModel: BonusModel) {
