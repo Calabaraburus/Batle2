@@ -40,6 +40,10 @@ export class BonusModel extends Component {
   @property(CCString)
   public activateType = "-";
 
+  // Bonus level
+  @property(CCString)
+  public bonusLevel = 0;
+
   //** Properties for info window */
   @property(CCString)
   cardName = "";
