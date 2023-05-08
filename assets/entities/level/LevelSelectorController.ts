@@ -16,7 +16,6 @@ const { ccclass, property } = _decorator;
 export class LevelSelectorController extends Service {
   sceneLoader: SceneLoaderService | null;
   _bonusSorted: BonusModel[][];
-  private maxCount = 3;
 
   configDict = new Map<string, (config: LevelConfiguration) => void>();
 

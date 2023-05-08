@@ -18,7 +18,7 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
   prepare(): boolean {
     this.parent.debug?.log("[totem_card_sub] Start preparing.");
 
-    const totemCount = 4;
+    const totemCount = 3;
     const targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
     const enemyTag = this.parent.cardsService?.getOponentTag();
