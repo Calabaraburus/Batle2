@@ -9,8 +9,7 @@ export class CardInfoWindow extends PopupWindow {
   public setCard(cardModel: BonusModel) {
     const componentName = this.node.getChildByName("NameBonus");
     const componentDescription = this.node.getChildByName("DescriptionBonus");
-    // const componentCardPicture = this.node.getChildByName("CardPicture");
-    // const componentCardUseExample = this.node.getChildByName("CardUseExample");
+
     const componentCardPicture = this.node
       .getChildByName("GraphicsCardImage")
       ?.getChildByName("CardPicture");
