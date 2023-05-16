@@ -1,11 +1,9 @@
-import { BonusModel } from "../../models/BonusModel";
+import { _decorator, Component } from "cc";
 import { PlayerModel } from "../../models/PlayerModel";
-import { PopupWindow } from "./PopupWindow";
-import { Label, Sprite, SpriteFrame, _decorator, find } from "cc";
 const { ccclass, property } = _decorator;
 
-@ccclass("PlayerInfoWindow")
-export class PlayerInfoWindow extends PopupWindow {
+@ccclass("PrepareArenaScene")
+export class PrepareArenaScene extends Component {
   public setPlayer(playerModel: PlayerModel) {
     const playerName = playerModel.playerName;
     const heroImage = playerModel.heroImage;

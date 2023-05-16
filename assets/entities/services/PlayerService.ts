@@ -10,7 +10,7 @@ const { ccclass, property } = _decorator;
 export class PlayerService extends Service {
   private levelConfiguration: LevelConfiguration;
 
-  @property({type: PlayerFieldController})
+  @property({ type: PlayerFieldController })
   playerFieldController: PlayerFieldController;
 
   public get playerModel(): PlayerModel {
