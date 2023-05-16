@@ -1949,7 +1949,7 @@
     "__prefab": null,
     "tileName": "shaman",
     "sprite": {
-      "__uuid__": "90863228-6cf7-483b-b360-0a64863d767c@f9941",
+      "__uuid__": "504a179f-e458-48b0-9d41-b754e7b82281@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "starColor": {
@@ -2985,11 +2985,11 @@
     "mnemonic": "shaman",
     "priceToActivate": 4,
     "sprite": {
-      "__uuid__": "9730e565-e1f7-4f38-8833-795d7b5c8ca4@f9941",
+      "__uuid__": "2827cb54-dd74-40b2-9dba-d8647af3263d@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": {
-      "__uuid__": "8e5fee5c-9144-4e02-a164-f529cbe4887f@f9941",
+      "__uuid__": "ab4ed829-e7d0-4953-8507-d4a910c4a679@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "activateType": "protect",
@@ -3589,16 +3589,7 @@
     },
     "bonusesMetaData": [
       {
-        "__id__": 79
-      },
-      {
-        "__id__": 81
-      },
-      {
-        "__id__": 111
-      },
-      {
-        "__id__": 95
+        "__id__": 97
       }
     ],
     "_id": "8953GGT0JB9bYfdLFKlzpM"
@@ -11922,6 +11913,10 @@
       },
       {
         "__uuid__": "d5d13e4b-c72a-417e-93f0-061e4c91af85",
+        "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "6ecb92bc-db18-4881-9e37-c26122efd42e",
         "__expectedType__": "cc.Prefab"
       }
     ],
