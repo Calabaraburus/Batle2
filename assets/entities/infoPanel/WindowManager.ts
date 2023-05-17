@@ -15,9 +15,8 @@ export class WindowManager extends Service {
     pWindow?.showWindow();
   }
 
-  public showCardWindow(cardModel: BonusModel | undefined) {
+  public showCardWindow(cardModel: BonusModel) {
     const wnd = this.getService(CardInfoWindow);
-    if (!cardModel) return;
     wnd?.setCard(cardModel);
     wnd?.showWindow();
   }
