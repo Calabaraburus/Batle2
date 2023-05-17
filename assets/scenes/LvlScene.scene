@@ -1849,12 +1849,12 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 2
+      "__id__": 8
     },
     "component": "",
-    "_componentId": "4876ezcesBNm48ph9VpZJFr",
+    "_componentId": "f0de3iuqf1KepE1FVj8B/iR",
     "handler": "loadLevel",
-    "customEventData": "lvl3"
+    "customEventData": "lvl4"
   },
   {
     "__type__": "cc.Node",
@@ -2089,12 +2089,12 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 2
+      "__id__": 8
     },
     "component": "",
-    "_componentId": "4876ezcesBNm48ph9VpZJFr",
+    "_componentId": "f0de3iuqf1KepE1FVj8B/iR",
     "handler": "loadLevel",
-    "customEventData": "scene4"
+    "customEventData": "lvl5"
   },
   {
     "__type__": "cc.Node",
@@ -2335,12 +2335,12 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 2
+      "__id__": 8
     },
     "component": "",
-    "_componentId": "4876ezcesBNm48ph9VpZJFr",
+    "_componentId": "f0de3iuqf1KepE1FVj8B/iR",
     "handler": "loadLevel",
-    "customEventData": "scene4"
+    "customEventData": "lvl6"
   },
   {
     "__type__": "cc.Node",
@@ -2581,12 +2581,12 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 2
+      "__id__": 8
     },
     "component": "",
-    "_componentId": "4876ezcesBNm48ph9VpZJFr",
+    "_componentId": "f0de3iuqf1KepE1FVj8B/iR",
     "handler": "loadLevel",
-    "customEventData": "scene4"
+    "customEventData": "lvl7"
   },
   {
     "__type__": "cc.Node",
@@ -2821,12 +2821,12 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 2
+      "__id__": 8
     },
     "component": "",
-    "_componentId": "4876ezcesBNm48ph9VpZJFr",
+    "_componentId": "f0de3iuqf1KepE1FVj8B/iR",
     "handler": "loadLevel",
-    "customEventData": "scene4"
+    "customEventData": "lvl8"
   },
   {
     "__type__": "cc.Node",
@@ -3061,12 +3061,12 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 2
+      "__id__": 8
     },
     "component": "",
-    "_componentId": "4876ezcesBNm48ph9VpZJFr",
+    "_componentId": "f0de3iuqf1KepE1FVj8B/iR",
     "handler": "loadLevel",
-    "customEventData": "scene4"
+    "customEventData": "lvl9"
   },
   {
     "__type__": "cc.Node",
@@ -3301,12 +3301,12 @@
   {
     "__type__": "cc.ClickEvent",
     "target": {
-      "__id__": 2
+      "__id__": 8
     },
     "component": "",
-    "_componentId": "4876ezcesBNm48ph9VpZJFr",
+    "_componentId": "f0de3iuqf1KepE1FVj8B/iR",
     "handler": "loadLevel",
-    "customEventData": "scene4"
+    "customEventData": "lvl10"
   },
   {
     "__type__": "cc.Node",
@@ -5970,8 +5970,8 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 1554.932,
-      "y": 1790.457,
+      "x": 1508.007,
+      "y": 1720.069,
       "z": 0
     }
   },

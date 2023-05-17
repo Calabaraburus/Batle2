@@ -3,24 +3,21 @@ import { PlayerService } from "../services/PlayerService";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { BonusModel } from "../../models/BonusModel";
 import { _decorator, find } from "cc";
-import { Service } from "../services/Service";
 const { ccclass, property } = _decorator;
 
 @ccclass("CardInfoService")
-export class CardInfoService extends Service {
-  private _model: BonusModel;
+export class CardInfoService extends PlayerService {
+  private _bonuses: BonusModel[];
   private _wManager: WindowManager | null;
+  private _levelConfiguration: LevelConfiguration | null;
 
-  get model(): BonusModel {
-    return this._model;
-  }
-
-  setModel(model: BonusModel) {
-    this._model = model;
-  }
-
-  onTouch() {
+  onTouch(obj: object, bonusName: string) {
+    this._levelConfiguration = this.getService(LevelConfiguration);
     this._wManager = this.getService(WindowManager);
-    this._wManager?.showCardWindow(this.model);
+    if (!this._levelConfiguration) return;
+    this._bonuses = this._levelConfiguration.botModel.bonuses;
+    const bonusNumber = parseInt(bonusName);
+
+    this._wManager?.showCardWindow(this._bonuses[bonusNumber]);
   }
 }
