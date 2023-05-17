@@ -3,7 +3,7 @@
 //  Calabaraburus (c) 2023
 //
 
-import { _decorator, Sprite, Vec3, instantiate, Prefab, UITransform } from "cc";
+import { _decorator, Sprite, Prefab, Node, tween } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
@@ -11,6 +11,10 @@ import { IAttackable } from "../IAttackable";
 import { GameManager } from "../../game/GameManager";
 import { CardService } from "../../services/CardService";
 import { PlayerModel } from "../../../models/PlayerModel";
+import { DataService } from "../../services/DataService";
+import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
+import { HealingEffect } from "../../effects/HealingEffect";
+import { EffectsService } from "../../services/EffectsService";
 const { ccclass, property } = _decorator;
 
 @ccclass("ShamanTileController")
@@ -23,10 +27,14 @@ export class ShamanTileController
   private _state: TileState;
   private _attacksCountToDestroy: number;
   private _attackedNumber: number;
+  private _aimForEffect: Node;
+  private _cache: ObjectsCache | null;
 
   /** Destroy particle system */
   @property(Prefab)
   destroyPartycles: Prefab;
+  private _dataService: DataService | null;
+  private _effectsService: EffectsService | null;
 
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -35,15 +43,9 @@ export class ShamanTileController
   start() {
     super.start();
     this._cardService = this.getService(CardService);
-    this.updateSprite();
-  }
-
-  updateSprite() {
-    this._curSprite = this.getComponent(Sprite);
-
-    if (this._curSprite != null) {
-      this._curSprite.spriteFrame = this.tileModel.sprite;
-    }
+    this._dataService = this.getService(DataService);
+    this._effectsService = this.getService(EffectsService);
+    this._cache = ObjectsCache.instance;
   }
 
   turnEnds(): void {
@@ -52,6 +54,7 @@ export class ShamanTileController
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       if (playerModel || playerModel != null) {
         if (playerModel.life < playerModel.lifeMax) {
+          this.playEffect();
           playerModel.life = playerModel.life + 5;
         }
       }
@@ -86,29 +89,48 @@ export class ShamanTileController
       this._attackedNumber -= power;
 
       if (this._attackedNumber <= 0) {
-        this.fakeDestroy();
+        this.destroyTile();
       }
     }
   }
 
-  public destroyTile() {
-    this.createParticles();
-    super.destroyTile();
-  }
+  prepareForEffect() {
+    if (this._aimForEffect != null) return;
 
-  private createParticles() {
-    const ps = instantiate(this.destroyPartycles);
-    ps.parent = this.node.parent;
-    const ui = this.getComponent(UITransform);
+    const tmpAim =
+      this.playerModel != this._dataService?.playerModel
+        ? this._dataService?.enemyFieldController?.playerImage.node
+        : this._dataService?.playerFieldController?.playerImage.node;
 
-    if (ui == null) {
-      return;
+    if (tmpAim == null) {
+      throw Error("catapult effect aim is null");
     }
 
-    ps.position = new Vec3(
-      this.node.position.x + ui.contentSize.width / 2,
-      this.node.position.y + ui.contentSize.height / 2,
-      this.node.position.z
-    );
+    this._aimForEffect = tmpAim;
+  }
+
+  playEffect() {
+    this.prepareForEffect();
+
+    const effect = this._cache?.getObject(HealingEffect);
+
+    if (effect != null) {
+      effect.node.position = this.node.position;
+      effect.node.parent =
+        this._effectsService != null ? this._effectsService?.effectsNode : null;
+
+      effect.play();
+
+      const animator = tween(effect.node);
+
+      animator
+        .to(0.8, { position: this._aimForEffect.position })
+        .delay(0.8)
+        .call(() => effect.stopEmmit())
+        .delay(1)
+        .call(() => effect.cacheDestroy());
+
+      animator.start();
+    }
   }
 }
