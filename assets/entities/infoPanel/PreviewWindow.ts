@@ -11,12 +11,21 @@ import {
   UIOpacity,
 } from "cc";
 import { PlayerModel } from "../../models/PlayerModel";
+import { LevelConfiguration } from "../configuration/LevelConfiguration";
+import { LevelSelectorController } from "../level/LevelSelectorController";
 const { ccclass, property } = _decorator;
 
 @ccclass("PreviewWindow")
 export class PreviewWindow extends Component {
+  private level: LevelSelectorController;
   start() {
-    this.show();
+    const playerHero = find(
+      "LevelConfiguration/HeroModels/HeroPlayer"
+    )?.getComponent(PlayerModel);
+
+    if (playerHero?.bonuses.length != 0) {
+      this.show();
+    }
   }
 
   get _overlay() {
