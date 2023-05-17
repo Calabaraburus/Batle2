@@ -9,7 +9,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass("PlayerInfoService")
 export class PlayerInfoService extends PlayerService {
-  private _pModel: PlayerModel;
+  // private _pModel: PlayerModel;
   private _wManager: WindowManager | null;
   private _levelConfiguration: LevelConfiguration | null;
 
@@ -17,7 +17,7 @@ export class PlayerInfoService extends PlayerService {
     this._levelConfiguration = this.getService(LevelConfiguration);
     this._wManager = this.getService(WindowManager);
     if (!this._levelConfiguration) return;
-    this._pModel = this._levelConfiguration.botModel;
-    this._wManager?.showPlayerWindow(this._pModel);
+    const pModel = this._levelConfiguration.botModel;
+    this._wManager?.showPlayerWindow(pModel);
   }
 }
