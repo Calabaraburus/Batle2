@@ -59,14 +59,6 @@ export class AssassinTileController
     this._gameManager = this.getService(GameManager);
   }
 
-  updateSprite() {
-    this._curSprite = this.getComponent(Sprite);
-
-    if (this._curSprite != null) {
-      this._curSprite.spriteFrame = this.tileModel.sprite;
-    }
-  }
-
   turnEnds(): void {
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       this.playEffect();

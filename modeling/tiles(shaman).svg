@@ -1024,7 +1024,10 @@
        width="203.52919"
        height="203.52919"
        x="510.61099"
-       y="-188.07053" /><image
+       y="-188.07053"
+       inkscape:export-filename="..\assets\entities\textures\shaman.png"
+       inkscape:export-xdpi="42.580269"
+       inkscape:export-ydpi="42.580269" /><image
        width="163.77312"
        height="163.77312"
        preserveAspectRatio="none"
