@@ -100,7 +100,7 @@ export class Bot extends Service implements IBot {
     // Meteorite cards
     new MeteoriteCardBotAnalizator("meteorite", this),
     new MeteoriteLowCardBotAnalizator("meteoriteLow", this),
-    new MeteoriteMiddleCardBotAnalizator("meteoriteModdle", this),
+    new MeteoriteMiddleCardBotAnalizator("meteoriteMiddle", this),
 
     // Worm cards
     new WormCardBotAnalizator("worm", this),
