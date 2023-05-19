@@ -3340,11 +3340,11 @@
     "mnemonic": "berserk",
     "priceToActivate": 1,
     "sprite": {
-      "__uuid__": "9730e565-e1f7-4f38-8833-795d7b5c8ca4@f9941",
+      "__uuid__": "291127f6-37ac-40ed-952c-8c6d65875507@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": {
-      "__uuid__": "8e5fee5c-9144-4e02-a164-f529cbe4887f@f9941",
+      "__uuid__": "46bc10df-abfa-4f4e-b1fe-6f98c141858c@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "activateType": "protect",
