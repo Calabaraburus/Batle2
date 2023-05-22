@@ -35,6 +35,11 @@ export class LevelSelectorController extends Service {
   }
 
   fillConfigurations() {
+    this.configDict.set("test", (config) => {
+      config.botHeroName = "testBot";
+      config.playerHeroName = "testPlayer";
+    });
+
     this.configDict.set("lvl1", (config) => {
       config.botHeroName = "bot1";
       config.playerHeroName = "lion";
@@ -64,6 +69,8 @@ export class LevelSelectorController extends Service {
         .getChildByName("LionHero")
         ?.getComponent(PlayerModel);
 
+      playerHero!.life = 50;
+
       const bonuses = config.node
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
@@ -84,7 +91,7 @@ export class LevelSelectorController extends Service {
         .getChildByName("LionHero")
         ?.getComponent(PlayerModel);
 
-      playerHero!.life = 50;
+      playerHero!.life = 60;
 
       const bonuses = config.node
         .getChildByName("BonusModels")
@@ -112,12 +119,16 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteMiddle";
+        return value.cardName == "meteoriteLow";
+      });
+      const heroBonusTwo = bonuses?.find((value) => {
+        return value.cardName == "assassin";
       });
 
-      if (!heroBonusOne) return;
+      if (!heroBonusOne || !heroBonusTwo) return;
 
       playerHero?.bonuses.push(heroBonusOne);
+      playerHero?.bonuses.push(heroBonusTwo);
     });
     this.configDict.set("lvl5", (config) => {
       config.botHeroName = "bot4";
@@ -134,12 +145,16 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteMiddle";
+        return value.cardName == "meteoriteLow";
+      });
+      const heroBonusTwo = bonuses?.find((value) => {
+        return value.cardName == "assassin";
       });
 
-      if (!heroBonusOne) return;
+      if (!heroBonusOne || !heroBonusTwo) return;
 
       playerHero?.bonuses.push(heroBonusOne);
+      playerHero?.bonuses.push(heroBonusTwo);
     });
     this.configDict.set("lvl6", (config) => {
       config.botHeroName = "bear";
@@ -156,16 +171,20 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteMiddle";
+        return value.cardName == "meteoriteLow";
       });
       const heroBonusTwo = bonuses?.find((value) => {
         return value.cardName == "assassin";
       });
+      const heroBonusThree = bonuses?.find((value) => {
+        return value.cardName == "c_attack";
+      });
 
-      if (!heroBonusOne || !heroBonusTwo) return;
+      if (!heroBonusOne || !heroBonusTwo || !heroBonusThree) return;
 
       playerHero?.bonuses.push(heroBonusOne);
       playerHero?.bonuses.push(heroBonusTwo);
+      playerHero?.bonuses.push(heroBonusThree);
     });
     this.configDict.set("lvl7", (config) => {
       config.botHeroName = "bot5";
@@ -182,16 +201,20 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteMiddle";
+        return value.cardName == "meteoriteLow";
       });
       const heroBonusTwo = bonuses?.find((value) => {
         return value.cardName == "assassin";
       });
+      const heroBonusThree = bonuses?.find((value) => {
+        return value.cardName == "c_attack";
+      });
 
-      if (!heroBonusOne || !heroBonusTwo) return;
+      if (!heroBonusOne || !heroBonusTwo || !heroBonusThree) return;
 
       playerHero?.bonuses.push(heroBonusOne);
       playerHero?.bonuses.push(heroBonusTwo);
+      playerHero?.bonuses.push(heroBonusThree);
     });
     this.configDict.set("lvl8", (config) => {
       config.botHeroName = "bot6";

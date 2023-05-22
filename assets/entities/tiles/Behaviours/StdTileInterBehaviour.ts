@@ -12,6 +12,7 @@ import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { IAttackable, isIAttackable } from "../IAttackable";
 import { LevelModel } from "../../../models/LevelModel";
+import { MatchStatisticService } from "../../services/MatchStatisticService";
 
 const { ccclass } = _decorator;
 
@@ -22,6 +23,7 @@ const { ccclass } = _decorator;
 export class StdTileInterBehaviour extends GameBehaviour {
   private _cardsService: CardService | null;
   private _levelModel: LevelModel | null;
+  private _matchStatistic: MatchStatisticService | null;
 
   constructor() {
     super();
@@ -32,6 +34,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
     super.start();
     this._cardsService = this.getService(CardService);
     this._levelModel = this.getService(LevelModel);
+    this._matchStatistic = this.getService(MatchStatisticService);
   }
 
   activateCondition(): boolean {
@@ -93,6 +96,11 @@ export class StdTileInterBehaviour extends GameBehaviour {
 
     if (tilesCount > 0) {
       this.manaUpdate(tilesCount, connectedTiles[0].tileModel);
+
+      this._matchStatistic?.updateTapTileStatistic(
+        tilesCount,
+        connectedTiles[0].tileModel
+      );
     }
 
     this.debug?.log(`[behaviour][tilesBehaviour] update tile field`);
