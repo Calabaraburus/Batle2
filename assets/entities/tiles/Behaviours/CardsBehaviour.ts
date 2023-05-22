@@ -50,6 +50,7 @@ export class CardsBehaviour extends GameBehaviour {
   public get effectsNode(): Node | null {
     return this._effectsNode;
   }
+
   public get cardsService() {
     return this._cardsService;
   }

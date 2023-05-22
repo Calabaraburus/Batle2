@@ -1,5 +1,4 @@
 import { _decorator, ParticleSystem, Node } from "cc";
-import { CacheObject } from "../../ObjectsCache/CacheObject";
 import { CardEffect } from "./CardEffect";
 const { ccclass, property } = _decorator;
 
