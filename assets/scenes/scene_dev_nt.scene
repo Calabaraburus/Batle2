@@ -3476,7 +3476,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "shield",
-    "priceToActivate": 1,
+    "priceToActivate": 0,
     "sprite": {
       "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -3607,7 +3607,7 @@
     },
     "bonusesMetaData": [
       {
-        "__id__": 107
+        "__id__": 111
       }
     ],
     "_id": "8953GGT0JB9bYfdLFKlzpM"
@@ -11934,7 +11934,7 @@
         "__expectedType__": "cc.Prefab"
       },
       {
-        "__uuid__": "6ecb92bc-db18-4881-9e37-c26122efd42e",
+        "__uuid__": "22051735-ac89-44f7-b6cf-64dee9b3e7e5",
         "__expectedType__": "cc.Prefab"
       }
     ],

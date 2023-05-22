@@ -1,39 +1,58 @@
+import { Vec3 } from "cc";
+import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
+import { AnimationEffect } from "../../effects/AnimationEffect";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 
 import { CardsSubBehaviour } from "./SubBehaviour";
 
 export class ShieldCardSubehaviour extends CardsSubBehaviour {
+  private _cache: ObjectsCache;
+  private _resultSet: Set<TileController>;
+
   prepare(): boolean {
+    this.parent.debug?.log("[shield_card_sub] Start prepare.");
+
     const targetTile = this.parent.target as StdTileController;
     const curPlayerModel = this.parent.cardsService?.getCurrentPlayerModel();
     if (curPlayerModel == null) return false;
 
     if (targetTile instanceof StdTileController) {
-      if (targetTile.playerModel == curPlayerModel) {
-        return true;
+      if (targetTile.playerModel != curPlayerModel) {
+        return false;
       }
     } else {
       return false;
     }
 
-    return false;
-  }
+    if (ObjectsCache.instance == null) {
+      throw Error("Cache is null");
+    }
 
-  run(): boolean {
     const cardsService = this.parent.cardsService;
     const field = this.parent.field;
     if (cardsService == null) return false;
     if (field == null) return false;
 
     const tile = this.parent.target as StdTileController;
-    const resultSet = new Set<TileController>();
+    this._resultSet = new Set<TileController>();
 
-    this.parent.fieldAnalizer?.findConnectedTiles(tile, resultSet);
+    this.parent.fieldAnalizer?.findConnectedTiles(tile, this._resultSet);
 
-    if (resultSet.size > 1) {
+    this._cache = ObjectsCache.instance;
+    this.effectDurationValue = 0.8;
+
+    this.parent.debug?.log("[shield_card_sub] End prepare.");
+
+    return true;
+  }
+
+  run(): boolean {
+    this.parent.debug?.log("[shield_card_sub] Start run.");
+
+    if (this._resultSet.size > 1) {
       let stdexists = false;
-      resultSet.forEach((tile) => {
+      this._resultSet.forEach((tile) => {
         if (tile instanceof StdTileController) {
           tile.activateShield(true);
           stdexists = true;
@@ -41,10 +60,35 @@ export class ShieldCardSubehaviour extends CardsSubBehaviour {
       });
 
       if (stdexists) {
+        this.parent.debug?.log("[shield_card_sub] End run with true.");
         return true;
       }
     }
 
+    this.parent.debug?.log("[shield_card_sub] End run with false.");
     return false;
+  }
+
+  effect(): boolean {
+    this.parent.debug?.log("[shield_card_sub] Start effect.");
+
+    if (this._resultSet.size > 1) {
+      this._resultSet.forEach((tile) => {
+        const effect =
+          this._cache?.getObjectByPrefabName<AnimationEffect>("shieldEffect");
+
+        if (effect == null) {
+          return false;
+        }
+        effect.node.parent = tile.node.parent;
+        effect.node.position = tile.node.position;
+        effect.node.scale = tile.node.scale;
+        effect.play();
+      });
+    }
+
+    this.parent.debug?.log("[shield_card_sub] End effect.");
+
+    return true;
   }
 }
