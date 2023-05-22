@@ -31,7 +31,9 @@ export class ManeuverCardSubehaviour extends CardsSubBehaviour {
 
     const playerModel = this.parent.cardsService.getCurrentPlayerModel();
     this._tilesToPanic = this.parent.field?.fieldMatrix.filter((tile) => {
-      return tile.playerModel == playerModel;
+      if (tile.tileModel.tileName != "berserk") {
+        return tile.playerModel == playerModel;
+      }
     });
 
     if (!this._tilesToPanic) return false;

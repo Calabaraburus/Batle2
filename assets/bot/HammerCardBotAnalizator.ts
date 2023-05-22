@@ -65,7 +65,7 @@ export class HammerCardBotAnalizator extends CardAnalizator {
         if (tilesInRow.length == 2) {
           coefRow = 1;
         } else {
-          coefRow = 0.8;
+          coefRow = 0.5;
         }
 
         const coef =
