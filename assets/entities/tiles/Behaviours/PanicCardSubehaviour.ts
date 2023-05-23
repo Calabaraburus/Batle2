@@ -33,7 +33,9 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
     // this._tilesToPanic = [];
     const oponentModel = this.parent.cardsService.getOponentModel();
     this._tilesToPanic = this.parent.field?.fieldMatrix.filter((tile) => {
-      return tile.playerModel == oponentModel;
+      if (tile.tileModel.tileName != "berserk") {
+        return tile.playerModel == oponentModel;
+      }
     });
 
     if (!this._tilesToPanic) return false;

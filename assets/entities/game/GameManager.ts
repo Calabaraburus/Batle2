@@ -20,6 +20,7 @@ import { CardService } from "../services/CardService";
 import { DataService } from "../services/DataService";
 import { TileService } from "../services/TileService";
 import { TileCreator } from "../field/TileCreator";
+import { MatchStatisticService } from "../services/MatchStatisticService";
 
 const { ccclass, property } = _decorator;
 
@@ -32,6 +33,7 @@ export class GameManager extends Service {
   private _cardService: CardService | null;
   private _dataService: DataService | null;
   private _tileService: TileService | null;
+  private _matchStatistic: MatchStatisticService | null;
   private _bot: IBot | null;
 
   @property({ type: LevelController })
@@ -101,6 +103,7 @@ export class GameManager extends Service {
     this._cardService = this.getService(CardService);
     this._dataService = this.getService(DataService);
     this._tileService = this.getService(TileService);
+    this._matchStatistic = this.getService(MatchStatisticService);
     this._bot = this.getService(Bot);
     this._debug = this._dataService?.debugView;
     this.levelController.gameManager = this;
@@ -122,6 +125,9 @@ export class GameManager extends Service {
 
     this._field.updateBackground();
     this.levelController.updateData();
+
+    // start statistic counter
+    this._matchStatistic?.startTileStatistic();
   }
 
   private tileClicked(sender: unknown, tile: TileController): void {
