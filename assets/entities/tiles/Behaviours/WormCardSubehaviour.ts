@@ -32,7 +32,7 @@ export class WormCardSubehaviour extends CardsSubBehaviour {
     }
 
     this._cache = ObjectsCache.instance;
-    this.effectDurationValue = 0.8;
+    this.effectDurationValue = 1;
     this._tilesToDestroy = [];
 
     let currentTile: TileController = targetTile;
@@ -116,9 +116,9 @@ export class WormCardSubehaviour extends CardsSubBehaviour {
     });
 
     animator
-      .delay(0.5)
+      .delay(0.8)
       .call(() => effects.forEach((e) => e.stopEmmit()))
-      .delay(5)
+      .delay(3)
       .call(() => effects.forEach((e) => e.cacheDestroy()));
 
     animator.start();
