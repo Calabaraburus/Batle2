@@ -14,7 +14,7 @@
       "id": "46742",
       "name": "shieldEffect.0023",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -60,7 +60,7 @@
       "id": "92230",
       "name": "shieldEffect.0020",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -106,7 +106,7 @@
       "id": "92613",
       "name": "shieldEffect.0014",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -152,7 +152,7 @@
       "id": "b0551",
       "name": "shieldEffect.0001",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -198,7 +198,7 @@
       "id": "ccf83",
       "name": "shieldEffect.0002",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -244,7 +244,7 @@
       "id": "9f54c",
       "name": "shieldEffect.0003",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -290,7 +290,7 @@
       "id": "4f46a",
       "name": "shieldEffect.0004",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -336,7 +336,7 @@
       "id": "773f7",
       "name": "shieldEffect.0005",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -382,7 +382,7 @@
       "id": "b14a2",
       "name": "shieldEffect.0006",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -428,7 +428,7 @@
       "id": "e11a3",
       "name": "shieldEffect.0007",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -474,7 +474,7 @@
       "id": "f0e6d",
       "name": "shieldEffect.0008",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -520,7 +520,7 @@
       "id": "1e531",
       "name": "shieldEffect.0009",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -566,7 +566,7 @@
       "id": "a8e2a",
       "name": "shieldEffect.0010",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -612,7 +612,7 @@
       "id": "d7c53",
       "name": "shieldEffect.0011",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -658,7 +658,7 @@
       "id": "3ff81",
       "name": "shieldEffect.0012",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -704,7 +704,7 @@
       "id": "03b9c",
       "name": "shieldEffect.0013",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -750,7 +750,7 @@
       "id": "cd905",
       "name": "shieldEffect.0015",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -796,7 +796,7 @@
       "id": "d22d4",
       "name": "shieldEffect.0016",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -842,7 +842,7 @@
       "id": "97d84",
       "name": "shieldEffect.0017",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -888,7 +888,7 @@
       "id": "98d1f",
       "name": "shieldEffect.0018",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -934,7 +934,7 @@
       "id": "20e4d",
       "name": "shieldEffect.0019",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -980,7 +980,7 @@
       "id": "ae002",
       "name": "shieldEffect.0021",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -1026,7 +1026,7 @@
       "id": "80e47",
       "name": "shieldEffect.0022",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
@@ -1072,7 +1072,7 @@
       "id": "4d12b",
       "name": "shieldEffect.0024",
       "userData": {
-        "trimType": "none",
+        "trimType": "auto",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,

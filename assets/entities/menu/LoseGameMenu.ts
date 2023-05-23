@@ -1,8 +1,8 @@
-import { _decorator, Component, Label, Node } from "cc";
+import { Component, Label, _decorator } from "cc";
 const { ccclass, property } = _decorator;
 
-@ccclass("EndGameMenu")
-export class EndGameMenu extends Component {
+@ccclass("LoseGameMenu")
+export class LoseGameMenu extends Component {
   updateStatistic(playerStat: any = {}, enemyStat: any = {}) {
     const playerAll = this.node
       .getChildByPath("PlayerStatistic/AllTileNumber")
@@ -19,10 +19,10 @@ export class EndGameMenu extends Component {
 
     if (!playerAll || !playerSword || !playerBow || !playerShield) return;
 
-    playerAll.string = playerStat.tilesNumber.toString();
-    playerSword.string = playerStat.swordNumber.toString();
-    playerBow.string = playerStat.bowNumber.toString();
-    playerShield.string = playerStat.shieldNumber.toString();
+    playerAll.string = enemyStat.tilesNumber.toString();
+    playerSword.string = enemyStat.swordNumber.toString();
+    playerBow.string = enemyStat.bowNumber.toString();
+    playerShield.string = enemyStat.shieldNumber.toString();
 
     const enemyAll = this.node
       .getChildByPath("EnemyStatistic/AllTileNumber")
@@ -39,9 +39,9 @@ export class EndGameMenu extends Component {
 
     if (!enemyAll || !enemySword || !enemyBow || !enemyShield) return;
 
-    enemyAll.string = enemyStat.tilesNumber.toString();
-    enemySword.string = enemyStat.swordNumber.toString();
-    enemyBow.string = enemyStat.bowNumber.toString();
-    enemyShield.string = enemyStat.shieldNumber.toString();
+    enemyAll.string = playerStat.tilesNumber.toString();
+    enemySword.string = playerStat.swordNumber.toString();
+    enemyBow.string = playerStat.bowNumber.toString();
+    enemyShield.string = playerStat.shieldNumber.toString();
   }
 }
