@@ -2,7 +2,8 @@ import { _decorator, Component, Node } from "cc";
 import { Service } from "./Service";
 import { TileController } from "../tiles/TileController";
 import { TileModel } from "../../models/TileModel";
-import { EndGameMenu } from "../menu/EndGameMenu";
+import { WinGameMenu } from "../menu/WinGameMenu";
+import { LoseGameMenu } from "../menu/LoseGameMenu";
 const { ccclass, property } = _decorator;
 
 @ccclass("MatchStatisticService")
@@ -26,9 +27,6 @@ export class MatchStatisticService extends Service {
   }
 
   updateTapTileStatistic(tilesNumber: number, typeTile: TileModel) {
-    const endMenu = this.getService(EndGameMenu);
-    if (!endMenu) return;
-
     switch (typeTile.tileName) {
       case "b":
         this.playerStat.tilesNumber += tilesNumber;
@@ -55,7 +53,14 @@ export class MatchStatisticService extends Service {
         this.enemyStat.shieldNumber += tilesNumber;
         break;
     }
+  }
 
+  loadStatistic(state: string) {
+    let endMenu = this.getService(WinGameMenu);
+    if (state == "lose") {
+      endMenu = this.getService(LoseGameMenu);
+    }
+    if (!endMenu) return;
     endMenu?.updateStatistic(this.playerStat, this.enemyStat);
   }
 }

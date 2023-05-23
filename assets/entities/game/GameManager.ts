@@ -231,10 +231,12 @@ export class GameManager extends Service {
     }
 
     if (playerModel.life <= 0) {
+      this._matchStatistic?.loadStatistic("lose");
       this.levelController.showLoseView(true);
     }
 
     if (enemyModel.life <= 0) {
+      this._matchStatistic?.loadStatistic("win");
       this.levelController.showWinView(true);
     }
 
