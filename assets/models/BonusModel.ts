@@ -5,6 +5,7 @@
 //  Author:Natalchishin Taras
 
 import {
+  AudioClip,
   CCBoolean,
   CCInteger,
   CCObject,
