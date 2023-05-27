@@ -34,24 +34,12 @@
       },
       {
         "__id__": 823
-      },
-      {
-        "__id__": 825
-      },
-      {
-        "__id__": 827
-      },
-      {
-        "__id__": 829
-      },
-      {
-        "__id__": 831
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 833
+      "__id__": 825
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -82,7 +70,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 848
+      "__id__": 840
     },
     "_id": "596ca5f2-cda1-41c8-97c8-e6d552d2dd86"
   },
@@ -24397,7 +24385,7 @@
       "y": 0,
       "z": 0
     },
-    "_id": "21hLXHKIFBnblo8EwU3ckM"
+    "_id": "63XEnwpORJ8pYya3mR1u6s"
   },
   {
     "__type__": "cc.AudioSource",
@@ -24412,243 +24400,7 @@
     "_loop": false,
     "_playOnAwake": true,
     "_volume": 1,
-    "_id": "82o79IhmJDZKJSeX8M9m1Z"
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "__audioMgr__",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 826
-      }
-    ],
-    "_prefab": null,
-    "_lpos": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_lrot": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_lscale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_mobility": 0,
-    "_layer": 1073741824,
-    "_euler": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": "67vPv+aj5E3bqn9CdUnjOa"
-  },
-  {
-    "__type__": "cc.AudioSource",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 825
-    },
-    "_enabled": true,
-    "__prefab": null,
-    "_clip": null,
-    "_loop": false,
-    "_playOnAwake": true,
-    "_volume": 1,
-    "_id": "81YgBhalBC/YhoGOIt+f7r"
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "__audioMgr__",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 828
-      }
-    ],
-    "_prefab": null,
-    "_lpos": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_lrot": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_lscale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_mobility": 0,
-    "_layer": 1073741824,
-    "_euler": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": "de/10S4I1JCJPGHwKrtCYp"
-  },
-  {
-    "__type__": "cc.AudioSource",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 827
-    },
-    "_enabled": true,
-    "__prefab": null,
-    "_clip": null,
-    "_loop": false,
-    "_playOnAwake": true,
-    "_volume": 1,
-    "_id": "a3tttYE9lHmrT1dPTuTg+w"
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "__audioMgr__",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 830
-      }
-    ],
-    "_prefab": null,
-    "_lpos": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_lrot": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_lscale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_mobility": 0,
-    "_layer": 1073741824,
-    "_euler": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": "c5U+v05qpO3Yz3h3/df6E9"
-  },
-  {
-    "__type__": "cc.AudioSource",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 829
-    },
-    "_enabled": true,
-    "__prefab": null,
-    "_clip": null,
-    "_loop": false,
-    "_playOnAwake": true,
-    "_volume": 1,
-    "_id": "d5DvyDetlNA7sdXosJcXRy"
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "__audioMgr__",
-    "_objFlags": 0,
-    "_parent": {
-      "__id__": 1
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 832
-      }
-    ],
-    "_prefab": null,
-    "_lpos": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_lrot": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_lscale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_mobility": 0,
-    "_layer": 1073741824,
-    "_euler": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": "38UujSsZdOK5PdBh2hfXTK"
-  },
-  {
-    "__type__": "cc.AudioSource",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 831
-    },
-    "_enabled": true,
-    "__prefab": null,
-    "_clip": null,
-    "_loop": false,
-    "_playOnAwake": true,
-    "_volume": 1,
-    "_id": "a4f6uF17hJPq7S1u2WdpgG"
+    "_id": "41SopsizlNyqKWHP8IC7Eg"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -24658,22 +24410,22 @@
     "instance": null,
     "targetOverrides": [
       {
+        "__id__": 826
+      },
+      {
+        "__id__": 829
+      },
+      {
+        "__id__": 832
+      },
+      {
         "__id__": 834
       },
       {
-        "__id__": 837
+        "__id__": 836
       },
       {
-        "__id__": 840
-      },
-      {
-        "__id__": 842
-      },
-      {
-        "__id__": 844
-      },
-      {
-        "__id__": 846
+        "__id__": 838
       }
     ],
     "nestedPrefabInstanceRoots": [
@@ -24712,7 +24464,7 @@
       "__id__": 177
     },
     "sourceInfo": {
-      "__id__": 835
+      "__id__": 827
     },
     "propertyPath": [
       "tilesArea"
@@ -24721,7 +24473,7 @@
       "__id__": 177
     },
     "targetInfo": {
-      "__id__": 836
+      "__id__": 828
     }
   },
   {
@@ -24742,7 +24494,7 @@
       "__id__": 177
     },
     "sourceInfo": {
-      "__id__": 838
+      "__id__": 830
     },
     "propertyPath": [
       "tilesBckgArea"
@@ -24751,7 +24503,7 @@
       "__id__": 177
     },
     "targetInfo": {
-      "__id__": 839
+      "__id__": 831
     }
   },
   {
@@ -24779,7 +24531,7 @@
       "__id__": 303
     },
     "targetInfo": {
-      "__id__": 841
+      "__id__": 833
     }
   },
   {
@@ -24801,7 +24553,7 @@
       "__id__": 177
     },
     "targetInfo": {
-      "__id__": 843
+      "__id__": 835
     }
   },
   {
@@ -24823,7 +24575,7 @@
       "__id__": 177
     },
     "targetInfo": {
-      "__id__": 845
+      "__id__": 837
     }
   },
   {
@@ -24845,7 +24597,7 @@
       "__id__": 430
     },
     "targetInfo": {
-      "__id__": 847
+      "__id__": 839
     }
   },
   {
@@ -24857,22 +24609,22 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 849
+      "__id__": 841
     },
     "shadows": {
-      "__id__": 850
+      "__id__": 842
     },
     "_skybox": {
-      "__id__": 851
+      "__id__": 843
     },
     "fog": {
-      "__id__": 852
+      "__id__": 844
     },
     "octree": {
-      "__id__": 853
+      "__id__": 845
     },
     "lightProbeInfo": {
-      "__id__": 854
+      "__id__": 846
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false
