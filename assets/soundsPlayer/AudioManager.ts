@@ -6,10 +6,15 @@ const { ccclass, property } = _decorator;
 export class AudioManager extends Service {
   @property(AudioClip)
   sounds: AudioClip[] = [];
-  private _audioSource: AudioSource;
 
-  // private static _inst: AudioManager;
-  // public static get inst(): AudioManager {
+  @property(AudioClip)
+  music: AudioClip[] = [];
+
+  private _audioSource: AudioSource;
+  private _soundSource: AudioSource;
+
+  // private _inst: AudioManager;
+  // public get inst(): AudioManager {
   //   if (this._inst == null) {
   //     this._inst = new AudioManager();
   //   }
@@ -19,29 +24,67 @@ export class AudioManager extends Service {
   constructor() {
     super();
 
-    const audioMgr = new Node();
-    audioMgr.name = "__audioMgr__";
+    if (!director.getScene()?.getChildByName("__audioMgr__")) {
+      const audioMgr = new Node();
+      audioMgr.name = "__audioMgr__";
 
-    director.getScene()?.addChild(audioMgr);
+      director.getScene()?.addChild(audioMgr);
 
-    director.addPersistRootNode(audioMgr);
+      director.addPersistRootNode(audioMgr);
 
-    this._audioSource = audioMgr.addComponent(AudioSource);
+      this._audioSource = audioMgr.addComponent(AudioSource);
+    }
+
+    if (!director.getScene()?.getChildByName("__soundMgr__")) {
+      const soundMgr = new Node();
+      soundMgr.name = "__soundMgr__";
+
+      director.getScene()?.addChild(soundMgr);
+
+      director.addPersistRootNode(soundMgr);
+
+      this._soundSource = soundMgr.addComponent(AudioSource);
+    }
   }
 
   get audioSource() {
     return this._audioSource;
   }
 
+  get soundSource() {
+    return this._soundSource;
+  }
+
   playSoundEffect(soundName: string) {
     const sound = this.getTargetSound(soundName);
     if (!sound) return;
-    this.audioSource.playOneShot(sound, 1);
+    this.soundSource.playOneShot(sound, 1);
+  }
+
+  playMusic(audioName: string) {
+    const music = this.getTargetMusic(audioName);
+    if (!music) return;
+    this.audioSource.clip = music;
+    this.audioSource.play();
   }
 
   getTargetSound(soundName: string) {
     return this.sounds.find((sound) => {
       return sound.name == soundName;
     });
+  }
+
+  getTargetMusic(audioName: string) {
+    return this.music.find((audioClip) => {
+      return audioClip.name == audioName;
+    });
+  }
+
+  changeVolume(audioSource: AudioSource) {
+    if (audioSource.volume == 1) {
+      audioSource.volume = 0;
+    } else {
+      audioSource.volume = 1;
+    }
   }
 }

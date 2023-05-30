@@ -5,10 +5,12 @@ import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 
 import { CardsSubBehaviour } from "./SubBehaviour";
+import { AudioManager } from "../../../soundsPlayer/AudioManager";
 
 export class ShieldCardSubehaviour extends CardsSubBehaviour {
   private _cache: ObjectsCache;
   private _resultSet: Set<TileController>;
+  private _soundEffect: AudioManager | null;
 
   prepare(): boolean {
     this.parent.debug?.log("[shield_card_sub] Start prepare.");
@@ -71,12 +73,13 @@ export class ShieldCardSubehaviour extends CardsSubBehaviour {
 
   effect(): boolean {
     this.parent.debug?.log("[shield_card_sub] Start effect.");
+    this._soundEffect = this.parent.getService(AudioManager);
 
     if (this._resultSet.size > 1) {
       this._resultSet.forEach((tile) => {
         const effect =
           this._cache?.getObjectByPrefabName<AnimationEffect>("shieldEffect");
-
+        this._soundEffect?.playSoundEffect("shield");
         if (effect == null) {
           return false;
         }
