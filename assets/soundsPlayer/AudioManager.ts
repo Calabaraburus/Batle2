@@ -1,90 +1,125 @@
-import { _decorator, AudioClip, AudioSource, director, Node } from "cc";
-import { Service } from "../entities/services/Service";
-const { ccclass, property } = _decorator;
+//  AudioManager.ts - ClbBlast
+//
+//  Calabaraburus (c) 2023
+//
+//  Author:Natalchishin Taras
 
-@ccclass("AudioManager")
-export class AudioManager extends Service {
-  @property(AudioClip)
-  sounds: AudioClip[] = [];
+import { Node, AudioSource, AudioClip, resources, director, assert } from "cc";
 
-  @property(AudioClip)
-  music: AudioClip[] = [];
+/**
+ * this is a sington class for audio play, can be easily called from anywhere in you project.
+ */
+export class AudioManager {
+  private mgrNodeName = "__audioMgr__";
+
+  private static _inst: AudioManager;
+  public static get instance(): AudioManager {
+    if (this._inst == null) {
+      this._inst = new AudioManager();
+    }
+    return this._inst;
+  }
 
   private _audioSource: AudioSource;
-  private _soundSource: AudioSource;
-
-  // private _inst: AudioManager;
-  // public get inst(): AudioManager {
-  //   if (this._inst == null) {
-  //     this._inst = new AudioManager();
-  //   }
-  //   return this._inst;
-  // }
-
   constructor() {
-    super();
+    // add to the scene.
+    const scene = director.getScene();
 
-    if (!director.getScene()?.getChildByName("__audioMgr__")) {
-      const audioMgr = new Node();
-      audioMgr.name = "__audioMgr__";
+    assert(scene, "Scene is null");
 
-      director.getScene()?.addChild(audioMgr);
+    let audioMgr = scene.getChildByName(this.mgrNodeName);
 
+    if (audioMgr == null) {
+      // create a node as audioMgr
+      audioMgr = new Node();
+      audioMgr.name = this.mgrNodeName;
+
+      scene.addChild(audioMgr);
+
+      //@en make it as a persistent node, so it won't be destroied when scene change.
       director.addPersistRootNode(audioMgr);
 
+      //@en add AudioSource componrnt to play audios.
       this._audioSource = audioMgr.addComponent(AudioSource);
-    }
+    } else {
+      const ast = audioMgr.getComponent(AudioSource);
 
-    if (!director.getScene()?.getChildByName("__soundMgr__")) {
-      const soundMgr = new Node();
-      soundMgr.name = "__soundMgr__";
+      assert(ast, "Can't find audio source");
 
-      director.getScene()?.addChild(soundMgr);
-
-      director.addPersistRootNode(soundMgr);
-
-      this._soundSource = soundMgr.addComponent(AudioSource);
+      this._audioSource = ast;
     }
   }
 
-  get audioSource() {
+  public get audioSource() {
     return this._audioSource;
   }
 
-  get soundSource() {
-    return this._soundSource;
-  }
-
-  playSoundEffect(soundName: string) {
-    const sound = this.getTargetSound(soundName);
-    if (!sound) return;
-    this.soundSource.playOneShot(sound, 1);
-  }
-
-  playMusic(audioName: string) {
-    const music = this.getTargetMusic(audioName);
-    if (!music) return;
-    this.audioSource.clip = music;
-    this.audioSource.play();
-  }
-
-  getTargetSound(soundName: string) {
-    return this.sounds.find((sound) => {
-      return sound.name == soundName;
-    });
-  }
-
-  getTargetMusic(audioName: string) {
-    return this.music.find((audioClip) => {
-      return audioClip.name == audioName;
-    });
-  }
-
-  changeVolume(audioSource: AudioSource) {
-    if (audioSource.volume == 1) {
-      audioSource.volume = 0;
+  /**
+   * @en
+   * play short audio, such as strikes,explosions
+   * @zh
+   * 播放短音频,比如 打击音效，爆炸音效等
+   * @param sound clip or url for the audio
+   * @param volume
+   */
+  playOneShot(sound: AudioClip | string, volume = 1.0) {
+    if (sound instanceof AudioClip) {
+      this._audioSource.playOneShot(sound, volume);
     } else {
-      audioSource.volume = 1;
+      resources.load(sound, (err, clip: AudioClip) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this._audioSource.playOneShot(clip, volume);
+        }
+      });
     }
+  }
+
+  /**
+   * @en
+   * play long audio, such as the bg music
+   * @zh
+   * 播放长音频，比如 背景音乐
+   * @param sound clip or url for the sound
+   * @param volume
+   */
+  play(sound: AudioClip | string, volume = 1.0) {
+    if (sound instanceof AudioClip) {
+      this._audioSource.clip = sound;
+      this._audioSource.play();
+      this.audioSource.volume = volume;
+    } else {
+      resources.load(sound, (err, clip: AudioClip) => {
+        if (err) {
+          console.log(err);
+        } else {
+          this._audioSource.clip = clip;
+          this._audioSource.play();
+          this.audioSource.volume = volume;
+        }
+      });
+    }
+  }
+
+  /**
+   * stop the audio play
+   */
+  stop() {
+    this._audioSource.stop();
+  }
+
+  /**
+   * pause the audio play
+   */
+  pause() {
+    this._audioSource.pause();
+  }
+
+  /**
+   * resume the audio play
+   */
+  resume() {
+    this._audioSource.play();
   }
 }
