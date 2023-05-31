@@ -77,7 +77,6 @@ export class AssassinCardSubehaviour extends CardsSubBehaviour {
 
   effect(): boolean {
     this.parent.debug?.log("[assassin_card_sub] Start effect.");
-    this._soundEffect = this.parent.getService(AudioManager);
 
     const effect =
       this._cache?.getObjectByPrefabName<CardEffect>("explosion2Effect");
@@ -90,7 +89,7 @@ export class AssassinCardSubehaviour extends CardsSubBehaviour {
     effect.node.parent = this.parent.effectsNode;
     effect.play();
 
-    this._soundEffect?.playSoundEffect("assassin");
+    this.parent.audio.playSoundEffect("assassin");
 
     const animator = tween(this);
     animator.delay(1).call(() => effect.cacheDestroy());

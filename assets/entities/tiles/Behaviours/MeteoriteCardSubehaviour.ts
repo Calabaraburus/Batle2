@@ -27,7 +27,6 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
   private _soundEffect: AudioManager | null;
 
   prepare(): boolean {
-    this._soundEffect = this.parent.getService(AudioManager);
     const maxCountForEachSide = this.powerCard;
     this._targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
@@ -163,7 +162,7 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
 
     meteorEffect.play();
 
-    this._soundEffect?.playSoundEffect("meteorite");
+    this.parent.audio.playSoundEffect("meteorite");
 
     const animator = tween(meteorEffect.node);
 
