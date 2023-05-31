@@ -4,10 +4,12 @@ import { CardEffect } from "../../effects/CardEffect";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
+import { AudioManager } from "../../../soundsPlayer/AudioManager";
 
 export class AssassinCardSubehaviour extends CardsSubBehaviour {
   private _tilesToTransform: TileController[] = [];
   private _cache: ObjectsCache | null;
+  private _soundEffect: AudioManager | null;
 
   prepare(): boolean {
     this.parent.debug?.log("[assassin_card_sub] Start preparing.");
@@ -75,6 +77,7 @@ export class AssassinCardSubehaviour extends CardsSubBehaviour {
 
   effect(): boolean {
     this.parent.debug?.log("[assassin_card_sub] Start effect.");
+    this._soundEffect = this.parent.getService(AudioManager);
 
     const effect =
       this._cache?.getObjectByPrefabName<CardEffect>("explosion2Effect");
@@ -86,6 +89,8 @@ export class AssassinCardSubehaviour extends CardsSubBehaviour {
     effect.node.position = this.parent.target.node.position;
     effect.node.parent = this.parent.effectsNode;
     effect.play();
+
+    this._soundEffect?.playSoundEffect("assassin");
 
     const animator = tween(this);
     animator.delay(1).call(() => effect.cacheDestroy());

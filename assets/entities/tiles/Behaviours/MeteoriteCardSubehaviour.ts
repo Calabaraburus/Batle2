@@ -1,4 +1,5 @@
 import {
+  AudioClip,
   random,
   randomRange,
   randomRangeInt,
@@ -15,6 +16,7 @@ import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 import { IAttackable, isIAttackable } from "../IAttackable";
+import { AudioManager } from "../../../soundsPlayer/AudioManager";
 
 export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
   private _tilesToDestroy: TileController[] = [];
@@ -22,8 +24,10 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
   protected powerCard = 2;
   private _targetTile: StdTileController;
   private _fieldTransform: UITransform;
+  private _soundEffect: AudioManager | null;
 
   prepare(): boolean {
+    this._soundEffect = this.parent.getService(AudioManager);
     const maxCountForEachSide = this.powerCard;
     this._targetTile = this.parent.target as StdTileController;
     const playerTag = this.parent.cardsService?.getPlayerTag();
@@ -103,7 +107,7 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
 
   effect(): boolean {
     console.log("[meteor_cardsub] start effect");
-
+    // const soundEffect = this.parent.
     const effects: CardEffect[] = [];
 
     const meteorEffect =
@@ -158,6 +162,8 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
     meteorEffect.node.parent = this.parent.effectsNode;
 
     meteorEffect.play();
+
+    this._soundEffect?.playSoundEffect("meteorite");
 
     const animator = tween(meteorEffect.node);
 
