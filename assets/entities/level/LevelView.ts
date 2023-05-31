@@ -18,6 +18,7 @@ import {
 import { LevelModel } from "../../models/LevelModel";
 import { ILevelView } from "./ILevelView";
 import { LevelController } from "./LevelController";
+import { MatchStatisticService } from "../services/MatchStatisticService";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelView")
@@ -26,6 +27,8 @@ export class LevelView extends Component implements ILevelView {
   Bonus2Price: number;
   Bonus3Price: number;
   //#region Privates
+
+  statisticService: MatchStatisticService;
 
   private _model: LevelModel;
   private _controller: LevelController;

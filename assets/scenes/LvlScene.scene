@@ -93,7 +93,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 540,
-      "y": 1200.0000000000002,
+      "y": 1199.9999999999998,
       "z": 0
     },
     "_lrot": {
@@ -8811,8 +8811,8 @@
     "_target": null,
     "_left": 0,
     "_right": 0,
-    "_top": 2.2737367544323206e-13,
-    "_bottom": 2.2737367544323206e-13,
+    "_top": -2.2737367544323206e-13,
+    "_bottom": -2.2737367544323206e-13,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
@@ -8830,7 +8830,7 @@
   {
     "__type__": "cc.Node",
     "_name": "LevelSelector",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "_parent": {
       "__id__": 1
     },
@@ -8861,7 +8861,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 540,
-      "y": 1200.0000000000002,
+      "y": 1199.9999999999998,
       "z": 0
     },
     "_lrot": {
@@ -8890,7 +8890,7 @@
   {
     "__type__": "cc.Node",
     "_name": "Camera-loading",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "_parent": {
       "__id__": 704
     },
@@ -8977,7 +8977,7 @@
   {
     "__type__": "cc.Node",
     "_name": "LoadScreen",
-    "_objFlags": 0,
+    "_objFlags": 512,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 704
@@ -9162,8 +9162,8 @@
     "_target": null,
     "_left": 0,
     "_right": 0,
-    "_top": 2.2737367544323206e-13,
-    "_bottom": 2.2737367544323206e-13,
+    "_top": -2.2737367544323206e-13,
+    "_bottom": -2.2737367544323206e-13,
     "_horizontalCenter": 0,
     "_verticalCenter": 0,
     "_isAbsLeft": true,
