@@ -402,9 +402,9 @@
     "__type__": "cc.ColorKey",
     "color": {
       "__type__": "cc.Color",
-      "r": 54,
-      "g": 35,
-      "b": 35,
+      "r": 75,
+      "g": 53,
+      "b": 53,
       "a": 255
     },
     "time": 1
@@ -1156,8 +1156,8 @@
   {
     "__type__": "cc.CurveRange",
     "mode": 3,
-    "constantMin": 10,
-    "constantMax": 12,
+    "constantMin": 15,
+    "constantMax": 20,
     "multiplier": 1
   },
   {

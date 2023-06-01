@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { tween, _decorator, Node, director } from "cc";
+import { tween, _decorator, Node, director, assert } from "cc";
 import { PlayerModel } from "../../../models/PlayerModel";
 import { helpers } from "../../../scripts/helpers";
 import { GameBehaviour } from "../../behaviours/GameBehaviour";
@@ -39,6 +39,7 @@ import { HammerLowCardSubehaviour } from "./HammerLowCardSubehaviour";
 import { HammerMiddleCardSubehaviour } from "./HammerMiddleCardSubehaviour";
 import { PikeLowCardSubehaviour } from "./PikeLowCardSubehaviour";
 import { PikeMiddleCardSubehaviour } from "./PikeMiddleCardSubehaviour";
+import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
@@ -46,6 +47,7 @@ export class CardsBehaviour extends GameBehaviour {
   private _cardsRunDict = new Map<string, ISubBehaviour>();
   private _cardsService: CardService | null;
   private _effectsNode: Node | null;
+  private _audioManager: AudioManagerService;
 
   public get effectsNode(): Node | null {
     return this._effectsNode;
@@ -53,6 +55,10 @@ export class CardsBehaviour extends GameBehaviour {
 
   public get cardsService() {
     return this._cardsService;
+  }
+
+  public get audio() {
+    return this._audioManager;
   }
 
   constructor() {
@@ -160,6 +166,12 @@ export class CardsBehaviour extends GameBehaviour {
     }
 
     this._cardsService = this.getService(CardService);
+
+    const taudio = this.getService(AudioManagerService);
+
+    assert(taudio, "Can't get audio manager");
+
+    this._audioManager = taudio;
   }
 
   activateCondition(): boolean {

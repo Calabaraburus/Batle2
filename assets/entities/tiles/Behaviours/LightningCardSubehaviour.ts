@@ -90,9 +90,11 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
           return;
         }
 
-        const line = new Line();
-        line.startPoint = new Vec2(prev.node.position.x, prev.node.position.y);
-        line.endPoint = new Vec2(t.node.position.x, t.node.position.y);
+        const line = new Line(
+          new Vec2(prev.node.position.x, prev.node.position.y),
+          new Vec2(t.node.position.x, t.node.position.y)
+        );
+
         vec.push(line);
         prev = t;
       });
