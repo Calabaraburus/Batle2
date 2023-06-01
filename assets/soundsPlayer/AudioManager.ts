@@ -65,6 +65,7 @@ export class AudioManager extends Service {
     const music = this.getTargetMusic(audioName);
     if (!music) return;
     this.audioSource.clip = music;
+
     this.audioSource.play();
   }
 
