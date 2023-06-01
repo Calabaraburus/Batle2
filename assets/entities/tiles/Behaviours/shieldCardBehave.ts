@@ -73,13 +73,12 @@ export class ShieldCardSubehaviour extends CardsSubBehaviour {
 
   effect(): boolean {
     this.parent.debug?.log("[shield_card_sub] Start effect.");
-    this._soundEffect = this.parent.getService(AudioManager);
 
     if (this._resultSet.size > 1) {
       this._resultSet.forEach((tile) => {
         const effect =
           this._cache?.getObjectByPrefabName<AnimationEffect>("shieldEffect");
-        this._soundEffect?.playSoundEffect("shield");
+        this.parent.audio.playSoundEffect("shield");
         if (effect == null) {
           return false;
         }

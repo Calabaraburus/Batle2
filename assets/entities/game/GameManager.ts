@@ -4,7 +4,7 @@
 //
 //  Author:Natalchishin Taras
 
-import { Component, debug, director, tween, _decorator } from "cc";
+import { Component, debug, director, tween, _decorator, assert } from "cc";
 import { Bot } from "../../bot/Bot";
 import type { IBot } from "../../bot/IBot";
 import { LevelController } from "../level/LevelController";
@@ -21,6 +21,8 @@ import { DataService } from "../services/DataService";
 import { TileService } from "../services/TileService";
 import { TileCreator } from "../field/TileCreator";
 import { MatchStatisticService } from "../services/MatchStatisticService";
+import { AudioManager } from "../../soundsPlayer/AudioManager";
+import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
 
 const { ccclass, property } = _decorator;
 
@@ -34,6 +36,8 @@ export class GameManager extends Service {
   private _dataService: DataService | null;
   private _tileService: TileService | null;
   private _matchStatistic: MatchStatisticService | null;
+  private _audioManager: AudioManagerService;
+
   private _bot: IBot | null;
 
   @property({ type: LevelController })
@@ -104,6 +108,8 @@ export class GameManager extends Service {
     this._dataService = this.getService(DataService);
     this._tileService = this.getService(TileService);
     this._matchStatistic = this.getService(MatchStatisticService);
+    this._audioManager = this.getServiceOrThrow(AudioManagerService);
+
     this._bot = this.getService(Bot);
     this._debug = this._dataService?.debugView;
     this.levelController.gameManager = this;
@@ -117,6 +123,8 @@ export class GameManager extends Service {
   }
 
   initGame(): void {
+    this._audioManager.playMusic("epic");
+
     this._field.tileClickedEvent.on("FieldController", this.tileClicked, this);
     this._field.generateTiles();
 

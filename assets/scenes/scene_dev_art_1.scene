@@ -24204,7 +24204,7 @@
     "_id": "e9Cw7esR9JLLyJBWqgV8S5"
   },
   {
-    "__type__": "2b319z+319NFqS+5mzrHBbp",
+    "__type__": "37028KrY4lFtYKZ9OLoqE3o",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -24214,7 +24214,19 @@
     "__prefab": null,
     "sounds": [
       {
-        "__uuid__": "7b06efe0-389e-4322-8dd6-bd2f6f728297",
+        "__uuid__": "a91ebd48-4b87-4c3c-b4ba-eadd2ec0d1de",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "2ad95e61-3310-4dfd-a104-536766df3fb0",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "dffea37a-e8a6-411c-94b0-f43158f1c479",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "0b8881fa-5688-4e15-8f80-395b9426d9cd",
         "__expectedType__": "cc.AudioClip"
       },
       {
@@ -24222,7 +24234,23 @@
         "__expectedType__": "cc.AudioClip"
       },
       {
+        "__uuid__": "7a9d3ae0-e9e8-439b-b70b-26b017275e6b",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
         "__uuid__": "019182aa-246f-4828-bdfb-be85a17815df",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "a9e2a5fc-1d44-420f-848b-e14b4a8d2b46",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "26c868ce-3ab9-4f1f-b65b-3fce256770ff",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "7b06efe0-389e-4322-8dd6-bd2f6f728297",
         "__expectedType__": "cc.AudioClip"
       }
     ],
@@ -24236,7 +24264,7 @@
         "__expectedType__": "cc.AudioClip"
       }
     ],
-    "_id": "10MNmcrnlBhL9euB2XADh2"
+    "_id": "53U7kqXQpCyJ8bJeKwzVQZ"
   },
   {
     "__type__": "cc.Node",
