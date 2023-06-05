@@ -12,11 +12,7 @@ import { Node, AudioSource, AudioClip, resources, director, assert } from "cc";
 export class AudioManager {
   private mgrNodeName = "__audioMgr__";
 
-  _volumeSound = 0.4;
-  _volumeMusic = 0.4;
-
   private static _inst: AudioManager;
-
   public static get instance(): AudioManager {
     if (this._inst == null) {
       this._inst = new AudioManager();
@@ -25,7 +21,6 @@ export class AudioManager {
   }
 
   private _audioSource: AudioSource;
-  private _soundSource: AudioSource;
   constructor() {
     // add to the scene.
     const scene = director.getScene();
@@ -46,22 +41,16 @@ export class AudioManager {
 
       //@en add AudioSource componrnt to play audios.
       this._audioSource = audioMgr.addComponent(AudioSource);
-      this._soundSource = audioMgr.addComponent(AudioSource);
     } else {
-      const ast = audioMgr.getComponents(AudioSource);
+      const ast = audioMgr.getComponent(AudioSource);
 
       assert(ast, "Can't find audio source");
 
-      this._audioSource = ast[0];
-      this._soundSource = ast[1];
+      this._audioSource = ast;
     }
   }
 
   public get audioSource() {
-    return this._audioSource;
-  }
-
-  public get soundSource() {
     return this._audioSource;
   }
 
@@ -73,20 +62,28 @@ export class AudioManager {
    * @param sound clip or url for the audio
    * @param volume
    */
-  playOneShot(sound: AudioClip | string) {
+  playOneShot(sound: AudioClip | string, volume = 1.0) {
     if (sound instanceof AudioClip) {
-      this._soundSource.playOneShot(sound, this._volumeSound);
+      this._audioSource.playOneShot(sound, volume);
     } else {
       resources.load(sound, (err, clip: AudioClip) => {
         if (err) {
           console.log(err);
         } else {
-          this._soundSource.playOneShot(clip, this._volumeSound);
+          this._audioSource.playOneShot(clip, volume);
         }
       });
     }
   }
 
+<<<<<<< HEAD
+  playMusic(audioName: string) {
+    const music = this.getTargetMusic(audioName);
+    if (!music) return;
+    this.audioSource.clip = music;
+
+    this.audioSource.play();
+=======
   /**
    * @en
    * play long audio, such as the bg music
@@ -95,27 +92,23 @@ export class AudioManager {
    * @param sound clip or url for the sound
    * @param volume
    */
-  play(sound: AudioClip | string) {
+  play(sound: AudioClip | string, volume = 1.0) {
     if (sound instanceof AudioClip) {
       this._audioSource.clip = sound;
-
-      if (sound.name == "start_menu") {
-        this._audioSource.loop = true;
-      }
       this._audioSource.play();
-      this.audioSource.volume = this._volumeMusic;
+      this.audioSource.volume = volume;
     } else {
       resources.load(sound, (err, clip: AudioClip) => {
         if (err) {
           console.log(err);
         } else {
           this._audioSource.clip = clip;
-
           this._audioSource.play();
-          this.audioSource.volume = this._volumeMusic;
+          this.audioSource.volume = volume;
         }
       });
     }
+>>>>>>> a6e45704a1dd7ab9c8aeef8b4317b13ba305e5d1
   }
 
   /**
