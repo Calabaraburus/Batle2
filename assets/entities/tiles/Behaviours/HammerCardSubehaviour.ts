@@ -12,6 +12,7 @@ import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 import { IAttackable, isIAttackable } from "../IAttackable";
+import { AnimationEffect } from "../../effects/AnimationEffect";
 
 export class HammerCardSubehaviour extends CardsSubBehaviour {
   private _tilesToDestroy: TileController[] = [];
@@ -50,14 +51,14 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
     const fieldTransform = this.parent.effectsNode?.getComponent(UITransform);
 
     if (fieldTransform == null) {
-      console.log("[meteor_cardsub][error] fieldTransform is null");
+      console.log("[hammer_cardsub][error] fieldTransform is null");
       return false;
     }
 
     this._fieldTransform = fieldTransform;
     const matrix = this.parent.field?.fieldMatrix;
     this._cache = ObjectsCache.instance;
-    this.effectDurationValue = 1.8;
+    this.effectDurationValue = 1;
     this._tilesToDestroy = [];
     this._colTilesToDestroy = [];
 
@@ -111,68 +112,30 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
   }
 
   effect(): boolean {
-    console.log("[meteor_cardsub] start effect");
+    console.log("[hammer_cardsub] start effect");
 
     const effects: CardEffect[] = [];
 
-    const meteorEffect =
-      this._cache?.getObjectByPrefabName<CardEffect>("meteorEffect");
+    const spareEffect =
+      this._cache?.getObjectByPrefabName<AnimationEffect>("hammerEffect");
 
-    if (meteorEffect == null) {
+    if (spareEffect == null) {
       return false;
     }
 
-    const border = [
-      [
-        -this._fieldTransform.width * this._fieldTransform.anchorX,
-        this._fieldTransform.width * this._fieldTransform.anchorX,
-      ],
-      [
-        -this._fieldTransform.height * this._fieldTransform.anchorY,
-        this._fieldTransform.height * this._fieldTransform.anchorY,
-      ],
-    ];
+    const startPos = this._targetTile.node.position.clone();
 
-    const lines = [
-      [
-        [0, 0],
-        [1, 0],
-      ],
-      [
-        [0, 0],
-        [0, 1],
-      ],
-      [
-        [1, 1],
-        [1, 0],
-      ],
-      [
-        [1, 1],
-        [0, 1],
-      ],
-    ];
+    startPos.y = this._fieldTransform.height * this._fieldTransform.anchorY;
 
-    for (let index = 0; index < 100; index++) {
-      const element = randomRangeInt(0, 2);
-    }
+    spareEffect.node.parent = this._targetTile.node.parent;
+    spareEffect.node.position = startPos;
+    spareEffect.play();
 
-    const line = lines[randomRangeInt(0, 4)];
-
-    const point = new Vec2(
-      randomRange(border[0][line[0][0]], border[1][line[0][1]]),
-      randomRange(border[0][line[1][0]], border[1][line[1][1]])
-    );
-
-    meteorEffect.node.setPosition(new Vec3(point.x, point.y));
-    meteorEffect.node.parent = this.parent.effectsNode;
-
-    meteorEffect.play();
-
-    const animator = tween(meteorEffect.node);
+    const animator = tween(spareEffect.node);
 
     this._tilesToDestroy.forEach((t, i) => {
       const effect =
-        this._cache?.getObjectByPrefabName<CardEffect>("firewallEffect");
+        this._cache?.getObjectByPrefabName<CardEffect>("firewallBlueEffect");
       if (effect == null) {
         return;
       }
@@ -184,18 +147,16 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
     });
 
     animator
-      .to(0.5, { position: this._targetTile.node.position })
-      .delay(0.5)
+      .to(0.4, { position: this._targetTile.node.position })
       .call(() => effects.forEach((e) => e.play()))
       .delay(0.3)
       .call(() => {
-        meteorEffect.stopEmmit();
         effects.forEach((e) => e.stopEmmit());
       })
       .delay(1)
       .call(() => {
         effects.forEach((e) => e.cacheDestroy());
-        meteorEffect.cacheDestroy();
+        spareEffect.cacheDestroy();
       });
 
     animator.start();
