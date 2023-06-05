@@ -4041,13 +4041,13 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "hammer",
-    "priceToActivate": 5,
+    "priceToActivate": 1,
     "sprite": {
-      "__uuid__": "6a0a64be-dc4b-4782-9b17-57e3cd412a99@f9941",
+      "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": {
-      "__uuid__": "cf4c69b9-4608-428f-8db6-dc478007c546@f9941",
+      "__uuid__": "e2663fb4-1ed6-463c-bdcd-a1618f3bb539@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "activateType": "close_range",
@@ -4055,7 +4055,7 @@
     "cardName": "hammer",
     "cardDescription": "",
     "cardImage": {
-      "__uuid__": "38f314e1-54d8-4b0f-91ac-b445030e7180@f9941",
+      "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_id": "35+35JRDxMkY3EGx2ufHRH"
@@ -4116,11 +4116,11 @@
     "mnemonic": "hammerLow",
     "priceToActivate": 3,
     "sprite": {
-      "__uuid__": "6a0a64be-dc4b-4782-9b17-57e3cd412a99@f9941",
+      "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": {
-      "__uuid__": "cf4c69b9-4608-428f-8db6-dc478007c546@f9941",
+      "__uuid__": "e2663fb4-1ed6-463c-bdcd-a1618f3bb539@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "activateType": "close_range",
@@ -4189,11 +4189,11 @@
     "mnemonic": "hammerMiddle",
     "priceToActivate": 4,
     "sprite": {
-      "__uuid__": "6a0a64be-dc4b-4782-9b17-57e3cd412a99@f9941",
+      "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": {
-      "__uuid__": "cf4c69b9-4608-428f-8db6-dc478007c546@f9941",
+      "__uuid__": "e2663fb4-1ed6-463c-bdcd-a1618f3bb539@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "activateType": "close_range",
@@ -4201,7 +4201,7 @@
     "cardName": "hammer middle",
     "cardDescription": "",
     "cardImage": {
-      "__uuid__": "38f314e1-54d8-4b0f-91ac-b445030e7180@f9941",
+      "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_id": "2fBuRnN9BFH4FDfE1GqIkl"
@@ -4468,7 +4468,7 @@
     },
     "bonusesMetaData": [
       {
-        "__id__": 95
+        "__id__": 125
       }
     ],
     "_id": "8953GGT0JB9bYfdLFKlzpM"
@@ -12923,6 +12923,14 @@
       },
       {
         "__uuid__": "9cee4252-8f30-4a2f-bb9f-6f1379c2b610",
+        "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "82a07b81-75bc-4503-bcd7-d026978882a0",
+        "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "002ddd9c-828f-4281-b36c-b8a8d2dd3f7f",
         "__expectedType__": "cc.Prefab"
       }
     ],
