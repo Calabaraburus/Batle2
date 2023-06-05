@@ -1,7 +1,8 @@
-import { _decorator, director } from "cc";
+import { AudioSource, _decorator, director } from "cc";
 import { Service } from "./Service";
 import { LoaderScreen } from "../menu/LoaderScreen";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
+import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
 const { ccclass, property } = _decorator;
 
 @ccclass("SceneLoaderService")
@@ -37,6 +38,7 @@ export class SceneLoaderService extends Service {
             configurate(lvlConfig);
           }
         }
+
         this.loaderScreen.hide();
       });
     });
