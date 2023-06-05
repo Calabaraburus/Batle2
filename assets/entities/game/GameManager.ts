@@ -4,7 +4,15 @@
 //
 //  Author:Natalchishin Taras
 
-import { Component, debug, director, tween, _decorator, assert } from "cc";
+import {
+  Component,
+  debug,
+  director,
+  tween,
+  _decorator,
+  assert,
+  AudioSource,
+} from "cc";
 import { Bot } from "../../bot/Bot";
 import type { IBot } from "../../bot/IBot";
 import { LevelController } from "../level/LevelController";
@@ -123,6 +131,12 @@ export class GameManager extends Service {
   }
 
   initGame(): void {
+    director
+      .getScene()
+      ?.getChildByName("__audioMgr__")
+      ?.getComponent(AudioSource)
+      ?.stop();
+
     this._audioManager.playMusic("epic");
 
     this._field.tileClickedEvent.on("FieldController", this.tileClicked, this);

@@ -4,19 +4,28 @@
 //
 //  Author:Natalchishin Taras
 
-import { Component, director, _decorator, randomRangeInt, random } from "cc";
+import {
+  Component,
+  director,
+  _decorator,
+  randomRangeInt,
+  random,
+  AudioSource,
+} from "cc";
 import { Service } from "../services/Service";
 import { SceneLoaderService } from "../services/SceneLoaderService";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { BonusModel } from "../../models/BonusModel";
 import { PlayerModel } from "../../models/PlayerModel";
 import { MeteoriteLowCardSubehaviour } from "../tiles/Behaviours/MeteoriteLowCardSubehaviour";
+import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
 export class LevelSelectorController extends Service {
   sceneLoader: SceneLoaderService | null;
   _bonusSorted: BonusModel[][];
+  private _aManager: AudioManagerService | null;
 
   configDict = new Map<string, (config: LevelConfiguration) => void>();
 
