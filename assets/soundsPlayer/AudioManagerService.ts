@@ -14,13 +14,19 @@ export class AudioManagerService extends Service {
   playSoundEffect(soundName: string) {
     const sound = this.getTargetSound(soundName);
     if (!sound) return;
-    AudioManager.instance.playOneShot(sound, 1);
+    AudioManager.instance.playOneShot(sound);
   }
 
   playMusic(audioName: string) {
     const music = this.getTargetMusic(audioName);
     if (!music) return;
     AudioManager.instance.play(music);
+  }
+
+  stopMusic() {
+    // const music = this.getTargetMusic(audioName);
+    // if (!music) return;
+    AudioManager.instance.stop();
   }
 
   getTargetSound(soundName: string) {
@@ -35,7 +41,14 @@ export class AudioManagerService extends Service {
     });
   }
 
-  changeVolume(volume: number) {
-    AudioManager.instance.audioSource.volume = volume;
+  changeVolume(volume: number, audioType: string) {
+    if (audioType == "music") {
+      AudioManager.instance.audioSource.volume = volume;
+      AudioManager.instance._volumeMusic = volume;
+    }
+    if (audioType == "sound") {
+      AudioManager.instance.soundSource.volume = volume;
+      AudioManager.instance._volumeSound = volume;
+    }
   }
 }
