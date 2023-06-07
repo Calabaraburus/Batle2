@@ -62,7 +62,7 @@ export class AudioManager {
   }
 
   public get soundSource() {
-    return this._audioSource;
+    return this._soundSource;
   }
 
   /**

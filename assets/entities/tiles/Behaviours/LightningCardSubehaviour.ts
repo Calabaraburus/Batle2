@@ -82,6 +82,8 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
 
     let prev: TileController | null = null;
 
+    this.parent.audio.playSoundEffect("lightning");
+
     this._tilesToDestroy
       .sort((t1, t2) => t1.col - t2.col)
       .forEach((t) => {

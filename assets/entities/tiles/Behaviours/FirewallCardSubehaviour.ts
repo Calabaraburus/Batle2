@@ -80,6 +80,8 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
         effect.node.parent = this.parent.effectsNode;
         effect.play();
 
+        this.parent.audio.playSoundEffect("firewall");
+
         effects.push(effect);
       });
     });
