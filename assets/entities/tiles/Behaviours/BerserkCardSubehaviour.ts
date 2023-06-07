@@ -139,6 +139,8 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
       effect.node.parent = this.parent.effectsNode;
       effect.play();
 
+      this.parent.audio.playSoundEffect("berserk");
+
       effects.push(effect);
     });
 

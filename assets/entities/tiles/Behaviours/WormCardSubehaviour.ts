@@ -111,6 +111,8 @@ export class WormCardSubehaviour extends CardsSubBehaviour {
         effect.node.parent = this.parent.effectsNode;
         effect.play();
 
+        this.parent.audio.playSoundEffect("worm");
+
         effects.push(effect);
       });
     });

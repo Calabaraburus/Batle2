@@ -99,6 +99,7 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
 
   effect(): boolean {
     this.parent.field?.moveTilesAnimate();
+    this.parent.audio.playSoundEffect("counterattack");
 
     return true;
   }
