@@ -204,9 +204,21 @@ export class CardsBehaviour extends GameBehaviour {
               }
             })
             .start();
+        } else {
+          this.cancel();
         }
+      } else {
+        this.cancel();
       }
+    } else {
+      this.cancel();
     }
+  }
+
+  cancel(): void {
+    // this.deactivateBonus();
+    // this.cardsService?.updateBonusesActiveState();
+    this._inProcess = false;
   }
 
   finalize(): void {
@@ -215,7 +227,7 @@ export class CardsBehaviour extends GameBehaviour {
     if (model != null) {
       this.payCardPrice(model);
       model.activeBonus!.alreadyUsedOnTurn = true;
-      this.deactivateBonus(model);
+      this.deactivateBonusWithModel(model);
       this.cardsService?.updateBonusesActiveState();
     }
 
@@ -238,7 +250,15 @@ export class CardsBehaviour extends GameBehaviour {
       model.activeBonus.priceToActivate;
   }
 
-  deactivateBonus(model: PlayerModel) {
+  deactivateBonus() {
+    const model = this._cardsService?.getCurrentPlayerModel();
+
+    if (model != null) {
+      this.deactivateBonusWithModel(model);
+    }
+  }
+
+  deactivateBonusWithModel(model: PlayerModel) {
     model.unSetBonus();
   }
 }

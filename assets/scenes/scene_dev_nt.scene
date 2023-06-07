@@ -3412,13 +3412,13 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "c_attack",
-    "priceToActivate": 4,
+    "priceToActivate": 1,
     "sprite": {
-      "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
+      "__uuid__": "5700d7ea-8d4e-46ca-9944-41900bfc4ef1@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": {
-      "__uuid__": "11dd9bfb-7466-41e8-9a0b-f54c9415b30d@f9941",
+      "__uuid__": "8797bef7-a3cb-4b80-b30d-5a12108816ce@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "activateType": "long_range",
@@ -3481,7 +3481,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "worm",
-    "priceToActivate": 1,
+    "priceToActivate": -1435,
     "sprite": {
       "__uuid__": "38f314e1-54d8-4b0f-91ac-b445030e7180@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -4468,7 +4468,7 @@
     },
     "bonusesMetaData": [
       {
-        "__id__": 125
+        "__id__": 107
       }
     ],
     "_id": "8953GGT0JB9bYfdLFKlzpM"
@@ -7740,7 +7740,9 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "playerModel": null,
+    "playerModel": {
+      "__id__": 138
+    },
     "lblName": {
       "__id__": 277
     },
@@ -9838,7 +9840,9 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "playerModel": null,
+    "playerModel": {
+      "__id__": 136
+    },
     "cardField": {
       "__id__": 329
     },
@@ -13377,6 +13381,28 @@
   {
     "__type__": "cc.TargetOverrideInfo",
     "source": {
+      "__id__": 352
+    },
+    "sourceInfo": null,
+    "propertyPath": [
+      "playerLifeLine"
+    ],
+    "target": {
+      "__id__": 341
+    },
+    "targetInfo": {
+      "__id__": 511
+    }
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "5d3dDnBlBLYqTg22zVKbCa"
+    ]
+  },
+  {
+    "__type__": "cc.TargetOverrideInfo",
+    "source": {
       "__id__": 288
     },
     "sourceInfo": null,
@@ -13387,7 +13413,7 @@
       "__id__": 278
     },
     "targetInfo": {
-      "__id__": 511
+      "__id__": 513
     }
   },
   {
@@ -13409,7 +13435,7 @@
       "__id__": 156
     },
     "targetInfo": {
-      "__id__": 513
+      "__id__": 515
     }
   },
   {
@@ -13431,35 +13457,13 @@
       "__id__": 156
     },
     "targetInfo": {
-      "__id__": 515
-    }
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "fa43eWwVVIebyR1Bi6UTGO"
-    ]
-  },
-  {
-    "__type__": "cc.TargetOverrideInfo",
-    "source": {
-      "__id__": 352
-    },
-    "sourceInfo": null,
-    "propertyPath": [
-      "playerLifeLine"
-    ],
-    "target": {
-      "__id__": 341
-    },
-    "targetInfo": {
       "__id__": 517
     }
   },
   {
     "__type__": "cc.TargetInfo",
     "localID": [
-      "5d3dDnBlBLYqTg22zVKbCa"
+      "fa43eWwVVIebyR1Bi6UTGO"
     ]
   },
   {
