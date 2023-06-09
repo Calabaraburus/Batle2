@@ -13,6 +13,7 @@ import { LevelModel } from "../../../models/LevelModel";
 import { Service } from "../../services/Service";
 import { CardFieldController } from "./CardFieldController";
 import { WindowManager } from "../../infoPanel/WindowManager";
+import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 const { ccclass, property } = _decorator;
 
 @ccclass("CardController")
@@ -163,7 +164,7 @@ export class CardController extends Service {
   cardClick() {
     if (this._timerFlag == false) {
       this.selected = !this.selected;
-
+      this.getService(AudioManagerService)?.playSoundEffect("card");
       this.node.emit("cardClicked", this, this.selected);
     }
   }

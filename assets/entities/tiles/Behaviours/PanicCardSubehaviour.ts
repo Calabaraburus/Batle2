@@ -109,6 +109,7 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
 
   effect(): boolean {
     this.parent.field?.moveTilesAnimate();
+    this.parent.audio.playSoundEffect("panic");
 
     return true;
   }

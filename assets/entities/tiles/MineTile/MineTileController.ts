@@ -17,6 +17,7 @@ import { CardEffect } from "../../effects/CardEffect";
 import { EffectsService } from "../../services/EffectsService";
 import { GameManager } from "../../game/GameManager";
 import { IAttackable, isIAttackable } from "../IAttackable";
+import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 const { ccclass, property } = _decorator;
 
 @ccclass("MineTileController")
@@ -38,6 +39,7 @@ export class MineTileController extends TileController {
   turnEnds(): void {
     if (this._cardService?.getOponentModel() == this.playerModel) {
       this.playEffect();
+      this.getService(AudioManagerService)?.playSoundEffect("mine_attack");
       this.destroyTile();
 
       const coordTiles = [
