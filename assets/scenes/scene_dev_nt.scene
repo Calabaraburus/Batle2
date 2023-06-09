@@ -4335,11 +4335,11 @@
     "mnemonic": "panic",
     "priceToActivate": 1,
     "sprite": {
-      "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
+      "__uuid__": "a264145f-720c-47e1-a630-0be94fe737e4@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": {
-      "__uuid__": "11dd9bfb-7466-41e8-9a0b-f54c9415b30d@f9941",
+      "__uuid__": "2475e2a3-10ff-43b6-a8eb-e335d351b0bb@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "activateType": "long_range",
