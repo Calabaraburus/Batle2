@@ -1,18 +1,23 @@
+import { assert } from "cc";
+import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { FieldController } from "../../field/FieldController";
 import { CardService } from "../../services/CardService";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
+import { AnimationEffect } from "../../effects/AnimationEffect";
+import { ReadonlyMatrix2D } from "../../field/ReadonlyMatrix2D";
 
 export class PushCardSubehaviour extends CardsSubBehaviour {
+  private _cache: ObjectsCache;
   private _cardsService: CardService | null;
   private _field: FieldController | null | undefined;
   private _tilesToDestroy: TileController[] | undefined;
+  private _matrix: ReadonlyMatrix2D<TileController>;
 
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
-    const matrix = this.parent.field?.fieldMatrix;
+
     let targetRow = 10;
     if (
       this.parent.cardsService?.getCurrentPlayerModel() ==
@@ -20,20 +25,11 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
     ) {
       targetRow = 1;
     }
-    if (matrix == null) return false;
-
-    if (playerTag == null) return false;
+    if (this.parent.field?.fieldMatrix == null) return false;
+    this._matrix = this.parent.field?.fieldMatrix;
     if (this.parent.cardsService == null) return false;
 
-    if (targetTile instanceof StdTileController) {
-      if (targetTile.tileModel.containsTag(playerTag)) {
-        return false;
-      }
-    } else {
-      return false;
-    }
-
-    this.effectDurationValue = 0.5;
+    this.effectDurationValue = 1;
     this._cardsService = this.parent.cardsService;
     this._field = this.parent.field;
 
@@ -41,14 +37,15 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
     if (this._field == null) return false;
     this._tilesToDestroy = [];
 
-    matrix.forEachInRow(targetRow, (tile, colId) => {
-      if (this.parent.cardsService == null) return;
-      if (
-        tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
-      ) {
+    this._matrix.forEachInRow(targetRow, (tile, colId) => {
+      if (tile.playerModel == this.parent.cardsService?.getOponentModel()) {
         this._tilesToDestroy?.push(tile);
       }
     });
+
+    assert(ObjectsCache.instance, "Cache is null");
+
+    this._cache = ObjectsCache.instance;
 
     return true;
   }
@@ -63,7 +60,27 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
   }
 
   effect(): boolean {
-    this.parent.field?.moveTilesAnimate();
+    this.parent.debug?.log("[push_card_sub] Start effect.");
+    const curPlayer = this.parent.cardsService?.getCurrentPlayerModel();
+
+    this.parent.audio.playSoundEffect("motivate");
+
+    this._matrix.forEach((tile) => {
+      if (tile.playerModel != curPlayer) return;
+
+      const effect =
+        this._cache?.getObjectByPrefabName<AnimationEffect>("motivateEffect");
+
+      if (effect == null) {
+        return false;
+      }
+      effect.node.parent = tile.node.parent;
+      effect.node.position = tile.node.position;
+      effect.node.scale = tile.node.scale;
+      effect.play();
+    });
+
+    this.parent.debug?.log("[push_card_sub] End effect.");
 
     return true;
   }

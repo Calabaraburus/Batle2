@@ -32,7 +32,7 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
     }
 
     this._cache = ObjectsCache.instance;
-    this.effectDurationValue = 1.8;
+    this.effectDurationValue = 1;
     this._tilesToDestroy = [];
 
     this.parent.field?.fieldMatrix.forEachCol(targetTile.col, (tile, rowId) => {
