@@ -117,6 +117,8 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
       effect.node.parent = this.parent.effectsNode;
       effect.play();
 
+      this.parent.audio.playSoundEffect("totem");
+
       effects.push(effect);
     });
 

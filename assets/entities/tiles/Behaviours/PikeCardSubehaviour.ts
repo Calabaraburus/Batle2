@@ -167,6 +167,8 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
     spareEffect.node.position = startPos;
     spareEffect.play();
 
+    this.parent.audio.playSoundEffect("pike");
+
     const animator = tween(spareEffect.node);
 
     this._tilesToDestroy.forEach((t, i) => {

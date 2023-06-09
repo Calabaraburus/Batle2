@@ -131,6 +131,8 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
     spareEffect.node.position = startPos;
     spareEffect.play();
 
+    this.parent.audio.playSoundEffect("hammer");
+
     const animator = tween(spareEffect.node);
 
     this._tilesToDestroy.forEach((t, i) => {

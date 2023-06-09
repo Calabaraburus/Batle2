@@ -24,6 +24,7 @@ import { FieldController } from "../../field/FieldController";
 import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { CardEffect } from "../../effects/CardEffect";
 import { EffectsService } from "../../services/EffectsService";
+import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 const { ccclass, property } = _decorator;
 
 @ccclass("BerserkTileController")
@@ -62,6 +63,7 @@ export class AssassinTileController
   turnEnds(): void {
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       this.playEffect();
+      this.getService(AudioManagerService)?.playSoundEffect("berserk_attack");
       this.maxCount = 1;
       this._tilesToDestroy = [];
 

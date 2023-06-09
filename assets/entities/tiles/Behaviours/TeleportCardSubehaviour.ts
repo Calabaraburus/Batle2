@@ -57,6 +57,8 @@ export class TeleportCardSubehaviour extends CardsSubBehaviour {
   effect(): boolean {
     this.parent.field?.moveTilesAnimate();
 
+    this.parent.audio.playSoundEffect("teleport");
+
     return true;
   }
 }

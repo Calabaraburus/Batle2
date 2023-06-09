@@ -102,6 +102,8 @@ export class ManeuverCardSubehaviour extends CardsSubBehaviour {
   effect(): boolean {
     this.parent.field?.moveTilesAnimate();
 
+    this.parent.audio.playSoundEffect("maneuver");
+
     return true;
   }
 }

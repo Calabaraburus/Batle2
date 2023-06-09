@@ -65,6 +65,8 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
   effect(): boolean {
     this.parent.field?.moveTilesAnimate();
 
+    this.parent.audio.playSoundEffect("push");
+
     return true;
   }
 }

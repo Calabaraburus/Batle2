@@ -44,7 +44,7 @@ export class MenuSelectorController extends MainMenu {
     const menuTo = find(sectionMenu, this.node);
 
     if (!menuTo) return;
-
+    this._aManager?.playSoundEffect("click");
     menuTo.active = true;
   }
 
@@ -66,7 +66,7 @@ export class MenuSelectorController extends MainMenu {
         ?.getComponent(AudioSource)
         ?.stop();
     }
-
+    this._aManager?.playSoundEffect("click");
     director.loadScene(sceneName);
   }
 

@@ -84,6 +84,8 @@ export class ShamanCardSubehaviour extends CardsSubBehaviour {
     effect.node.parent = this.parent.effectsNode;
     effect.play();
 
+    this.parent.audio.playSoundEffect("shaman");
+
     const animator = tween(this);
     animator.delay(1).call(() => effect.cacheDestroy());
 
