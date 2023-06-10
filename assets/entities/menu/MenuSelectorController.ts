@@ -1,9 +1,22 @@
-import { AudioSource, SpriteFrame, _decorator, director, find, game } from "cc";
+import {
+  AmbientInfo,
+  AudioSource,
+  SpriteFrame,
+  _decorator,
+  assert,
+  director,
+  find,
+  game,
+} from "cc";
 import { MainMenu } from "./MainMenu";
 import { LoaderScreen } from "./LoaderScreen";
 import { AudioManager } from "../../soundsPlayer/AudioManager";
 import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
 import { GameMenuService } from "./GameMenuService";
+import { SettingsLoader } from "../services/SettingsLoader";
+import { TstFireSmokeSrvc } from "../services/TstFireSmokeSrvc";
+import { GameState } from "../game/GameState";
+import { GameParameters } from "../game/GameParameters";
 const { ccclass, property } = _decorator;
 
 @ccclass("MenuSelectorController")
@@ -11,19 +24,29 @@ export class MenuSelectorController extends MainMenu {
   private _tarnsitionScene = new LoaderScreen();
   private _aManager: AudioManagerService | null | undefined;
   menuSections = ["Menu/MainMenu", "Menu/gameMenuLayout", "Menu/OptionsMenu"];
+  settingsLoader: SettingsLoader;
+  parameters: GameParameters;
+  state: GameState;
 
   start(): void {
     this.init();
 
+    this._aManager = this.getService(AudioManagerService);
+
     if (this._aManager == null) return;
     this._aManager.playMusic("start_menu");
 
-    // const audioManager = director.getScene()?.getChildByName("__audioMgr__");
-    // if (!audioManager) return;
-    // if (!this._aManager) return;
-    // const aSours = audioManager.getComponent(AudioSource)
-    // if (aSours == null) return;
-    // aSours.clip = this._aManager.music[0];
+    const tService = this.getService(SettingsLoader);
+
+    assert(tService, "SettingsLoader can't be found");
+
+    this.settingsLoader = tService;
+
+    this.parameters = this.settingsLoader.gameParameters;
+    this.state = this.settingsLoader.gameState;
+
+    this.settingSound(this, this.parameters.soundLevel.toString());
+    this.settingMusic(this, this.parameters.musicLevel.toString());
   }
 
   onLoad(): void {
@@ -52,32 +75,30 @@ export class MenuSelectorController extends MainMenu {
     // stop start audio track
     const currentScene = director.getScene()?.name;
     if (currentScene == "scene_dev_art_1") {
-      director
-        .getScene()
-        ?.getChildByName("__audioMgr__")
-        ?.getComponent(AudioSource)
-        ?.stop();
+      this._aManager?.stopMusic();
 
       this._aManager?.playMusic("start_menu");
     } else if (sceneName == "scene_dev_art_1") {
-      director
-        .getScene()
-        ?.getChildByName("__audioMgr__")
-        ?.getComponent(AudioSource)
-        ?.stop();
+      this._aManager?.stopMusic();
     }
     this._aManager?.playSoundEffect("click");
     director.loadScene(sceneName);
   }
 
-  settingSuond(sender: object, volume: string) {
+  settingSound(sender: object, volume: string) {
     this.getGameMenuAudioManager();
     this._aManager?.changeVolume(parseFloat(volume), "sound");
+
+    this.parameters.soundLevel = parseFloat(volume);
+    this.settingsLoader.saveParameters();
   }
 
   settingMusic(sender: object, volume: string) {
     this.getGameMenuAudioManager();
     this._aManager?.changeVolume(parseFloat(volume), "music");
+
+    this.parameters.musicLevel = parseFloat(volume);
+    this.settingsLoader.saveParameters();
   }
 
   getGameMenuAudioManager() {

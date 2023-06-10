@@ -9,10 +9,11 @@ import {
   Sprite,
   SpriteFrame,
 } from "cc";
+import { Service } from "../services/Service";
 const { ccclass, property } = _decorator;
 
 @ccclass("MainMenu")
-export class MainMenu extends Component {
+export class MainMenu extends Service {
   @property(SpriteFrame)
   backGround: SpriteFrame;
 
