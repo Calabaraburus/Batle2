@@ -48,6 +48,8 @@ export class MenuOptionsItem extends Component {
 
     if (this.node.name == "Off" && currentVolume == 0) {
       this.searchVolumeFlag();
+    } else if (this.node.name == "Low" && currentVolume == 0.2) {
+      this.searchVolumeFlag();
     } else if (this.node.name == "Middle" && currentVolume == 0.4) {
       this.searchVolumeFlag();
     } else if (this.node.name == "Hight" && currentVolume == 1) {
@@ -77,8 +79,9 @@ export class MenuOptionsItem extends Component {
 
   resetActiveNodes() {
     const elemList = [
-      this.node.parent?.getChildByPath("Middle/buttonPriceZone/volumeActive"),
       this.node.parent?.getChildByPath("Off/buttonPriceZone/volumeActive"),
+      this.node.parent?.getChildByPath("Low/buttonPriceZone/volumeActive"),
+      this.node.parent?.getChildByPath("Middle/buttonPriceZone/volumeActive"),
       this.node.parent?.getChildByPath("Hight/buttonPriceZone/volumeActive"),
     ];
 

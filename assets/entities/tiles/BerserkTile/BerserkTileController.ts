@@ -63,7 +63,7 @@ export class AssassinTileController
   turnEnds(): void {
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       this.playEffect();
-      this.getService(AudioManagerService)?.playSoundEffect("berserk_attack");
+
       this.maxCount = 1;
       this._tilesToDestroy = [];
 
@@ -71,11 +71,20 @@ export class AssassinTileController
       const matrix = this.fieldController.fieldMatrix;
       let vectorAttack = 1;
 
+      if (this.playerModel == this._cardService?._dataService?.botModel) {
+        vectorAttack = -1;
+      }
+      const enemyTile = matrix.get(this.row + vectorAttack, this.col);
+
+      if (enemyTile.playerModel == oponentModel) {
+        this.getService(AudioManagerService)?.playSoundEffect("berserk_attack");
+      }
+
       for (let index = 0; index < this.maxCount; index++) {
-        if (this.playerModel == this._cardService?._dataService?.botModel) {
-          vectorAttack = -1;
-        }
-        const enemyTile = matrix.get(this.row + vectorAttack, this.col);
+        // if (this.playerModel == this._cardService?._dataService?.botModel) {
+        //   vectorAttack = -1;
+        // }
+
         if (!enemyTile) return;
         this._tilesToDestroy.push(enemyTile);
       }
@@ -128,6 +137,7 @@ export class AssassinTileController
 
   playEffect() {
     console.log("fire wall effect");
+
     const timeObj = { time: 0 };
     const animator = tween(timeObj);
     const effects: CardEffect[] = [];
