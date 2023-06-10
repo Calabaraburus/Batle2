@@ -28,7 +28,10 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
     if (this.parent.cardsService == null) return false;
 
     if (targetTile instanceof StdTileController) {
-      if (targetTile.tileModel.containsTag(playerTag)) {
+      if (
+        targetTile.playerModel ==
+        this.parent.cardsService?.getCurrentPlayerModel()
+      ) {
         return false;
       }
     } else {

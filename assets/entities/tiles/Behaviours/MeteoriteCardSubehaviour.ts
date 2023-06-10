@@ -35,7 +35,10 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
     if (this.parent.cardsService == null) return false;
 
     if (this._targetTile instanceof StdTileController) {
-      if (this._targetTile.tileModel.containsTag(playerTag)) {
+      if (
+        this._targetTile.playerModel ==
+        this.parent.cardsService?.getCurrentPlayerModel()
+      ) {
         return false;
       }
     } else {

@@ -5,18 +5,21 @@ import { CardsSubBehaviour } from "./SubBehaviour";
 
 export class TeleportCardSubehaviour extends CardsSubBehaviour {
   private _cache: ObjectsCache | null;
-  private tile: TileController | null = null;
+  private targetTile: TileController | null = null;
   private tileSecond: TileController | null = null;
 
   prepare(): boolean {
-    if (this.tile == null) {
-      this.tile = this.parent.target as StdTileController;
+    if (this.targetTile == null) {
+      this.targetTile = this.parent.target as StdTileController;
       const playerTag = this.parent.cardsService?.getPlayerTag();
       if (playerTag == null) return false;
       if (this.parent.cardsService == null) return false;
 
-      if (this.tile instanceof StdTileController) {
-        if (this.tile.tileModel.containsTag(playerTag)) {
+      if (this.targetTile instanceof StdTileController) {
+        if (
+          this.targetTile.playerModel ==
+          this.parent.cardsService?.getCurrentPlayerModel()
+        ) {
           return false;
         }
       } else {
@@ -45,10 +48,10 @@ export class TeleportCardSubehaviour extends CardsSubBehaviour {
   }
 
   run(): boolean {
-    if (this.tile != null && this.tileSecond != null) {
-      this.parent.field?.exchangeTiles(this.tile, this.tileSecond);
+    if (this.targetTile != null && this.tileSecond != null) {
+      this.parent.field?.exchangeTiles(this.targetTile, this.tileSecond);
     }
-    this.tile = null;
+    this.targetTile = null;
     this.tileSecond = null;
 
     return true;

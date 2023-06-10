@@ -24,7 +24,10 @@ export class WormCardSubehaviour extends CardsSubBehaviour {
     if (this.parent.cardsService == null) return false;
 
     if (targetTile instanceof StdTileController) {
-      if (targetTile.tileModel.containsTag(playerTag)) {
+      if (
+        targetTile.playerModel ==
+        this.parent.cardsService?.getCurrentPlayerModel()
+      ) {
         return false;
       }
     } else {
@@ -98,6 +101,8 @@ export class WormCardSubehaviour extends CardsSubBehaviour {
     const timeObj = { time: 0 };
     const animator = tween(timeObj);
     const effects: CardEffect[] = [];
+    this.parent.audio.playSoundEffect("worm");
+
     this._tilesToDestroy.forEach((t, i) => {
       const time = 0.1;
       animator.delay(i == 0 ? 0 : time).call(() => {
@@ -110,8 +115,6 @@ export class WormCardSubehaviour extends CardsSubBehaviour {
         effect.node.position = t.node.position;
         effect.node.parent = this.parent.effectsNode;
         effect.play();
-
-        this.parent.audio.playSoundEffect("worm");
 
         effects.push(effect);
       });

@@ -33,7 +33,7 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
     const botModel = this._cardsService?._dataService?.botModel;
 
     if (targetTile instanceof StdTileController) {
-      if (targetTile.tileModel.containsTag(playerTag)) {
+      if (targetTile.playerModel == playerModel) {
         return false;
       }
     } else {

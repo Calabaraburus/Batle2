@@ -20,7 +20,9 @@ export class ShieldCardSubehaviour extends CardsSubBehaviour {
     if (curPlayerModel == null) return false;
 
     if (targetTile instanceof StdTileController) {
-      if (targetTile.playerModel != curPlayerModel) {
+      if (
+        targetTile.playerModel == this.parent.cardsService?.getOponentModel()
+      ) {
         return false;
       }
     } else {
@@ -73,12 +75,12 @@ export class ShieldCardSubehaviour extends CardsSubBehaviour {
 
   effect(): boolean {
     this.parent.debug?.log("[shield_card_sub] Start effect.");
-
+    this.parent.audio.playSoundEffect("shield");
     if (this._resultSet.size > 1) {
       this._resultSet.forEach((tile) => {
         const effect =
           this._cache?.getObjectByPrefabName<AnimationEffect>("shieldEffect");
-        this.parent.audio.playSoundEffect("shield");
+
         if (effect == null) {
           return false;
         }
