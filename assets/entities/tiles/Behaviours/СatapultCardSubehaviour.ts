@@ -86,6 +86,8 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
     effect.node.parent = this.parent.effectsNode;
     effect.play();
 
+    this.parent.audio.playSoundEffect("catapult");
+
     const animator = tween(this);
     animator.delay(1).call(() => effect.cacheDestroy());
 

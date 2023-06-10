@@ -20,7 +20,9 @@ export class ShieldCardSubehaviour extends CardsSubBehaviour {
     if (curPlayerModel == null) return false;
 
     if (targetTile instanceof StdTileController) {
-      if (targetTile.playerModel != curPlayerModel) {
+      if (
+        targetTile.playerModel == this.parent.cardsService?.getOponentModel()
+      ) {
         return false;
       }
     } else {

@@ -27,7 +27,9 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
     if (this.parent.cardsService == null) return false;
 
     if (targetTile instanceof StdTileController) {
-      if (targetTile.tileModel.containsTag(enemyTag)) {
+      if (
+        targetTile.playerModel == this.parent.cardsService?.getOponentModel()
+      ) {
         return false;
       }
     } else {
@@ -116,6 +118,8 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
       effect.node.position = element.node.position;
       effect.node.parent = this.parent.effectsNode;
       effect.play();
+
+      this.parent.audio.playSoundEffect("totem");
 
       effects.push(effect);
     });

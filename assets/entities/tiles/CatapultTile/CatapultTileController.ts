@@ -15,6 +15,7 @@ import { BalistaCardEffect } from "../../effects/BalistaCardEffect";
 import { DataService } from "../../services/DataService";
 import { LevelView } from "../../level/LevelView";
 import { PlayerModel } from "../../../models/PlayerModel";
+import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 const { ccclass, property } = _decorator;
 
 @ccclass("CatapultTileController")
@@ -67,6 +68,9 @@ export class CatapultTileController
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       if (damageModel || damageModel != null) {
         this.playEffect();
+        this.getService(AudioManagerService)?.playSoundEffect(
+          "catapult_attack"
+        );
         damageModel.life = damageModel.life - 5;
       }
     }

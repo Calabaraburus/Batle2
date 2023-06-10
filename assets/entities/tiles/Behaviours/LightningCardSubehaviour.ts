@@ -28,7 +28,10 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
     if (this.parent.cardsService == null) return false;
 
     if (targetTile instanceof StdTileController) {
-      if (targetTile.tileModel.containsTag(playerTag)) {
+      if (
+        targetTile.playerModel ==
+        this.parent.cardsService?.getCurrentPlayerModel()
+      ) {
         return false;
       }
     } else {
@@ -81,6 +84,8 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
     const vec: Line[] = [];
 
     let prev: TileController | null = null;
+
+    this.parent.audio.playSoundEffect("lightning");
 
     this._tilesToDestroy
       .sort((t1, t2) => t1.col - t2.col)

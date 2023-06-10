@@ -48,7 +48,10 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
     if (this.parent.cardsService == null) return false;
 
     if (this._targetTile instanceof StdTileController) {
-      if (this._targetTile.tileModel.containsTag(playerTag)) {
+      if (
+        this._targetTile.playerModel ==
+        this.parent.cardsService?.getCurrentPlayerModel()
+      ) {
         return false;
       }
     } else {
@@ -166,6 +169,8 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
     spareEffect.node.parent = this._targetTile.node.parent;
     spareEffect.node.position = startPos;
     spareEffect.play();
+
+    this.parent.audio.playSoundEffect("pike");
 
     const animator = tween(spareEffect.node);
 

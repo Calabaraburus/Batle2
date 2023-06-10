@@ -15,6 +15,7 @@ import { DataService } from "../../services/DataService";
 import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { HealingEffect } from "../../effects/HealingEffect";
 import { EffectsService } from "../../services/EffectsService";
+import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 const { ccclass, property } = _decorator;
 
 @ccclass("ShamanTileController")
@@ -55,6 +56,9 @@ export class ShamanTileController
       if (playerModel || playerModel != null) {
         if (playerModel.life < playerModel.lifeMax) {
           this.playEffect();
+          this.getService(AudioManagerService)?.playSoundEffect(
+            "shaman_attack"
+          );
           playerModel.life = playerModel.life + 5;
         }
       }
