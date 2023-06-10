@@ -19,7 +19,9 @@ export class ManeuverCardSubehaviour extends CardsSubBehaviour {
     if (this.parent.cardsService == null) return false;
 
     if (targetTile instanceof StdTileController) {
-      if (targetTile.tileModel.containsTag(enemyTag)) {
+      if (
+        targetTile.playerModel == this.parent.cardsService?.getOponentModel()
+      ) {
         return false;
       }
     } else {
