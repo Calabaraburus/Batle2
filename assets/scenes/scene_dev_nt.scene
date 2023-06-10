@@ -3412,13 +3412,13 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "c_attack",
-    "priceToActivate": 4,
+    "priceToActivate": 1,
     "sprite": {
-      "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
+      "__uuid__": "5700d7ea-8d4e-46ca-9944-41900bfc4ef1@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": {
-      "__uuid__": "11dd9bfb-7466-41e8-9a0b-f54c9415b30d@f9941",
+      "__uuid__": "8797bef7-a3cb-4b80-b30d-5a12108816ce@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "activateType": "long_range",
@@ -3481,7 +3481,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "worm",
-    "priceToActivate": 1,
+    "priceToActivate": -1435,
     "sprite": {
       "__uuid__": "38f314e1-54d8-4b0f-91ac-b445030e7180@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -3765,13 +3765,13 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "push",
-    "priceToActivate": 5,
+    "priceToActivate": 1,
     "sprite": {
-      "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
+      "__uuid__": "457b7806-930a-4c6b-b343-4fb5eeb72413@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": {
-      "__uuid__": "11dd9bfb-7466-41e8-9a0b-f54c9415b30d@f9941",
+      "__uuid__": "b5d3b635-147b-472a-9ad8-ae33b53a91a5@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "activateType": "long_range",
@@ -4333,13 +4333,13 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "panic",
-    "priceToActivate": 4,
+    "priceToActivate": 1,
     "sprite": {
-      "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
+      "__uuid__": "a264145f-720c-47e1-a630-0be94fe737e4@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": {
-      "__uuid__": "11dd9bfb-7466-41e8-9a0b-f54c9415b30d@f9941",
+      "__uuid__": "2475e2a3-10ff-43b6-a8eb-e335d351b0bb@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "activateType": "long_range",
@@ -4469,6 +4469,12 @@
     "bonusesMetaData": [
       {
         "__id__": 125
+      },
+      {
+        "__id__": 117
+      },
+      {
+        "__id__": 133
       }
     ],
     "_id": "8953GGT0JB9bYfdLFKlzpM"
@@ -7740,7 +7746,9 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "playerModel": null,
+    "playerModel": {
+      "__id__": 138
+    },
     "lblName": {
       "__id__": 277
     },
@@ -8970,8 +8978,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -333.63599999999997,
-      "y": -726.8349999999999,
+      "x": -369.636,
+      "y": -726.835,
       "z": 0
     },
     "_lrot": {
@@ -8983,8 +8991,8 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.5,
-      "y": 0.5,
+      "x": 0.6,
+      "y": 0.6,
       "z": 1
     },
     "_mobility": 0,
@@ -9195,8 +9203,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -165.24599999999998,
-      "y": -50.00000000000023,
+      "x": -166.246,
+      "y": -50,
       "z": 0
     },
     "_lrot": {
@@ -9838,7 +9846,9 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "playerModel": null,
+    "playerModel": {
+      "__id__": 136
+    },
     "cardField": {
       "__id__": 329
     },
@@ -12932,6 +12942,10 @@
       {
         "__uuid__": "002ddd9c-828f-4281-b36c-b8a8d2dd3f7f",
         "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "1c26c3b0-ecc3-4e48-829c-1c5ea7b36216",
+        "__expectedType__": "cc.Prefab"
       }
     ],
     "_id": "a1B23eINRJM584qBdfAM7L"
@@ -13377,28 +13391,6 @@
   {
     "__type__": "cc.TargetOverrideInfo",
     "source": {
-      "__id__": 288
-    },
-    "sourceInfo": null,
-    "propertyPath": [
-      "playerLifeLine"
-    ],
-    "target": {
-      "__id__": 278
-    },
-    "targetInfo": {
-      "__id__": 511
-    }
-  },
-  {
-    "__type__": "cc.TargetInfo",
-    "localID": [
-      "5d3dDnBlBLYqTg22zVKbCa"
-    ]
-  },
-  {
-    "__type__": "cc.TargetOverrideInfo",
-    "source": {
       "__id__": 491
     },
     "sourceInfo": null,
@@ -13409,7 +13401,7 @@
       "__id__": 156
     },
     "targetInfo": {
-      "__id__": 513
+      "__id__": 511
     }
   },
   {
@@ -13431,7 +13423,7 @@
       "__id__": 156
     },
     "targetInfo": {
-      "__id__": 515
+      "__id__": 513
     }
   },
   {
@@ -13451,6 +13443,28 @@
     ],
     "target": {
       "__id__": 341
+    },
+    "targetInfo": {
+      "__id__": 515
+    }
+  },
+  {
+    "__type__": "cc.TargetInfo",
+    "localID": [
+      "5d3dDnBlBLYqTg22zVKbCa"
+    ]
+  },
+  {
+    "__type__": "cc.TargetOverrideInfo",
+    "source": {
+      "__id__": 288
+    },
+    "sourceInfo": null,
+    "propertyPath": [
+      "playerLifeLine"
+    ],
+    "target": {
+      "__id__": 278
     },
     "targetInfo": {
       "__id__": 517

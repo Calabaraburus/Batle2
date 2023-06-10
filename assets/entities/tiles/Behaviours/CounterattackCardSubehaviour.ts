@@ -53,7 +53,7 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
         this.parent.fieldAnalizer?.findTilesByModelName("end");
       addToRow = [-1, -2];
     }
-    this.effectDurationValue = 1;
+    this.effectDurationValue = 0.5;
     this._cardsService = this.parent.cardsService;
     this._field = this.parent.field;
 
@@ -84,6 +84,10 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
       );
       this._tilesToDestroy?.push(tileForDel);
     });
+
+    if (this._tilesToDestroy.length == 0) {
+      return false;
+    }
 
     return true;
   }
