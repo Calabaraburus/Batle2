@@ -29,7 +29,22 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
     this._matrix = this.parent.field?.fieldMatrix;
     if (this.parent.cardsService == null) return false;
 
+<<<<<<< HEAD
     this.effectDurationValue = 1;
+=======
+    if (targetTile instanceof StdTileController) {
+      if (
+        targetTile.playerModel ==
+        this.parent.cardsService?.getCurrentPlayerModel()
+      ) {
+        return false;
+      }
+    } else {
+      return false;
+    }
+
+    this.effectDurationValue = 0.5;
+>>>>>>> f79715a59b7503dd7d5efe0b9e1ca670a91b8266
     this._cardsService = this.parent.cardsService;
     this._field = this.parent.field;
 
@@ -81,6 +96,8 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
     });
 
     this.parent.debug?.log("[push_card_sub] End effect.");
+
+    this.parent.audio.playSoundEffect("push");
 
     return true;
   }

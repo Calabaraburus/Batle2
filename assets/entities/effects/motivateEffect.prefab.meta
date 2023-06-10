@@ -2,12 +2,12 @@
   "ver": "1.1.43",
   "importer": "prefab",
   "imported": true,
-  "uuid": "2d5c777b-bd14-4167-9617-e94a2aa0ce42",
+  "uuid": "1c26c3b0-ecc3-4e48-829c-1c5ea7b36216",
   "files": [
     ".json"
   ],
   "subMetas": {},
   "userData": {
-    "syncNodeName": "MenuOptionsItem"
+    "syncNodeName": "motivateEffect"
   }
 }
