@@ -1,4 +1,4 @@
-import { _decorator, ParticleSystem, Node, Vec3, Quat } from "cc";
+import { _decorator, ParticleSystem, Node, Vec3, Quat, CCFloat } from "cc";
 import { CacheObject } from "../../ObjectsCache/CacheObject";
 import { CardEffect } from "./CardEffect";
 const { ccclass, property } = _decorator;
@@ -8,10 +8,10 @@ export class HealingEffect extends CardEffect {
   @property(Node)
   nodeToRotate: Node;
 
-  @property()
+  @property(CCFloat)
   speed = 100;
 
-  @property()
+  @property(CCFloat)
   speed2 = 1000;
 
   protected update(dt: number): void {
