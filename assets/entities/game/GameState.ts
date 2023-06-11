@@ -1,5 +1,5 @@
 export class GameState {
-  currentLevel: string;
-  hero: string;
-  cards: string[];
+  public currentLevel = "1";
+  public hero = "bear";
+  public cards: string[] = ["shield"];
 }

@@ -1,20 +1,8 @@
-import {
-  AmbientInfo,
-  AudioSource,
-  SpriteFrame,
-  _decorator,
-  assert,
-  director,
-  find,
-  game,
-} from "cc";
+import { _decorator, assert, director, Node } from "cc";
 import { MainMenu } from "./MainMenu";
 import { LoaderScreen } from "./LoaderScreen";
-import { AudioManager } from "../../soundsPlayer/AudioManager";
 import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
-import { GameMenuService } from "./GameMenuService";
 import { SettingsLoader } from "../services/SettingsLoader";
-import { TstFireSmokeSrvc } from "../services/TstFireSmokeSrvc";
 import { GameState } from "../game/GameState";
 import { GameParameters } from "../game/GameParameters";
 const { ccclass, property } = _decorator;
@@ -23,7 +11,10 @@ const { ccclass, property } = _decorator;
 export class MenuSelectorController extends MainMenu {
   private _tarnsitionScene = new LoaderScreen();
   private _aManager: AudioManagerService | null | undefined;
-  menuSections = ["Menu/MainMenu", "Menu/gameMenuLayout", "Menu/OptionsMenu"];
+
+  @property(Node)
+  sections: Node[] = [];
+
   settingsLoader: SettingsLoader;
   parameters: GameParameters;
   state: GameState;
@@ -33,7 +24,8 @@ export class MenuSelectorController extends MainMenu {
 
     this._aManager = this.getService(AudioManagerService);
 
-    if (this._aManager == null) return;
+    assert(this._aManager, "Can't find AudioManagerService");
+
     this._aManager.playMusic("start_menu");
 
     const tService = this.getService(SettingsLoader);
@@ -54,21 +46,13 @@ export class MenuSelectorController extends MainMenu {
   }
 
   openSectionMenu(sender: object, sectionMenu: string): void {
-    this.menuSections.forEach((name) => {
-      if (name != sectionMenu) {
-        const menuFrom = find(name, this.node);
-        // const menuFrom = this.node.getChildByName(name);
-        if (menuFrom != null) {
-          menuFrom.active = false;
-        }
+    this.sections.forEach((section) => {
+      if (section.name != sectionMenu) {
+        section.active = false;
+      } else {
+        section.active = true;
       }
     });
-
-    const menuTo = find(sectionMenu, this.node);
-
-    if (!menuTo) return;
-    this._aManager?.playSoundEffect("click");
-    menuTo.active = true;
   }
 
   loadScene(sender: object, sceneName: string): void {
@@ -81,12 +65,11 @@ export class MenuSelectorController extends MainMenu {
     } else if (sceneName == "scene_dev_art_1") {
       this._aManager?.stopMusic();
     }
-    this._aManager?.playSoundEffect("click");
+
     director.loadScene(sceneName);
   }
 
   settingSound(sender: object, volume: string) {
-    this.getGameMenuAudioManager();
     this._aManager?.changeVolume(parseFloat(volume), "sound");
 
     this.parameters.soundLevel = parseFloat(volume);
@@ -94,16 +77,9 @@ export class MenuSelectorController extends MainMenu {
   }
 
   settingMusic(sender: object, volume: string) {
-    this.getGameMenuAudioManager();
     this._aManager?.changeVolume(parseFloat(volume), "music");
 
     this.parameters.musicLevel = parseFloat(volume);
     this.settingsLoader.saveParameters();
-  }
-
-  getGameMenuAudioManager() {
-    if (this.node.name == "MenuGame") {
-      this._aManager = this.node.getComponent(GameMenuService)?.audioManager;
-    }
   }
 }
