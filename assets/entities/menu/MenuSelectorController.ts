@@ -57,7 +57,6 @@ export class MenuSelectorController extends MainMenu {
     this.menuSections.forEach((name) => {
       if (name != sectionMenu) {
         const menuFrom = find(name, this.node);
-        // const menuFrom = this.node.getChildByName(name);
         if (menuFrom != null) {
           menuFrom.active = false;
         }
