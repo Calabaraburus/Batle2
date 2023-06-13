@@ -4468,13 +4468,13 @@
     },
     "bonusesMetaData": [
       {
-        "__id__": 125
+        "__id__": 91
       },
       {
-        "__id__": 117
+        "__id__": 119
       },
       {
-        "__id__": 133
+        "__id__": 103
       }
     ],
     "_id": "8953GGT0JB9bYfdLFKlzpM"
@@ -4543,11 +4543,7 @@
       "__uuid__": "2f05e4f3-7ded-4027-9486-31abd8d475a6@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "bonusesMetaData": [
-      {
-        "__id__": 103
-      }
-    ],
+    "bonusesMetaData": [],
     "_id": "36DsKX1qFKb694sfpif8xg"
   },
   {
@@ -11392,6 +11388,7 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "sections": [],
     "_id": "fdTZldZ9hKd5r77FaUQZ+p"
   },
   {

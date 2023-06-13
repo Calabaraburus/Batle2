@@ -26,9 +26,12 @@ export class SettingsLoader extends Service {
   public loadParameters(): GameParameters {
     const data = sys.localStorage.getItem("gameParameters");
 
-    if (data == null) return new GameParameters();
+    if (data == null) {
+      this._gameParameters = new GameParameters();
+    } else {
+      this._gameParameters = JSON.parse(data);
+    }
 
-    this._gameParameters = JSON.parse(data);
     return this._gameParameters;
   }
 
@@ -42,9 +45,12 @@ export class SettingsLoader extends Service {
   public loadGameState(): GameState {
     const data = sys.localStorage.getItem("gameState");
 
-    if (data == null) return new GameState();
+    if (data == null) {
+      this._gameState = new GameState();
+    } else {
+      this._gameState = JSON.parse(data);
+    }
 
-    this._gameState = JSON.parse(data);
     return this._gameState;
   }
 
