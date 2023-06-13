@@ -1260,7 +1260,7 @@
       "0",
       "handler"
     ],
-    "value": "settingSuond"
+    "value": "settingSound"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -1539,7 +1539,7 @@
       "0",
       "handler"
     ],
-    "value": "settingSuond"
+    "value": "settingSound"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -1831,7 +1831,7 @@
       "0",
       "handler"
     ],
-    "value": "settingSuond"
+    "value": "settingSound"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -2120,7 +2120,7 @@
       "0",
       "handler"
     ],
-    "value": "settingSuond"
+    "value": "settingSound"
   },
   {
     "__type__": "CCPropertyOverrideInfo",

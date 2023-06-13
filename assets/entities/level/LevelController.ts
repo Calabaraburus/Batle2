@@ -16,6 +16,8 @@ import { PlayerFieldController } from "../playerField/PlayerFieldController";
 import type { ILevelView } from "./ILevelView";
 import { LevelView } from "./LevelView";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
+import { AttackSignalController } from "../attackSignal/AttackSignalController";
+import { AttackSignalComponent } from "../attackSignal/AttackSignalComponent";
 const { ccclass, property } = _decorator;
 
 /** Controls level view. */
@@ -45,6 +47,9 @@ export class LevelController extends Component {
 
   @property(EnemyFieldController)
   enemyField: EnemyFieldController;
+
+  @property(AttackSignalController)
+  attackSignal: AttackSignalController;
 
   /** Game manager */
   set gameManager(manager: GameManager) {
@@ -80,6 +85,7 @@ export class LevelController extends Component {
 
     this.playerField.updateData();
     this.enemyField.updateData();
+    this.attackSignal.updateData();
   }
 
   public resetGame() {
