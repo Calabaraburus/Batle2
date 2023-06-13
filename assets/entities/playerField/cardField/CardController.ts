@@ -7,6 +7,8 @@ import {
   tween,
   Vec3,
   Node,
+  UITransform,
+  assert,
 } from "cc";
 import { BonusModel } from "../../../models/BonusModel";
 import { LevelModel } from "../../../models/LevelModel";
@@ -95,6 +97,12 @@ export class CardController extends Service {
     );
 
     this._maskPos = this.sprite.node.position;
+    this._maskHeight = this.sprite.getComponent(UITransform)?.height ?? -1;
+
+    if (this._maskHeight < 0) {
+      Error("Can't get UITransform component for sprite");
+    }
+
     this._spritePos = this.maskNode.position;
 
     this._button?.node.on(Node.EventType.MOUSE_DOWN, this.onTouchStart, this);

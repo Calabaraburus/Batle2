@@ -1,4 +1,4 @@
 export class GameParameters {
-  soundLevel = 3;
-  musicLevel = 3;
+  public soundLevel = 3;
+  public musicLevel = 3;
 }
