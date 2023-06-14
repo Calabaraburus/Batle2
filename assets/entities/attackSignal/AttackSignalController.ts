@@ -12,9 +12,9 @@ const { ccclass, property } = _decorator;
 export class AttackSignalController extends Service {
   dataService: DataService;
   fieldModel: FieldController;
-  playerSide: AttackSignalComponent[];
-  enemySide: AttackSignalComponent[];
-  sides: Node[];
+  playerSide: AttackSignalComponent[] = [];
+  enemySide: AttackSignalComponent[] = [];
+  sides: Node[] = [];
 
   start() {
     const f = this.getService(FieldController);
@@ -36,33 +36,36 @@ export class AttackSignalController extends Service {
 
       const eSignal = this.getSideComponent(i, this.sides[1]);
       if (!eSignal) return;
-      this.playerSide.push(eSignal);
+      this.enemySide.push(eSignal);
     }
+    this.playerSide;
   }
 
   public updateData() {
     for (let colNum = 0; colNum < this.fieldModel.fieldMatrix.cols; colNum++) {
       const startTile = this.fieldModel.getStartTile(colNum);
       const endTile = this.fieldModel.getEndTile(colNum);
-      if (startTile?.playerModel == this.dataService.botModel) {
-        if (this.playerSide[colNum].active == false) {
-          this.playerSide[colNum].showWindow();
-          this.playerSide[colNum].active = true;
-        }
-      } else if (this.playerSide[colNum].active == true) {
-        this.playerSide[colNum].hideWindow();
-        this.playerSide[colNum].active = false;
-      }
+      if (!startTile || !endTile) return;
+      const pSideTile = this.fieldModel.fieldMatrix.get(
+        startTile?.row + 1,
+        colNum
+      );
 
-      if (endTile?.playerModel == this.dataService.botModel) {
-        if (this.enemySide[colNum].active == false) {
-          this.enemySide[colNum].showWindow();
-          this.enemySide[colNum].active = true;
-        }
-      } else if (this.enemySide[colNum].active == true) {
-        this.enemySide[colNum].hideWindow();
-        this.enemySide[colNum].active = false;
-      }
+      const eSideTile = this.fieldModel.fieldMatrix.get(
+        endTile?.row - 1,
+        colNum
+      );
+
+      this.updateSignalState(
+        pSideTile,
+        this.playerSide[colNum],
+        this.dataService.botModel
+      );
+      this.updateSignalState(
+        eSideTile,
+        this.enemySide[colNum],
+        this.dataService.playerModel
+      );
     }
   }
 
@@ -73,5 +76,21 @@ export class AttackSignalController extends Service {
     if (!aSignalComponent) return;
 
     return aSignalComponent;
+  }
+
+  updateSignalState(
+    tile: TileController,
+    signalComponent: AttackSignalComponent,
+    currentPlayerModel: PlayerModel
+  ) {
+    if (tile?.playerModel == currentPlayerModel) {
+      if (signalComponent.active == false) {
+        signalComponent.showWindow();
+        signalComponent.active = true;
+      }
+    } else if (signalComponent.active == true) {
+      signalComponent.hideWindow();
+      signalComponent.active = false;
+    }
   }
 }

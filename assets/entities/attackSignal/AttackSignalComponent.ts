@@ -13,7 +13,6 @@ const { ccclass, property } = _decorator;
 @ccclass("AttackSignalComponent")
 export class AttackSignalComponent extends Component {
   active = false;
-
   sprite: Sprite | null;
   // wndIsShowing = false;
   // wndIsHiding = false;
@@ -27,8 +26,8 @@ export class AttackSignalComponent extends Component {
     // this.wndIsShowing = true;
 
     tween(this.sprite)
-      .set({ color: new Color(49, 49, 49, 80) })
-      .to(0.4, { color: new Color(255, 255, 255, 255) }, { easing: "linear" })
+      // .set({ color: new Color(49, 49, 49, 80) })
+      .to(0.2, { color: new Color(255, 255, 255, 255) }, { easing: "quadIn" })
       // .call(() => (this.wndIsShowing = false))
       .start();
   }
@@ -37,7 +36,7 @@ export class AttackSignalComponent extends Component {
     // if (this.wndIsHiding) return;
     // this.wndIsHiding = true;
     tween(this.sprite)
-      .to(0.4, { color: new Color(49, 49, 49, 80) }, { easing: "linear" })
+      .to(0.2, { color: new Color(49, 49, 49, 80) }, { easing: "quadOut" })
       // .call(() => (this.wndIsHiding = false))
       .start();
   }
