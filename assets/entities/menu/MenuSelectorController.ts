@@ -5,6 +5,7 @@ import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
 import { SettingsLoader } from "../services/SettingsLoader";
 import { GameState } from "../game/GameState";
 import { GameParameters } from "../game/GameParameters";
+import { MenuOptionsItem } from "./MenuOptionsItem";
 const { ccclass, property } = _decorator;
 
 @ccclass("MenuSelectorController")
