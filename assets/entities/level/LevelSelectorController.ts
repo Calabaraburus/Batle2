@@ -19,6 +19,9 @@ import { BonusModel } from "../../models/BonusModel";
 import { PlayerModel } from "../../models/PlayerModel";
 import { MeteoriteLowCardSubehaviour } from "../tiles/Behaviours/MeteoriteLowCardSubehaviour";
 import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
+import { EndLevelCardSelectorBonusModel } from "../configuration/EndLevelCardSelectorBonusModel";
+import { EndLevelLifeBonusModel } from "../configuration/EndLevelLifeBonusModel";
+import { EndLevelCardUpdateBonusModel } from "../configuration/EndLevelCardUpdateBonusModel";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
@@ -26,6 +29,10 @@ export class LevelSelectorController extends Service {
   sceneLoader: SceneLoaderService | null;
   _bonusSorted: BonusModel[][];
   private _aManager: AudioManagerService | null;
+
+  private _lifeBonus: EndLevelLifeBonusModel | null;
+  private _cardUpBonus: EndLevelCardUpdateBonusModel | null;
+  private _cardsSelectorBonus: EndLevelCardSelectorBonusModel | null;
 
   configDict = new Map<string, (config: LevelConfiguration) => void>();
 
@@ -43,15 +50,53 @@ export class LevelSelectorController extends Service {
     this.sceneLoader.loadGameScene("scene_dev_art_1", cfgAction);
   }
 
+  loadScene(sender: object, sceneName: string): void {
+    // stop start audio track
+    // const currentScene = director.getScene()?.name;
+    // if (currentScene == "scene_dev_art_1") {
+    //   this._aManager?.stopMusic();
+
+    //   this._aManager?.playMusic("start_menu");
+    // } else if (sceneName == "scene_dev_art_1") {
+    //   this._aManager?.stopMusic();
+    // }
+
+    director.loadScene(sceneName);
+  }
+
   fillConfigurations() {
     this.configDict.set("test", (config) => {
       config.botHeroName = "testBot";
       config.playerHeroName = "testPlayer";
+
+      this._lifeBonus = config.node.getComponentInChildren(
+        EndLevelLifeBonusModel
+      );
+      this._cardUpBonus = config.node.getComponentInChildren(
+        EndLevelCardUpdateBonusModel
+      );
+      this._cardsSelectorBonus = config.node.getComponentInChildren(
+        EndLevelCardSelectorBonusModel
+      );
+      if (this._cardsSelectorBonus) {
+        this._cardsSelectorBonus.cardOne = "firewall";
+        this._cardsSelectorBonus.cardTwo = "meteorite";
+        config.endLevelBonuses.push(this._cardsSelectorBonus);
+      }
     });
 
     this.configDict.set("lvl1", (config) => {
       config.botHeroName = "bot1";
       config.playerHeroName = "lion";
+
+      this._lifeBonus = config.node.getComponentInChildren(
+        EndLevelLifeBonusModel
+      );
+
+      if (this._lifeBonus) {
+        this._lifeBonus.life = "10";
+        config.endLevelBonuses.push(this._lifeBonus);
+      }
 
       const playerHero = config.node
         .getChildByName("HeroModels")!
@@ -62,7 +107,7 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteLow";
+        return value.mnemonic == "meteoriteLow";
       });
 
       if (!heroBonusOne) return;
@@ -72,6 +117,15 @@ export class LevelSelectorController extends Service {
     this.configDict.set("lvl2", (config) => {
       config.botHeroName = "bot2";
       config.playerHeroName = "lion";
+
+      this._cardUpBonus = config.node.getComponentInChildren(
+        EndLevelCardUpdateBonusModel
+      );
+
+      if (this._cardUpBonus) {
+        this._cardUpBonus.cardUp = "catapult";
+        config.endLevelBonuses.push(this._cardUpBonus);
+      }
 
       const playerHero = config.node
         .getChildByName("HeroModels")!
@@ -84,7 +138,7 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteLow";
+        return value.mnemonic == "meteoriteLow";
       });
 
       if (!heroBonusOne) return;
@@ -106,7 +160,7 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteLow";
+        return value.mnemonic == "meteoriteLow";
       });
 
       if (!heroBonusOne) return;
@@ -128,10 +182,10 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteLow";
+        return value.mnemonic == "meteoriteLow";
       });
       const heroBonusTwo = bonuses?.find((value) => {
-        return value.cardName == "assassin";
+        return value.mnemonic == "assassin";
       });
 
       if (!heroBonusOne || !heroBonusTwo) return;
@@ -154,10 +208,10 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteLow";
+        return value.mnemonic == "meteoriteLow";
       });
       const heroBonusTwo = bonuses?.find((value) => {
-        return value.cardName == "assassin";
+        return value.mnemonic == "assassin";
       });
 
       if (!heroBonusOne || !heroBonusTwo) return;
@@ -180,13 +234,13 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteLow";
+        return value.mnemonic == "meteoriteLow";
       });
       const heroBonusTwo = bonuses?.find((value) => {
-        return value.cardName == "assassin";
+        return value.mnemonic == "assassin";
       });
       const heroBonusThree = bonuses?.find((value) => {
-        return value.cardName == "c_attack";
+        return value.mnemonic == "c_attack";
       });
 
       if (!heroBonusOne || !heroBonusTwo || !heroBonusThree) return;
@@ -210,13 +264,13 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteLow";
+        return value.mnemonic == "meteoriteLow";
       });
       const heroBonusTwo = bonuses?.find((value) => {
-        return value.cardName == "assassin";
+        return value.mnemonic == "assassin";
       });
       const heroBonusThree = bonuses?.find((value) => {
-        return value.cardName == "c_attack";
+        return value.mnemonic == "c_attack";
       });
 
       if (!heroBonusOne || !heroBonusTwo || !heroBonusThree) return;
@@ -240,13 +294,13 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteMiddle";
+        return value.mnemonic == "meteoriteMiddle";
       });
       const heroBonusTwo = bonuses?.find((value) => {
-        return value.cardName == "assassin";
+        return value.mnemonic == "assassin";
       });
       const heroBonusThree = bonuses?.find((value) => {
-        return value.cardName == "c_attack";
+        return value.mnemonic == "c_attack";
       });
 
       if (!heroBonusOne || !heroBonusTwo || !heroBonusThree) return;
@@ -270,13 +324,13 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteoriteMiddle";
+        return value.mnemonic == "meteoriteMiddle";
       });
       const heroBonusTwo = bonuses?.find((value) => {
-        return value.cardName == "assassin";
+        return value.mnemonic == "assassin";
       });
       const heroBonusThree = bonuses?.find((value) => {
-        return value.cardName == "c_attack";
+        return value.mnemonic == "c_attack";
       });
 
       if (!heroBonusOne || !heroBonusTwo || !heroBonusThree) return;
@@ -300,13 +354,13 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.cardName == "meteorite";
+        return value.mnemonic == "meteorite";
       });
       const heroBonusTwo = bonuses?.find((value) => {
-        return value.cardName == "assassin";
+        return value.mnemonic == "assassin";
       });
       const heroBonusThree = bonuses?.find((value) => {
-        return value.cardName == "c_attack";
+        return value.mnemonic == "c_attack";
       });
 
       if (!heroBonusOne || !heroBonusTwo || !heroBonusThree) return;

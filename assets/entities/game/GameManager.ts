@@ -31,6 +31,7 @@ import { TileCreator } from "../field/TileCreator";
 import { MatchStatisticService } from "../services/MatchStatisticService";
 import { AudioManager } from "../../soundsPlayer/AudioManager";
 import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
+import { MenuSelectorController } from "../menu/MenuSelectorController";
 
 const { ccclass, property } = _decorator;
 
@@ -106,6 +107,7 @@ export class GameManager extends Service {
     });
 
   private _stateMachine: StateMachine<string, string>;
+  private _menuSelector: MenuSelectorController | null;
 
   public get playerTurn(): boolean {
     return !this._botTurn;
@@ -117,6 +119,7 @@ export class GameManager extends Service {
     this._tileService = this.getService(TileService);
     this._matchStatistic = this.getService(MatchStatisticService);
     this._audioManager = this.getServiceOrThrow(AudioManagerService);
+    this._menuSelector = this.getService(MenuSelectorController);
 
     this._bot = this.getService(Bot);
     this._debug = this._dataService?.debugView;
@@ -258,8 +261,9 @@ export class GameManager extends Service {
     }
 
     if (enemyModel.life <= 0) {
-      this._matchStatistic?.loadStatistic("win");
-      this.levelController.showWinView(true);
+      // this._matchStatistic?.loadStatistic("win");
+      this._menuSelector?.openSectionMenu(this, "RewardBlock");
+      // this.levelController.showWinView(true);
     }
 
     this.levelController.updateData();
