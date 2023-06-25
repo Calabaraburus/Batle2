@@ -45,7 +45,7 @@ export class AssassinCardBotAnalizator extends CardAnalizator {
         .getTilesInColumn(index, (t) => t.playerModel == botModel)
         .filter((t) => {
           if (t instanceof StdTileController) {
-            return true;
+            return !t.shieldIsActivated;
           } else {
             return false;
           }

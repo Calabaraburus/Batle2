@@ -1397,7 +1397,7 @@
       "b": 53,
       "a": 255
     },
-    "specialTile": false,
+    "specialTile": true,
     "serviceTile": false,
     "tags": "#totem",
     "additionalSprites": [],
@@ -1817,7 +1817,7 @@
       "b": 53,
       "a": 255
     },
-    "specialTile": false,
+    "specialTile": true,
     "serviceTile": false,
     "tags": "#close_range",
     "additionalSprites": [],
@@ -1888,7 +1888,7 @@
       "b": 53,
       "a": 255
     },
-    "specialTile": false,
+    "specialTile": true,
     "serviceTile": false,
     "tags": "#catapult",
     "additionalSprites": [],
@@ -1959,7 +1959,7 @@
       "b": 53,
       "a": 255
     },
-    "specialTile": false,
+    "specialTile": true,
     "serviceTile": false,
     "tags": "#shaman",
     "additionalSprites": [],
@@ -2030,7 +2030,7 @@
       "b": 53,
       "a": 255
     },
-    "specialTile": false,
+    "specialTile": true,
     "serviceTile": false,
     "tags": "#berserk",
     "additionalSprites": [],
@@ -2101,7 +2101,7 @@
       "b": 53,
       "a": 255
     },
-    "specialTile": false,
+    "specialTile": true,
     "serviceTile": false,
     "tags": "#assassin #protect",
     "additionalSprites": [],
@@ -3379,7 +3379,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "worm",
-    "priceToActivate": 5,
+    "priceToActivate": 3,
     "sprite": {
       "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -5523,7 +5523,7 @@
     "_enabled": true,
     "__prefab": null,
     "playerName": "testBot",
-    "life": 5,
+    "life": 50,
     "lifeMax": 100,
     "manaMax": 50,
     "manaCurrent": 0,
@@ -5535,10 +5535,7 @@
     },
     "bonusesMetaData": [
       {
-        "__id__": 127
-      },
-      {
-        "__id__": 91
+        "__id__": 103
       }
     ],
     "_id": "11moDT2j1Me4b2c6v5QwCr"
@@ -5597,7 +5594,7 @@
     "_enabled": true,
     "__prefab": null,
     "playerName": "testPlayer",
-    "life": 10,
+    "life": 50,
     "lifeMax": 100,
     "manaMax": 50,
     "manaCurrent": 0,
@@ -5609,10 +5606,7 @@
     },
     "bonusesMetaData": [
       {
-        "__id__": 79
-      },
-      {
-        "__id__": 119
+        "__id__": 103
       }
     ],
     "_id": "afqDv/Zg1Gp66/qLUh+I/I"

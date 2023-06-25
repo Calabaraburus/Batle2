@@ -32,7 +32,7 @@ export class MineCardBotAnalizator extends CardAnalizator {
           if (t instanceof StdTileController) {
             return !t.shieldIsActivated;
           } else {
-            return true;
+            return false;
           }
         });
 
