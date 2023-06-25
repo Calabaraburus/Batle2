@@ -40,6 +40,8 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
       return false;
     }
 
+    if (targetTile.tileModel.specialTile) return false;
+
     const matrix = this.parent.field?.fieldMatrix;
     if (!matrix) return false;
 

@@ -42,7 +42,11 @@ export class FirewallCardBotAnalizator extends CardAnalizator {
         .filter((t) => {
           if (t instanceof StdTileController) {
             return !t.shieldIsActivated;
-          } else {
+          }
+          // else if (t.tileModel.specialTile) {
+          //   return true;
+          // }
+          else {
             return true;
           }
         });

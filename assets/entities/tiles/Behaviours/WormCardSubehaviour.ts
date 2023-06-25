@@ -9,6 +9,7 @@ import { CardService } from "../../services/CardService";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
+import { IAttackable, isIAttackable } from "../IAttackable";
 
 export class WormCardSubehaviour extends CardsSubBehaviour {
   protected maxCount = 7;
@@ -79,9 +80,7 @@ export class WormCardSubehaviour extends CardsSubBehaviour {
   ) {
     if (row < matrix.rows && col < matrix.cols && row >= 0 && col >= 0) {
       const tile = matrix?.get(row, col);
-      if (
-        tile?.tileModel.containsTag(this.parent.cardsService!.getOponentTag())
-      ) {
+      if (tile.playerModel == this.parent.cardsService?.getOponentModel()) {
         if (!this._tilesToDestroy.some((t) => t == tile))
           applicantsToDestroy.push(tile);
       }
@@ -89,9 +88,13 @@ export class WormCardSubehaviour extends CardsSubBehaviour {
   }
 
   run(): boolean {
-    this._tilesToDestroy.forEach((item) =>
-      this.parent.field?.fakeDestroyTile(item)
-    );
+    this._tilesToDestroy.forEach((item) => {
+      if (isIAttackable(item)) {
+        (<IAttackable>item).attack(1);
+      } else {
+        this.parent.field?.fakeDestroyTile(item);
+      }
+    });
 
     return true;
   }

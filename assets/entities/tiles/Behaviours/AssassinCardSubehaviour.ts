@@ -31,6 +31,8 @@ export class AssassinCardSubehaviour extends CardsSubBehaviour {
       return false;
     }
 
+    if (targetTile.tileModel.specialTile) return false;
+
     this._cache = ObjectsCache.instance;
     this.effectDurationValue = 0.5;
 

@@ -1,93 +1,78 @@
-import { randomRangeInt, Vec2 } from "cc";
-import { lightning } from "../../effects/lightning";
-import { Line } from "../../effects/Line";
-import { FieldAnalizer } from "../../field/FieldAnalizer";
+import { assert, randomRange, randomRangeInt } from "cc";
+import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { FieldController } from "../../field/FieldController";
 import { CardService } from "../../services/CardService";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
+import { AnimationEffect } from "../../effects/AnimationEffect";
+import { ReadonlyMatrix2D } from "../../field/ReadonlyMatrix2D";
+import { IAttackable, isIAttackable } from "../IAttackable";
 
 export class CounterattackCardSubehaviour extends CardsSubBehaviour {
-  protected maxCount = 9;
-  private _tilesToRun: TileController[] | undefined;
+  private _cache: ObjectsCache;
   private _cardsService: CardService | null;
   private _field: FieldController | null | undefined;
-  private _borderTiles: TileController[] | undefined;
   private _tilesToDestroy: TileController[] | undefined;
+  private _matrix: ReadonlyMatrix2D<TileController>;
+  private _rndColumns: number[] = [];
 
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
-    let currentTag = "enemy";
-    let motionForce = 8;
-    let addToRow = [1, 2];
 
-    const matrix = this.parent.field?.fieldMatrix;
-    if (matrix == null) return false;
-
-    if (playerTag == null) return false;
+    let targetRow = 10;
+    let vectorPuch = -1;
+    if (
+      this.parent.cardsService?.getCurrentPlayerModel() ==
+      this.parent.cardsService?._dataService?.botModel
+    ) {
+      targetRow = 1;
+      vectorPuch = 1;
+    }
+    if (this.parent.field?.fieldMatrix == null) return false;
+    this._matrix = this.parent.field?.fieldMatrix;
     if (this.parent.cardsService == null) return false;
 
-    const playerModel = this.parent.cardsService.getCurrentPlayerModel();
-    const botModel = this._cardsService?._dataService?.botModel;
-
-    if (targetTile instanceof StdTileController) {
-      if (targetTile.playerModel == playerModel) {
-        return false;
-      }
-    } else {
-      return false;
-    }
-
-    this._tilesToRun = [];
-    this._borderTiles = [];
-    this._tilesToDestroy = [];
-
-    this._borderTiles =
-      this.parent.fieldAnalizer?.findTilesByModelName("start");
-    if (playerModel == botModel) {
-      currentTag = "player";
-      motionForce = -8;
-      this._borderTiles =
-        this.parent.fieldAnalizer?.findTilesByModelName("end");
-      addToRow = [-1, -2];
-    }
-    this.effectDurationValue = 0.5;
+    this.effectDurationValue = 1;
     this._cardsService = this.parent.cardsService;
     this._field = this.parent.field;
 
     if (this._cardsService == null) return false;
     if (this._field == null) return false;
+    this._tilesToDestroy = [];
 
-    const countClosestTiles = (addToRow: number) => {
-      this._borderTiles?.forEach((t) => {
-        const row = t.row + addToRow;
-        if (row >= 0 && row < matrix.rows) {
-          const tile = matrix.get(row, t.col);
-          if (tile.tileModel.containsTag(currentTag)) {
-            this._tilesToRun?.push(tile);
-            return;
+    const columnNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+    while (this._rndColumns.length < 5) {
+      const item =
+        columnNumbers[Math.floor(Math.random() * columnNumbers.length)];
+      this._rndColumns.push(item);
+      columnNumbers.splice(columnNumbers.indexOf(item), 1);
+    }
+
+    this._matrix.forEachInRow(targetRow, (tile, colId) => {
+      if (this._rndColumns.indexOf(tile.col) > -1) {
+        if (tile.playerModel == this.parent.cardsService?.getOponentModel()) {
+          if (tile instanceof StdTileController) {
+            !tile.shieldIsActivated;
+            this._tilesToDestroy?.push(tile);
           }
         }
-      });
-    };
-
-    addToRow.forEach((i) => {
-      countClosestTiles(i);
+        const nextTile = this._matrix.get(tile.row + vectorPuch, tile.col);
+        if (
+          nextTile.playerModel == this.parent.cardsService?.getOponentModel()
+        ) {
+          if (tile instanceof StdTileController) {
+            !tile.shieldIsActivated;
+            this._tilesToDestroy?.push(nextTile);
+          }
+        }
+      }
     });
 
-    this._tilesToRun.forEach((tile) => {
-      const tileForDel: TileController = matrix?.get(
-        tile.row + motionForce,
-        tile.col
-      );
-      this._tilesToDestroy?.push(tileForDel);
-    });
+    assert(ObjectsCache.instance, "Cache is null");
 
-    if (this._tilesToDestroy.length == 0) {
-      return false;
-    }
+    this._cache = ObjectsCache.instance;
 
     return true;
   }
@@ -95,15 +80,41 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
   run(): boolean {
     if (!this._tilesToDestroy) return false;
     this._tilesToDestroy.forEach((tile) => {
-      this.parent.field?.fakeDestroyTile(tile);
+      console.log(tile.row);
+      console.log(tile.col);
+      console.log("-----");
+      if (isIAttackable(tile)) {
+        (<IAttackable>tile).attack(1);
+      } else {
+        this.parent.field?.fakeDestroyTile(tile);
+      }
     });
 
     return true;
   }
 
   effect(): boolean {
-    this.parent.field?.moveTilesAnimate();
-    this.parent.audio.playSoundEffect("counterattack");
+    this.parent.debug?.log("[push_card_sub] Start effect.");
+    const curPlayer = this.parent.cardsService?.getCurrentPlayerModel();
+
+    this.parent.audio.playSoundEffect("motivate");
+
+    this._matrix.forEach((tile) => {
+      if (tile.playerModel != curPlayer) return;
+
+      const effect =
+        this._cache?.getObjectByPrefabName<AnimationEffect>("motivateEffect");
+
+      if (effect == null) {
+        return false;
+      }
+      effect.node.parent = tile.node.parent;
+      effect.node.position = tile.node.position;
+      effect.node.scale = tile.node.scale;
+      effect.play();
+    });
+
+    this.parent.debug?.log("[push_card_sub] End effect.");
 
     return true;
   }

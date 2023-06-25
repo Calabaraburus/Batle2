@@ -16,27 +16,28 @@ export class CounterattackCardBotAnalizator extends CardAnalizator {
 
     if (!this.canActivateCard(card)) return 0;
 
-    let closeColsCount = 0;
+    // let closeColsCount = 0;
 
-    for (let index = 0; index < this.bot.field.fieldMatrix.cols; index++) {
-      const tiles = this.bot.tileService.getTilesByTagInColumn(index, "player");
+    // for (let index = 0; index < this.bot.field.fieldMatrix.cols; index++) {
+    //   const tiles = this.bot.tileService.getTilesByTagInColumn(index, "player");
 
-      if (tiles.length >= 9) {
-        closeColsCount++;
-      }
-    }
+    //   if (tiles.length >= 9) {
+    //     closeColsCount++;
+    //   }
+    // }
 
-    const rnd = random();
-    console.log(`[Bot][c_attackCard] decision value: ${rnd}`);
-    if (rnd <= this.procToInvoke && closeColsCount >= 2) {
-      this.weight = 1;
-      return 1;
-    } else if (closeColsCount >= 2) {
-      this.weight = 1;
-      return 1;
-    }
+    // const rnd = random();
+    // console.log(`[Bot][c_attackCard] decision value: ${rnd}`);
+    // if (rnd <= this.procToInvoke && closeColsCount >= 2) {
+    //   this.weight = 1;
+    //   return 1;
+    // } else if (closeColsCount >= 2) {
+    //   this.weight = 1;
+    //   return 1;
+    // }
 
-    return 0;
+    // return 0;
+    return 1;
   }
 
   decide() {
