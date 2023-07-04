@@ -93,6 +93,12 @@ export class LevelSelectorController extends Service {
         EndLevelLifeBonusModel
       );
 
+      const education = config.node.parent?.getChildByPath(
+        "LevelView/Education"
+      );
+      if (!education) return;
+      education.active = true;
+
       if (this._lifeBonus) {
         this._lifeBonus.life = "10";
         config.endLevelBonuses.push(this._lifeBonus);
@@ -107,13 +113,16 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
       const heroBonusOne = bonuses?.find((value) => {
-        return value.mnemonic == "meteoriteLow";
+        return value.mnemonic == "firewallLow";
       });
+
+      heroBonusOne!.currentAmmountToActivate = 3;
 
       if (!heroBonusOne) return;
 
       playerHero?.bonuses.push(heroBonusOne);
     });
+
     this.configDict.set("lvl2", (config) => {
       config.botHeroName = "bot2";
       config.playerHeroName = "lion";
