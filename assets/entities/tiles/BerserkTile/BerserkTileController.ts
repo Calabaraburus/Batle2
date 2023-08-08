@@ -25,6 +25,7 @@ import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { CardEffect } from "../../effects/CardEffect";
 import { EffectsService } from "../../services/EffectsService";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
+import { Service } from "../../services/Service";
 const { ccclass, property } = _decorator;
 
 @ccclass("BerserkTileController")
@@ -32,14 +33,11 @@ export class AssassinTileController
   extends TileController
   implements IAttackable
 {
-  private _cardService: CardService | null;
-  private _effectsService: EffectsService | null;
-  private _curSprite: Sprite | null;
+  private _cardService: CardService;
   private _state: TileState;
   private _attacksCountToDestroy: number;
   private _attackedNumber: number;
-  private _cache: ObjectsCache | null;
-  private _gameManager: GameManager | null;
+  private _gameManager: GameManager;
 
   /** Destroy particle system */
   @property(Prefab)
@@ -53,11 +51,9 @@ export class AssassinTileController
 
   start() {
     super.start();
-    this._cardService = this.getService(CardService);
-    this._effectsService = this.getService(EffectsService);
+    this._cardService = Service.getServiceOrThrow(CardService);
+    this._gameManager = Service.getServiceOrThrow(GameManager);
     this.updateSprite();
-    this._cache = ObjectsCache.instance;
-    this._gameManager = this.getService(GameManager);
   }
 
   turnEnds(): void {
@@ -77,7 +73,9 @@ export class AssassinTileController
       const enemyTile = matrix.get(this.row + vectorAttack, this.col);
 
       if (enemyTile.playerModel == oponentModel) {
-        this.getService(AudioManagerService)?.playSoundEffect("berserk_attack");
+        Service.getServiceOrThrow(AudioManagerService).playSoundEffect(
+          "berserk_attack"
+        );
       }
 
       for (let index = 0; index < this.maxCount; index++) {
@@ -100,7 +98,7 @@ export class AssassinTileController
           }
         });
       }
-      this.fieldController.moveTilesLogicaly(this._gameManager?.playerTurn);
+      this.fieldController.moveTilesLogicaly(this._gameManager.playerTurn);
     }
   }
 

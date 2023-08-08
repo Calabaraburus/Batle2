@@ -2,7 +2,6 @@ import {
   AnalizedData,
   TileTypeToConnectedTiles,
 } from "../entities/field/AnalizedData";
-import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
 import { BotAnalizator } from "./BotAnalizator";
 
 export class MaxTilesAttackBotAnalizator extends BotAnalizator {

@@ -14,6 +14,7 @@ import {
   tween,
   Vec2,
   Quat,
+  assert,
 } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
@@ -37,21 +38,20 @@ export class AssassinTileController
   extends TileController
   implements IAttackable
 {
-  private _cardService: CardService | null;
-  private _effectsService: EffectsService | null;
-  private _curSprite: Sprite | null;
+  private _cardService: CardService;
+  private _effectsService: EffectsService;
   private _state: TileState;
   private _attacksCountToDestroy: number;
   private _attackedNumber: number;
-  private _cache: ObjectsCache | null;
-  private _gameManager: GameManager | null;
+  private _cache: ObjectsCache;
+  private _gameManager: GameManager;
 
   /** Destroy particle system */
   @property(Prefab)
   destroyPartycles: Prefab;
   maxCount: number;
   _tilesToDestroy: TileController[] | undefined;
-  private _shootEffect: ShootEffect | null;
+  private _shootEffect: ShootEffect;
 
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -59,12 +59,15 @@ export class AssassinTileController
 
   start() {
     super.start();
-    this._cardService = this.getService(CardService);
-    this._effectsService = this.getService(EffectsService);
-    this.updateSprite();
+    this._cardService = Service.getServiceOrThrow(CardService);
+    this._effectsService = Service.getServiceOrThrow(EffectsService);
+    this._gameManager = Service.getServiceOrThrow(GameManager);
+    this._shootEffect = Service.getServiceOrThrow(ShootEffect);
+
+    assert(ObjectsCache.instance, "Cache can't be null");
+
     this._cache = ObjectsCache.instance;
-    this._gameManager = this.getService(GameManager);
-    this._shootEffect = this.getService(ShootEffect);
+    this.updateSprite();
   }
 
   turnEnds(): void {

@@ -1,48 +1,40 @@
-//  FieldController.ts - ClbBlast
-//
-//  Calabaraburus (c) 2022
-//
-//  Author:Natalchishin Taras
-
 import {
-  _decorator,
-  Component,
-  UITransform,
-  Vec3,
-  randomRangeInt,
-  EventTarget,
-  Vec2,
-  CCString,
-  CCBoolean,
-} from "cc";
-import { TileController } from "../tiles/TileController";
-import { TileModel } from "../../models/TileModel";
-import { FieldModel } from "../../models/FieldModel";
-import { TileCreator } from "./TileCreator";
-import { CreateTileArgs } from "./CreateTileArgs";
-import { FieldAnalizer } from "./FieldAnalizer";
-import { AnalizedData } from "./AnalizedData";
-import { BonusModel } from "../../models/BonusModel";
-import { Matrix2D } from "./Matrix2D";
-import { ITileFieldController as ITileFieldController } from "./ITileFieldController";
-import { ReadonlyMatrix2D } from "./ReadonlyMatrix2D";
-import { BackgroundTileController } from "../tiles/BackgroundTile/BackgroundTileController";
-import { Service } from "../services/Service";
-import { DataService } from "../services/DataService";
-const { ccclass, property } = _decorator;
+    _decorator,
+    Component,
+    UITransform,
+    Vec3,
+    randomRangeInt,
+    EventTarget,
+    Vec2,
+    CCString,
+    CCBoolean,
+  } from "cc";
+  import { TileController } from "../tiles/TileController";
+  import { TileModel } from "../../models/TileModel";
+  import { FieldModel } from "../../models/FieldModel";
+  import { TileCreator } from "./TileCreator";
+  import { CreateTileArgs } from "./CreateTileArgs";
+  import { FieldAnalizer } from "./FieldAnalizer";
+  import { AnalizedData } from "./AnalizedData";
+  import { BonusModel } from "../../models/BonusModel";
+  import { Matrix2D } from "./Matrix2D";
+  import { ITileFieldController as ITileFieldController } from "./ITileFieldController";
+  import { ReadonlyMatrix2D } from "./ReadonlyMatrix2D";
+  import { BackgroundTileController } from "../tiles/BackgroundTile/BackgroundTileController";
+  import { Service } from "../services/Service";
+  import { DataService } from "../services/DataService";
+  const { ccclass, property } = _decorator;
 
-@ccclass("FieldController")
-export class FieldController extends Service implements ITileFieldController {
-  /**
+
+export class FieldLogicalController extends Service implements ITileFieldController {
+
+    /**
    * Logic field (e.g. tiles matrix)
    */
   private _field: Matrix2D<TileController>;
-  private _bckgField: BackgroundTileController[][] = [];
-  private _timeToexecute = 0;
-  private _canexecute = false;
+  
   private _fieldAnalizer: FieldAnalizer;
   private _tilesToDestroy: TileController[] = [];
-  private _bonus: BonusModel;
   private _tileCreator: TileCreator | null;
   private _dataService: DataService | null;
 
@@ -50,9 +42,6 @@ export class FieldController extends Service implements ITileFieldController {
     if (this._dataService == null) throw Error("DataService is null");
     return this._dataService;
   }
-
-  public readonly tileClickedEvent: EventTarget = new EventTarget();
-  public readonly tileActivatedEvent: EventTarget = new EventTarget();
 
   /** Field model */
   @property({ type: [FieldModel], visible: true, tooltip: "Field model" })
@@ -81,10 +70,6 @@ export class FieldController extends Service implements ITileFieldController {
     return this._field.toReadonly();
   }
 
-  get bonus(): BonusModel {
-    return this._bonus;
-  }
-
   get tiles(): Array<TileController> {
     return [];
   }
@@ -96,7 +81,6 @@ export class FieldController extends Service implements ITileFieldController {
   start() {
     this._field = new Matrix2D(this.fieldModel.rows, this.fieldModel.cols);
     this._fieldAnalizer = new FieldAnalizer(this);
-    // this._dataService = this.getService(DataService);
   }
 
   /**
@@ -112,19 +96,10 @@ export class FieldController extends Service implements ITileFieldController {
     }
 
     const map = this.fieldModel.getFieldMap();
-    const bkgTileModel = this.fieldModel.getTileModel(this.backgroundTileName);
 
     for (let yIndex = 0; yIndex < this.fieldModel.rows; yIndex++) {
-      this._bckgField[yIndex] = [];
-
+      
       for (let xIndex = 0; xIndex < this.fieldModel.cols; xIndex++) {
-        if (this.drawBackground) {
-          const bkgTile = this.createBckgTile(yIndex, xIndex, bkgTileModel);
-
-          if (bkgTile != null) {
-            this._bckgField[yIndex][xIndex] = bkgTile;
-          }
-        }
 
         const mapMnem = map[yIndex][xIndex];
 
@@ -148,40 +123,6 @@ export class FieldController extends Service implements ITileFieldController {
         }
       }
     }
-  }
-
-  private createBckgTile(
-    row: number,
-    col: number,
-    tileModel: TileModel | null
-  ): BackgroundTileController | null {
-    if (this._tileCreator == null) {
-      throw Error("Tile creator is null.");
-    }
-
-    if (tileModel == null) {
-      throw Error("Tile model argument is null");
-    }
-    if (tileModel == null) return null;
-
-    const tile = this._tileCreator.create(tileModel.tileName);
-
-    if (tile == null) return null;
-
-    const tileController = tile.getComponent(BackgroundTileController);
-    const uiTransform = tileController?.getComponent(UITransform);
-
-    if (tileController != null) {
-      tileController.tileModel = tileModel;
-
-      this._bckgField[row][col] = tileController;
-    }
-
-    tile.position = this.calculateTilePosition(row, col);
-    tile.parent = this.tilesBckgArea.node;
-    tile.scale = this.calculateTileSize(uiTransform);
-
-    return tileController;
   }
 
   /**
@@ -564,4 +505,3 @@ export class FieldController extends Service implements ITileFieldController {
     this._bonus = bonus;
   }
 }
-

@@ -16,13 +16,13 @@ import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { HealingEffect } from "../../effects/HealingEffect";
 import { EffectsService } from "../../services/EffectsService";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
+import { Service } from "../../services/Service";
 const { ccclass, property } = _decorator;
 
 @ccclass("ShamanTileController")
 export class ShamanTileController
   extends TileController
-  implements IAttackable
-{
+  implements IAttackable {
   private _cardService: CardService | null;
   private _curSprite: Sprite | null;
   private _state: TileState;
@@ -34,7 +34,6 @@ export class ShamanTileController
   /** Destroy particle system */
   @property(Prefab)
   destroyPartycles: Prefab;
-  private _dataService: DataService | null;
   private _effectsService: EffectsService | null;
 
   get attacksCountToDestroy() {
@@ -43,9 +42,8 @@ export class ShamanTileController
 
   start() {
     super.start();
-    this._cardService = this.getService(CardService);
-    this._dataService = this.getService(DataService);
-    this._effectsService = this.getService(EffectsService);
+    this._cardService = Service.getService(CardService);
+    this._effectsService = Service.getService(EffectsService);
     this._cache = ObjectsCache.instance;
   }
 
@@ -56,7 +54,7 @@ export class ShamanTileController
       if (playerModel || playerModel != null) {
         if (playerModel.life < playerModel.lifeMax) {
           this.playEffect();
-          this.getService(AudioManagerService)?.playSoundEffect(
+          Service.getService(AudioManagerService)?.playSoundEffect(
             "shaman_attack"
           );
           playerModel.life = playerModel.life + 5;
@@ -102,9 +100,9 @@ export class ShamanTileController
     if (this._aimForEffect != null) return;
 
     const tmpAim =
-      this.playerModel != this._dataService?.playerModel
-        ? this._dataService?.enemyFieldController?.playerImage.node
-        : this._dataService?.playerFieldController?.playerImage.node;
+      this.playerModel != this.dataService?.playerModel
+        ? this.dataService.enemyFieldController?.playerImage.node
+        : this.dataService.playerFieldController?.playerImage.node;
 
     if (tmpAim == null) {
       throw Error("catapult effect aim is null");

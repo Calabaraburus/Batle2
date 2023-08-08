@@ -9,7 +9,7 @@
 //
 //  Author:Natalchishin Taras
 
-import { _decorator, tween } from "cc";
+import { _decorator, assert, tween } from "cc";
 import { TileController } from "../TileController";
 import { CardService } from "../../services/CardService";
 import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
@@ -18,28 +18,35 @@ import { EffectsService } from "../../services/EffectsService";
 import { GameManager } from "../../game/GameManager";
 import { IAttackable, isIAttackable } from "../IAttackable";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
+import { Service } from "../../services/Service";
 const { ccclass, property } = _decorator;
 
 @ccclass("MineTileController")
 export class MineTileController extends TileController {
-  private _cardService: CardService | null;
-  private _effectsService: EffectsService | null;
-  private _cache: ObjectsCache | null;
-  private _gameManager: GameManager | null;
+  private _cardService: CardService;
+  private _effectsService: EffectsService;
+  private _cache: ObjectsCache;
+  private _gameManager: GameManager;
 
   start() {
     super.start();
     this.attackPower = 0;
-    this._cardService = this.getService(CardService);
-    this._effectsService = this.getService(EffectsService);
-    this._gameManager = this.getService(GameManager);
+
+    this._cardService = Service.getServiceOrThrow(CardService);
+
+    this._effectsService = Service.getServiceOrThrow(EffectsService);
+
+    this._gameManager = Service.getServiceOrThrow(GameManager);
+
+    assert(ObjectsCache.instance, "ObjectsCache can't be null");
+
     this._cache = ObjectsCache.instance;
   }
 
   turnEnds(): void {
     if (this._cardService?.getOponentModel() == this.playerModel) {
       this.playEffect();
-      this.getService(AudioManagerService)?.playSoundEffect("mine_attack");
+      Service.getService(AudioManagerService)?.playSoundEffect("mine_attack");
       this.destroyTile();
 
       const coordTiles = [

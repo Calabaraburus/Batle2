@@ -3,6 +3,7 @@
 //  Calabaraburus (c) 2022
 //
 //  Author:Natalchishin Taras
+
 import { Component, _decorator, js, __private, director, assert } from "cc";
 const { ccclass } = _decorator;
 
@@ -14,7 +15,7 @@ export class Service extends Component {
     return this._type;
   }
 
-  getService<T extends Component>(
+  static getService<T extends Component>(
     classConstructor:
       | __private._types_globals__Constructor<T>
       | __private._types_globals__AbstractedConstructor<T>
@@ -24,7 +25,15 @@ export class Service extends Component {
     return scene.getComponentInChildren(classConstructor);
   }
 
-  getServiceOrThrow<T extends Component>(
+  getService<T extends Component>(
+    classConstructor:
+      | __private._types_globals__Constructor<T>
+      | __private._types_globals__AbstractedConstructor<T>
+  ): T | null {
+    return Service.getService(classConstructor);
+  }
+
+  static getServiceOrThrow<T extends Component>(
     classConstructor:
       | __private._types_globals__Constructor<T>
       | __private._types_globals__AbstractedConstructor<T>
@@ -37,7 +46,15 @@ export class Service extends Component {
     return t;
   }
 
-  getServices<T extends Component>(
+  getServiceOrThrow<T extends Component>(
+    classConstructor:
+      | __private._types_globals__Constructor<T>
+      | __private._types_globals__AbstractedConstructor<T>
+  ): T {
+    return Service.getServiceOrThrow(classConstructor);
+  }
+
+  static      getServices<T extends Component>(
     classConstructor:
       | __private._types_globals__Constructor<T>
       | __private._types_globals__AbstractedConstructor<T>
