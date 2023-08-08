@@ -11,7 +11,7 @@ const { ccclass, property } = _decorator;
 @ccclass("AttackSignalController")
 export class AttackSignalController extends Service {
   dataService: DataService;
-  fieldModel: FieldController;
+  fieldController: FieldController;
   playerSide: AttackSignalComponent[] = [];
   enemySide: AttackSignalComponent[] = [];
   sides: Node[] = [];
@@ -19,7 +19,7 @@ export class AttackSignalController extends Service {
   start() {
     const f = this.getService(FieldController);
     assert(f, "FieldController not found");
-    this.fieldModel = f;
+    this.fieldController = f;
 
     const s = this.node.children;
     assert(s, "Nodes not found");
@@ -29,7 +29,7 @@ export class AttackSignalController extends Service {
     assert(t, "DataService not found");
     this.dataService = t;
 
-    for (let i = 0; i < this.fieldModel.fieldMatrix.cols; i++) {
+    for (let i = 0; i < this.fieldController.fieldMatrix.cols; i++) {
       const pSignal = this.getSideComponent(i, this.sides[0]);
       if (!pSignal) return;
       this.playerSide.push(pSignal);
@@ -42,16 +42,20 @@ export class AttackSignalController extends Service {
   }
 
   public updateData() {
-    for (let colNum = 0; colNum < this.fieldModel.fieldMatrix.cols; colNum++) {
-      const startTile = this.fieldModel.getStartTile(colNum);
-      const endTile = this.fieldModel.getEndTile(colNum);
+    for (
+      let colNum = 0;
+      colNum < this.fieldController.fieldMatrix.cols;
+      colNum++
+    ) {
+      const startTile = this.fieldController.getStartTile(colNum);
+      const endTile = this.fieldController.getEndTile(colNum);
       if (!startTile || !endTile) return;
-      const pSideTile = this.fieldModel.fieldMatrix.get(
+      const pSideTile = this.fieldController.fieldMatrix.get(
         startTile?.row + 1,
         colNum
       );
 
-      const eSideTile = this.fieldModel.fieldMatrix.get(
+      const eSideTile = this.fieldController.fieldMatrix.get(
         endTile?.row - 1,
         colNum
       );

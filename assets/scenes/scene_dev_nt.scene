@@ -33,13 +33,13 @@
         "__id__": 747
       },
       {
-        "__id__": 766
+        "__id__": 767
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 772
+      "__id__": 773
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -70,7 +70,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 787
+      "__id__": 788
     },
     "_id": "33d69cc0-fd88-4f9e-b90d-dca2e41b58aa"
   },
@@ -16508,6 +16508,9 @@
       },
       {
         "__id__": 765
+      },
+      {
+        "__id__": 766
       }
     ],
     "_prefab": null,
@@ -16874,6 +16877,17 @@
     "_id": "62nGG8Jr5MLJnQl96mKOT2"
   },
   {
+    "__type__": "4582dN6/1pPPLD8+586g9jN",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 747
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_id": "34Qe8z49tPeocePVl7quvO"
+  },
+  {
     "__type__": "cc.Node",
     "_name": "GameManager",
     "_objFlags": 0,
@@ -16883,9 +16897,6 @@
     "_children": [],
     "_active": true,
     "_components": [
-      {
-        "__id__": 767
-      },
       {
         "__id__": 768
       },
@@ -16897,6 +16908,9 @@
       },
       {
         "__id__": 771
+      },
+      {
+        "__id__": 772
       }
     ],
     "_prefab": null,
@@ -16934,7 +16948,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 766
+      "__id__": 767
     },
     "_enabled": true,
     "__prefab": null,
@@ -16942,7 +16956,7 @@
       "__id__": 746
     },
     "behaviourSeletor": {
-      "__id__": 768
+      "__id__": 769
     },
     "_id": "c5g23sXKJAtqPKzKHM5lty"
   },
@@ -16951,7 +16965,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 766
+      "__id__": 767
     },
     "_enabled": true,
     "__prefab": null,
@@ -16962,7 +16976,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 766
+      "__id__": 767
     },
     "_enabled": true,
     "__prefab": null,
@@ -16974,7 +16988,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 766
+      "__id__": 767
     },
     "_enabled": true,
     "__prefab": null,
@@ -16986,7 +17000,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 766
+      "__id__": 767
     },
     "_enabled": false,
     "__prefab": null,
@@ -17004,22 +17018,22 @@
     "instance": null,
     "targetOverrides": [
       {
-        "__id__": 773
+        "__id__": 774
       },
       {
-        "__id__": 776
+        "__id__": 777
       },
       {
-        "__id__": 779
+        "__id__": 780
       },
       {
-        "__id__": 781
+        "__id__": 782
       },
       {
-        "__id__": 783
+        "__id__": 784
       },
       {
-        "__id__": 785
+        "__id__": 786
       }
     ],
     "nestedPrefabInstanceRoots": [
@@ -17109,7 +17123,7 @@
       "__id__": 156
     },
     "sourceInfo": {
-      "__id__": 774
+      "__id__": 775
     },
     "propertyPath": [
       "tilesArea"
@@ -17118,7 +17132,7 @@
       "__id__": 156
     },
     "targetInfo": {
-      "__id__": 775
+      "__id__": 776
     }
   },
   {
@@ -17139,7 +17153,7 @@
       "__id__": 156
     },
     "sourceInfo": {
-      "__id__": 777
+      "__id__": 778
     },
     "propertyPath": [
       "tilesBckgArea"
@@ -17148,7 +17162,7 @@
       "__id__": 156
     },
     "targetInfo": {
-      "__id__": 778
+      "__id__": 779
     }
   },
   {
@@ -17176,7 +17190,7 @@
       "__id__": 156
     },
     "targetInfo": {
-      "__id__": 780
+      "__id__": 781
     }
   },
   {
@@ -17198,7 +17212,7 @@
       "__id__": 156
     },
     "targetInfo": {
-      "__id__": 782
+      "__id__": 783
     }
   },
   {
@@ -17220,7 +17234,7 @@
       "__id__": 670
     },
     "targetInfo": {
-      "__id__": 784
+      "__id__": 785
     }
   },
   {
@@ -17242,7 +17256,7 @@
       "__id__": 278
     },
     "targetInfo": {
-      "__id__": 786
+      "__id__": 787
     }
   },
   {
@@ -17254,22 +17268,22 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 788
-    },
-    "shadows": {
       "__id__": 789
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 790
     },
-    "fog": {
+    "_skybox": {
       "__id__": 791
     },
-    "octree": {
+    "fog": {
       "__id__": 792
     },
-    "lightProbeInfo": {
+    "octree": {
       "__id__": 793
+    },
+    "lightProbeInfo": {
+      "__id__": 794
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false

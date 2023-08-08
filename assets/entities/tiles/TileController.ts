@@ -42,8 +42,8 @@ export class TileController extends CacheObject {
   private _foregroundSprite: Sprite | null;
   private _backgroundSprite: Sprite | null;
   private _attackPower: number;
+  private _isStarted = false;
   protected dataService: DataService;
-
 
   public get attackPower() {
     return this._attackPower;
@@ -145,11 +145,14 @@ export class TileController extends CacheObject {
 
     const ds = Service.getService(DataService);
 
-    assert(ds, "DataCervice is null");
+    assert(ds, "DataService is null");
 
     this.dataService = ds;
 
     this._attackPower = 1;
+
+    this._isStarted = true;
+
     this.updateSprite();
   }
 
@@ -187,6 +190,8 @@ export class TileController extends CacheObject {
   }
 
   updateSprite() {
+    if (!this._isStarted) return;
+
     if (this._backgroundSprite == null)
       this._backgroundSprite = this.getSpriteInChild("Background");
 
