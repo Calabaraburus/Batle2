@@ -458,6 +458,7 @@ export class FieldController extends Service implements ITileFieldController {
 
     this._field.forEach((tile, i, j) => {
       if (j == roteId) {
+        if (tile == null) return;
         if (tile.tileTypeId == tileType.tileId) {
           res = tile;
           return;
@@ -564,4 +565,3 @@ export class FieldController extends Service implements ITileFieldController {
     this._bonus = bonus;
   }
 }
-
