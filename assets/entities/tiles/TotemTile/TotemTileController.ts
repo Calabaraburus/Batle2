@@ -10,6 +10,7 @@ import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
 import { IAttackable } from "../IAttackable";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
+import { Service } from "../../services/Service";
 const { ccclass, property } = _decorator;
 
 @ccclass("TotemTileController")
@@ -76,7 +77,9 @@ export class TotemTileController extends TileController implements IAttackable {
     if (ui == null) {
       return;
     }
-    this.getService(AudioManagerService)?.playSoundEffect("totem_attack");
+    
+    Service.getService(AudioManagerService)?.playSoundEffect("totem_attack");
+    
     ps.position = new Vec3(
       this.node.position.x + ui.contentSize.width / 2,
       this.node.position.y + ui.contentSize.height / 2,

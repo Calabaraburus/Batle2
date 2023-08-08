@@ -7,9 +7,7 @@
 import { Component, director, Game, Node, _decorator } from "cc";
 import { BonusModel } from "../../models/BonusModel";
 import { LevelModel } from "../../models/LevelModel";
-import { PlayerModel } from "../../models/PlayerModel";
 import { EnemyFieldController } from "../enemyField/EnemyFieldController";
-import { AnalizedData } from "../field/AnalizedData";
 import { FieldController } from "../field/FieldController";
 import { GameManager } from "../game/GameManager";
 import { PlayerFieldController } from "../playerField/PlayerFieldController";
@@ -17,7 +15,6 @@ import type { ILevelView } from "./ILevelView";
 import { LevelView } from "./LevelView";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { AttackSignalController } from "../attackSignal/AttackSignalController";
-import { AttackSignalComponent } from "../attackSignal/AttackSignalComponent";
 const { ccclass, property } = _decorator;
 
 /** Controls level view. */

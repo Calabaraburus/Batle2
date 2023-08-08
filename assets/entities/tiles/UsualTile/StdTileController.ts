@@ -18,6 +18,7 @@ import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
 import { CardService } from "../../services/CardService";
+import { Service } from "../../services/Service";
 const { ccclass, property } = _decorator;
 
 @ccclass("StdTileController")
@@ -41,7 +42,7 @@ export class StdTileController extends TileController {
   start() {
     super.start();
 
-    this._cardService = this.getService(CardService);
+    this._cardService = Service.getService(CardService);
   }
 
   public get state(): TileState {

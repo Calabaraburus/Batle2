@@ -6,7 +6,7 @@
 
 import { randomRangeInt, tween, _decorator } from "cc";
 import { FieldAnalizer } from "../entities/field/FieldAnalizer";
-import type { ITileField } from "../entities/field/ITileField";
+import type { ITileFieldController } from "../entities/field/ITileFieldController";
 import { TileTypeToConnectedTiles } from "../entities/field/AnalizedData";
 
 import { IBot } from "./IBot";
@@ -66,7 +66,7 @@ interface BotAnalizatorGroup {
 @ccclass("Bot")
 export class Bot extends Service implements IBot {
   @property({ type: FieldController })
-  field: ITileField;
+  field: ITileFieldController;
   private _analizer: FieldAnalizer;
   private _botModel: PlayerModel | null | undefined;
   private _dataService: DataService | null;

@@ -3,7 +3,7 @@
 //  Calabaraburus (c) 2023
 //
 
-import { _decorator, Sprite, tween, Node, error } from "cc";
+import { _decorator, Sprite, tween, Node, error, assert } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
@@ -16,6 +16,7 @@ import { DataService } from "../../services/DataService";
 import { LevelView } from "../../level/LevelView";
 import { PlayerModel } from "../../../models/PlayerModel";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
+import { Service } from "../../services/Service";
 const { ccclass, property } = _decorator;
 
 @ccclass("CatapultTileController")
@@ -23,15 +24,13 @@ export class CatapultTileController
   extends TileController
   implements IAttackable
 {
-  private _cardService: CardService | null;
-  private _curSprite: Sprite | null;
+  private _cardService: CardService;
   private _state: TileState;
   private _attacksCountToDestroy: number;
   private _attackedNumber: number;
-  private _effectsService: EffectsService | null;
-  private _cache: ObjectsCache | null;
-  private _dataService: DataService | null;
-  private _levelView: LevelView | null;
+  private _effectsService: EffectsService;
+  private _cache: ObjectsCache;
+  private _dataService: DataService;
   private _aimForEffect: Node;
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -45,11 +44,12 @@ export class CatapultTileController
   }
 
   prepare() {
-    this._cardService = this.getService(CardService);
-    this._effectsService = this.getService(EffectsService);
+    this._cardService = Service.getServiceOrThrow(CardService);
+    this._effectsService = Service.getServiceOrThrow(EffectsService);
+
+    assert(ObjectsCache.instance, "Cache can't be null");
     this._cache = ObjectsCache.instance;
-    this._dataService = this.getService(DataService);
-    this._levelView = this.getService(LevelView);
+    this._dataService = Service.getServiceOrThrow(DataService);
   }
 
   rotateToEnemy(enemy: Node) {
@@ -68,7 +68,7 @@ export class CatapultTileController
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       if (damageModel || damageModel != null) {
         this.playEffect();
-        this.getService(AudioManagerService)?.playSoundEffect(
+        Service.getServiceOrThrow(AudioManagerService).playSoundEffect(
           "catapult_attack"
         );
         damageModel.life = damageModel.life - 5;

@@ -17,6 +17,7 @@ import {
   Sprite,
   __private,
   spriteAssembler,
+  assert,
 } from "cc";
 import { NextStepAttackTilesBotAnalizator } from "../../bot/NextStepAttackTilesBotAnalizator";
 import { PlayerModel } from "../../models/PlayerModel";
@@ -25,11 +26,14 @@ import { CacheObject } from "../../ObjectsCache/CacheObject";
 import { ICacheObject } from "../../ObjectsCache/ICacheObject";
 import { FieldController } from "../field/FieldController";
 import { CardService } from "../services/CardService";
+import { ITileFieldController } from "../field/ITileFieldController";
+import { Service } from "../services/Service";
+import { DataService } from "../services/DataService";
 const { ccclass, property } = _decorator;
 
 @ccclass("TileController")
 export class TileController extends CacheObject {
-  private _field: FieldController;
+  private _field: ITileFieldController;
   private _button: Button | null;
   private _needMove = false;
   private _from: Vec3;
@@ -38,6 +42,9 @@ export class TileController extends CacheObject {
   private _foregroundSprite: Sprite | null;
   private _backgroundSprite: Sprite | null;
   private _attackPower: number;
+  protected dataService: DataService;
+
+
   public get attackPower() {
     return this._attackPower;
   }
@@ -55,7 +62,7 @@ export class TileController extends CacheObject {
     return this._tileModel;
   }
 
-  get fieldController(): FieldController {
+  get fieldController(): ITileFieldController {
     return this._field;
   }
 
@@ -135,6 +142,13 @@ export class TileController extends CacheObject {
 
   start() {
     this._button = this.getComponent(Button);
+
+    const ds = Service.getService(DataService);
+
+    assert(ds, "DataCervice is null");
+
+    this.dataService = ds;
+
     this._attackPower = 1;
     this.updateSprite();
   }
@@ -182,7 +196,7 @@ export class TileController extends CacheObject {
     if (this._backgroundSprite != null && this.playerModel != null) {
       let bckgName = "oponentBackground";
 
-      if (this.playerModel == this.fieldController.dataService?.playerModel) {
+      if (this.playerModel == this.dataService.playerModel) {
         bckgName = "playerBackground";
       }
 
@@ -222,18 +236,6 @@ export class TileController extends CacheObject {
     this.fakeDestroy();
     this._isDestroied = true;
     this.cacheDestroy();
-  }
-
-  protected getService<T extends Component>(
-    classConstructor:
-      | __private._types_globals__Constructor<T>
-      | __private._types_globals__AbstractedConstructor<T>
-  ): T | null {
-    if (this._field == null || this._field.dataService == null) {
-      return null;
-    }
-
-    return this._field.dataService.getService(classConstructor);
   }
 
   public cacheCreate(): void {

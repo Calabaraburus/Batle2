@@ -1,5 +1,7 @@
 import { AnalizedData } from "../entities/field/AnalizedData";
+import { TileController } from "../entities/tiles/TileController";
 import { Bot } from "./Bot";
+import { IBot } from "./IBot";
 
 export class BotAnalizator {
   bot: Bot;
@@ -8,18 +10,12 @@ export class BotAnalizator {
   public get weight() {
     return this._weight;
   }
-
-  protected set weight(value: number) {
-    this._weight = value;
+  public set weight(value: number) {
+    this._weight;
   }
 
   constructor(bot: Bot) {
     this.bot = bot;
-  }
-
-  getBonus(tileMnem: string) {
-    if (this.bot.botModel == null) return null;
-    return this.bot.botModel.bonuses.find((b) => b.mnemonic == tileMnem);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
