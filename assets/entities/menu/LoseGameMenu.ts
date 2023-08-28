@@ -3,45 +3,33 @@ const { ccclass, property } = _decorator;
 
 @ccclass("LoseGameMenu")
 export class LoseGameMenu extends Component {
-  updateStatistic(playerStat: any = {}, enemyStat: any = {}) {
-    const playerAll = this.node
-      .getChildByPath("PlayerStatistic/AllTileNumber")
-      ?.getComponent(Label);
-    const playerSword = this.node
-      .getChildByPath("PlayerStatistic/Sword/SwordNumber")
-      ?.getComponent(Label);
-    const playerBow = this.node
-      .getChildByPath("PlayerStatistic/Bow/BowNumber")
-      ?.getComponent(Label);
-    const playerShield = this.node
-      .getChildByPath("PlayerStatistic/Shield/ShieldNumber")
-      ?.getComponent(Label);
+  @property(Label)
+  playerTotal: Label;
+  @property(Label)
+  playerSword: Label;
+  @property(Label)
+  playerBow: Label;
+  @property(Label)
+  playerShield: Label;
 
-    if (!playerAll || !playerSword || !playerBow || !playerShield) return;
+  @property(Label)
+  enemyTotal: Label;
+  @property(Label)
+  enemySword: Label;
+  @property(Label)
+  enemyBow: Label;
+  @property(Label)
+  enemyShield: Label;
 
-    playerAll.string = enemyStat.tilesNumber.toString();
-    playerSword.string = enemyStat.swordNumber.toString();
-    playerBow.string = enemyStat.bowNumber.toString();
-    playerShield.string = enemyStat.shieldNumber.toString();
+  updateStatistic(matchState: any) {
+    this.enemyTotal.string = matchState.tilesNumber.toString();
+    this.enemySword.string = matchState.swordNumber.toString();
+    this.enemyBow.string = matchState.bowNumber.toString();
+    this.enemyShield.string = matchState.shieldNumber.toString();
 
-    const enemyAll = this.node
-      .getChildByPath("EnemyStatistic/AllTileNumber")
-      ?.getComponent(Label);
-    const enemySword = this.node
-      .getChildByPath("EnemyStatistic/Sword/SwordNumber")
-      ?.getComponent(Label);
-    const enemyBow = this.node
-      .getChildByPath("EnemyStatistic/Bow/BowNumber")
-      ?.getComponent(Label);
-    const enemyShield = this.node
-      .getChildByPath("EnemyStatistic/Shield/ShieldNumber")
-      ?.getComponent(Label);
-
-    if (!enemyAll || !enemySword || !enemyBow || !enemyShield) return;
-
-    enemyAll.string = playerStat.tilesNumber.toString();
-    enemySword.string = playerStat.swordNumber.toString();
-    enemyBow.string = playerStat.bowNumber.toString();
-    enemyShield.string = playerStat.shieldNumber.toString();
+    this.playerTotal.string = matchState.tilesNumber.toString();
+    this.playerSword.string = matchState.swordNumber.toString();
+    this.playerBow.string = matchState.bowNumber.toString();
+    this.playerShield.string = matchState.shieldNumber.toString();
   }
 }

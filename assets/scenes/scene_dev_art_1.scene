@@ -5535,7 +5535,10 @@
     },
     "bonusesMetaData": [
       {
-        "__id__": 103
+        "__id__": 95
+      },
+      {
+        "__id__": 89
       }
     ],
     "_id": "11moDT2j1Me4b2c6v5QwCr"
@@ -5606,7 +5609,10 @@
     },
     "bonusesMetaData": [
       {
-        "__id__": 103
+        "__id__": 95
+      },
+      {
+        "__id__": 89
       }
     ],
     "_id": "afqDv/Zg1Gp66/qLUh+I/I"
@@ -13261,7 +13267,10 @@
       "b": 124,
       "a": 255
     },
-    "_normalSprite": null,
+    "_normalSprite": {
+      "__uuid__": "e00c147f-8dd2-4fb9-8f2f-d7a53a94b7a1@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_hoverSprite": null,
     "_pressedSprite": null,
     "_disabledSprite": null,
@@ -15600,6 +15609,30 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "playerTotal": {
+      "__id__": 569
+    },
+    "playerSword": {
+      "__id__": 576
+    },
+    "playerBow": {
+      "__id__": 584
+    },
+    "playerShield": {
+      "__id__": 592
+    },
+    "enemyTotal": {
+      "__id__": 601
+    },
+    "enemySword": {
+      "__id__": 608
+    },
+    "enemyBow": {
+      "__id__": 616
+    },
+    "enemyShield": {
+      "__id__": 624
+    },
     "_id": "a3bFg5nwBOJ4TS5E8gq+aH"
   },
   {
@@ -15638,7 +15671,7 @@
         "__id__": 680
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 684
@@ -27280,6 +27313,30 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "playerTotal": {
+      "__id__": 1110
+    },
+    "playerSword": {
+      "__id__": 1117
+    },
+    "playerBow": {
+      "__id__": 1125
+    },
+    "playerShield": {
+      "__id__": 1133
+    },
+    "enemyTotal": {
+      "__id__": 1142
+    },
+    "enemySword": {
+      "__id__": 1149
+    },
+    "enemyBow": {
+      "__id__": 1157
+    },
+    "enemyShield": {
+      "__id__": 1165
+    },
     "_id": "c3bHU6ZpNAS4pClzbu6IFb"
   },
   {

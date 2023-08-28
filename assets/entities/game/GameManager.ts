@@ -152,7 +152,7 @@ export class GameManager extends Service {
     this.levelController.updateData();
 
     // start statistic counter
-    this._matchStatistic?.startTileStatistic();
+    // this._matchStatistic?.startTileStatistic();
   }
 
   private tileClicked(sender: unknown, tile: TileController): void {
