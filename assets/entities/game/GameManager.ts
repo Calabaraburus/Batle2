@@ -32,6 +32,7 @@ import { MatchStatisticService } from "../services/MatchStatisticService";
 import { AudioManager } from "../../soundsPlayer/AudioManager";
 import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
 import { MenuSelectorController } from "../menu/MenuSelectorController";
+import { LoseGameMenu } from "../menu/LoseGameMenu";
 
 const { ccclass, property } = _decorator;
 
@@ -256,8 +257,9 @@ export class GameManager extends Service {
     }
 
     if (playerModel.life <= 0) {
-      this._matchStatistic?.loadStatistic("lose");
+      this.getService(LoseGameMenu)?.updateStatistic();
       this.levelController.showLoseView(true);
+      this._matchStatistic?.resetMatchStatistic();
     }
 
     if (enemyModel.life <= 0) {

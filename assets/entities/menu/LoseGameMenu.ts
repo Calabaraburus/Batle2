@@ -1,8 +1,11 @@
 import { Component, Label, _decorator } from "cc";
+import { MatchState } from "../game/MatchState";
 const { ccclass, property } = _decorator;
 
 @ccclass("LoseGameMenu")
 export class LoseGameMenu extends Component {
+  private _matchState: MatchState;
+
   @property(Label)
   playerTotal: Label;
   @property(Label)
@@ -21,15 +24,15 @@ export class LoseGameMenu extends Component {
   @property(Label)
   enemyShield: Label;
 
-  updateStatistic(matchState: any) {
-    this.enemyTotal.string = matchState.tilesNumber.toString();
-    this.enemySword.string = matchState.swordNumber.toString();
-    this.enemyBow.string = matchState.bowNumber.toString();
-    this.enemyShield.string = matchState.shieldNumber.toString();
+  updateStatistic() {
+    this.enemyTotal.string = this._matchState.tilesNumber.toString();
+    this.enemySword.string = this._matchState.swordNumber.toString();
+    this.enemyBow.string = this._matchState.bowNumber.toString();
+    this.enemyShield.string = this._matchState.shieldNumber.toString();
 
-    this.playerTotal.string = matchState.tilesNumber.toString();
-    this.playerSword.string = matchState.swordNumber.toString();
-    this.playerBow.string = matchState.bowNumber.toString();
-    this.playerShield.string = matchState.shieldNumber.toString();
+    this.playerTotal.string = this._matchState.tilesNumber.toString();
+    this.playerSword.string = this._matchState.swordNumber.toString();
+    this.playerBow.string = this._matchState.bowNumber.toString();
+    this.playerShield.string = this._matchState.shieldNumber.toString();
   }
 }

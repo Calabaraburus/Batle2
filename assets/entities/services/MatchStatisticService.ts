@@ -78,13 +78,13 @@ export class MatchStatisticService extends Service {
     sys.localStorage.setItem("matchState", JSON.stringify(this._matchState));
   }
 
-  loadStatistic(state: string) {
-    if (state == "lose") {
-      this.getService(LoseGameMenu)?.updateStatistic(this._matchState);
-    } else {
-      this.getService(WinGameMenu)?.updateStatistic(this._matchState);
-    }
-  }
+  // loadStatistic(state: string) {
+  //   if (state == "lose") {
+  //     this.getService(LoseGameMenu)?.updateStatistic(this._matchState);
+  //   } else {
+  //     this.getService(WinGameMenu)?.updateStatistic(this._matchState);
+  //   }
+  // }
 
   resetMatchStatistic() {
     this._matchState.tilesNumber = 0;
