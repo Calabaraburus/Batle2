@@ -4,7 +4,7 @@ import { interfaces } from "inversify";
 import { TileModel } from "../../../models/TileModel";
 import { helpers } from "../../../scripts/helpers";
 import { GameBehaviour } from "../../behaviours/GameBehaviour";
-import { FieldAnalizer } from "../../field/FieldAnalizer";
+import { FieldAnalyzer } from "../../field/FieldAnalizer";
 import { GameManager } from "../../game/GameManager";
 import { LevelController } from "../../level/LevelController";
 import { CardService } from "../../services/CardService";

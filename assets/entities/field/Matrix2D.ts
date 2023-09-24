@@ -1,3 +1,9 @@
+// Project: Batle2
+//
+// Author: Natalchishin Taras
+//
+// Calabaraburus (c) 2023
+
 import { ReadonlyMatrix2D } from "./ReadonlyMatrix2D";
 
 export class Matrix2D<T> extends ReadonlyMatrix2D<T> {

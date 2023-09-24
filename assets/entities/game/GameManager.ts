@@ -17,7 +17,7 @@ import { Bot } from "../../bot/Bot";
 import type { IBot } from "../../bot/IBot";
 import { LevelController } from "../level/LevelController";
 import { FieldController } from "../field/FieldController";
-import { FieldAnalizer } from "../field/FieldAnalizer";
+import { FieldAnalyzer } from "../field/FieldAnalizer";
 import Finity from "finity";
 import { StateMachine } from "finity";
 import { BehaviourSelector } from "../behaviours/BehaviourSelector";
@@ -40,7 +40,7 @@ export class GameManager extends Service {
   private _debug: DebugView | null | undefined;
   private _botTurn: boolean;
   private _field: FieldController;
-  private _fieldAnalizer: FieldAnalizer;
+  private _fieldAnalizer: FieldAnalyzer;
   private _cardService: CardService | null;
   private _dataService: DataService | null;
   private _tileService: TileService | null;
@@ -114,21 +114,19 @@ export class GameManager extends Service {
   }
 
   start() {
-    this._cardService = this.getService(CardService);
-    this._dataService = this.getService(DataService);
-    this._tileService = this.getService(TileService);
-    this._matchStatistic = this.getService(MatchStatisticService);
+    this._cardService = this.getServiceOrThrow(CardService);
+    this._dataService = this.getServiceOrThrow(DataService);
+    this._tileService = this.getServiceOrThrow(TileService);
+    this._matchStatistic = this.getServiceOrThrow(MatchStatisticService);
     this._audioManager = this.getServiceOrThrow(AudioManagerService);
-    this._menuSelector = this.getService(MenuSelectorController);
+    this._menuSelector = this.getServiceOrThrow(MenuSelectorController);
 
     this._bot = this.getService(Bot);
     this._debug = this._dataService?.debugView;
     this.levelController.gameManager = this;
     this._field = this.levelController.fieldController;
     this._field.tileCreator = this.getService(TileCreator);
-    this._field.setDataService(this._dataService);
 
-    this._fieldAnalizer = new FieldAnalizer(this._field);
     this._stateMachine = this._stateMachineConfig.start();
     this._stateMachine.handle("gameStartEvent");
   }
@@ -144,11 +142,11 @@ export class GameManager extends Service {
 
     this._field.tileClickedEvent.on("FieldController", this.tileClicked, this);
     this._field.generateTiles();
-
+    this._field.moveTiles();
     this._field.analizeTiles();
     this._field.fixTiles();
 
-    this._field.updateBackground();
+    // this._field.updateBackground();
     this.levelController.updateData();
 
     // start statistic counter

@@ -5,7 +5,7 @@
 //  Author:Natalchishin Taras
 
 import { randomRangeInt, tween, _decorator } from "cc";
-import { FieldAnalizer } from "../entities/field/FieldAnalizer";
+import { FieldAnalyzer } from "../entities/field/FieldAnalizer";
 import type { ITileFieldController } from "../entities/field/ITileFieldController";
 import { TileTypeToConnectedTiles } from "../entities/field/AnalizedData";
 
@@ -67,7 +67,7 @@ interface BotAnalizatorGroup {
 export class Bot extends Service implements IBot {
   @property({ type: FieldController })
   field: ITileFieldController;
-  private _analizer: FieldAnalizer;
+  private _analizer: FieldAnalyzer;
   private _botModel: PlayerModel | null | undefined;
   private _dataService: DataService | null;
   private _tileService: TileService | null;
@@ -178,12 +178,12 @@ export class Bot extends Service implements IBot {
     this._cardService = this.getService(CardService);
 
     if (this._dataService?.field != null)
-      this._analizer = new FieldAnalizer(this._dataService?.field);
+      this._analizer = new FieldAnalyzer(this._dataService?.field);
     this._botModel = this._dataService?.botModel;
   }
 
   public move(): void {
-    let analized_data = this._analizer.analize();
+    let analized_data = this._analizer.analyze();
 
     const tilesMove = () => {
       console.log("[Bot] Search for cull strategy");
@@ -238,7 +238,7 @@ export class Bot extends Service implements IBot {
           console.log("[Bot] All behaviours stop to prossed");
           console.log("[Bot] Reanalize data");
 
-          analized_data = this._analizer.analize();
+          analized_data = this._analizer.analyze();
 
           if (analizersQueue.length == 0) {
             tilesMove();

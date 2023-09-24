@@ -1,69 +1,79 @@
+// Project: Batle2
+//
+// Author: Natalchishin Taras
+//
+// Calabaraburus (c) 2023
+
 import {
-    _decorator,
-    Component,
-    UITransform,
-    Vec3,
-    randomRangeInt,
-    EventTarget,
-    Vec2,
-    CCString,
-    CCBoolean,
-  } from "cc";
-  import { TileController } from "../tiles/TileController";
-  import { TileModel } from "../../models/TileModel";
-  import { FieldModel } from "../../models/FieldModel";
-  import { TileCreator } from "./TileCreator";
-  import { CreateTileArgs } from "./CreateTileArgs";
-  import { FieldAnalizer } from "./FieldAnalizer";
-  import { AnalizedData } from "./AnalizedData";
-  import { BonusModel } from "../../models/BonusModel";
-  import { Matrix2D } from "./Matrix2D";
-  import { ITileFieldController as ITileFieldController } from "./ITileFieldController";
-  import { ReadonlyMatrix2D } from "./ReadonlyMatrix2D";
-  import { BackgroundTileController } from "../tiles/BackgroundTile/BackgroundTileController";
-  import { Service } from "../services/Service";
-  import { DataService } from "../services/DataService";
-  const { ccclass, property } = _decorator;
+  _decorator,
+  Component,
+  UITransform,
+  Vec3,
+  randomRangeInt,
+  EventTarget,
+  Vec2,
+  CCString,
+  CCBoolean,
+  Rect,
+} from "cc";
+import { TileController } from "../tiles/TileController";
+import { TileModel } from "../../models/TileModel";
+import { FieldModel } from "../../models/FieldModel";
+import { TileCreator } from "./TileCreator";
+import { CreateTileArgs } from "./CreateTileArgs";
+import { FieldAnalyzer } from "./FieldAnalizer";
+import { AnalizedData } from "./AnalizedData";
+import { BonusModel } from "../../models/BonusModel";
+import { Matrix2D } from "./Matrix2D";
+import { ITileFieldController as ITileFieldController } from "./ITileFieldController";
+import { ReadonlyMatrix2D } from "./ReadonlyMatrix2D";
+import { BackgroundTileController } from "../tiles/BackgroundTile/BackgroundTileController";
+import { Service } from "../services/Service";
+import { DataService } from "../services/DataService";
+import { ICloneable } from "../../scripts/ICloneable";
+import { IDataService } from "../services/IDataService";
+import { IVirtualisable } from "../../scripts/IVirtualisable";
+const { ccclass, property } = _decorator;
 
-
-export class FieldLogicalController extends Service implements ITileFieldController {
-
-    /**
+export class FieldLogicalController
+  implements ITileFieldController, ICloneable, IVirtualisable
+{
+  /**
    * Logic field (e.g. tiles matrix)
    */
   private _field: Matrix2D<TileController>;
-  
-  private _fieldAnalizer: FieldAnalizer;
-  private _tilesToDestroy: TileController[] = [];
-  private _tileCreator: TileCreator | null;
-  private _dataService: DataService | null;
 
-  public get dataService(): DataService {
-    if (this._dataService == null) throw Error("DataService is null");
+  private _fieldAnalizer: FieldAnalyzer;
+  private _tilesToDestroy: TileController[] = [];
+  private _tileCreator: TileCreator;
+  private _dataService: IDataService;
+  private _fieldModel: FieldModel;
+  private _tilesArea: UITransform;
+
+  get fieldModel(): FieldModel {
+    return this._fieldModel;
+  }
+
+  public constructor(
+    fieldModel: FieldModel,
+    tilesArea: UITransform,
+    dataService: IDataService,
+    tileCreator: TileCreator
+  ) {
+    this._fieldModel = fieldModel;
+    this._dataService = dataService;
+    this._tileCreator = tileCreator;
+    this._tilesArea = tilesArea;
+
+    this.start();
+  }
+
+  public get dataService(): IDataService {
     return this._dataService;
   }
 
-  /** Field model */
-  @property({ type: [FieldModel], visible: true, tooltip: "Field model" })
-  fieldModel: FieldModel;
-
-  @property(UITransform)
-  tilesArea: UITransform;
-
-  @property(UITransform)
-  tilesBckgArea: UITransform;
-
-  @property(CCString)
-  backgroundTileName = "background";
-
-  @property(CCBoolean)
-  drawBackground = false;
-
   public get tileCreator(): TileCreator | null {
     return this._tileCreator;
-  }
-  public set tileCreator(value: TileCreator | null) {
-    this._tileCreator = value;
   }
 
   get fieldMatrix(): ReadonlyMatrix2D<TileController> {
@@ -74,13 +84,9 @@ export class FieldLogicalController extends Service implements ITileFieldControl
     return [];
   }
 
-  public setDataService(service: DataService | null) {
-    this._dataService = service;
-  }
-
   start() {
-    this._field = new Matrix2D(this.fieldModel.rows, this.fieldModel.cols);
-    this._fieldAnalizer = new FieldAnalizer(this);
+    this._field = new Matrix2D(this._fieldModel.rows, this._fieldModel.cols);
+    this._fieldAnalizer = new FieldAnalyzer(this);
   }
 
   /**
@@ -88,28 +94,29 @@ export class FieldLogicalController extends Service implements ITileFieldControl
    */
   public generateTiles() {
     console.log(
-      "[field] Rows: " + this.fieldModel.rows + " Cols: " + this.fieldModel.cols
+      "[field] Rows: " +
+        this._fieldModel.rows +
+        " Cols: " +
+        this._fieldModel.cols
     );
 
     if (this._tileCreator == null) {
       throw Error("Tile creator is null.");
     }
 
-    const map = this.fieldModel.getFieldMap();
+    const map = this._fieldModel.getFieldMap();
 
-    for (let yIndex = 0; yIndex < this.fieldModel.rows; yIndex++) {
-      
-      for (let xIndex = 0; xIndex < this.fieldModel.cols; xIndex++) {
-
+    for (let yIndex = 0; yIndex < this._fieldModel.rows; yIndex++) {
+      for (let xIndex = 0; xIndex < this._fieldModel.cols; xIndex++) {
         const mapMnem = map[yIndex][xIndex];
 
-        const tileModel = this.fieldModel.getTileModelByMapMnemonic(mapMnem);
+        const tileModel = this._fieldModel.getTileModelByMapMnemonic(mapMnem);
 
         const playerModel =
           mapMnem == "?"
-            ? this._dataService!.playerModel
+            ? this._dataService.playerModel
             : mapMnem == "^"
-            ? this._dataService!.botModel
+            ? this._dataService.botModel
             : null;
 
         if (tileModel != null) {
@@ -151,6 +158,7 @@ export class FieldLogicalController extends Service implements ITileFieldControl
     if (tileModel == null) {
       throw Error("Tile model argument is null");
     }
+
     const tile = this._tileCreator.create(tileModel.tileName);
 
     if (tile == null) return null;
@@ -160,17 +168,9 @@ export class FieldLogicalController extends Service implements ITileFieldControl
     if (tileController != null) {
       tileController.justCreated = true;
       tileController.playerModel = playerModel;
+      tileController.node.parent = this._tilesArea.node;
       tileController.row = row;
       tileController.col = col;
-      tileController.clickedEvent.off("TileController");
-      tileController.tileActivateEvent.off("TileController");
-      tileController.clickedEvent.on("TileController", this.tileClicked, this);
-      tileController.tileActivateEvent.on(
-        "TileController",
-        this.tileActivated,
-        this
-      );
-
       tileController.setField(this);
       tileController.setModel(tileModel);
 
@@ -184,8 +184,6 @@ export class FieldLogicalController extends Service implements ITileFieldControl
     const tPos = this.calculateTilePosition(row, col);
 
     tile.position = position == null ? tPos : position;
-    tile.parent = this.tilesArea.node;
-
     const size = this.calculateTileSize(uiTransform);
 
     tile.scale = size;
@@ -193,48 +191,33 @@ export class FieldLogicalController extends Service implements ITileFieldControl
     return tileController;
   }
 
-  private calculateTilePosition(row: number, col: number): Vec3 {
-    const border = this.fieldModel.border / 2;
-    const tW = this.tilesArea.width / this.fieldModel.cols;
-    const tilesHeight = tW * this.fieldModel.rows;
+  public calculateTilePosition(row: number, col: number): Vec3 {
+    const border = this._fieldModel.border / 2;
+    const tW = this._tilesArea.width / this._fieldModel.cols;
+    const tilesHeight = tW * this._fieldModel.rows;
     return new Vec3(
       col * tW +
         border -
-        this.tilesArea.anchorX * this.tilesArea.width +
+        this._tilesArea.anchorX * this._tilesArea.width +
         tW / 2,
-      row * tW + border - this.tilesArea.anchorY * tilesHeight + tW / 2
+      row * tW + border - this._tilesArea.anchorY * tilesHeight + tW / 2
     );
   }
 
-  private calculateTileSize(
+  public calculateTileSize(
     tileTransform: UITransform | null | undefined
   ): Vec3 {
-    const tW = this.tilesArea.width / this.fieldModel.cols;
+    const tW = this._tilesArea.width / this._fieldModel.cols;
     const tileTransformwidth = tileTransform != null ? tileTransform.width : 0;
-    const coef = tW / (tileTransformwidth + this.fieldModel.border);
+    const coef = tW / (tileTransformwidth + this._fieldModel.border);
 
     return new Vec3(coef, coef, 1);
-  }
-
-  private _firstTileActivated = false;
-
-  /**
-   * Method invokes when one of tiles is clicked
-   * @param tile tile controller of clicked tile
-   */
-  private tileClicked(tile: TileController): void {
-    console.log("[tile] clicked. Name: " + tile.tileModel.tileName);
-    this.tileClickedEvent.emit("FieldController", this, tile);
-  }
-
-  private tileActivated(tile: TileController): void {
-    this.tileActivatedEvent.emit("FieldController", this, tile);
   }
 
   private moveAllTilesOnARote(roteId: number, backwards = false) {
     const startTile = this.getStartTile(roteId);
     const endTile = this.getEndTile(roteId);
-    const emptyModel = this.fieldModel.getTileModel("empty");
+    const emptyModel = this._fieldModel.getTileModel("empty");
 
     if (startTile == null || endTile == null) {
       return;
@@ -293,7 +276,7 @@ export class FieldLogicalController extends Service implements ITileFieldControl
       const tile = this.createTile({
         row: tileRowId,
         col: roteId,
-        tileModel: this.fieldModel.getTileModelByMapMnemonic(tileMapSimbol),
+        tileModel: this._fieldModel.getTileModelByMapMnemonic(tileMapSimbol),
         playerModel:
           tileMapSimbol == "?"
             ? this.dataService.playerModel
@@ -332,16 +315,6 @@ export class FieldLogicalController extends Service implements ITileFieldControl
   /** Apply current state of field, destroies all fake destroied tiles. */
   public Flush() {
     this.finalyDestroyTiles();
-  }
-
-  /**
-   * Update background tiles
-   */
-  public updateBackground() {
-    if (!this.drawBackground) return;
-    this._field.forEach((tile: TileController) => {
-      this._bckgField[tile.row][tile.col].SetTypeBasedOnForegroundTile(tile);
-    });
   }
 
   /** Apply just created to false for all new tiles */
@@ -385,12 +358,12 @@ export class FieldLogicalController extends Service implements ITileFieldControl
   }
 
   public getStartTile(roteId: number): TileController | null {
-    const startModel = this.fieldModel.getTileModel("start");
+    const startModel = this._fieldModel.getTileModel("start");
     return this.getTile(roteId, startModel);
   }
 
   public getEndTile(roteId: number): TileController | null {
-    const startModel = this.fieldModel.getTileModel("end");
+    const startModel = this._fieldModel.getTileModel("end");
     return this.getTile(roteId, startModel);
   }
 
@@ -398,10 +371,12 @@ export class FieldLogicalController extends Service implements ITileFieldControl
     let res = null;
 
     this._field.forEach((tile, i, j) => {
-      if (j == roteId) {
-        if (tile.tileTypeId == tileType.tileId) {
-          res = tile;
-          return;
+      if (tile != null) {
+        if (j == roteId) {
+          if (tile.tileTypeId == tileType.tileId) {
+            res = tile;
+            return;
+          }
         }
       }
     });
@@ -438,13 +413,9 @@ export class FieldLogicalController extends Service implements ITileFieldControl
 
     this._field.forEach((tile) => {
       tile.node.parent = null;
-      tile.node.parent = this.tilesArea.node;
 
       this.moveTile(tile, this.calculateTilePosition(tile.row, tile.col));
     });
-
-    this._timeToexecute = 0;
-    this._canexecute = true;
   }
 
   public exchangeTiles(t1: TileController, t2: TileController) {
@@ -471,22 +442,15 @@ export class FieldLogicalController extends Service implements ITileFieldControl
   }
 
   public moveTilesLogicaly(backwards = false) {
-    for (let index = 0; index < this.fieldModel.cols; index++) {
+    for (let index = 0; index < this._fieldModel.cols; index++) {
       this.moveAllTilesOnARote(index, backwards);
     }
-  }
-
-  /** Animate tiles moving to real position */
-  public moveTilesAnimate() {
-    this._field.forEach((t) => {
-      this.moveTile(t, this.calculateTilePosition(t.row, t.col));
-    });
   }
 
   private _analizedData: AnalizedData | null;
 
   public analizeTiles() {
-    this._analizedData = this._fieldAnalizer?.analize();
+    this._analizedData = this._fieldAnalizer?.analyze();
   }
 
   public moveTiles(backwards = false) {
@@ -495,13 +459,24 @@ export class FieldLogicalController extends Service implements ITileFieldControl
     if (this._analizedData != null) {
       this.moveTilesLogicaly(backwards);
       this.fixTiles();
-      this.updateBackground();
       this.Flush();
-      this.moveTilesAnimate();
     }
   }
 
-  public setBonus(bonus: BonusModel) {
-    this._bonus = bonus;
+  virtualize(): void {
+    this._field.forEach((t) => (t.node.parent = null));
+  }
+
+  clone(): FieldLogicalController {
+    const clone = new FieldLogicalController(
+      this.fieldModel,
+      this._tilesArea,
+      this._dataService,
+      this._tileCreator
+    );
+
+    clone._field = this._field.clone();
+
+    return clone;
   }
 }

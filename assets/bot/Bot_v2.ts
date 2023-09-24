@@ -1,13 +1,16 @@
-//  Bot.ts - ClbBlast
+// Project: Batle2
 //
-//  Calabaraburus (c) 2022
+// Author: Natalchishin Taras
 //
-//  Author:Natalchishin Taras
+// Calabaraburus (c) 2023
 
 import { randomRangeInt, tween, _decorator } from "cc";
-import { FieldAnalizer } from "../entities/field/FieldAnalizer";
+import { FieldAnalyzer as FieldAnalyzer } from "../entities/field/FieldAnalizer";
 import type { ITileFieldController } from "../entities/field/ITileFieldController";
-import { TileTypeToConnectedTiles } from "../entities/field/AnalizedData";
+import {
+  AnalizedData as AnalyzedData,
+  TileTypeToConnectedTiles,
+} from "../entities/field/AnalizedData";
 
 import { IBot } from "./IBot";
 import { FieldController } from "../entities/field/FieldController";
@@ -22,6 +25,9 @@ import { BotAnalizator } from "./BotAnalizator";
 import { CardService } from "../entities/services/CardService";
 import { BotTileSelectionStrategy } from "./BotTileSelectionStrategy";
 import { StdSelectorBotStrategy } from "./StdSelectorBotStrategy";
+import { ICloneable, isICloneable } from "../scripts/ICloneable";
+import { isIVirtualisable } from "../scripts/IVirtualisable";
+import { a } from "../entities/game/GameManager copy";
 
 const { ccclass, property } = _decorator;
 
@@ -29,14 +35,13 @@ interface TilesSelctorStrategyGroup {
   [key: string]: BotTileSelectionStrategy;
 }
 
-@ccclass("Bot")
+@ccclass("Bot_v2")
 export class Bot_v2 extends Service implements IBot {
-  private _analizer: FieldAnalizer;
   private _botModel: PlayerModel | null | undefined;
-  private _dataService: DataService | null;
-  private _tileService: TileService | null;
-  private _cardService: CardService | null;
-  private _gameManager: GameManager | null;
+  private _dataService: DataService;
+  private _tileService: TileService;
+  private _cardService: CardService;
+  private _gameManager: GameManager;
   private _fieldCloned: ITileFieldController;
 
   private tileSelectorStrateges: TilesSelctorStrategyGroup = {
@@ -59,26 +64,34 @@ export class Bot_v2 extends Service implements IBot {
     return this._botModel;
   }
 
-  public get analizer() {
-    return this._analizer;
-  }
-
   start() {
-    this._dataService = this.getService(DataService);
-    this._tileService = this.getService(TileService);
-    this._gameManager = this.getService(GameManager);
-    this._cardService = this.getService(CardService);
-
-    if (this._dataService?.field != null)
-      this._analizer = new FieldAnalizer(this._dataService?.field);
+    this._dataService = this.getServiceOrThrow(DataService);
+    this._tileService = this.getServiceOrThrow(TileService);
+    this._gameManager = this.getServiceOrThrow(GameManager);
+    this._cardService = this.getServiceOrThrow(CardService);
     this._botModel = this._dataService?.botModel;
   }
 
   public move(): void {
-    let analized_data = this._analizer.analize();
+    let clonedField: ITileFieldController;
 
-    const tilesMove = () => {
-      console.log("[Bot] Search for cull strategy");
+    if (isICloneable(this._dataService.field.logicField)) {
+      clonedField =
+        this._dataService.field.logicField.clone() as ITileFieldController;
+    } else {
+      throw Error("logicField must be clonable.");
+    }
+
+    if (isIVirtualisable(clonedField)) {
+      clonedField.virtualize();
+    } else {
+      throw Error("Field isn't virtualizable.");
+    }
+
+    const analyzer = new FieldAnalyzer(clonedField);
+
+    const getTilesForTouch = (analysedData: AnalyzedData) => {
+      const result: TileController[] = [];
 
       for (const key in this.tileSelectorStrateges) {
         if (
@@ -88,53 +101,25 @@ export class Bot_v2 extends Service implements IBot {
             key
           ] as BotTileSelectionStrategy;
           if (element != null) {
-            //element.analize(analized_data);
+            const tls = element.getAvailableTilesForAction(analysedData);
+
+            result.push(...tls);
           }
         }
       }
 
-      return true;
+      return result;
     };
 
-    const twobj = { time: 0 };
+    const tilesForTouch = getTilesForTouch(analyzer.analyze());
 
-    const analizersQueue: BotAnalizator[] = [];
+    const results: number[] = [];
 
-    const baseTween = tween(twobj);
-
-    console.log("[Bot] analize cards");
-
-    const childTween = tween(twobj)
-      .call(() => {
-        if (!this._gameManager?.isBehavioursInProccess) {
-          console.log("[Bot] All behaviours stop to prossed");
-          console.log("[Bot] Reanalize data");
-
-          analized_data = this._analizer.analize();
-
-          if (analizersQueue.length == 0) {
-            tilesMove();
-
-            console.log("[Bot] stop analizers tween");
-
-            baseTween.stop();
-            return;
-          }
-
-          console.log("[Bot] pick up next analizer");
-          const analizer = analizersQueue.pop();
-
-          if (analizer == null) return;
-
-          if (analizer.analize(analized_data) >= 1) {
-            console.log("[Bot] deside too activate card");
-            analizer.decide();
-          }
-        }
-      })
-      .delay(0.1);
-
-    baseTween.repeatForever(childTween).start();
+    tilesForTouch.forEach((tile) => {
+      if (isICloneable(clonedField)) {
+        const tmpField = clonedField.clone() as ITileFieldController;
+      }
+    });
   }
 
   pressTileSet(tiles: Set<TileController>) {
