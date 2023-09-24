@@ -13,7 +13,7 @@ import { ITileFieldController } from "./ITileFieldController";
 /** Implement functions to analize different aspects of tile field.
  *  Find connected tiles, destroied, etc.
  */
-export class FieldAnalizer {
+export class FieldAnalyzer {
   private _field: ITileFieldController;
   private _fieldModel: FieldModel;
 
@@ -26,7 +26,7 @@ export class FieldAnalizer {
   /** Analize different aspects of tile field.
    *  Find connected tiles, destroied, etc.
    */
-  public analize(): AnalizedData {
+  public analyze(): AnalizedData {
     const result = new AnalizedData();
 
     this._field.fieldMatrix.forEach((tile) => {

@@ -54,7 +54,7 @@ export class Service extends Component {
     return Service.getServiceOrThrow(classConstructor);
   }
 
-  static      getServices<T extends Component>(
+  static getServices<T extends Component>(
     classConstructor:
       | __private._types_globals__Constructor<T>
       | __private._types_globals__AbstractedConstructor<T>

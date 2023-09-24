@@ -1,3 +1,11 @@
+// Project: Batle2
+//
+// Author: Natalchishin Taras
+//
+// Calabaraburus (c) 2023
+
+import { Matrix2D } from "./Matrix2D";
+
 export class ReadonlyMatrix2D<T> {
   protected matrix: T[];
 
@@ -43,5 +51,11 @@ export class ReadonlyMatrix2D<T> {
 
   filter(filtFunc: (val: T) => boolean | undefined): T[] {
     return this.matrix.filter(filtFunc);
+  }
+
+  clone(): Matrix2D<T> {
+    const clone = new Matrix2D<T>(this.rows, this.cols);
+    clone.matrix = [...this.matrix];
+    return clone;
   }
 }

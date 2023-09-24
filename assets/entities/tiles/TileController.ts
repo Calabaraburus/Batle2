@@ -215,7 +215,7 @@ export class TileController extends CacheObject {
     }
   }
 
-  public setField(field: FieldController) {
+  public setField(field: ITileFieldController) {
     this._field = field;
   }
 

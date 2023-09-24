@@ -3,7 +3,7 @@ import { PlayerModel } from "../../models/PlayerModel";
 import { ObjectsCache } from "../../ObjectsCache/ObjectsCache";
 import { helpers } from "../../scripts/helpers";
 import { EnemyFieldController } from "../enemyField/EnemyFieldController";
-import { FieldAnalizer } from "../field/FieldAnalizer";
+import { FieldAnalyzer } from "../field/FieldAnalizer";
 import { FieldController } from "../field/FieldController";
 import { GameManager } from "../game/GameManager";
 import { LevelController } from "../level/LevelController";
@@ -96,7 +96,7 @@ export class GameBehaviour extends Behaviour {
   protected updateTileField() {
     if (this.levelController == null) return;
 
-    const analizedData = this.fieldAnalizer?.analize();
+    const analizedData = this.fieldAnalizer?.analyze();
     const levelModel = this.levelController.model;
 
     if (analizedData != null) {
