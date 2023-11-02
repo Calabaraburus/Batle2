@@ -1,19 +1,25 @@
-import { _decorator } from "cc";
+import { _decorator, assert } from "cc";
 import { PlayerModel } from "../../models/PlayerModel";
 import { ReadonlyMatrix2D } from "../field/ReadonlyMatrix2D";
 import { TileController } from "../tiles/TileController";
 import { StdTileController } from "../tiles/UsualTile/StdTileController";
 import { DataService } from "./DataService";
 import { Service } from "./Service";
+import { FieldControllerExtensions } from "../field/FieldExtensions";
 const { ccclass } = _decorator;
 
 @ccclass("TileService")
 export class TileService extends Service {
-  _dataService: DataService | null;
+  _dataService: DataService;
+  _fieldExtensions: FieldControllerExtensions;
   // matrix: ReadonlyMatrix2D<TileController> | undefined;
 
   start() {
-    this._dataService = this.getService(DataService);
+    this._dataService = this.getServiceOrThrow(DataService);
+
+    assert(this._dataService.field,"Field can't be null");
+
+    this._fieldExtensions=new FieldControllerExtensions(this._dataService.field.logicField);
   }
 
   public prepareForNewTurn() {
@@ -27,28 +33,14 @@ export class TileService extends Service {
   }
 
   public getTilesByTagInColumn(colId: number, tag: string) {
-    const tiles: TileController[] = [];
-    this._dataService?.field?.fieldMatrix.forEachCol(colId, (t) => {
-      if (t.tileModel.containsTag(tag)) {
-        tiles.push(t);
-      }
-    });
-
-    return tiles;
+    return this._fieldExtensions.getTilesByTagInColumn(colId, tag);
   }
 
   public getTilesInColumn(
     colId: number,
     filtFunc: (val: TileController) => boolean
   ) {
-    const tiles: TileController[] = [];
-    this._dataService?.field?.fieldMatrix.forEachCol(colId, (t) => {
-      if (filtFunc(t)) {
-        tiles.push(t);
-      }
-    });
-
-    return tiles;
+    return this._fieldExtensions.getTilesInColumn(colId,filtFunc)
   }
 
   public getTilesInRow(
@@ -57,16 +49,7 @@ export class TileService extends Service {
     power: number,
     filtFunc: (val: TileController) => boolean
   ) {
-    const tiles: TileController[] = [];
-    this._dataService?.field?.fieldMatrix.forEachInRow(rowId, (t, colId) => {
-      if (targetTile.col + power >= colId && targetTile.col - power <= colId) {
-        if (filtFunc(t)) {
-          tiles.push(t);
-        }
-      }
-    });
-
-    return tiles;
+        return this._fieldExtensions.getTilesInRow(targetTile,rowId,power,filtFunc);
   }
 
   public getIdenticalTiles(
@@ -74,31 +57,7 @@ export class TileService extends Service {
     distanceMatrix: number[][],
     filtFunc: (val: TileController) => boolean
   ) {
-    let tilesWeight = 0;
-    const matrix = this._dataService?.field?.fieldMatrix;
-    if (matrix == undefined) return;
-    distanceMatrix.forEach((coordinates) => {
-      const tile = matrix.get(
-        targetTile.row + coordinates[1],
-        targetTile.col + coordinates[0]
-      );
-      if (tile) {
-        if (filtFunc(tile)) {
-          const w = this.checkCoordinates(
-            tile,
-            distanceMatrix,
-            targetTile,
-            filtFunc
-          );
-          if (w == undefined) return;
-          if (w[1] == 3) {
-            tilesWeight = tilesWeight + 1;
-          }
-        }
-      }
-    });
-
-    return tilesWeight;
+    return this._fieldExtensions.getIdenticalTiles(targetTile, distanceMatrix, filtFunc);
   }
 
   public getDifferentTiles(
@@ -106,69 +65,7 @@ export class TileService extends Service {
     distanceMatrix: number[][],
     filtFunc: (val: TileController) => boolean
   ) {
-    let tilesWeight = 0;
-    const matrix = this._dataService?.field?.fieldMatrix;
-    if (matrix == undefined) return;
-    distanceMatrix.forEach((coordinates) => {
-      const tile = matrix.get(
-        targetTile.row + coordinates[1],
-        targetTile.col + coordinates[0]
-      );
-      if (tile) {
-        if (filtFunc(tile)) {
-          const w = this.checkCoordinates(
-            tile,
-            distanceMatrix,
-            targetTile,
-            filtFunc
-          );
-          if (w == undefined) return;
-          if (w[0] == 3) {
-            tilesWeight = tilesWeight + 1;
-          }
-        } else if (!filtFunc(tile)) {
-          tilesWeight = tilesWeight + 1;
-        }
-      } else if (tile == undefined) {
-        tilesWeight = tilesWeight + 1;
-      }
-    });
-
-    return tilesWeight;
-  }
-
-  private checkCoordinates(
-    tile: TileController,
-    coordinates: number[][],
-    targetTile: TileController,
-    filtFunc: (val: TileController) => boolean
-  ) {
-    // weight
-    const matrix = this._dataService?.field?.fieldMatrix;
-    if (matrix == undefined) return;
-    //for different
-    let wDifferent = 0;
-    //for same
-    let wSame = 0;
-    coordinates.forEach((coord) => {
-      const tileCheck = matrix.get(tile.row + coord[1], tile.col + coord[0]);
-      if (tileCheck) {
-        if (filtFunc(tileCheck)) {
-          if (tileCheck.tileModel.tileId != targetTile.tileModel.tileId) {
-            if (tile.tileModel.tileName != tileCheck?.tileModel.tileName) {
-              wDifferent = wDifferent + 1;
-            }
-          } else if (tile.tileModel.tileName == tileCheck?.tileModel.tileName) {
-            wSame = wSame + 1;
-          }
-        } else if (!filtFunc(tileCheck)) {
-          wDifferent = wDifferent + 1;
-        }
-      } else if (tileCheck == undefined) {
-        wDifferent = wDifferent + 1;
-      }
-    });
-    return [wDifferent, wSame];
+    return this._fieldExtensions.getDifferentTiles(targetTile, distanceMatrix, filtFunc);
   }
 
   public getMatrixOfTiles(
@@ -176,68 +73,34 @@ export class TileService extends Service {
     targetCol: number,
     filtFunc: (val: TileController) => boolean
   ) {
-    const tilesMatrix: TileController[] = [];
-    const matrix = this._dataService?.field?.fieldMatrix;
-    if (matrix == undefined) return;
-    matrix.forEachCol(targetCol, (tile, rowId) => {
-      if (tile) {
-        if (filtFunc(tile)) {
-          if (currentTile.row + 1 >= rowId && currentTile.row - 1 <= rowId) {
-            tilesMatrix.push(tile);
-          }
-        }
-      }
-    });
-    return tilesMatrix;
+    return this._fieldExtensions.getMatrixOfTiles(currentTile, targetCol, filtFunc);
   }
 
   public getTilesByTag(tag: string): TileController[] {
-    const result = this._dataService?.field?.fieldMatrix.filter((t) =>
-      t.tileModel.containsTag(tag)
-    );
-
-    return result == null ? [] : result;
+    return this._fieldExtensions.getTilesByTag(tag);
   }
 
   public getTiles(
     filtFunc: (val: TileController) => boolean
   ): TileController[] {
-    const result = this._dataService?.field?.fieldMatrix.filter(filtFunc);
-
-    return result == null ? [] : result;
+    return this._fieldExtensions.getTiles(filtFunc);
   }
 
   public getPlayerTiles(): TileController[] {
-    return this.getTiles(
-      (t) => t.playerModel == this._dataService?.playerModel
-    );
+    return this._fieldExtensions.getPlayerTiles(this._dataService.playerModel);
   }
 
   public getEnemyTiles(): TileController[] {
-    return this.getTiles((t) => t.playerModel == this._dataService?.botModel);
+    return this._fieldExtensions.getPlayerTiles(this._dataService.botModel);
   }
 
   public countShielded(tiles: Set<TileController>, shielded = true): number {
-    let result = 0;
-    tiles.forEach((t) => {
-      if (t instanceof StdTileController) {
-        if (shielded ? !t.shieldIsActivated : t.shieldIsActivated) {
-          result++;
-        }
-      }
-    });
-
-    return result;
+    return this._fieldExtensions.countShielded(tiles, shielded);
   }
 
   public countSame(tiles: Set<TileController>): number {
-    let result = 0;
-    tiles.forEach((t) => {
-      if (t instanceof StdTileController) {
-        result++;
-      }
-    });
-
-    return result;
+    return this._fieldExtensions.countSame(tiles);
   }
 }
+
+

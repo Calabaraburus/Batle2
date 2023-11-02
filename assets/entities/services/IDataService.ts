@@ -7,13 +7,12 @@ import { LevelController } from "../level/LevelController";
 import { PlayerFieldController } from "../playerField/PlayerFieldController";
 import { DebugView } from "../ui/debugger/DebugView";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
+import { ITileFieldController } from "../field/ITileFieldController";
 
 export interface IDataService {
   get levelConfiguration(): LevelConfiguration;
 
   get debugView(): DebugView;
-
-  get gameManager(): GameManager;
 
   get levelController(): LevelController;
 
@@ -27,5 +26,5 @@ export interface IDataService {
 
   get enemyFieldController(): EnemyFieldController;
 
-  get field(): FieldController;
+  get field(): ITileFieldController;
 }

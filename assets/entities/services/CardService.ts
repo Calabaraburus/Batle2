@@ -3,16 +3,20 @@ import { LevelModel } from "../../models/LevelModel";
 import { PlayerModel } from "../../models/PlayerModel";
 import { DataService } from "./DataService";
 import { Service } from "./Service";
+import { GameManager } from "../game/GameManager";
+import { GameState } from "../game/GameState";
 const { ccclass, property } = _decorator;
 
 @ccclass("CardService")
 export class CardService extends Service {
-  _dataService: DataService | null;
-  private _levelModel: LevelModel | null;
+  protected _dataService: DataService | null;
+  protected _levelModel: LevelModel | null;
+  private _gameState: GameState;
 
   start() {
     this._dataService = this.getService(DataService);
     this._levelModel = this.getService(LevelModel);
+    this._gameState = this.getServiceOrThrow(GameState);
   }
 
   public updateBonusesActiveState(): void {
@@ -33,22 +37,24 @@ export class CardService extends Service {
   }
 
   getCurrentPlayerModel(): PlayerModel | null | undefined {
-    return this._dataService?.gameManager?.playerTurn
+    return this._gameState.isPlayerTurn
       ? this._dataService?.playerModel
       : this._dataService?.botModel;
   }
 
   getOponentModel(): PlayerModel | null | undefined {
-    return this._dataService?.gameManager?.playerTurn
+    return this._gameState.isPlayerTurn
       ? this._dataService?.botModel
       : this._dataService?.playerModel;
   }
 
   getPlayerTag(): string {
-    return this._dataService?.gameManager?.playerTurn ? "player" : "enemy";
+    return this._gameState.isPlayerTurn ? "player" : "enemy";
   }
 
   getOponentTag(): string {
-    return this._dataService?.gameManager?.playerTurn ? "enemy" : "player";
+    return this._gameState.isPlayerTurn ? "enemy" : "player";
   }
 }
+
+

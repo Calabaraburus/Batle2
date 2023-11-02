@@ -28,6 +28,7 @@ export class FieldAnalyzer {
    */
   public analyze(): AnalizedData {
     const result = new AnalizedData();
+    const tileGroup = new Set<TileController>();
 
     this._field.fieldMatrix.forEach((tile) => {
       if (
@@ -49,17 +50,24 @@ export class FieldAnalyzer {
         }
       }
 
-      const set = new Set<TileController>();
-      this.findConnectedTiles(tile, set);
 
-      if (set.size > 1) {
-        const tt = new TileTypeToConnectedTiles();
-        tt.connectedTiles = set;
-        tt.tileModel = tile.tileModel;
-        tt.playerModel = tile.playerModel;
-        result.connectedTiles.push(tt);
-      } else {
-        result.individualTiles.push(tile);
+      if (!tileGroup.has(tile)) {
+
+        const set = new Set<TileController>();
+        set.add(tile);
+        tileGroup.add(tile);
+        this.findConnectedTiles(tile, set, tileGroup);
+
+
+        if (set.size > 1) {
+          const tt = new TileTypeToConnectedTiles();
+          tt.connectedTiles = set;
+          tt.tileModel = tile.tileModel;
+          tt.playerModel = tile.playerModel;
+          result.connectedTiles.push(tt);
+        } else {
+          result.individualTiles.push(tile);
+        }
       }
     });
 
@@ -86,13 +94,19 @@ export class FieldAnalyzer {
    */
   public findConnectedTiles(
     tile: TileController,
-    resultSet: Set<TileController>
+    resultSet: Set<TileController>,
+    group: Set<TileController> | null = null
   ) {
     const addTile = (current: TileController, other: TileController) => {
       if (current.tileTypeId == other.tileTypeId) {
         if (!resultSet.has(other)) {
           resultSet.add(other);
-          this.findConnectedTiles(other, resultSet);
+
+          if (!group?.has(other)) {
+            group?.add(other);
+          }
+
+          this.findConnectedTiles(other, resultSet, group);
         }
       }
     };

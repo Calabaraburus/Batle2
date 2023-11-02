@@ -15,6 +15,7 @@ import {
   CCString,
   CCBoolean,
   Rect,
+  PlaceMethod,
 } from "cc";
 import { TileController } from "../tiles/TileController";
 import { TileModel } from "../../models/TileModel";
@@ -36,8 +37,7 @@ import { IVirtualisable } from "../../scripts/IVirtualisable";
 const { ccclass, property } = _decorator;
 
 export class FieldLogicalController
-  implements ITileFieldController, ICloneable, IVirtualisable
-{
+  implements ITileFieldController, ICloneable, IVirtualisable {
   /**
    * Logic field (e.g. tiles matrix)
    */
@@ -49,6 +49,8 @@ export class FieldLogicalController
   private _dataService: IDataService;
   private _fieldModel: FieldModel;
   private _tilesArea: UITransform;
+  private _onTileCreating: ((tile: TileController) => void) = (t) => { };
+
 
   get fieldModel(): FieldModel {
     return this._fieldModel;
@@ -84,6 +86,13 @@ export class FieldLogicalController
     return [];
   }
 
+  public get onTileCreating(): ((tile: TileController) => void) {
+    return this._onTileCreating;
+  }
+  public set onTileCreating(callback: (tile: TileController) => void) {
+    this._onTileCreating = callback;
+  }
+
   start() {
     this._field = new Matrix2D(this._fieldModel.rows, this._fieldModel.cols);
     this._fieldAnalizer = new FieldAnalyzer(this);
@@ -95,9 +104,9 @@ export class FieldLogicalController
   public generateTiles() {
     console.log(
       "[field] Rows: " +
-        this._fieldModel.rows +
-        " Cols: " +
-        this._fieldModel.cols
+      this._fieldModel.rows +
+      " Cols: " +
+      this._fieldModel.cols
     );
 
     if (this._tileCreator == null) {
@@ -116,8 +125,8 @@ export class FieldLogicalController
           mapMnem == "?"
             ? this._dataService.playerModel
             : mapMnem == "^"
-            ? this._dataService.botModel
-            : null;
+              ? this._dataService.botModel
+              : null;
 
         if (tileModel != null) {
           this.createTile({
@@ -171,6 +180,9 @@ export class FieldLogicalController
       tileController.node.parent = this._tilesArea.node;
       tileController.row = row;
       tileController.col = col;
+
+      this._onTileCreating(tileController);
+
       tileController.setField(this);
       tileController.setModel(tileModel);
 
@@ -197,9 +209,9 @@ export class FieldLogicalController
     const tilesHeight = tW * this._fieldModel.rows;
     return new Vec3(
       col * tW +
-        border -
-        this._tilesArea.anchorX * this._tilesArea.width +
-        tW / 2,
+      border -
+      this._tilesArea.anchorX * this._tilesArea.width +
+      tW / 2,
       row * tW + border - this._tilesArea.anchorY * tilesHeight + tW / 2
     );
   }
@@ -281,8 +293,8 @@ export class FieldLogicalController
           tileMapSimbol == "?"
             ? this.dataService.playerModel
             : tileMapSimbol == "^"
-            ? this.dataService.botModel
-            : null,
+              ? this.dataService.botModel
+              : null,
       });
 
       if (tile != null) {
@@ -313,7 +325,7 @@ export class FieldLogicalController
   }
 
   /** Apply current state of field, destroies all fake destroied tiles. */
-  public Flush() {
+  public flush(): void {
     this.finalyDestroyTiles();
   }
 
@@ -431,9 +443,9 @@ export class FieldLogicalController
     t2.col = tval;
   }
 
-  public Reset() {
+  public reset() {
     this._field.forEach((tile) => {
-      tile.destroyTile();
+      tile.cacheDestroy();
       // this._tilesToDestroy.push(tile);
     });
 
@@ -459,7 +471,7 @@ export class FieldLogicalController
     if (this._analizedData != null) {
       this.moveTilesLogicaly(backwards);
       this.fixTiles();
-      this.Flush();
+      this.flush();
     }
   }
 
@@ -476,6 +488,19 @@ export class FieldLogicalController
     );
 
     clone._field = this._field.clone();
+
+    this._field.forEach((item, i, j) => {
+      const cTile = clone.createTile({
+        row: item.row,
+        col: item.col,
+        tileModel: item.tileModel,
+        playerModel: item.playerModel,
+        putOnField: true,
+      });
+      if (cTile != null) {
+        clone._field.set(item.row, item.col, cTile);
+      }
+    });
 
     return clone;
   }

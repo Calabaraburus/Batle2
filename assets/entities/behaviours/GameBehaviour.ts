@@ -12,12 +12,29 @@ import { DataService } from "../services/DataService";
 import { BombTileController } from "../tiles/BombTile/BombTileController";
 import { DebugView } from "../ui/debugger/DebugView";
 import { Behaviour } from "./Behaviour";
+import { CardService } from "../services/CardService";
+import { LevelModel } from "../../models/LevelModel";
+import { GameState } from "../game/GameState";
 const { ccclass } = _decorator;
 
 @ccclass("GameBehaviour")
 export class GameBehaviour extends Behaviour {
-  private _dataService: DataService | null | undefined;
-  private _objectsCache: ObjectsCache | null;
+  private _dataService: DataService;
+  private _cardService: CardService
+  private _objectsCache: ObjectsCache;
+  private _levelModel: LevelModel;
+  private _gameState: GameState;
+
+  public get gameState() { return this._gameState; }
+
+  public get currentPlayerModel() {
+    return this._cardService.getCurrentPlayerModel();
+  }
+
+  public get currentOponentModel() {
+    return this._cardService.getOponentModel();
+  }
+
   public get dataService() {
     return this._dataService;
   }
@@ -26,12 +43,12 @@ export class GameBehaviour extends Behaviour {
     return this._objectsCache;
   }
 
-  public get gameManager() {
-    return this._dataService?.gameManager;
-  }
-
   public get levelController() {
     return this._dataService?.levelController;
+  }
+
+  public get levelModel() {
+    return this._levelModel;
   }
 
   public get fieldAnalizer() {
@@ -62,11 +79,16 @@ export class GameBehaviour extends Behaviour {
     return this._dataService?.debugView;
   }
 
-  start() {
-    this._dataService = this.getService(DataService);
-    this._objectsCache = this.getService(ObjectsCache);
-
-    this.debug?.log(`behave: '${this.serviceType}' started`);
+  public Setup(objectsCache: ObjectsCache,
+    cardService: CardService,
+    dataService: DataService,
+    levelModel: LevelModel,
+    gameState: GameState) {
+    this._objectsCache = objectsCache;
+    this._cardService = cardService;
+    this._dataService = dataService;
+    this._levelModel = levelModel;
+    this._gameState = gameState;
   }
 
   run(): void {
@@ -93,21 +115,4 @@ export class GameBehaviour extends Behaviour {
     throw Error("not implemented method");
   }
 
-  protected updateTileField() {
-    if (this.levelController == null) return;
-
-    const analizedData = this.fieldAnalizer?.analyze();
-    const levelModel = this.levelController.model;
-
-    if (analizedData != null) {
-      this.field?.moveTilesLogicaly(!this.gameManager?.playerTurn);
-      levelModel.pointsCount += analizedData.destroiedTilesCount;
-      levelModel.turnsCount += 1;
-
-      this.field?.fixTiles(analizedData);
-      this.field?.updateBackground();
-      this.field?.Flush();
-      this.field?.moveTilesAnimate();
-    }
-  }
 }
