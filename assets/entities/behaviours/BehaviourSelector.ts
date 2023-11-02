@@ -1,23 +1,67 @@
-import { _decorator, Component, js, Node, director } from "cc";
+import { _decorator, Component, js, Node, director, game } from "cc";
 import { PlayerModel } from "../../models/PlayerModel";
 import { helpers } from "../../scripts/helpers";
 import { FieldController } from "../field/FieldController";
 import { DebugView } from "../ui/debugger/DebugView";
 import { Behaviour } from "./Behaviour";
+import { Service } from "../services/Service";
+import { ObjectsCache } from "../../ObjectsCache/ObjectsCache";
+import { CardService } from "../services/CardService";
+import { DataService } from "../services/DataService";
+import { LevelModel } from "../../models/LevelModel";
+import { GameBehaviour } from "./GameBehaviour";
+import { GameState } from "../game/GameState";
 const { ccclass, property } = _decorator;
 
 @ccclass("BehaviourSelector")
-export class BehaviourSelector extends Component {
+export class BehaviourSelector extends Service {
   private _behavioursDictionary: Map<string, Behaviour[]> = new Map<
     string,
     Behaviour[]
   >();
   private _curBehaviours: Behaviour[] = [];
   private _debug: DebugView | null | undefined;
+  private _objectCache: ObjectsCache;
+  private _cardService: CardService;
+  private _dataService: DataService;
+  private _levelModel: LevelModel;
+  private _gameState: GameState;
+
+  public get gameState() { return this._gameState; }
+
+  public get dataService() { return this._dataService; }
 
   start() {
-    this._debug = director.getScene()?.getComponentInChildren(DebugView);
+    this._debug = this.getServiceOrThrow(DebugView);
     this.fillBehavDict(this.getComponentsInChildren(Behaviour));
+    this.Setup(this._objectCache,
+      this._cardService,
+      this._dataService,
+      this._levelModel,
+      this._gameState);
+  }
+
+  public Setup(objectsCache: ObjectsCache,
+    cardService: CardService,
+    dataService: DataService,
+    levelModel: LevelModel,
+    gameState: GameState) {
+
+    this._objectCache = objectsCache;
+    this._cardService = cardService;
+    this._dataService = dataService;
+    this._levelModel = levelModel;
+    this._gameState = gameState;
+
+    this._behavioursDictionary.forEach(bd => bd.forEach(b => {
+      if (b instanceof GameBehaviour) {
+        b.Setup(objectsCache,
+          cardService,
+          dataService,
+          levelModel,
+          gameState);
+      }
+    }));
   }
 
   public hasBehavioursInProccess(): boolean {
@@ -124,5 +168,13 @@ export class BehaviourSelector extends Component {
     }
 
     return result;
+  }
+
+  clone(): BehaviourSelector {
+    const newSelector = new BehaviourSelector();
+
+    newSelector.fillBehavDict(this.getComponentsInChildren(Behaviour).map(b => b.clone()));
+
+    return newSelector;
   }
 }

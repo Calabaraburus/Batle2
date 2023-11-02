@@ -11,26 +11,22 @@ const { ccclass } = _decorator;
 import { Service } from "./Service";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { IDataService } from "./IDataService";
+import { ITileFieldController } from "../field/ITileFieldController";
 
 @ccclass("DataService")
 export class DataService extends Service implements IDataService {
-  private _debug: DebugView;
-  private _manager: GameManager;
-  private _levelController: LevelController;
-  private _analizer: FieldAnalyzer;
-  private _botModel: PlayerModel;
-  private _playerModel: PlayerModel;
-  private _field: FieldController;
-  private _enemyFieldController: EnemyFieldController;
-  private _playerFieldController: PlayerFieldController;
-  private _levelConfig: LevelConfiguration;
+  protected _debug: DebugView;
+  protected _levelController: LevelController;
+  protected _analizer: FieldAnalyzer;
+  protected _botModel: PlayerModel;
+  protected _playerModel: PlayerModel;
+  protected _field: ITileFieldController;
+  protected _enemyFieldController: EnemyFieldController;
+  protected _playerFieldController: PlayerFieldController;
+  protected _levelConfig: LevelConfiguration;
 
   public get debugView() {
     return this._debug;
-  }
-
-  public get gameManager() {
-    return this._manager;
   }
 
   public get levelController() {
@@ -67,11 +63,10 @@ export class DataService extends Service implements IDataService {
 
   start() {
     this._debug = this.getServiceOrThrow(DebugView);
-    this._manager = this.getServiceOrThrow(GameManager);
-    this._field = this.getServiceOrThrow(FieldController);
+    this._field = this.getServiceOrThrow(FieldController).logicField;
     this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
 
-    this._analizer = new FieldAnalyzer(this.field.logicField);
+    this._analizer = new FieldAnalyzer(this._field);
 
     this._levelController = this.getServiceOrThrow(LevelController);
     this._botModel = this.levelConfiguration.botModel;

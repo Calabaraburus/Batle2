@@ -6,6 +6,10 @@ import { CreateTileArgs } from "./CreateTileArgs";
 import { ReadonlyMatrix2D } from "./ReadonlyMatrix2D";
 
 export interface ITileFieldController {
+
+  get onTileCreating(): (tile: TileController) => void;
+  set onTileCreating(callback: (tile: TileController) => void);
+
   get fieldMatrix(): ReadonlyMatrix2D<TileController>;
   get fieldModel(): FieldModel;
   get tiles(): Array<TileController>;
@@ -35,4 +39,6 @@ export interface ITileFieldController {
   exchangeTiles(t1: TileController, t2: TileController): void;
   analizeTiles(): void;
   calculateTilePosition(row: number, col: number): Vec3;
+  flush(): void;
+  reset(): void;
 }

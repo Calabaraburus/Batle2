@@ -21,25 +21,17 @@ const { ccclass } = _decorator;
  */
 @ccclass("StdTileInterBehaviour")
 export class StdTileInterBehaviour extends GameBehaviour {
-  private _cardsService: CardService | null;
-  private _levelModel: LevelModel | null;
-  private _matchStatistic: MatchStatisticService | null;
+  //private _cardsService: CardService | null;
 
+  //  start() {
+  // super.start();
+  // this._cardsService = this.getService(CardService);
+  // this._levelModel = this.getService(LevelModel);
+  // this._matchStatistic = this.getService(MatchStatisticService);
+  //}
   constructor() {
     super();
     this.type = helpers.typeName(StdTileController);
-  }
-
-  start() {
-    super.start();
-    this._cardsService = this.getService(CardService);
-    this._levelModel = this.getService(LevelModel);
-    this._matchStatistic = this.getService(MatchStatisticService);
-  }
-
-  activateCondition(): boolean {
-    const model = this._cardsService?.getCurrentPlayerModel();
-    return model?.activeBonus == null;
   }
 
   singleRun(): void {
@@ -97,22 +89,16 @@ export class StdTileInterBehaviour extends GameBehaviour {
     if (tilesCount > 0) {
       this.manaUpdate(tilesCount, connectedTiles[0].tileModel);
 
-      this._matchStatistic?.updateTapTileStatistic(
-        tilesCount,
-        connectedTiles[0].tileModel
-      );
+      /*      this._matchStatistic?.updateTapTileStatistic(
+              tilesCount,
+              connectedTiles[0].tileModel
+            );*/
     }
 
     this.debug?.log(`[behaviour][tilesBehaviour] update tile field`);
     this.updateTileField();
 
-    this.debug?.log(`[behaviour][tilesBehaviour] lockUI`);
-    this.gameManager?.lockUi();
-
-    this.debug?.log(
-      `[behaviour][tilesBehaviour] change game state to End turn`
-    );
-    this.gameManager?.changeGameState("endTurnEvent");
+    // this.gameManager?.changeGameState("endTurnEvent");
     this._inProcess = false;
   }
 
@@ -130,7 +116,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
 
     tiles.forEach((t) => {
       if (isIAttackable(t)) {
-        if (t.playerModel == this._cardsService!.getOponentModel()) {
+        if (t.playerModel == this.currentOponentModel) {
           (<IAttackable>t).attack(1);
         }
       }
@@ -150,16 +136,21 @@ export class StdTileInterBehaviour extends GameBehaviour {
     return m.get(row, col);
   }
 
-  private tryToAttackTile(tile: TileController | null): void {
-    if (tile == null) {
-      return;
+  private updateTileField() {
+    const analizedData = this.fieldAnalizer?.analyze();
+
+    if (analizedData != null) {
+      this.field?.moveTilesLogicaly(!this.gameState.isPlayerTurn);
+      this.field?.fixTiles();
+      this.field?.flush();
     }
   }
 
+
   manaUpdate(tilesCount: number, tileType: TileModel): void {
-    const curPlayerModel = this._cardsService?.getCurrentPlayerModel();
+    const curPlayerModel = this.currentPlayerModel;
     if (curPlayerModel == null) return;
-    if (this._levelModel?.gameMechanicType == 0) {
+    if (this.levelModel.gameMechanicType == 0) {
       curPlayerModel.manaCurrent +=
         tilesCount > 6 ? (tilesCount > 10 ? 3 : 2) : 1;
     } else {
@@ -169,8 +160,8 @@ export class StdTileInterBehaviour extends GameBehaviour {
 
       tbonuses.forEach(
         (b) =>
-          (b.currentAmmountToActivate +=
-            tilesCount > 6 ? (tilesCount > 10 ? 3 : 2) : 1)
+        (b.currentAmmountToActivate +=
+          tilesCount > 6 ? (tilesCount > 10 ? 3 : 2) : 1)
       );
     }
   }

@@ -89,6 +89,16 @@ export class FieldController extends Service {
       this._dataService,
       this._tileCreator
     );
+
+    this.logicField.onTileCreating = this.onTileCreating.bind(this);
+  }
+
+
+  private onTileCreating(tile:TileController){
+      tile.clickedEvent.off("TileController");
+      tile.tileActivateEvent.off("TileController");
+      tile.clickedEvent.on("TileController", this.tileClicked, this);
+      tile.tileActivateEvent.on("TileController", this.tileActivated, this);
   }
 
   /**
@@ -133,13 +143,6 @@ export class FieldController extends Service {
       putOnField,
     });
 
-    if (tile != null) {
-      tile.clickedEvent.off("TileController");
-      tile.tileActivateEvent.off("TileController");
-      tile.clickedEvent.on("TileController", this.tileClicked, this);
-      tile.tileActivateEvent.on("TileController", this.tileActivated, this);
-    }
-
     return tile;
   }
 
@@ -162,7 +165,7 @@ export class FieldController extends Service {
 
   /** Apply current state of field, destroies all fake destroied tiles. */
   public Flush() {
-    this.Flush();
+    this._logicFieldController.flush();
   }
 
   /** Apply just created to false for all new tiles */

@@ -55,7 +55,6 @@ export class ReadonlyMatrix2D<T> {
 
   clone(): Matrix2D<T> {
     const clone = new Matrix2D<T>(this.rows, this.cols);
-    clone.matrix = [...this.matrix];
     return clone;
   }
 }

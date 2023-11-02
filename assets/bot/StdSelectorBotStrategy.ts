@@ -17,7 +17,7 @@ export class StdSelectorBotStrategy extends BotTileSelectionStrategy {
     {
       const tiles = Array.from(ct.connectedTiles).filter(t=>{
           if(t instanceof(StdTileController)){
-            if(t.shieldIsActivated) {
+            if(!t.shieldIsActivated) {
               return t;
             }
           }

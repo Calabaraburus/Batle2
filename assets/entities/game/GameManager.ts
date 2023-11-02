@@ -32,13 +32,18 @@ import { MatchStatisticService } from "../services/MatchStatisticService";
 import { AudioManager } from "../../soundsPlayer/AudioManager";
 import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
 import { MenuSelectorController } from "../menu/MenuSelectorController";
+import { Bot_v2 } from "../../bot/Bot_v2";
+import { ObjectsCache } from "../../ObjectsCache/ObjectsCache";
+import { LevelModel } from "../../models/LevelModel";
+import { GameState } from "./GameState";
+import { GameStateWritable } from "./GameStateWritable";
 
 const { ccclass, property } = _decorator;
 
 @ccclass("GameManager")
 export class GameManager extends Service {
   private _debug: DebugView | null | undefined;
-  private _botTurn: boolean;
+  //private _botTurn: boolean;
   private _field: FieldController;
   private _fieldAnalizer: FieldAnalyzer;
   private _cardService: CardService | null;
@@ -46,6 +51,7 @@ export class GameManager extends Service {
   private _tileService: TileService | null;
   private _matchStatistic: MatchStatisticService | null;
   private _audioManager: AudioManagerService;
+
 
   private _bot: IBot | null;
 
@@ -86,10 +92,10 @@ export class GameManager extends Service {
     .onTimeout(1100)
     .transitionTo("botTurn")
     .withAction(() => this.beforeBotTurn())
-    .withCondition(() => this._botTurn == false)
+    .withCondition(() => this._gameState.isPlayerTurn == true)
     .transitionTo("playerTurn")
     .withAction(() => this.beforePlayerTurn())
-    .withCondition(() => this._botTurn == true)
+    .withCondition(() => this._gameState.isPlayerTurn == false)
 
     .state("botTurn")
     .onEnter(() => this.startBotTurn())
@@ -108,9 +114,10 @@ export class GameManager extends Service {
 
   private _stateMachine: StateMachine<string, string>;
   private _menuSelector: MenuSelectorController | null;
+  private _gameState: GameStateWritable;
 
   public get playerTurn(): boolean {
-    return !this._botTurn;
+    return this._gameState.isPlayerTurn;
   }
 
   start() {
@@ -120,12 +127,21 @@ export class GameManager extends Service {
     this._matchStatistic = this.getServiceOrThrow(MatchStatisticService);
     this._audioManager = this.getServiceOrThrow(AudioManagerService);
     this._menuSelector = this.getServiceOrThrow(MenuSelectorController);
+    this._gameState = this.getServiceOrThrow(GameStateWritable);
+    this._gameState.isPlayerTurn = true;
 
-    this._bot = this.getService(Bot);
+    this._bot = this.getServiceOrThrow(Bot_v2);
     this._debug = this._dataService?.debugView;
     this.levelController.gameManager = this;
     this._field = this.levelController.fieldController;
     this._field.tileCreator = this.getService(TileCreator);
+    this._fieldAnalizer = new FieldAnalyzer(this._field.logicField);
+
+    this.behaviourSeletor.Setup(this.getServiceOrThrow(ObjectsCache),
+      this._cardService,
+      this._dataService,
+      this.getServiceOrThrow(LevelModel),
+      this._gameState);
 
     this._stateMachine = this._stateMachineConfig.start();
     this._stateMachine.handle("gameStartEvent");
@@ -157,6 +173,9 @@ export class GameManager extends Service {
     console.log("onManagerClick___________________");
     this.behaviourSeletor.run(tile);
 
+    this._field.moveTilesAnimate();
+
+    this.changeGameState("endTurnEvent");
     // if (!this.behaviourSeletor.hasActiveBehaviours()) {
     //   this._stateMachine.handle("endTurnEvent");
     // }
@@ -190,7 +209,7 @@ export class GameManager extends Service {
   }
 
   startPlayerTurn(): void {
-    this._botTurn = false;
+    this._gameState.isPlayerTurn = true;
     this.unlockUi();
   }
 
@@ -247,10 +266,10 @@ export class GameManager extends Service {
     this._field.fixTiles();
     this._field.moveTilesAnimate();
 
-    if (this._botTurn) {
-      playerModel.life -= this.countAttackingTiles("start") * enemyModel.power;
-    } else {
+    if (this._gameState.isPlayerTurn) {
       enemyModel.life -= this.countAttackingTiles("end") * playerModel.power;
+    } else {
+      playerModel.life -= this.countAttackingTiles("start") * enemyModel.power;
     }
 
     if (playerModel.life <= 0) {
@@ -280,7 +299,7 @@ export class GameManager extends Service {
   }
 
   startBotTurn() {
-    this._botTurn = true;
+    this._gameState.isPlayerTurn = false;
     this._bot?.move();
   }
 

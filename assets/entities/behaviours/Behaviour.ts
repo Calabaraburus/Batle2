@@ -41,4 +41,8 @@ export class Behaviour extends Service {
   stop(): void {
     this._isStoped = true;
   }
+
+  clone(): this {
+    return new (this.constructor as new () => this)()
+  }
 }
