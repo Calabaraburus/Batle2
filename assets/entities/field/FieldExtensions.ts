@@ -245,10 +245,23 @@ export class FieldControllerExtensions {
     return this._field.fieldMatrix.filter((t) => t.tileModel === tileModel);
   }
 
-  public getRating(tiles: TileController[], aimTiles: TileController[]): number {
+  public getRating(playerTiles: TileController[], enemyTiles: TileController[], playerBaseTiles: TileController[], enemyBaseTiles: TileController[]): number {
     let result = 0;
-    tiles.forEach((t) => {
-      result += this.getVerticalDistance(t, aimTiles[0]);
+    playerTiles.forEach((t) => {
+      const distFromBaseToEnemy = this.getVerticalDistance(t, enemyBaseTiles[0]);
+
+      if (distFromBaseToEnemy <= 1) {
+        result += 10;
+      }
+
+      result += 1;
+    });
+
+    enemyTiles.forEach((t) => {
+      const distToEnemyBase = this.getVerticalDistance(t, playerBaseTiles[0]);
+      if (distToEnemyBase <= 1) {
+        result -= 10;
+      }
     });
 
     return result;

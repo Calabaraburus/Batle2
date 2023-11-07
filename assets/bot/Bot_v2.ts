@@ -175,6 +175,7 @@ export class Bot_v2 extends Service implements IBot {
     const fieldExt = new FieldControllerExtensions(clonedField);
 
     const finishTiles = fieldExt.findTilesByModelName("start");
+    const endTiles = fieldExt.findTilesByModelName("end");
 
     tilesForTouch.forEach((tile) => {
       if (isICloneable(clonedField)) {
@@ -191,8 +192,10 @@ export class Bot_v2 extends Service implements IBot {
 
         fieldExt.setField(tmpField);
 
-        const tiles = fieldExt.getPlayerTiles(this._playerModel);
-        results.push([fieldExt.getRating(tiles, finishTiles), tile]);
+        const playerTiles = fieldExt.getPlayerTiles(this._playerModel);
+        const botTiles = fieldExt.getPlayerTiles(this._botModel);
+
+        results.push([fieldExt.getRating(playerTiles, botTiles, finishTiles, endTiles), tile]);
 
         tmpField.reset();
       }
