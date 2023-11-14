@@ -58,7 +58,7 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
       if (isIAttackable(item)) {
         (<IAttackable>item).attack(1);
       } else {
-        this.parent.field?.fakeDestroyTile(item);
+        item.cacheDestroy();
       }
     });
 

@@ -109,10 +109,15 @@ export class ObjectsCache extends Component implements IObjectsCache {
   }
 }
 
-class CacheBag {
+export class CacheBag {
   public prefab: Prefab;
   public bagNotDestroied: Set<CacheObject> = new Set<CacheObject>();
   public bagDestroied: Set<CacheObject> = new Set<CacheObject>();
+
+  public destroyObject(obj: CacheObject) {
+    this.bagNotDestroied.delete(obj);
+    this.bagDestroied.add(obj);
+  }
 
   public get(): CacheObject | null | undefined {
     if (this.bagDestroied.size == 0) {
@@ -122,13 +127,9 @@ class CacheBag {
       if (result == null) {
         return null;
       }
+      result.setCacheBag(this);
 
       this.bagNotDestroied.add(result);
-
-      result?.destroyEvent.on("destroy_object", (obj: CacheObject) => {
-        this.bagNotDestroied.delete(obj);
-        this.bagDestroied.add(obj);
-      });
 
       return result;
     } else {

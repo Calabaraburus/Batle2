@@ -15,6 +15,8 @@ export class CatapultCardBotAnalizator extends CardAnalizator {
     [1, 0],
   ];
 
+
+
   decide() {
     const card = this.getBonus(this.bonusName);
     if (card == null) return 0;

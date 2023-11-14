@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Label, debug, RichText } from "cc";
+import { _decorator, Component, Node, Label, debug, RichText, RenderTexture } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("DebugView")
@@ -17,6 +17,7 @@ export class DebugView extends Component {
   }
 
   public log(value: string) {
+    return;
     console.log(value);
     if (this.debugLabel.string.length > 5000) {
       this.debugLabel.string = "";

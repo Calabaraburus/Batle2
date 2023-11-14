@@ -57,6 +57,8 @@ export class CardsBehaviour extends GameBehaviour {
     return this._cardsService;
   }
 
+  public applyCardsLogicOnly: boolean = false;
+
   public get audio() {
     return this._audioManager;
   }
@@ -157,7 +159,7 @@ export class CardsBehaviour extends GameBehaviour {
   }
 
   start() {
-    super.start();
+    // super.start();
 
     const effects = this.getService(EffectsService);
 
@@ -194,16 +196,21 @@ export class CardsBehaviour extends GameBehaviour {
 
       if (subBehave != undefined) {
         if (subBehave.prepare()) {
-          subBehave.effect();
+          if (this.applyCardsLogicOnly) {
+            subBehave.run()
+            this.cancel();
+          } else {
+            subBehave.effect();
 
-          tween(this)
-            .delay(subBehave.effectDuration)
-            .call(() => {
-              if (subBehave.run()) {
-                this.finalize();
-              }
-            })
-            .start();
+            tween(this)
+              .delay(subBehave.effectDuration)
+              .call(() => {
+                if (subBehave.run()) {
+                  this.finalize();
+                }
+              })
+              .start();
+          }
         } else {
           this.cancel();
         }
@@ -216,8 +223,6 @@ export class CardsBehaviour extends GameBehaviour {
   }
 
   cancel(): void {
-    // this.deactivateBonus();
-    // this.cardsService?.updateBonusesActiveState();
     this._inProcess = false;
   }
 
@@ -235,6 +240,16 @@ export class CardsBehaviour extends GameBehaviour {
 
     this.updateTileField();
     this._inProcess = false;
+  }
+
+  private updateTileField() {
+    const analizedData = this.fieldAnalizer?.analyze();
+
+    if (analizedData != null) {
+      this.field?.moveTilesLogicaly(!this.gameState.isPlayerTurn);
+      this.field?.fixTiles();
+      this.field?.flush();
+    }
   }
 
   payCardPrice(model: PlayerModel): void {

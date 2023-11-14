@@ -1,4 +1,4 @@
-import { _decorator, Component, js, Node, director, game } from "cc";
+import { _decorator, Component, js, Node, director, game, __private } from "cc";
 import { PlayerModel } from "../../models/PlayerModel";
 import { helpers } from "../../scripts/helpers";
 import { FieldController } from "../field/FieldController";
@@ -93,6 +93,22 @@ export class BehaviourSelector extends Service {
 
       this._debug?.log(`[behaviour][selector] selector push '${b.type}'`);
     });
+  }
+
+  getBehaviour<T extends Behaviour>(
+    classConstructor:
+      | __private._types_globals__Constructor<T>
+      | __private._types_globals__AbstractedConstructor<T>
+  ): T | null {
+    for (const behaveGroup of this._behavioursDictionary.values()) {
+      for (const behave of behaveGroup) {
+        if (behave.name == classConstructor.name) {
+          return behave as T;
+        };
+      }
+    }
+
+    return null;
   }
 
   run(target: Component) {
