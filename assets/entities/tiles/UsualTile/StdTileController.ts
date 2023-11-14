@@ -55,7 +55,9 @@ export class StdTileController extends TileController {
   }
 
   public destroyTile() {
-    this.createParticles();
+    if (!this.virtual) {
+      this.createParticles();
+    }
     super.destroyTile();
   }
 

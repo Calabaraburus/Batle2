@@ -50,6 +50,7 @@ export class FieldLogicalController
   private _fieldModel: FieldModel;
   private _tilesArea: UITransform;
   private _onTileCreating: ((tile: TileController) => void) = (t) => { };
+  private _isVirtual: boolean = false;
 
 
   get fieldModel(): FieldModel {
@@ -172,9 +173,15 @@ export class FieldLogicalController
 
     if (tile == null) return null;
 
+    if (!this._isVirtual) {
+      tile.active = true;
+    }
+
     const tileController = tile.getComponent(TileController);
 
     if (tileController != null) {
+      tileController.virtual = this._isVirtual;
+
       tileController.justCreated = true;
       tileController.playerModel = playerModel;
       tileController.node.parent = this._tilesArea.node;
@@ -476,7 +483,13 @@ export class FieldLogicalController
   }
 
   virtualize(): void {
-    this._field.forEach((t) => (t.node.parent = null));
+
+    this._isVirtual = true;
+
+    this._field.forEach((t) => {
+      t.node.parent = null;
+      t.virtual = true;
+    });
   }
 
   clone(): FieldLogicalController {
@@ -488,6 +501,7 @@ export class FieldLogicalController
     );
 
     clone._field = this._field.clone();
+    clone._isVirtual = this._isVirtual;
 
     this._field.forEach((item, i, j) => {
       const cTile = clone.createTile({
@@ -497,7 +511,9 @@ export class FieldLogicalController
         playerModel: item.playerModel,
         putOnField: true,
       });
+
       if (cTile != null) {
+        cTile.virtual = this._isVirtual;
         clone._field.set(item.row, item.col, cTile);
       }
     });

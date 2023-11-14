@@ -208,6 +208,18 @@ export class FieldControllerExtensions {
     );
   }
 
+  public countInColumn(col: number, filtFunc: (val: TileController) => boolean): number {
+    let result = 0;
+    this._field.fieldMatrix.forEachCol(col, (item, row) => { if (filtFunc(item)) result++; });
+    return result;
+  }
+
+  public countInRow(row: number, filtFunc: (val: TileController) => boolean): number {
+    let result = 0;
+    this._field.fieldMatrix.forEachInRow(row, (item, col) => { if (filtFunc(item)) result++; });
+    return result;
+  }
+
   public countShielded(tiles: Set<TileController>, shielded = true): number {
     let result = 0;
     tiles.forEach((t) => {
