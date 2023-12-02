@@ -45,23 +45,13 @@ const { ccclass } = _decorator;
 @ccclass("CardsBehaviour")
 export class CardsBehaviour extends GameBehaviour {
   private _cardsRunDict = new Map<string, ISubBehaviour>();
-  private _cardsService: CardService | null;
   private _effectsNode: Node | null;
-  private _audioManager: AudioManagerService;
 
   public get effectsNode(): Node | null {
     return this._effectsNode;
   }
 
-  public get cardsService() {
-    return this._cardsService;
-  }
-
   public applyCardsLogicOnly: boolean = false;
-
-  public get audio() {
-    return this._audioManager;
-  }
 
   constructor() {
     super();
@@ -159,25 +149,11 @@ export class CardsBehaviour extends GameBehaviour {
   }
 
   start() {
-    // super.start();
-
-    const effects = this.getService(EffectsService);
-
-    if (effects != null) {
-      this._effectsNode = effects.effectsNode;
-    }
-
-    this._cardsService = this.getService(CardService);
-
-    const taudio = this.getService(AudioManagerService);
-
-    assert(taudio, "Can't get audio manager");
-
-    this._audioManager = taudio;
+    this._effectsNode = this.effectsService.effectsNode;
   }
 
   activateCondition(): boolean {
-    const model = this._cardsService?.getCurrentPlayerModel();
+    const model = this.cardService.getCurrentPlayerModel();
     return model != null ? model.activeBonus != null : false;
   }
 
@@ -187,7 +163,7 @@ export class CardsBehaviour extends GameBehaviour {
     }
     this.debug?.log("[behaviour][cardsBehaviour] cardsSingleRun");
     this._inProcess = true;
-    const model = this._cardsService?.getCurrentPlayerModel();
+    const model = this.cardService.getCurrentPlayerModel();
     const mnemonic = model?.activeBonus?.mnemonic;
     if (mnemonic == null) return;
 
@@ -196,20 +172,22 @@ export class CardsBehaviour extends GameBehaviour {
 
       if (subBehave != undefined) {
         if (subBehave.prepare()) {
+          subBehave.run()
+
           if (this.applyCardsLogicOnly) {
-            subBehave.run()
             this.cancel();
           } else {
             subBehave.effect();
+            this.finalize();
 
-            tween(this)
-              .delay(subBehave.effectDuration)
-              .call(() => {
-                if (subBehave.run()) {
-                  this.finalize();
-                }
-              })
-              .start();
+            /*   tween(this)
+                 .delay(subBehave.effectDuration)
+                 .call(() => {
+                   if (subBehave.run()) {
+                   
+                   }
+                 })
+                 .start();*/
           }
         } else {
           this.cancel();
@@ -227,18 +205,18 @@ export class CardsBehaviour extends GameBehaviour {
   }
 
   finalize(): void {
-    const model = this._cardsService?.getCurrentPlayerModel();
+    const model = this.cardService.getCurrentPlayerModel();
 
     if (model != null) {
       this.payCardPrice(model);
       model.activeBonus!.alreadyUsedOnTurn = true;
       this.deactivateBonusWithModel(model);
-      this.cardsService?.updateBonusesActiveState();
+      this.cardService.updateBonusesActiveState();
     }
 
-    this.levelController?.updateData();
+    //    this.levelController?.updateData();
 
-    this.updateTileField();
+    //  this.updateTileField();
     this._inProcess = false;
   }
 
@@ -253,7 +231,7 @@ export class CardsBehaviour extends GameBehaviour {
   }
 
   payCardPrice(model: PlayerModel): void {
-    const curPlayer = this.cardsService!.getCurrentPlayerModel();
+    const curPlayer = this.cardService.getCurrentPlayerModel();
     if (curPlayer == null) return;
     if (model.activeBonus == null) return;
 
@@ -266,7 +244,7 @@ export class CardsBehaviour extends GameBehaviour {
   }
 
   deactivateBonus() {
-    const model = this._cardsService?.getCurrentPlayerModel();
+    const model = this.cardService.getCurrentPlayerModel();
 
     if (model != null) {
       this.deactivateBonusWithModel(model);

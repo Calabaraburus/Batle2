@@ -4,7 +4,7 @@
 //
 // Calabaraburus (c) 2023
 
-import { randomRangeInt, tween, _decorator, assert } from "cc";
+import { randomRangeInt, tween, _decorator, assert, game } from "cc";
 import { FieldAnalyzer as FieldAnalyzer } from "../entities/field/FieldAnalizer";
 import type { ITileFieldController } from "../entities/field/ITileFieldController";
 import "../entities/field/FieldExtensions";
@@ -15,21 +15,17 @@ import {
 } from "../entities/field/AnalizedData";
 
 import { IBot } from "./IBot";
-import { FieldController } from "../entities/field/FieldController";
 import { TileController } from "../entities/tiles/TileController";
-import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
 import { Service } from "../entities/services/Service";
 import { TileService } from "../entities/services/TileService";
 import { PlayerModel } from "../models/PlayerModel";
 import { DataService } from "../entities/services/DataService";
 import { GameManager } from "../entities/game/GameManager";
-import { BotAnalizator } from "./BotAnalizator";
 import { CardService } from "../entities/services/CardService";
 import { BotTileSelectionStrategy } from "./BotTileSelectionStrategy";
 import { StdSelectorBotStrategy } from "./StdSelectorBotStrategy";
 import { ICloneable, isICloneable } from "../scripts/ICloneable";
 import { isIVirtualisable } from "../scripts/IVirtualisable";
-import { a } from "../entities/game/GameManager copy";
 import { FirewallMiddleCardBotAnalizator } from "./FirewallMiddleCardBotAnalizator";
 import { FieldControllerExtensions } from "../entities/field/FieldExtensions";
 import { BehaviourSelector } from "../entities/behaviours/BehaviourSelector";
@@ -37,13 +33,17 @@ import { ObjectsCache } from "../ObjectsCache/ObjectsCache";
 import { DataServiceForBot } from "./DataServiceForBot";
 import { LevelModel } from "../models/LevelModel";
 import { CardServiceForBot } from "./CardServiceForBot";
-import { GameState } from "../entities/game/GameState";
 import { GameStateWritable } from "../entities/game/GameStateWritable";
 import { CardAnalizator } from "./CardAnalizator";
 import { FirewallCardBotAnalizator } from "./FirewallCardBotAnalizator";
 import { BonusModel } from "../models/BonusModel";
 import { FirewallLowCardBotAnalizator } from "./FirewallLowCardBotAnalizator";
 import { CardsBehaviour } from "../entities/tiles/Behaviours/CardsBehaviour";
+import { EffectsService } from "../entities/services/EffectsService";
+import { EffectsManagerForBot } from "./EffectsManagerForBot";
+import { EOTInvoker } from "../entities/game/EOTInvoker";
+import { AudioManagerService } from "../soundsPlayer/AudioManagerService";
+import { EffectsManager } from "../entities/game/EffectsManager";
 
 const { ccclass, property } = _decorator;
 
@@ -76,6 +76,8 @@ export class Bot_v2 extends Service implements IBot {
   private _internalCardService: CardServiceForBot;
   private _gameState: GameStateWritable;
   private _cardsBehaviour: CardsBehaviour;
+  private _gameManager: GameManager;
+  private _effectsManager: EffectsManager;
 
   public get dataService() {
     return this._dataService;
@@ -97,6 +99,7 @@ export class Bot_v2 extends Service implements IBot {
     this._dataService = this.getServiceOrThrow(DataService);
     this._tileService = this.getServiceOrThrow(TileService);
     this._cardService = this.getServiceOrThrow(CardService);
+
     this._gameState = new GameStateWritable();
 
     this._gameState.isPlayerTurn = false;
@@ -114,11 +117,20 @@ export class Bot_v2 extends Service implements IBot {
     this._internalDataService = this.getBotDataService();
     this._internalCardService = this.getBotCardService();
 
+    this._effectsManager = this.getServiceOrThrow(EffectsManager);
+
+    const effectsManager = new EffectsManagerForBot();
+
     this._behaviourSelector.Setup(this.getServiceOrThrow(ObjectsCache),
       this._internalCardService,
       this._internalDataService,
       this._levelModel,
-      this._gameState);
+      this._gameState,
+      this.getServiceOrThrow(EffectsService),
+      effectsManager,
+      this.getServiceOrThrow(AudioManagerService),
+      new EotForBot(this.getServiceOrThrow(GameManager), effectsManager)
+    );
 
     const cb = this._behaviourSelector.getBehaviour(CardsBehaviour);
 
@@ -223,14 +235,29 @@ export class Bot_v2 extends Service implements IBot {
     if (cardsTop.length == 0) {
       this.getTilesRating(clonedField, finishTiles, endTiles, [], results);
       results.sort((r1, r2) => r1.rating - r2.rating);
-      this.pressTile(this._dataService.field.fieldMatrix.get(results[0].tile.row, results[0].tile.col));
+
+      this.pressTileRC(results[0].tile.row, results[0].tile.col);
     } else {
+      const resWithCards = cardsTop[0];
 
+      const waiter = tween(this).delay(0.2).call(() => {
+        if (!this._effectsManager.effectIsRunning) {
+          waiter.stop()
+        }
+      }).repeatForever();
 
-    }
+      const conv = tween(this);
 
-    if (results[0].tile != null) {
+      resWithCards.cards.forEach(c => {
+        conv.call(() => {
+          this.botModel.setBonus(c.cardModel);
+          this.pressTileRC(c.tile.row, c.tile.col);
+          waiter.start();
+        }).then(waiter)
+      });
 
+      conv.call(() => this.pressTileRC(resWithCards.tile.row, resWithCards.tile.col));
+      conv.start();
     }
   }
 
@@ -339,6 +366,10 @@ export class Bot_v2 extends Service implements IBot {
     this.pressTile(tileToPress[tileId]);
   }
 
+  pressTileRC(row: number, col: number) {
+    this.pressTile(this._dataService.field.fieldMatrix.get(row, col));
+  }
+
   pressTile(tile: TileController | null) {
     tile?.clicked();
     console.log(`[Bot] Clicked tile r:${tile?.row} c:${tile?.col}`);
@@ -369,4 +400,15 @@ class RatingResult {
   public rating: number;
   public cards: CardToTile[];
   public tile: TileController;
+}
+
+export class EotForBot extends EOTInvoker {
+
+
+  public endTurn(): void {
+
+  }
+  public update(): void {
+
+  }
 }

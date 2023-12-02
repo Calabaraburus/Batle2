@@ -15,6 +15,11 @@ import { Behaviour } from "./Behaviour";
 import { CardService } from "../services/CardService";
 import { LevelModel } from "../../models/LevelModel";
 import { GameState } from "../game/GameState";
+import { EffectsService } from "../services/EffectsService";
+import { EffectsManager } from "../game/EffectsManager";
+import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
+import { CardsBehaviour } from "../tiles/Behaviours/CardsBehaviour";
+import { EOTInvoker } from "../game/EOTInvoker";
 const { ccclass } = _decorator;
 
 @ccclass("GameBehaviour")
@@ -24,6 +29,10 @@ export class GameBehaviour extends Behaviour {
   private _objectsCache: ObjectsCache;
   private _levelModel: LevelModel;
   private _gameState: GameState;
+  private _effectsService: EffectsService;
+  private _audioManager: AudioManagerService;
+  private _effectsManager: EffectsManager;
+  private _eotInvoker: EOTInvoker;
 
   public get gameState() { return this._gameState; }
 
@@ -71,6 +80,18 @@ export class GameBehaviour extends Behaviour {
     return this._dataService?.enemyFieldController;
   }
 
+  public get effectsService() {
+    return this._effectsService;
+  }
+
+  public get audioManager() {
+    return this._audioManager;
+  }
+
+  public get effectsManager() {
+    return this._effectsManager;
+  }
+
   get field() {
     return this._dataService?.field;
   }
@@ -79,16 +100,34 @@ export class GameBehaviour extends Behaviour {
     return this._dataService?.debugView;
   }
 
+  public get cardService() {
+    return this._cardService;
+  }
+
+  public get eotInvoker() {
+    return this._eotInvoker;
+  }
+
   public Setup(objectsCache: ObjectsCache,
     cardService: CardService,
     dataService: DataService,
     levelModel: LevelModel,
-    gameState: GameState) {
+    gameState: GameState,
+    effectsService: EffectsService,
+    effectsManager: EffectsManager,
+    audioManager: AudioManagerService,
+    eotInvoker: EOTInvoker) {
+
     this._objectsCache = objectsCache;
     this._cardService = cardService;
     this._dataService = dataService;
     this._levelModel = levelModel;
     this._gameState = gameState;
+    this._effectsService = effectsService;
+    this._audioManager = audioManager;
+    this._effectsManager = effectsManager;
+    this._eotInvoker = eotInvoker;
+
   }
 
   run(): void {
