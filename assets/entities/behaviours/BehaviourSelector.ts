@@ -11,6 +11,11 @@ import { DataService } from "../services/DataService";
 import { LevelModel } from "../../models/LevelModel";
 import { GameBehaviour } from "./GameBehaviour";
 import { GameState } from "../game/GameState";
+import { EffectsService } from "../services/EffectsService";
+import { EffectsManager } from "../game/EffectsManager";
+import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
+import { GameManager } from "../game/GameManager";
+import { EOTInvoker } from "../game/EOTInvoker";
 const { ccclass, property } = _decorator;
 
 @ccclass("BehaviourSelector")
@@ -26,6 +31,10 @@ export class BehaviourSelector extends Service {
   private _dataService: DataService;
   private _levelModel: LevelModel;
   private _gameState: GameState;
+  private _effectsService: EffectsService;
+  private _effectsManager: EffectsManager;
+  private _audioManager: AudioManagerService;
+  private _eotInvoker: EOTInvoker;
 
   public get gameState() { return this._gameState; }
 
@@ -38,20 +47,32 @@ export class BehaviourSelector extends Service {
       this._cardService,
       this._dataService,
       this._levelModel,
-      this._gameState);
+      this._gameState,
+      this._effectsService,
+      this._effectsManager,
+      this._audioManager,
+      this._eotInvoker);
   }
 
   public Setup(objectsCache: ObjectsCache,
     cardService: CardService,
     dataService: DataService,
     levelModel: LevelModel,
-    gameState: GameState) {
+    gameState: GameState,
+    effectsService: EffectsService,
+    effectsManager: EffectsManager,
+    audioManager: AudioManagerService,
+    eotInvoker: EOTInvoker) {
 
     this._objectCache = objectsCache;
     this._cardService = cardService;
     this._dataService = dataService;
     this._levelModel = levelModel;
     this._gameState = gameState;
+    this._effectsService = effectsService;
+    this._effectsManager = effectsManager;
+    this._audioManager = audioManager;
+    this._eotInvoker = eotInvoker;
 
     this._behavioursDictionary.forEach(bd => bd.forEach(b => {
       if (b instanceof GameBehaviour) {
@@ -59,7 +80,11 @@ export class BehaviourSelector extends Service {
           cardService,
           dataService,
           levelModel,
-          gameState);
+          gameState,
+          effectsService,
+          effectsManager,
+          audioManager,
+          eotInvoker);
       }
     }));
   }

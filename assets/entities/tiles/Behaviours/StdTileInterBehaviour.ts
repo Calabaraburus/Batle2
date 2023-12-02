@@ -88,7 +88,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
 
     if (tilesCount > 0) {
       this.manaUpdate(tilesCount, connectedTiles[0].tileModel);
-
+      this.eotInvoker.endTurn();
       /*      this._matchStatistic?.updateTapTileStatistic(
               tilesCount,
               connectedTiles[0].tileModel

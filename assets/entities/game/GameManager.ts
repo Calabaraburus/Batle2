@@ -37,6 +37,9 @@ import { ObjectsCache } from "../../ObjectsCache/ObjectsCache";
 import { LevelModel } from "../../models/LevelModel";
 import { GameState } from "./GameState";
 import { GameStateWritable } from "./GameStateWritable";
+import { EffectsService } from "../services/EffectsService";
+import { EffectsManager } from "./EffectsManager";
+import { EOTInvoker } from "./EOTInvoker";
 
 const { ccclass, property } = _decorator;
 
@@ -51,7 +54,6 @@ export class GameManager extends Service {
   private _tileService: TileService | null;
   private _matchStatistic: MatchStatisticService | null;
   private _audioManager: AudioManagerService;
-
 
   private _bot: IBot | null;
 
@@ -81,7 +83,7 @@ export class GameManager extends Service {
     .on("endTurnServiceEvent")
     .transitionTo("endTurn")
     .state("endTurn")
-    .onEnter(() => this.endTurn())
+    .onEnter(() => this.endTurnStateMachine())
 
     //    .onTimeout(0)
     //    .transitionTo("moveTiles")
@@ -115,6 +117,9 @@ export class GameManager extends Service {
   private _stateMachine: StateMachine<string, string>;
   private _menuSelector: MenuSelectorController | null;
   private _gameState: GameStateWritable;
+  private _effectsManager: EffectsManager //
+    ;
+  private _eotInvoker: EOTInvoker;
 
   public get playerTurn(): boolean {
     return this._gameState.isPlayerTurn;
@@ -137,11 +142,19 @@ export class GameManager extends Service {
     this._field.tileCreator = this.getService(TileCreator);
     this._fieldAnalizer = new FieldAnalyzer(this._field.logicField);
 
+    this._effectsManager = this.getServiceOrThrow(EffectsManager);
+
+    this._eotInvoker = new EOTInvoker(this, this._effectsManager);
+
     this.behaviourSeletor.Setup(this.getServiceOrThrow(ObjectsCache),
       this._cardService,
       this._dataService,
       this.getServiceOrThrow(LevelModel),
-      this._gameState);
+      this._gameState,
+      this.getServiceOrThrow(EffectsService),
+      this._effectsManager,
+      this.getServiceOrThrow(AudioManagerService),
+      this._eotInvoker);
 
     this._stateMachine = this._stateMachineConfig.start();
     this._stateMachine.handle("gameStartEvent");
@@ -170,12 +183,16 @@ export class GameManager extends Service {
   }
 
   private tileClicked(sender: unknown, tile: TileController): void {
+    this.lockUi();
     console.log("onManagerClick___________________");
     this.behaviourSeletor.run(tile);
 
     this._field.moveTilesAnimate();
 
-    this.changeGameState("endTurnEvent");
+    this.unlockUi();
+
+
+    // this.changeGameState("endTurnEvent");
     // if (!this.behaviourSeletor.hasActiveBehaviours()) {
     //   this._stateMachine.handle("endTurnEvent");
     // }
@@ -214,13 +231,10 @@ export class GameManager extends Service {
   }
 
   canEndTurn(): boolean {
-    //this._analizedData = this._fieldAnalizer.analize();
-    return true; //this._analizedData.destroiedTilesCount != 0;
+    return true;
   }
 
-  beforeBotTurn() {
-    // const playerModel = this.levelController.enemyField.playerModel;
-    // playerModel.manaCurrent += playerModel.manaIncreaseCoeficient;
+  private beforeBotTurn() {
     this.notifyTilesAboutStartOfTurn();
 
     this._cardService?.resetBonusesForActivePlayer();
@@ -230,9 +244,8 @@ export class GameManager extends Service {
     this.levelController.updateData();
   }
 
-  beforePlayerTurn() {
-    // const playerModel = this.levelController.playerField.playerModel;
-    // playerModel.manaCurrent += playerModel.manaIncreaseCoeficient;
+  private beforePlayerTurn() {
+
     this.notifyTilesAboutStartOfTurn();
 
     this._cardService?.resetBonusesForActivePlayer();
@@ -244,7 +257,7 @@ export class GameManager extends Service {
     this.levelController.updateData();
   }
 
-  beforeEndTurn() {
+  private beforeEndTurn() {
     const schedule = tween(this);
 
     schedule
@@ -258,7 +271,7 @@ export class GameManager extends Service {
     schedule.start();
   }
 
-  endTurn() {
+  private endTurnStateMachine() {
     const playerModel = this.levelController.playerField.playerModel;
     const enemyModel = this.levelController.enemyField.playerModel;
 
@@ -278,32 +291,18 @@ export class GameManager extends Service {
     }
 
     if (enemyModel.life <= 0) {
-      // this._matchStatistic?.loadStatistic("win");
       this._menuSelector?.openSectionMenu(this, "RewardBlock");
-      // this.levelController.showWinView(true);
     }
 
     this.levelController.updateData();
-
-    // this._field.fixTiles(this._analizedData);
-    // this._field.updateBackground();
-    //s this._field.Flush();
   }
 
-  moveTiles(): void {
-    this._field.moveTilesAnimate();
-  }
-
-  updateEndTurnUI() {
-    debug("");
-  }
-
-  startBotTurn() {
+  private startBotTurn() {
     this._gameState.isPlayerTurn = false;
     this._bot?.move();
   }
 
-  countAttackingTiles(tileNameToAttack: string, ...tags: string[]): number {
+  private countAttackingTiles(tileNameToAttack: string, ...tags: string[]): number {
     const tiles = this._fieldAnalizer.getAttackingTiles(
       tileNameToAttack,
       this._cardService?.getCurrentPlayerModel(),
@@ -314,35 +313,35 @@ export class GameManager extends Service {
     return res;
   }
 
-  playerWin() {
-    debug("");
-  }
-
-  playerLose() {
-    debug("");
-  }
-
-  notifyTilesAboutEndOfTurn() {
+  private notifyTilesAboutEndOfTurn() {
     this.forAllNotDestroiedTiles((t) => t.turnEnds());
   }
 
-  notifyTilesAboutStartOfTurn() {
+  private notifyTilesAboutStartOfTurn() {
     this.forAllNotDestroiedTiles((t) => t.turnBegins());
   }
 
-  notifyTilesToAnimateEndOfTurn() {
+  private notifyTilesToAnimateEndOfTurn() {
     this.forAllNotDestroiedTiles((t) => t.turnBeginsAnimation());
   }
 
-  notifyTilesToAnimateStartOfTurn() {
+  private notifyTilesToAnimateStartOfTurn() {
     this.forAllNotDestroiedTiles((t) => t.turnEndsAnimation());
   }
 
-  forAllNotDestroiedTiles(action: (tile: TileController) => void) {
+  private forAllNotDestroiedTiles(action: (tile: TileController) => void) {
     this._field.fieldMatrix
       .filter(() => true)
       .forEach((t) => {
         if (!t.isDestroied) action(t);
       });
+  }
+
+  public endTurn() {
+    this._eotInvoker.endTurn();
+  }
+
+  protected update(dt: number): void {
+    this._eotInvoker.update();
   }
 }
