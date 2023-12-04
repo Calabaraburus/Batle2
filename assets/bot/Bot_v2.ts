@@ -44,6 +44,7 @@ import { EffectsManagerForBot } from "./EffectsManagerForBot";
 import { EOTInvoker } from "../entities/game/EOTInvoker";
 import { AudioManagerService } from "../soundsPlayer/AudioManagerService";
 import { EffectsManager } from "../entities/game/EffectsManager";
+import { Queue } from "../scripts/Queue";
 
 const { ccclass, property } = _decorator;
 
@@ -200,8 +201,6 @@ export class Bot_v2 extends Service implements IBot {
 
     const analyzer = new FieldAnalyzer(clonedField);
 
-    //   const tilesForTouch = this.getTilesForTouch(analyzer.analyze());
-
     const results: RatingResult[] = [];
 
     const fieldExt = new FieldControllerExtensions(clonedField);
@@ -232,33 +231,44 @@ export class Bot_v2 extends Service implements IBot {
       }
     });
 
-    if (cardsTop.length == 0) {
+    const queue = new Queue<() => void>();
+
+    if (cardsTop.length > 0) {
+      const resWithCards = cardsTop[0];
+
+      resWithCards.cards.forEach(c => {
+        queue.enqueue(() => {
+          this.botModel.setBonus(c.cardModel);
+          this.pressTileRC(c.tile.row, c.tile.col);
+        });
+      });
+    }
+
+    queue.enqueue(() => {
+      this.botModel.unSetBonus();
       this.getTilesRating(clonedField, finishTiles, endTiles, [], results);
       results.sort((r1, r2) => r1.rating - r2.rating);
 
       this.pressTileRC(results[0].tile.row, results[0].tile.col);
-    } else {
-      const resWithCards = cardsTop[0];
+    });
 
-      const waiter = tween(this).delay(0.2).call(() => {
-        if (!this._effectsManager.effectIsRunning) {
-          waiter.stop()
+    const conv = tween(this);
+
+    const waiter = tween(this).call(() => {
+      if (!this._effectsManager.effectIsRunning) {
+        if (queue.length <= 0) {
+          conv.stop();
+        } else {
+          const action = queue.dequeue();
+          action();
         }
-      }).repeatForever();
+      }
+    }).delay(0.2);
 
-      const conv = tween(this);
+    conv.repeatForever(waiter);
 
-      resWithCards.cards.forEach(c => {
-        conv.call(() => {
-          this.botModel.setBonus(c.cardModel);
-          this.pressTileRC(c.tile.row, c.tile.col);
-          waiter.start();
-        }).then(waiter)
-      });
+    conv.start();
 
-      conv.call(() => this.pressTileRC(resWithCards.tile.row, resWithCards.tile.col));
-      conv.start();
-    }
   }
 
   private getComplexRating(
@@ -271,11 +281,19 @@ export class Bot_v2 extends Service implements IBot {
     if (isICloneable(field)) {
       const clonedFieldForCard = field.clone() as ITileFieldController;
 
+      const fieldExt = new FieldControllerExtensions(clonedFieldForCard);
+      let pt = fieldExt.getPlayerTiles(this._playerModel);
+
       cards.forEach(c => {
         this._botModel.setBonus(c.cardModel);
+        this._internalDataService.field = clonedFieldForCard;
+        this._internalDataService.fieldAnalizer = new FieldAnalyzer(clonedFieldForCard);
         this._behaviourSelector.run(clonedFieldForCard.fieldMatrix.get(c.tile.row, c.tile.col));
-        clonedFieldForCard.moveTilesLogicaly(false);
+        this._botModel.unSetBonus();
+        clonedFieldForCard.moveTilesLogicaly(true);
       });
+
+      pt = fieldExt.getPlayerTiles(this._playerModel);
 
       this.getTilesRating(clonedFieldForCard, startTiles, endTiles, cards, results);
 
@@ -291,7 +309,8 @@ export class Bot_v2 extends Service implements IBot {
     results: RatingResult[]) {
 
     const analizer = new FieldAnalyzer(field);
-    const tiles = this.getTilesForTouch(analizer.analyze());
+    const data = analizer.analyze();
+    const tiles = this.getTilesForTouch(data);
     const fieldExt = new FieldControllerExtensions(field);
 
     tiles.forEach(t => {
@@ -321,19 +340,16 @@ export class Bot_v2 extends Service implements IBot {
     this._internalDataService.field = fieldExt.field;
     this._internalDataService.fieldAnalizer = new FieldAnalyzer(fieldExt.field);
 
-
     if (tile != null) {
       this._behaviourSelector.run(fieldExt.field.fieldMatrix.get(tile.row, tile.col));
-      fieldExt.field.moveTilesLogicaly(false);
+      fieldExt.field.moveTilesLogicaly(true);
     }
 
     const playerTiles = fieldExt.getPlayerTiles(this._playerModel);
     const botTiles = fieldExt.getPlayerTiles(this._botModel);
 
     return fieldExt.getRating(playerTiles, botTiles, startTiles, endTiles);
-
   }
-
 
   private getTilesForTouch(analysedData: AnalyzedData) {
     const result: TileController[] = [];
@@ -347,7 +363,7 @@ export class Bot_v2 extends Service implements IBot {
         ] as BotTileSelectionStrategy;
         if (element != null) {
           let tls = element.getAvailableTilesForAction(analysedData);
-          tls = tls.filter(t => t.playerModel == this._playerModel);
+
           result.push(...tls);
         }
       }

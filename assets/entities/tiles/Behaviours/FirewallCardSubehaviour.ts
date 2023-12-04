@@ -19,14 +19,10 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
 
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
-    if (playerTag == null) return false;
-    if (this.parent.cardsService == null) return false;
 
     if (targetTile instanceof StdTileController) {
       if (
-        targetTile.playerModel ==
-        this.parent.cardsService?.getCurrentPlayerModel()
+        targetTile.playerModel == this.parent.currentPlayerModel
       ) {
         return false;
       }
@@ -38,9 +34,8 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
     this.effectDurationValue = 1;
     this._tilesToDestroy = [];
 
-    this.parent.field?.fieldMatrix.forEachCol(targetTile.col, (tile, rowId) => {
-      if (this.parent.cardsService == null) return;
-      if (tile.playerModel == this.parent.cardsService.getOponentModel()) {
+    this.parent.field.fieldMatrix.forEachCol(targetTile.col, (tile, rowId) => {
+      if (tile.playerModel == this.parent.cardService.getOponentModel()) {
         if (
           targetTile.row + this.maxCountForEachSide >= rowId &&
           targetTile.row - this.maxCountForEachSide <= rowId
@@ -70,7 +65,7 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
     const timeObj = { time: 0 };
     const animator = tween(timeObj);
     const effects: CardEffect[] = [];
-    this.parent.audio.playSoundEffect("firewall");
+    this.parent.audioManager.playSoundEffect("firewall");
     this._tilesToDestroy.forEach((t, i) => {
       const time = 0.1;
       animator.delay(i == 0 ? 0 : time).call(() => {
