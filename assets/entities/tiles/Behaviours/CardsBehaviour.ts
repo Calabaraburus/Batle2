@@ -153,8 +153,8 @@ export class CardsBehaviour extends GameBehaviour {
   }
 
   activateCondition(): boolean {
-    const model = this.cardService.getCurrentPlayerModel();
-    return model != null ? model.activeBonus != null : false;
+    const model = this.currentPlayerModel;
+    return model != null ? model.isBonusSet() : false;
   }
 
   singleRun(): void {
@@ -163,7 +163,7 @@ export class CardsBehaviour extends GameBehaviour {
     }
     this.debug?.log("[behaviour][cardsBehaviour] cardsSingleRun");
     this._inProcess = true;
-    const model = this.cardService.getCurrentPlayerModel();
+    const model = this.currentPlayerModel;
     const mnemonic = model?.activeBonus?.mnemonic;
     if (mnemonic == null) return;
 
@@ -177,7 +177,7 @@ export class CardsBehaviour extends GameBehaviour {
           if (this.applyCardsLogicOnly) {
             this.cancel();
           } else {
-            subBehave.effect();
+            this.effectsManager.PlayEffect(() => subBehave.effect(), subBehave.effectDuration);
             this.finalize();
 
             /*   tween(this)

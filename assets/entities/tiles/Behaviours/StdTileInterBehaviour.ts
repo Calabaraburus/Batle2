@@ -34,6 +34,11 @@ export class StdTileInterBehaviour extends GameBehaviour {
     this.type = helpers.typeName(StdTileController);
   }
 
+  activateCondition(): boolean {
+    const model = this.currentPlayerModel;
+    return model != null ? !model.isBonusSet() : false;
+  }
+
   singleRun(): void {
     this.debug?.log(`[behaviour][tilesBehaviour] stop iterate over behaves`);
 
