@@ -40,15 +40,33 @@ import { HammerMiddleCardSubehaviour } from "./HammerMiddleCardSubehaviour";
 import { PikeLowCardSubehaviour } from "./PikeLowCardSubehaviour";
 import { PikeMiddleCardSubehaviour } from "./PikeMiddleCardSubehaviour";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
+import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
+import { DataService } from "../../services/DataService";
+import { LevelModel } from "../../../models/LevelModel";
+import { GameState } from "../../game/GameState";
+import { EffectsManager } from "../../game/EffectsManager";
+import { EOTInvoker } from "../../game/EOTInvoker";
+import { TileController } from "../TileController";
+import { FieldControllerExtensions } from "../../field/FieldExtensions";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
 export class CardsBehaviour extends GameBehaviour {
   private _cardsRunDict = new Map<string, ISubBehaviour>();
   private _effectsNode: Node | null;
+  private _startTilesP1: TileController[];
+  private _startTilesP2: TileController[];
 
   public get effectsNode(): Node | null {
     return this._effectsNode;
+  }
+
+  public get startTilesP1() {
+    return this._startTilesP1;
+  }
+
+  public get startTilesP2() {
+    return this._startTilesP2;
   }
 
   public applyCardsLogicOnly: boolean = false;
@@ -216,7 +234,7 @@ export class CardsBehaviour extends GameBehaviour {
 
     //    this.levelController?.updateData();
 
-    //  this.updateTileField();
+    this.updateTileField();
     this._inProcess = false;
   }
 
@@ -253,5 +271,34 @@ export class CardsBehaviour extends GameBehaviour {
 
   deactivateBonusWithModel(model: PlayerModel) {
     model.unSetBonus();
+  }
+
+
+  public Setup(objectsCache: ObjectsCache,
+    cardService: CardService,
+    dataService: DataService,
+    levelModel: LevelModel,
+    gameState: GameState,
+    effectsService: EffectsService,
+    effectsManager: EffectsManager,
+    audioManager: AudioManagerService,
+    eotInvoker: EOTInvoker) {
+
+    super.Setup(objectsCache,
+      cardService,
+      dataService,
+      levelModel,
+      gameState,
+      effectsService,
+      effectsManager,
+      audioManager,
+      eotInvoker);
+
+    if (dataService.field != null) {
+      const fieldExt = new FieldControllerExtensions(dataService.field);
+
+      this._startTilesP1 = fieldExt.findTilesByModelName("start");
+      this._startTilesP2 = fieldExt.findTilesByModelName("end");
+    }
   }
 }

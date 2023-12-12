@@ -29,6 +29,16 @@ export class StdTileInterBehaviour extends GameBehaviour {
   // this._levelModel = this.getService(LevelModel);
   // this._matchStatistic = this.getService(MatchStatisticService);
   //}
+  private _doNotUpdateMana = false;
+
+  public get doNotUpdateMana(): boolean {
+    return this._doNotUpdateMana;
+  }
+
+  public set doNotUpdateMana(value: boolean) {
+    this._doNotUpdateMana = value;
+  }
+
   constructor() {
     super();
     this.type = helpers.typeName(StdTileController);
@@ -153,6 +163,10 @@ export class StdTileInterBehaviour extends GameBehaviour {
 
 
   manaUpdate(tilesCount: number, tileType: TileModel): void {
+    if (this._doNotUpdateMana) {
+      return;
+    }
+
     const curPlayerModel = this.currentPlayerModel;
     if (curPlayerModel == null) return;
     if (this.levelModel.gameMechanicType == 0) {

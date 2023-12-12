@@ -1,4 +1,4 @@
-import { assert } from "cc";
+import { Vec3, assert } from "cc";
 import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { FieldController } from "../../field/FieldController";
 import { CardService } from "../../services/CardService";
@@ -10,35 +10,29 @@ import { ReadonlyMatrix2D } from "../../field/ReadonlyMatrix2D";
 
 export class PushCardSubehaviour extends CardsSubBehaviour {
   private _cache: ObjectsCache;
-  private _cardsService: CardService | null;
-  private _field: FieldController | null | undefined;
+
   private _tilesToDestroy: TileController[] | undefined;
   private _matrix: ReadonlyMatrix2D<TileController>;
+  private _direction: number;
 
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
 
-    let targetRow = 10;
-    if (
-      this.parent.cardsService?.getCurrentPlayerModel() ==
-      this.parent.cardsService?._dataService?.botModel
-    ) {
-      targetRow = 1;
+    let targetRow = this.parent.startTilesP2[0].row - 1; // should be 10 in default wariation of game
+    this._direction = 1;
+    if (!this.parent.gameState.isPlayerTurn) {
+      targetRow = this.parent.startTilesP1[0].row + 1; // should be 1 in default wariation of game
+      this._direction = -1;
     }
-    if (this.parent.field?.fieldMatrix == null) return false;
+
     this._matrix = this.parent.field?.fieldMatrix;
-    if (this.parent.cardsService == null) return false;
 
-    this.effectDurationValue = 1;
-    this._cardsService = this.parent.cardsService;
-    this._field = this.parent.field;
+    this.effectDurationValue = 0.8;
 
-    if (this._cardsService == null) return false;
-    if (this._field == null) return false;
     this._tilesToDestroy = [];
 
     this._matrix.forEachInRow(targetRow, (tile, colId) => {
-      if (tile.playerModel == this.parent.cardsService?.getOponentModel()) {
+      if (tile.playerModel == this.parent.cardService.getOponentModel()) {
         this._tilesToDestroy?.push(tile);
       }
     });
@@ -53,7 +47,7 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
   run(): boolean {
     if (!this._tilesToDestroy) return false;
     this._tilesToDestroy.forEach((tile) => {
-      this.parent.field?.fakeDestroyTile(tile);
+      tile.cacheDestroy();
     });
 
     return true;
@@ -61,9 +55,9 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
 
   effect(): boolean {
     this.parent.debug?.log("[push_card_sub] Start effect.");
-    const curPlayer = this.parent.cardsService?.getCurrentPlayerModel();
+    const curPlayer = this.parent.cardService.getCurrentPlayerModel();
 
-    this.parent.audio.playSoundEffect("motivate");
+    this.parent.audioManager.playSoundEffect("motivate");
 
     this._matrix.forEach((tile) => {
       if (tile.playerModel != curPlayer) return;
@@ -77,6 +71,7 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
       effect.node.parent = tile.node.parent;
       effect.node.position = tile.node.position;
       effect.node.scale = tile.node.scale;
+      effect.node.setRotationFromEuler(new Vec3(0, 0, this._direction > 0 ? 0 : 180))
       effect.play();
     });
 

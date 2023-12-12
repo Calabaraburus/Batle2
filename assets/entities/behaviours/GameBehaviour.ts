@@ -20,6 +20,7 @@ import { EffectsManager } from "../game/EffectsManager";
 import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
 import { CardsBehaviour } from "../tiles/Behaviours/CardsBehaviour";
 import { EOTInvoker } from "../game/EOTInvoker";
+import { FieldControllerExtensions } from "../field/FieldExtensions";
 const { ccclass } = _decorator;
 
 @ccclass("GameBehaviour")
@@ -96,6 +97,11 @@ export class GameBehaviour extends Behaviour {
     return this._dataService?.field;
   }
 
+  get fieldExt() {
+    return this._dataService?.fieldExt;
+  }
+
+
   get debug() {
     return this._dataService?.debugView;
   }
@@ -127,7 +133,6 @@ export class GameBehaviour extends Behaviour {
     this._audioManager = audioManager;
     this._effectsManager = effectsManager;
     this._eotInvoker = eotInvoker;
-
   }
 
   run(): void {

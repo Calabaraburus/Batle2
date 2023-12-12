@@ -276,7 +276,7 @@ export class FieldLogicalController
 
     const tileMapSimbol = fwd ? "?" : "^";
 
-    // fins all live tiles and put them to path
+    // finds all live tiles and put them to path
     const liveTiles = findTiles(false);
     liveTiles.forEach((t, i) => {
       pathTiles[destroiedTiles.length + (fwd ? i : liveTiles.length - i - 1)] =

@@ -11,6 +11,7 @@ import { LevelConfiguration } from "../entities/configuration/LevelConfiguration
 import { DebugView } from "../entities/ui/debugger/DebugView";
 import { ITileFieldController } from "../entities/field/ITileFieldController";
 import { _decorator, __private } from "cc";
+import { FieldControllerExtensions } from "../entities/field/FieldExtensions";
 const { ccclass } = _decorator;
 
 @ccclass("DataServiceForBot")
@@ -65,11 +66,13 @@ export class DataServiceForBot extends DataService {
         this._enemyFieldController = value;
     }
 
-    get field() {
-        return this._field;
-    }
     public set field(value: ITileFieldController) {
         this._field = value;
+        this._fieldExt = new FieldControllerExtensions(this._field);
+    }
+
+    get field() {
+        return super.field;
     }
 
     public get levelConfiguration() {

@@ -45,6 +45,8 @@ import { EOTInvoker } from "../entities/game/EOTInvoker";
 import { AudioManagerService } from "../soundsPlayer/AudioManagerService";
 import { EffectsManager } from "../entities/game/EffectsManager";
 import { Queue } from "../scripts/Queue";
+import { StdTileInterBehaviour } from "../entities/tiles/Behaviours/StdTileInterBehaviour";
+import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
 
 const { ccclass, property } = _decorator;
 
@@ -140,6 +142,12 @@ export class Bot_v2 extends Service implements IBot {
       this._cardsBehaviour.applyCardsLogicOnly = true;
     }
 
+    const stib = this._behaviourSelector.getBehaviour(StdTileInterBehaviour);
+
+    if (stib != null) {
+      stib.doNotUpdateMana = true;
+    }
+
     this.initCardActivators();
     this.initCardAnalizators();
   }
@@ -149,6 +157,10 @@ export class Bot_v2 extends Service implements IBot {
     this._cardStrategiesActivators.set("firewall", cm => new FirewallCardBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("firewallLow", cm => new FirewallLowCardBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("firewallMiddle", cm => new FirewallMiddleCardBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("c_attack", cm => new CounterattackCardBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("push", cm => new CounterattackCardBotAnalizator(cm, this, field, this._playerModel));
   }
 
   private initCardAnalizators() {

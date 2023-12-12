@@ -12,6 +12,7 @@ import { Service } from "./Service";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { IDataService } from "./IDataService";
 import { ITileFieldController } from "../field/ITileFieldController";
+import { FieldControllerExtensions } from "../field/FieldExtensions";
 
 @ccclass("DataService")
 export class DataService extends Service implements IDataService {
@@ -24,6 +25,7 @@ export class DataService extends Service implements IDataService {
   protected _enemyFieldController: EnemyFieldController;
   protected _playerFieldController: PlayerFieldController;
   protected _levelConfig: LevelConfiguration;
+  protected _fieldExt: FieldControllerExtensions;
 
   public get debugView() {
     return this._debug;
@@ -57,6 +59,10 @@ export class DataService extends Service implements IDataService {
     return this._field;
   }
 
+  get fieldExt() {
+    return this._fieldExt;
+  }
+
   public get levelConfiguration() {
     return this._levelConfig;
   }
@@ -74,5 +80,7 @@ export class DataService extends Service implements IDataService {
 
     this._playerFieldController = this.getServiceOrThrow(PlayerFieldController);
     this._enemyFieldController = this.getServiceOrThrow(EnemyFieldController);
+
+    this._fieldExt = new FieldControllerExtensions(this._field);
   }
 }
