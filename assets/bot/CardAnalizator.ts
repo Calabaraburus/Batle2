@@ -12,6 +12,7 @@ export class CardAnalizator extends BotTileSelectionStrategy {
   private _levelModel: LevelModel | null;
   private _playerModel: PlayerModel;
   protected _isStochastic: boolean;
+  protected _hasPredefinedScore = false;
   protected _fieldExt: FieldControllerExtensions;
   private _field: ITileFieldController;
 
@@ -33,6 +34,10 @@ export class CardAnalizator extends BotTileSelectionStrategy {
 
   public get field(): ITileFieldController {
     return this._field;
+  }
+
+  public get hasPredefinedScore() {
+    return this._hasPredefinedScore;
   }
 
   public set field(value: ITileFieldController) {
@@ -60,9 +65,11 @@ export class CardAnalizator extends BotTileSelectionStrategy {
     }
   }
 
-  public StochasticEstimation(): number {
+  public predefinedScore(): number {
     return 0;
   }
 
   public Apply(): void { }
 }
+
+
