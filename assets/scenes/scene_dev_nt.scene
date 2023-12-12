@@ -2570,7 +2570,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "lightning",
-    "priceToActivate": 5,
+    "priceToActivate": 2,
     "sprite": {
       "__uuid__": "47408ef0-8f8a-4f38-a1d8-beca307a0c2e@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -4545,10 +4545,7 @@
     },
     "bonusesMetaData": [
       {
-        "__id__": 77
-      },
-      {
-        "__id__": 115
+        "__id__": 83
       }
     ],
     "_id": "36DsKX1qFKb694sfpif8xg"

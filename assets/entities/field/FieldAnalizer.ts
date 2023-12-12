@@ -19,8 +19,12 @@ export class FieldAnalyzer {
 
   /** Constructor */
   constructor(field: ITileFieldController) {
-    this._field = field;
-    this._fieldModel = field.fieldModel;
+    this.field = field;
+  }
+
+  public set field(value: ITileFieldController) {
+    this._field = value;
+    this._fieldModel = value.fieldModel;
   }
 
   /** Analize different aspects of tile field.

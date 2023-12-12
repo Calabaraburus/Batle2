@@ -13,24 +13,25 @@ import { IAttackable, isIAttackable } from "../IAttackable";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
+import { ITileFieldController } from "../../field/ITileFieldController";
 
 export class LightningCardSubehaviour extends CardsSubBehaviour {
   protected maxCount = 11;
   private _tilesToDestroy: TileController[] | undefined;
   private _cardsService: CardService | null;
-  private _field: FieldController | null | undefined;
+  private _field: ITileFieldController | null | undefined;
   private _lightning: lightning | null;
 
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
+    const playerTag = this.parent.cardService.getPlayerTag();
     if (playerTag == null) return false;
-    if (this.parent.cardsService == null) return false;
+    if (this.parent.cardService == null) return false;
 
     if (targetTile instanceof StdTileController) {
       if (
         targetTile.playerModel ==
-        this.parent.cardsService?.getCurrentPlayerModel()
+        this.parent.cardService.getCurrentPlayerModel()
       ) {
         return false;
       }
@@ -39,7 +40,7 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
     }
 
     this.effectDurationValue = 1.5;
-    this._cardsService = this.parent.cardsService;
+    this._cardsService = this.parent.cardService;
     this._field = this.parent.field;
     this._lightning = this.parent.getService(lightning);
 
@@ -70,7 +71,7 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
       if (isIAttackable(t)) {
         (<IAttackable>t).attack(1);
       } else {
-        this._field?.fakeDestroyTile(t);
+        t.cacheDestroy();
       }
     });
 
@@ -85,7 +86,7 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
 
     let prev: TileController | null = null;
 
-    this.parent.audio.playSoundEffect("lightning");
+    this.parent.audioManager.playSoundEffect("lightning");
 
     this._tilesToDestroy
       .sort((t1, t2) => t1.col - t2.col)

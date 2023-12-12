@@ -47,6 +47,7 @@ import { EffectsManager } from "../entities/game/EffectsManager";
 import { Queue } from "../scripts/Queue";
 import { StdTileInterBehaviour } from "../entities/tiles/Behaviours/StdTileInterBehaviour";
 import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
+import { PerdefinedScoreCardAnalizator } from "./PerdefinedScoreCardAnalizator";
 
 const { ccclass, property } = _decorator;
 
@@ -161,6 +162,10 @@ export class Bot_v2 extends Service implements IBot {
     this._cardStrategiesActivators.set("c_attack", cm => new CounterattackCardBotAnalizator(cm, this, field, this._playerModel));
 
     this._cardStrategiesActivators.set("push", cm => new CounterattackCardBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("lightning", cm => new PerdefinedScoreCardAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("lightningLow", cm => new PerdefinedScoreCardAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("lightningMiddle", cm => new PerdefinedScoreCardAnalizator(cm, this, field, this._playerModel));
   }
 
   private initCardAnalizators() {
@@ -222,36 +227,46 @@ export class Bot_v2 extends Service implements IBot {
 
     const aData = analyzer.analyze();
 
-    const cardsTop: RatingResult[] = [];
-
-    this._cardAnalizators.forEach(ca => {
-      if (!ca.canActivateCard()) return;
-
-      ca.field = clonedField;
-
-      const cardRating: RatingResult[] = [];
-
-      if (!ca.isStochastic) {
-
-        const tiles = ca.getAvailableTilesForAction(aData);
-        tiles.forEach(t => {
-          this.getComplexRating(clonedField, [new CardToTile(ca.cardModel, t)], finishTiles, endTiles, cardRating);
-        });
-
-        cardRating.sort((r1, r2) => r1.rating - r2.rating);
-        cardsTop.push(cardRating[0]);
-      }
-    });
+    /* const cardsTop: RatingResult[] = [];
+ 
+     this._cardAnalizators.forEach(ca => {
+       if (!ca.canActivateCard()) return;
+ 
+       ca.field = clonedField;
+ 
+       const cardRating: RatingResult[] = [];
+ 
+       if (!ca.hasPredefinedScore) {
+ 
+         const tiles = ca.getAvailableTilesForAction(aData);
+         tiles.forEach(t => {
+           this.getComplexRating(clonedField, [new CardToTile(ca.cardModel, t)], finishTiles, endTiles, cardRating);
+         });
+ 
+         cardRating.sort((r1, r2) => r1.rating - r2.rating);
+         cardsTop.push(cardRating[0]);
+       } else {
+ 
+       }
+     });*/
 
     const queue = new Queue<() => void>();
 
-    if (cardsTop.length > 0) {
-      const resWithCards = cardsTop[0];
+    if (this._cardAnalizators.size > 0) {
 
-      resWithCards.cards.forEach(c => {
+      this._cardAnalizators.forEach(c => {
         queue.enqueue(() => {
-          this.botModel.setBonus(c.cardModel);
-          this.pressTileRC(c.tile.row, c.tile.col);
+
+          const analizator = this._cardAnalizators.get(c.cardModel.mnemonic);
+
+          if (analizator != null && analizator.canActivateCard()) {
+
+            const tile = this.getTileForCardActivation(clonedField, analizator, finishTiles, endTiles);
+            if (tile != null) {
+              this.botModel.setBonus(c.cardModel);
+              this.pressTileRC(tile.row, tile.col);
+            }
+          }
         });
       });
     }
@@ -341,6 +356,46 @@ export class Bot_v2 extends Service implements IBot {
         clonedFieldForTiles.reset();
       }
     });
+  }
+
+  private getTileForCardActivation(
+    field: ITileFieldController,
+    ca: CardAnalizator,
+    startTiles: TileController[],
+    endTiles: TileController[]): TileController | null {
+
+    const fieldExt = new FieldControllerExtensions(field);
+    const analizer = new FieldAnalyzer(fieldExt.field);
+
+    ca.field = field;
+
+    const tiles = ca.getAvailableTilesForAction(analizer.analyze());
+
+    const ratingList: RatingResult[] = [];
+    this._botModel.setBonus(ca.cardModel);
+
+    tiles.forEach(t => {
+      if (isICloneable(field)) {
+        const clonedFieldForCard = field.clone() as ITileFieldController;
+        fieldExt.setField(clonedFieldForCard);
+        this._internalDataService.field = clonedFieldForCard;
+        analizer.field = clonedFieldForCard;
+        this._internalDataService.fieldAnalizer = analizer;
+
+        const res = new RatingResult();
+        res.tile = t;
+        res.rating = this.getTileRating(fieldExt, null, startTiles, endTiles);
+        ratingList.push(res);
+
+        clonedFieldForCard.reset();
+      }
+    });
+
+    if (ratingList.length > 0) {
+      return ratingList.sort((r1, r2) => r1.rating - r2.rating)[0].tile;
+    } else {
+      return null;
+    }
   }
 
   private getTileRating(
