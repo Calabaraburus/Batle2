@@ -1,66 +1,48 @@
 import { assert, randomRange, randomRangeInt } from "cc";
 import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
-import { FieldController } from "../../field/FieldController";
-import { CardService } from "../../services/CardService";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 import { AnimationEffect } from "../../effects/AnimationEffect";
-import { ReadonlyMatrix2D } from "../../field/ReadonlyMatrix2D";
 import { IAttackable, isIAttackable } from "../IAttackable";
 
+/**
+ * Co
+ * 
+ */
 export class CounterattackCardSubehaviour extends CardsSubBehaviour {
   private _cache: ObjectsCache;
-  private _cardsService: CardService | null;
-  private _field: FieldController | null | undefined;
-  private _tilesToDestroy: TileController[] | undefined;
-  private _matrix: ReadonlyMatrix2D<TileController>;
+  private _tilesToDestroy: TileController[];
   private _rndColumns: number[] = [];
 
   prepare(): boolean {
-    const targetTile = this.parent.target as StdTileController;
 
-    let targetRow = 10;
+    this.effectDurationValue = .8;
+
+    const matrix = this.parent.field.fieldMatrix;
+
+
     let vectorPuch = -1;
-    if (
-      this.parent.cardsService?.getCurrentPlayerModel() ==
-      this.parent.cardsService?._dataService?.botModel
-    ) {
-      targetRow = 1;
+
+    if (!this.parent.gameState.isPlayerTurn) {
       vectorPuch = 1;
     }
-    if (this.parent.field?.fieldMatrix == null) return false;
-    this._matrix = this.parent.field?.fieldMatrix;
-    if (this.parent.cardsService == null) return false;
 
-    this.effectDurationValue = 1;
-    this._cardsService = this.parent.cardsService;
-    this._field = this.parent.field;
+    let targetRow = this.parent.fieldExt.getFirstTileInColumnByTag();
 
-    if (this._cardsService == null) return false;
-    if (this._field == null) return false;
     this._tilesToDestroy = [];
 
-    const columnNumbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-    while (this._rndColumns.length < 5) {
-      const item =
-        columnNumbers[Math.floor(Math.random() * columnNumbers.length)];
-      this._rndColumns.push(item);
-      columnNumbers.splice(columnNumbers.indexOf(item), 1);
-    }
-
-    this._matrix.forEachInRow(targetRow, (tile, colId) => {
+    matrix.forEachInRow(targetRow, (tile, colId) => {
       if (this._rndColumns.indexOf(tile.col) > -1) {
-        if (tile.playerModel == this.parent.cardsService?.getOponentModel()) {
+        if (tile.playerModel == this.parent.cardService.getOponentModel()) {
           if (tile instanceof StdTileController) {
             !tile.shieldIsActivated;
             this._tilesToDestroy?.push(tile);
           }
         }
-        const nextTile = this._matrix.get(tile.row + vectorPuch, tile.col);
+        const nextTile = matrix.get(tile.row + vectorPuch, tile.col);
         if (
-          nextTile.playerModel == this.parent.cardsService?.getOponentModel()
+          nextTile.playerModel == this.parent.cardService.getOponentModel()
         ) {
           if (tile instanceof StdTileController) {
             !tile.shieldIsActivated;
@@ -95,9 +77,9 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
 
   effect(): boolean {
     this.parent.debug?.log("[push_card_sub] Start effect.");
-    const curPlayer = this.parent.cardsService?.getCurrentPlayerModel();
+    const curPlayer = this.parent.cardService.getCurrentPlayerModel();
 
-    this.parent.audio.playSoundEffect("motivate");
+    this.parent.audioManager.playSoundEffect("motivate");
 
     this._matrix.forEach((tile) => {
       if (tile.playerModel != curPlayer) return;

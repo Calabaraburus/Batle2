@@ -184,18 +184,30 @@ export class GameManager extends Service {
 
   private tileClicked(sender: unknown, tile: TileController): void {
     this.lockUi();
-    console.log("onManagerClick___________________");
+
+    console.log("[GameManager] Tile clicked");
     this.behaviourSeletor.run(tile);
 
     this._field.moveTilesAnimate();
 
-    this.unlockUi();
+    this.waitAnimations(() => {
+      if (this._stateMachine.getCurrentState() == "playerTurn") {
+        this.unlockUi();
+      }
+    });
+  }
 
+  private waitAnimations(action: () => void) {
+    const waiter = tween(this);
 
-    // this.changeGameState("endTurnEvent");
-    // if (!this.behaviourSeletor.hasActiveBehaviours()) {
-    //   this._stateMachine.handle("endTurnEvent");
-    // }
+    waiter.repeatForever(tween(this).call(() => {
+      if (!this._effectsManager.effectIsRunning) {
+        action();
+        waiter.stop();
+      }
+    }).delay(0.2));
+
+    waiter.start();
   }
 
   public changeGameState(stateName: string) {

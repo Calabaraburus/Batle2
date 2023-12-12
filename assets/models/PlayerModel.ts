@@ -72,4 +72,8 @@ export class PlayerModel extends Component {
   public isBonusSet(): boolean {
     return this._activeBonus != null;
   }
+
+  public clone(): PlayerModel {
+    return new (this.constructor as new () => this)();
+  }
 }

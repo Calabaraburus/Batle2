@@ -202,6 +202,12 @@ export class FieldControllerExtensions {
     return result == null ? [] : result;
   }
 
+  public getFirstTileInColumnByTag(tag: string): TileController | null {
+    const tiles = this.getTilesByTag(tag)
+
+    return tiles.length > 0 ? tiles[0] : null;
+  }
+
   public getPlayerTiles(playerModel: PlayerModel): TileController[] {
     return this.getTiles(
       (t) => t.playerModel == playerModel

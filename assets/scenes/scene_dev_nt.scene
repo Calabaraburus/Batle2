@@ -2339,7 +2339,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "firewall",
-    "priceToActivate": 1,
+    "priceToActivate": 3,
     "sprite": {
       "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -3696,7 +3696,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "push",
-    "priceToActivate": 1,
+    "priceToActivate": 2,
     "sprite": {
       "__uuid__": "457b7806-930a-4c6b-b343-4fb5eeb72413@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -4546,6 +4546,9 @@
     "bonusesMetaData": [
       {
         "__id__": 77
+      },
+      {
+        "__id__": 115
       }
     ],
     "_id": "36DsKX1qFKb694sfpif8xg"
