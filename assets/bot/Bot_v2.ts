@@ -318,7 +318,7 @@ export class Bot_v2 extends Service implements IBot {
         this._internalDataService.fieldAnalizer = new FieldAnalyzer(clonedFieldForCard);
         this._behaviourSelector.run(clonedFieldForCard.fieldMatrix.get(c.tile.row, c.tile.col));
         this._botModel.unSetBonus();
-        clonedFieldForCard.moveTilesLogicaly(true);
+        this.updateField(clonedFieldForCard);
       });
 
       pt = fieldExt.getPlayerTiles(this._playerModel);
@@ -410,13 +410,19 @@ export class Bot_v2 extends Service implements IBot {
 
     if (tile != null) {
       this._behaviourSelector.run(fieldExt.field.fieldMatrix.get(tile.row, tile.col));
-      fieldExt.field.moveTilesLogicaly(true);
+      this.updateField(fieldExt.field);
     }
 
     const playerTiles = fieldExt.getPlayerTiles(this._playerModel);
     const botTiles = fieldExt.getPlayerTiles(this._botModel);
 
     return fieldExt.getRating(playerTiles, botTiles, startTiles, endTiles);
+  }
+
+  private updateField(field: ITileFieldController) {
+    field.moveTilesLogicaly(true);
+    field.fixTiles();
+    field.flush();
   }
 
   private getTilesForTouch(analysedData: AnalyzedData) {

@@ -49,11 +49,11 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
   }
 
   run(): boolean {
-    this._tilesToDestroy.forEach((item) => {
-      if (isIAttackable(item)) {
-        (<IAttackable>item).attack(1);
+    this._tilesToDestroy.forEach((tile) => {
+      if (isIAttackable(tile)) {
+        (<IAttackable>tile).attack(1);
       } else {
-        item.cacheDestroy();
+        this.parent.field.fakeDestroyTile(tile);
       }
     });
 

@@ -67,11 +67,11 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
     if (this._tilesToDestroy == undefined) return false;
     if (this._field == null) return false;
 
-    this._tilesToDestroy.forEach((t) => {
-      if (isIAttackable(t)) {
-        (<IAttackable>t).attack(1);
+    this._tilesToDestroy.forEach((tile) => {
+      if (isIAttackable(tile)) {
+        (<IAttackable>tile).attack(1);
       } else {
-        t.cacheDestroy();
+        this.parent.field.fakeDestroyTile(tile);
       }
     });
 
