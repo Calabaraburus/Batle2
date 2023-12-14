@@ -17,7 +17,6 @@ export class DebugView extends Component {
   }
 
   public log(value: string) {
-    return;
     console.log(value);
     if (this.debugLabel.string.length > 5000) {
       this.debugLabel.string = "";

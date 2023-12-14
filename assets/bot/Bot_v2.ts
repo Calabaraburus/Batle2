@@ -202,10 +202,11 @@ export class Bot_v2 extends Service implements IBot {
 
   public move(): void {
     let clonedField: ITileFieldController;
+    const field = this._dataService.field;
     this._cardsBehaviour
-    if (isICloneable(this._dataService.field)) {
+    if (isICloneable(field)) {
       clonedField =
-        this._dataService.field.clone() as ITileFieldController;
+        field.clone() as ITileFieldController;
     } else {
       throw Error("logicField must be clonable.");
     }
@@ -261,7 +262,7 @@ export class Bot_v2 extends Service implements IBot {
 
           if (analizator != null && analizator.canActivateCard()) {
 
-            const tile = this.getTileForCardActivation(clonedField, analizator, finishTiles, endTiles);
+            const tile = this.getTileForCardActivation(field, analizator, finishTiles, endTiles);
             if (tile != null) {
               this.botModel.setBonus(c.cardModel);
               this.pressTileRC(tile.row, tile.col);
@@ -273,7 +274,7 @@ export class Bot_v2 extends Service implements IBot {
 
     queue.enqueue(() => {
       this.botModel.unSetBonus();
-      this.getTilesRating(clonedField, finishTiles, endTiles, [], results);
+      this.getTilesRating(field, finishTiles, endTiles, [], results);
       results.sort((r1, r2) => r1.rating - r2.rating);
 
       this.pressTileRC(results[0].tile.row, results[0].tile.col);
@@ -495,3 +496,4 @@ export class EotForBot extends EOTInvoker {
 
   }
 }
+
