@@ -12,6 +12,7 @@ import { DebugView } from "../entities/ui/debugger/DebugView";
 import { ITileFieldController } from "../entities/field/ITileFieldController";
 import { _decorator, __private } from "cc";
 import { FieldControllerExtensions } from "../entities/field/FieldExtensions";
+import { DebugViewForBot } from "./DebugViewForBot";
 const { ccclass } = _decorator;
 
 @ccclass("DataServiceForBot")
@@ -21,7 +22,7 @@ export class DataServiceForBot extends DataService {
         return this._debug;
     }
     public set debugView(value: DebugView) {
-        this._debug = value;
+        // this._debug = value;
     }
 
     public get levelController() {
@@ -82,5 +83,7 @@ export class DataServiceForBot extends DataService {
         this._levelConfig = value;
     }
 
-    start() { }
+    start() {
+        this.debugView = new DebugViewForBot();
+    }
 }
