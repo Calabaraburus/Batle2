@@ -26,13 +26,13 @@ import { CardEffect } from "../../effects/CardEffect";
 import { EffectsService } from "../../services/EffectsService";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 import { Service } from "../../services/Service";
+import { DataService } from "../../services/DataService";
 const { ccclass, property } = _decorator;
 
 @ccclass("BerserkTileController")
 export class AssassinTileController
   extends TileController
-  implements IAttackable
-{
+  implements IAttackable {
   private _cardService: CardService;
   private _state: TileState;
   private _attacksCountToDestroy: number;
@@ -44,6 +44,8 @@ export class AssassinTileController
   destroyPartycles: Prefab;
   maxCount: number;
   _tilesToDestroy: TileController[] | undefined;
+  private _dataService: DataService;
+  _fieldViewController: FieldController;
 
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -52,7 +54,9 @@ export class AssassinTileController
   start() {
     super.start();
     this._cardService = Service.getServiceOrThrow(CardService);
+    this._dataService = Service.getServiceOrThrow(DataService);
     this._gameManager = Service.getServiceOrThrow(GameManager);
+    this._fieldViewController = Service.getServiceOrThrow(FieldController);
     this.updateSprite();
   }
 
@@ -67,7 +71,7 @@ export class AssassinTileController
       const matrix = this.fieldController.fieldMatrix;
       let vectorAttack = 1;
 
-      if (this.playerModel == this._cardService?._dataService?.botModel) {
+      if (this.playerModel == this._dataService.botModel) {
         vectorAttack = -1;
       }
       const enemyTile = matrix.get(this.row + vectorAttack, this.col);
@@ -134,7 +138,7 @@ export class AssassinTileController
   }
 
   playEffect() {
-    console.log("fire wall effect");
+    console.log("berserk effect");
 
     const timeObj = { time: 0 };
     const animator = tween(timeObj);
@@ -159,7 +163,7 @@ export class AssassinTileController
     //   });
     // });
 
-    animator.delay(0.2).call(() => this.fieldController.moveTilesAnimate());
+    animator.delay(0.2).call(() => this._fieldViewController.moveTilesAnimate());
     // .delay(0.5)
     // .call(() => effects.forEach((e) => e.stopEmmit()))
     // .delay(5)

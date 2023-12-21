@@ -19,6 +19,7 @@ import { GameManager } from "../../game/GameManager";
 import { IAttackable, isIAttackable } from "../IAttackable";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 import { Service } from "../../services/Service";
+import { FieldController } from "../../field/FieldController";
 const { ccclass, property } = _decorator;
 
 @ccclass("MineTileController")
@@ -27,16 +28,16 @@ export class MineTileController extends TileController {
   private _effectsService: EffectsService;
   private _cache: ObjectsCache;
   private _gameManager: GameManager;
+  private _fieldViewController: FieldController;
 
   start() {
     super.start();
     this.attackPower = 0;
 
     this._cardService = Service.getServiceOrThrow(CardService);
-
     this._effectsService = Service.getServiceOrThrow(EffectsService);
-
     this._gameManager = Service.getServiceOrThrow(GameManager);
+    this._fieldViewController = Service.getServiceOrThrow(FieldController);
 
     assert(ObjectsCache.instance, "ObjectsCache can't be null");
 
@@ -93,7 +94,7 @@ export class MineTileController extends TileController {
 
       animator
         .delay(0.5)
-        .call(() => this.fieldController.moveTilesAnimate())
+        .call(() => this._fieldViewController.moveTilesAnimate())
         .delay(0.3)
         .call(() => effect.stopEmmit())
         .delay(5)

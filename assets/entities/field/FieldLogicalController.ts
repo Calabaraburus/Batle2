@@ -328,8 +328,13 @@ export class FieldLogicalController
 
   public fakeDestroyTile(tile: TileController): void {
     tile.fakeDestroy();
+    this.markTileForDestraction(tile);
+  }
+
+  public markTileForDestraction(tile: TileController): void {
     this._tilesToDestroy.push(tile);
   }
+
 
   /** Apply current state of field, destroies all fake destroied tiles. */
   public flush(): void {

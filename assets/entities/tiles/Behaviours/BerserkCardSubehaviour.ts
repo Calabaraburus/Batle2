@@ -17,22 +17,19 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
     const berserkCount = 2;
     let enemySide = 1;
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
-    const enemyTag = this.parent.cardsService?.getOponentTag();
+    const playerTag = this.parent.cardService.getPlayerTag();
+    const enemyTag = this.parent.cardService.getOponentTag();
 
     if (
-      this.parent.cardsService?.getCurrentPlayerModel() ==
-      this.parent.cardsService?._dataService?.botModel
+      this.parent.cardService.getCurrentPlayerModel() ==
+      this.parent.botModel
     ) {
       enemySide = -1;
     }
 
-    if (playerTag == null || enemyTag == null) return false;
-    if (this.parent.cardsService == null) return false;
-
     if (targetTile instanceof StdTileController) {
       if (
-        targetTile.playerModel == this.parent.cardsService?.getOponentModel()
+        targetTile.playerModel == this.parent.cardService.getOponentModel()
       ) {
         return false;
       }
@@ -100,14 +97,14 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
     }
 
     this._tilesToTransform.forEach((item) => {
-      item.destroyTile();
+      item.cacheDestroy();
 
-      const pModel = this.parent.cardsService?.getCurrentPlayerModel();
+      const pModel = this.parent.cardService.getCurrentPlayerModel();
 
       if (pModel == undefined || pModel == null) {
         this.parent.debug?.log(
           "[berserk_card_sub][error] CurrentPlayerModel is null or undefined." +
-            " return false."
+          " return false."
         );
         return false;
       }
@@ -143,7 +140,7 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
       effect.node.parent = this.parent.effectsNode;
       effect.play();
 
-      this.parent.audio.playSoundEffect("berserk");
+      this.parent.audioManager.playSoundEffect("berserk");
 
       effects.push(effect);
     });

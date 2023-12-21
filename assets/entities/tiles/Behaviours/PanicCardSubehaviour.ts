@@ -15,15 +15,13 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
 
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
 
-    if (playerTag == null) return false;
-    if (this.parent.cardsService == null) return false;
+    if (this.parent.cardService == null) return false;
 
     if (targetTile instanceof StdTileController) {
       if (
         targetTile.playerModel ==
-        this.parent.cardsService?.getCurrentPlayerModel()
+        this.parent.cardService.getCurrentPlayerModel()
       ) {
         return false;
       }
@@ -34,7 +32,7 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
     this._cache = ObjectsCache.instance;
     this.effectDurationValue = 1;
     // this._tilesToPanic = [];
-    const oponentModel = this.parent.cardsService.getOponentModel();
+    const oponentModel = this.parent.cardService.getOponentModel();
     this._tilesToPanic = this.parent.field?.fieldMatrix.filter((tile) => {
       if (tile.tileModel.tileName != "berserk") {
         return tile.playerModel == oponentModel;
@@ -111,8 +109,8 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
   }
 
   effect(): boolean {
-    this.parent.field?.moveTilesAnimate();
-    this.parent.audio.playSoundEffect("panic");
+    this.parent.fieldViewController.moveTilesAnimate();
+    this.parent.audioManager.playSoundEffect("panic");
 
     return true;
   }

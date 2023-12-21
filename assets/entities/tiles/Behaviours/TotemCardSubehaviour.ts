@@ -20,15 +20,15 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
 
     const totemCount = 3;
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
-    const enemyTag = this.parent.cardsService?.getOponentTag();
+    const playerTag = this.parent.cardService.getPlayerTag();
+    const enemyTag = this.parent.cardService.getOponentTag();
 
     if (playerTag == null || enemyTag == null) return false;
-    if (this.parent.cardsService == null) return false;
+    if (this.parent.cardService == null) return false;
 
     if (targetTile instanceof StdTileController) {
       if (
-        targetTile.playerModel == this.parent.cardsService?.getOponentModel()
+        targetTile.playerModel == this.parent.cardService.getOponentModel()
       ) {
         return false;
       }
@@ -78,12 +78,12 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
     this._tilesToTransform.forEach((item) => {
       item.destroyTile();
 
-      const pModel = this.parent.cardsService?.getCurrentPlayerModel();
+      const pModel = this.parent.cardService.getCurrentPlayerModel();
 
       if (pModel == undefined || pModel == null) {
         this.parent.debug?.log(
           "[totem_card_sub][error] CurrentPlayerModel is null or undefined." +
-            " return false."
+          " return false."
         );
         return false;
       }
@@ -119,7 +119,7 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
       effect.node.parent = this.parent.effectsNode;
       effect.play();
 
-      this.parent.audio.playSoundEffect("totem");
+      this.parent.audioManager.playSoundEffect("totem");
 
       effects.push(effect);
     });

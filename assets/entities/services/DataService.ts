@@ -26,6 +26,7 @@ export class DataService extends Service implements IDataService {
   protected _playerFieldController: PlayerFieldController;
   protected _levelConfig: LevelConfiguration;
   protected _fieldExt: FieldControllerExtensions;
+  private _fieldController: any;
 
   public get debugView() {
     return this._debug;
@@ -59,6 +60,10 @@ export class DataService extends Service implements IDataService {
     return this._field;
   }
 
+  get fieldController() {
+    return this._fieldController;
+  }
+
   get fieldExt() {
     return this._fieldExt;
   }
@@ -69,7 +74,8 @@ export class DataService extends Service implements IDataService {
 
   start() {
     this._debug = this.getServiceOrThrow(DebugView);
-    this._field = this.getServiceOrThrow(FieldController).logicField;
+    this._fieldController = this.getServiceOrThrow(FieldController);
+    this._field = this._fieldController.logicField;
     this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
 
     this._analizer = new FieldAnalyzer(this._field);

@@ -77,9 +77,9 @@ export class TotemTileController extends TileController implements IAttackable {
     if (ui == null) {
       return;
     }
-    
+
     Service.getService(AudioManagerService)?.playSoundEffect("totem_attack");
-    
+
     ps.position = new Vec3(
       this.node.position.x + ui.contentSize.width / 2,
       this.node.position.y + ui.contentSize.height / 2,

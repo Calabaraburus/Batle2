@@ -27,7 +27,7 @@ import { StdSelectorBotStrategy } from "./StdSelectorBotStrategy";
 import { ICloneable, isICloneable } from "../scripts/ICloneable";
 import { isIVirtualisable } from "../scripts/IVirtualisable";
 import { FirewallMiddleCardBotAnalizator } from "./FirewallMiddleCardBotAnalizator";
-import { FieldControllerExtensions } from "../entities/field/FieldExtensions";
+import { FieldControllerExtensions, RaitingEvaluator as RatingEvaluator } from "../entities/field/FieldExtensions";
 import { BehaviourSelector } from "../entities/behaviours/BehaviourSelector";
 import { ObjectsCache } from "../ObjectsCache/ObjectsCache";
 import { DataServiceForBot } from "./DataServiceForBot";
@@ -41,13 +41,13 @@ import { FirewallLowCardBotAnalizator } from "./FirewallLowCardBotAnalizator";
 import { CardsBehaviour } from "../entities/tiles/Behaviours/CardsBehaviour";
 import { EffectsService } from "../entities/services/EffectsService";
 import { EffectsManagerForBot } from "./EffectsManagerForBot";
-import { EOTInvoker } from "../entities/game/EOTInvoker";
 import { AudioManagerService } from "../soundsPlayer/AudioManagerService";
 import { EffectsManager } from "../entities/game/EffectsManager";
 import { Queue } from "../scripts/Queue";
 import { StdTileInterBehaviour } from "../entities/tiles/Behaviours/StdTileInterBehaviour";
 import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
 import { PerdefinedScoreCardAnalizator } from "./PerdefinedScoreCardAnalizator";
+import { EotForBot } from "./EotForBot";
 
 const { ccclass, property } = _decorator;
 
@@ -66,6 +66,7 @@ export class Bot_v2 extends Service implements IBot {
   private _dataService: DataService;
   private _tileService: TileService;
   private _cardService: CardService;
+  private _ratingEvaluator: RatingEvaluator;
 
   private _tileSelectorStrateges: TilesSelctorStrategyGroup = {
     stdTilesSelector: new StdSelectorBotStrategy(this),
@@ -223,10 +224,10 @@ export class Bot_v2 extends Service implements IBot {
 
     const fieldExt = new FieldControllerExtensions(clonedField);
 
-    const finishTiles = fieldExt.findTilesByModelName("start");
-    const endTiles = fieldExt.findTilesByModelName("end");
+    // player is enemy for bot
+    this._ratingEvaluator = new RatingEvaluator(fieldExt, this.botModel, this._playerModel);
 
-    const aData = analyzer.analyze();
+    // const aData = analyzer.analyze();
 
     /* const cardsTop: RatingResult[] = [];
  
@@ -262,7 +263,7 @@ export class Bot_v2 extends Service implements IBot {
 
           if (analizator != null && analizator.canActivateCard()) {
 
-            const tile = this.getTileForCardActivation(field, analizator, finishTiles, endTiles);
+            const tile = this.getTileForCardActivation(field, analizator);
             if (tile != null) {
               this.botModel.setBonus(c.cardModel);
               this.pressTileRC(tile.row, tile.col);
@@ -274,8 +275,8 @@ export class Bot_v2 extends Service implements IBot {
 
     queue.enqueue(() => {
       this.botModel.unSetBonus();
-      this.getTilesRating(field, finishTiles, endTiles, [], results);
-      results.sort((r1, r2) => r1.rating - r2.rating);
+      this.getTilesRating(field, [], results);
+      results.sort((r1, r2) => -(r1.rating - r2.rating));
 
       this.pressTileRC(results[0].tile.row, results[0].tile.col);
     });
@@ -323,7 +324,7 @@ export class Bot_v2 extends Service implements IBot {
 
       pt = fieldExt.getPlayerTiles(this._playerModel);
 
-      this.getTilesRating(clonedFieldForCard, startTiles, endTiles, cards, results);
+      this.getTilesRating(clonedFieldForCard, cards, results);
 
       clonedFieldForCard.reset();
     }
@@ -331,8 +332,6 @@ export class Bot_v2 extends Service implements IBot {
 
   private getTilesRating(
     field: ITileFieldController,
-    startTiles: TileController[],
-    endTiles: TileController[],
     cards: CardToTile[],
     results: RatingResult[]) {
 
@@ -348,7 +347,7 @@ export class Bot_v2 extends Service implements IBot {
 
         const result = new RatingResult();
 
-        result.rating = this.getTileRating(fieldExt, t, startTiles, endTiles);
+        result.rating = this.getTileRating(fieldExt, t);
         result.cards = cards;
         result.tile = t;
 
@@ -361,9 +360,7 @@ export class Bot_v2 extends Service implements IBot {
 
   private getTileForCardActivation(
     field: ITileFieldController,
-    ca: CardAnalizator,
-    startTiles: TileController[],
-    endTiles: TileController[]): TileController | null {
+    ca: CardAnalizator): TileController | null {
 
     const fieldExt = new FieldControllerExtensions(field);
     const analizer = new FieldAnalyzer(fieldExt.field);
@@ -385,7 +382,7 @@ export class Bot_v2 extends Service implements IBot {
 
         const res = new RatingResult();
         res.tile = t;
-        res.rating = this.getTileRating(fieldExt, null, startTiles, endTiles);
+        res.rating = this.getTileRating(fieldExt, null);
         ratingList.push(res);
 
         clonedFieldForCard.reset();
@@ -401,9 +398,7 @@ export class Bot_v2 extends Service implements IBot {
 
   private getTileRating(
     fieldExt: FieldControllerExtensions,
-    tile: TileController | null,
-    startTiles: TileController[],
-    endTiles: TileController[]): number {
+    tile: TileController | null): number {
 
     this._internalDataService.field = fieldExt.field;
     this._internalDataService.fieldAnalizer = new FieldAnalyzer(fieldExt.field);
@@ -413,10 +408,9 @@ export class Bot_v2 extends Service implements IBot {
       this.updateField(fieldExt.field);
     }
 
-    const playerTiles = fieldExt.getPlayerTiles(this._playerModel);
-    const botTiles = fieldExt.getPlayerTiles(this._botModel);
+    this._ratingEvaluator.fieldExt = fieldExt;
 
-    return fieldExt.getRating(playerTiles, botTiles, startTiles, endTiles);
+    return this._ratingEvaluator.getRating();
   }
 
   private updateField(field: ITileFieldController) {
@@ -492,14 +486,4 @@ class RatingResult {
   public tile: TileController;
 }
 
-export class EotForBot extends EOTInvoker {
-
-
-  public endTurn(): void {
-
-  }
-  public update(): void {
-
-  }
-}
 

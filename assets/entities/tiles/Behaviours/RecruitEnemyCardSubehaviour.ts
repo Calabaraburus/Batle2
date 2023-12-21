@@ -11,10 +11,10 @@ export class RecruitEnemyCardSubehaviour extends CardsSubBehaviour {
   prepare(): boolean {
     let rnd_const = 0;
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
+    const playerTag = this.parent.cardService.getPlayerTag();
     const matrix = this.parent.field?.fieldMatrix;
     if (playerTag == null) return false;
-    if (this.parent.cardsService == null) return false;
+    if (this.parent.cardService == null) return false;
 
     if (!matrix) return false;
     if (
@@ -38,9 +38,9 @@ export class RecruitEnemyCardSubehaviour extends CardsSubBehaviour {
     this._tilesToRecruit.push(currentTile);
 
     matrix.forEachCol(targetTile.col, (tile) => {
-      if (this.parent.cardsService == null) return;
+      if (this.parent.cardService == null) return;
       if (
-        tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
+        tile.tileModel.containsTag(this.parent.cardService.getOponentTag())
       ) {
         const rnd = Math.floor(Math.random() * 2);
         if (rnd == 0 && rnd_const == 0) {
@@ -53,12 +53,12 @@ export class RecruitEnemyCardSubehaviour extends CardsSubBehaviour {
   }
 
   run(): boolean {
-    const pModel = this.parent.cardsService?.getCurrentPlayerModel();
+    const pModel = this.parent.cardService.getCurrentPlayerModel();
 
     if (pModel == undefined || pModel == null) {
       this.parent.debug?.log(
         "[card_sub][error] CurrentPlayerModel is null or undefined." +
-          " return false."
+        " return false."
       );
       return false;
     }
@@ -91,7 +91,7 @@ export class RecruitEnemyCardSubehaviour extends CardsSubBehaviour {
   }
 
   effect(): boolean {
-    this.parent.field?.moveTilesAnimate();
+    this.parent.fieldViewController.moveTilesAnimate();
 
     return true;
   }

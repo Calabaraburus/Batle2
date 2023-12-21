@@ -13,15 +13,15 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
     this.parent.debug?.log("[catapult_card_sub] Start preparing.");
 
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
-    const enemyTag = this.parent.cardsService?.getOponentTag();
+    const playerTag = this.parent.cardService.getPlayerTag();
+    const enemyTag = this.parent.cardService.getOponentTag();
 
     if (playerTag == null || enemyTag == null) return false;
-    if (this.parent.cardsService == null) return false;
+    if (this.parent.cardService == null) return false;
 
     if (targetTile instanceof StdTileController) {
       if (
-        targetTile.playerModel == this.parent.cardsService?.getOponentModel()
+        targetTile.playerModel == this.parent.cardService.getOponentModel()
       ) {
         return false;
       }
@@ -51,12 +51,12 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
       return false;
     }
 
-    const pModel = this.parent.cardsService?.getCurrentPlayerModel();
+    const pModel = this.parent.cardService.getCurrentPlayerModel();
 
     if (pModel == undefined || pModel == null) {
       this.parent.debug?.log(
         "[catapult_card_sub][error] CurrentPlayerModel is null or undefined." +
-          " return false."
+        " return false."
       );
       return false;
     }
@@ -88,7 +88,7 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
     effect.node.parent = this.parent.effectsNode;
     effect.play();
 
-    this.parent.audio.playSoundEffect("catapult");
+    this.parent.audioManager.playSoundEffect("catapult");
 
     const animator = tween(this);
     animator.delay(1).call(() => effect.cacheDestroy());

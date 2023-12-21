@@ -11,14 +11,14 @@ export class TeleportCardSubehaviour extends CardsSubBehaviour {
   prepare(): boolean {
     if (this.targetTile == null) {
       this.targetTile = this.parent.target as StdTileController;
-      const playerTag = this.parent.cardsService?.getPlayerTag();
+      const playerTag = this.parent.cardService.getPlayerTag();
       if (playerTag == null) return false;
-      if (this.parent.cardsService == null) return false;
+      if (this.parent.cardService == null) return false;
 
       if (this.targetTile instanceof StdTileController) {
         if (
           this.targetTile.playerModel ==
-          this.parent.cardsService?.getCurrentPlayerModel()
+          this.parent.cardService.getCurrentPlayerModel()
         ) {
           return false;
         }
@@ -28,9 +28,9 @@ export class TeleportCardSubehaviour extends CardsSubBehaviour {
       return false;
     } else {
       this.tileSecond = this.parent.target as StdTileController;
-      const playerTag = this.parent.cardsService?.getPlayerTag();
+      const playerTag = this.parent.cardService.getPlayerTag();
       if (playerTag == null) return false;
-      if (this.parent.cardsService == null) return false;
+      if (this.parent.cardService == null) return false;
 
       if (this.tileSecond instanceof StdTileController) {
         if (this.tileSecond.tileModel.containsTag(playerTag)) {
@@ -58,9 +58,9 @@ export class TeleportCardSubehaviour extends CardsSubBehaviour {
   }
 
   effect(): boolean {
-    this.parent.field?.moveTilesAnimate();
+    this.parent.fieldViewController.moveTilesAnimate();
 
-    this.parent.audio.playSoundEffect("teleport");
+    this.parent.audioManager.playSoundEffect("teleport");
 
     return true;
   }

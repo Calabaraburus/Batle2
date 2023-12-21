@@ -91,7 +91,7 @@ export class ShamanTileController
       this._attackedNumber -= power;
 
       if (this._attackedNumber <= 0) {
-        this.destroyTile();
+        this.fakeDestroy();
       }
     }
   }

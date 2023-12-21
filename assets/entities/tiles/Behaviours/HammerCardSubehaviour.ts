@@ -27,23 +27,19 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
     let maxCountLengthBot = 0;
     const maxCountForRow = 1;
     this._targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
 
     if (
-      this.parent.cardsService?.getCurrentPlayerModel() ==
-      this.parent.cardsService?._dataService?.botModel
+      this.parent.cardService.getCurrentPlayerModel() ==
+      this.parent.botModel
     ) {
       maxCountLength = 0;
       maxCountLengthBot = this.powerCard;
     }
 
-    if (playerTag == null) return false;
-    if (this.parent.cardsService == null) return false;
-
     if (this._targetTile instanceof StdTileController) {
       if (
         this._targetTile.playerModel ==
-        this.parent.cardsService?.getCurrentPlayerModel()
+        this.parent.cardService.getCurrentPlayerModel()
       ) {
         return false;
       }
@@ -68,9 +64,9 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
     this.parent.field?.fieldMatrix.forEachCol(
       this._targetTile.col,
       (tile, rowId) => {
-        if (this.parent.cardsService == null) return;
+        if (this.parent.cardService == null) return;
         if (
-          tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
+          tile.tileModel.containsTag(this.parent.cardService.getOponentTag())
         ) {
           if (
             this._targetTile.row + maxCountLength >= rowId &&
@@ -88,10 +84,10 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
       coords.forEach((item) => {
         const tileToDestroy = matrix?.get(tile.row, tile.col + item);
         if (!tileToDestroy) return;
-        if (this.parent.cardsService == null) return;
+        if (this.parent.cardService == null) return;
         if (
           tileToDestroy.tileModel.containsTag(
-            this.parent.cardsService.getOponentTag()
+            this.parent.cardService.getOponentTag()
           )
         ) {
           this._tilesToDestroy.push(tileToDestroy);
@@ -103,11 +99,11 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
   }
 
   run(): boolean {
-    this._tilesToDestroy.forEach((item) => {
-      if (isIAttackable(item)) {
-        (<IAttackable>item).attack(1);
+    this._tilesToDestroy.forEach((tile) => {
+      if (isIAttackable(tile)) {
+        (<IAttackable>tile).attack(1);
       } else {
-        this.parent.field?.fakeDestroyTile(item);
+        tile.fakeDestroy();
       }
     });
 
@@ -134,7 +130,7 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
     spareEffect.node.position = startPos;
     spareEffect.play();
 
-    this.parent.audio.playSoundEffect("hammer");
+    this.parent.audioManager.playSoundEffect("hammer");
 
     const animator = tween(spareEffect.node);
 
