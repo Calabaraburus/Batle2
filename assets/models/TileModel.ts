@@ -38,6 +38,9 @@ export class TileModel extends Component {
   @property({ visible: true })
   tags = "";
 
+  @property({ visible: true })
+  dangerRating = 1;
+
   @property({ type: AdditionalSprite, visible: true })
   additionalSprites: AdditionalSprite[] = [];
 

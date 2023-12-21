@@ -29,15 +29,12 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
   prepare(): boolean {
     const maxCountForEachSide = this.powerCard;
     this._targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
-
-    if (playerTag == null) return false;
-    if (this.parent.cardsService == null) return false;
+    const playerTag = this.parent.cardService.getPlayerTag();
 
     if (this._targetTile instanceof StdTileController) {
       if (
         this._targetTile.playerModel ==
-        this.parent.cardsService?.getCurrentPlayerModel()
+        this.parent.cardService.getCurrentPlayerModel()
       ) {
         return false;
       }
@@ -61,9 +58,8 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
     this.parent.field?.fieldMatrix.forEachCol(
       this._targetTile.col,
       (tile, rowId) => {
-        if (this.parent.cardsService == null) return;
         if (
-          tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
+          tile.tileModel.containsTag(this.parent.cardService.getOponentTag())
         ) {
           if (
             this._targetTile.row + maxCountForEachSide >= rowId &&
@@ -78,9 +74,8 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
     this.parent.field?.fieldMatrix.forEachInRow(
       this._targetTile.row,
       (tile, colId) => {
-        if (this.parent.cardsService == null) return;
         if (
-          tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
+          tile.tileModel.containsTag(this.parent.cardService.getOponentTag())
         ) {
           if (
             this._targetTile.col + maxCountForEachSide >= colId &&
@@ -96,11 +91,11 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
   }
 
   run(): boolean {
-    this._tilesToDestroy.forEach((item) => {
-      if (isIAttackable(item)) {
-        (<IAttackable>item).attack(1);
+    this._tilesToDestroy.forEach((tile) => {
+      if (isIAttackable(tile)) {
+        (<IAttackable>tile).attack(1);
       } else {
-        this.parent.field?.fakeDestroyTile(item);
+        tile.fakeDestroy();
       }
     });
 
@@ -165,7 +160,7 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
 
     meteorEffect.play();
 
-    this.parent.audio.playSoundEffect("meteorite");
+    this.parent.audioManager.playSoundEffect("meteorite");
 
     const animator = tween(meteorEffect.node);
 

@@ -195,7 +195,10 @@ export class CardsBehaviour extends GameBehaviour {
           if (this.applyCardsLogicOnly) {
             this.cancel();
           } else {
-            this.effectsManager.PlayEffect(() => subBehave.effect(), subBehave.effectDuration);
+
+            this.effectsManager.PlayEffect(() => subBehave.effect(), subBehave.effectDuration)
+              .PlayEffect(() => this.afterEffect(), 0.4);
+
             this.finalize();
 
             /*   tween(this)
@@ -222,6 +225,10 @@ export class CardsBehaviour extends GameBehaviour {
     this._inProcess = false;
   }
 
+  afterEffect(): void {
+    this.updateTileField();
+  }
+
   finalize(): void {
     const model = this.cardService.getCurrentPlayerModel();
 
@@ -234,7 +241,7 @@ export class CardsBehaviour extends GameBehaviour {
 
     //    this.levelController?.updateData();
 
-    this.updateTileField();
+    // this.updateTileField();
     this._inProcess = false;
   }
 
@@ -242,14 +249,15 @@ export class CardsBehaviour extends GameBehaviour {
     const analizedData = this.fieldAnalizer?.analyze();
 
     if (analizedData != null) {
-      this.field?.moveTilesLogicaly(!this.gameState.isPlayerTurn);
-      this.field?.fixTiles();
-      this.field?.flush();
+      this.field.moveTilesLogicaly(!this.gameState.isPlayerTurn);
+      this.field.fixTiles();
+      this.field.flush();
+      this.fieldViewController.moveTilesAnimate();
     }
   }
 
   payCardPrice(model: PlayerModel): void {
-    const curPlayer = this.cardService.getCurrentPlayerModel();
+    const curPlayer = this.currentPlayerModel;
     if (curPlayer == null) return;
     if (model.activeBonus == null) return;
 
@@ -262,7 +270,7 @@ export class CardsBehaviour extends GameBehaviour {
   }
 
   deactivateBonus() {
-    const model = this.cardService.getCurrentPlayerModel();
+    const model = this.currentPlayerModel;
 
     if (model != null) {
       this.deactivateBonusWithModel(model);

@@ -71,7 +71,7 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
       if (isIAttackable(tile)) {
         (<IAttackable>tile).attack(1);
       } else {
-        this.parent.field.fakeDestroyTile(tile);
+        tile.fakeDestroy();
       }
     });
 

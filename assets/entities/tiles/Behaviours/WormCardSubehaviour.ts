@@ -20,14 +20,14 @@ export class WormCardSubehaviour extends CardsSubBehaviour {
   prepare(): boolean {
     // const maxCountForEachSide = this.powerCard;
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
+    const playerTag = this.parent.cardService.getPlayerTag();
     if (playerTag == null) return false;
-    if (this.parent.cardsService == null) return false;
+    if (this.parent.cardService == null) return false;
 
     if (targetTile instanceof StdTileController) {
       if (
         targetTile.playerModel ==
-        this.parent.cardsService?.getCurrentPlayerModel()
+        this.parent.cardService.getCurrentPlayerModel()
       ) {
         return false;
       }
@@ -80,7 +80,7 @@ export class WormCardSubehaviour extends CardsSubBehaviour {
   ) {
     if (row < matrix.rows && col < matrix.cols && row >= 0 && col >= 0) {
       const tile = matrix?.get(row, col);
-      if (tile.playerModel == this.parent.cardsService?.getOponentModel()) {
+      if (tile.playerModel == this.parent.cardService.getOponentModel()) {
         if (!this._tilesToDestroy.some((t) => t == tile))
           applicantsToDestroy.push(tile);
       }
@@ -104,7 +104,7 @@ export class WormCardSubehaviour extends CardsSubBehaviour {
     const timeObj = { time: 0 };
     const animator = tween(timeObj);
     const effects: CardEffect[] = [];
-    this.parent.audio.playSoundEffect("worm");
+    this.parent.audioManager.playSoundEffect("worm");
 
     this._tilesToDestroy.forEach((t, i) => {
       const time = 0.1;

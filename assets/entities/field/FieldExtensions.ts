@@ -263,23 +263,58 @@ export class FieldControllerExtensions {
     return this._field.fieldMatrix.filter((t) => t.tileModel === tileModel);
   }
 
-  public getRating(playerTiles: TileController[], enemyTiles: TileController[], playerBaseTiles: TileController[], enemyBaseTiles: TileController[]): number {
+}
+
+export class RaitingEvaluator {
+
+  private _tileAttackCoef = 10;
+  private _fieldExt: FieldControllerExtensions;
+  private _playerModel: PlayerModel;
+  private _enemyModel: PlayerModel;
+  private _playerBaseTiles: TileController[];
+  private _enemyBaseTiles: TileController[];
+
+  public constructor(fieldExt: FieldControllerExtensions, playerModel: PlayerModel, enemyModel: PlayerModel) {
+    this._fieldExt = fieldExt;
+    this._playerModel = playerModel;
+    this._enemyModel = enemyModel;
+    this._playerBaseTiles = fieldExt.findTilesByModelName("end");
+    this._enemyBaseTiles = fieldExt.findTilesByModelName("start");
+  }
+
+  public set fieldExt(value: FieldControllerExtensions) {
+    this._fieldExt = value;
+  }
+
+  public get fieldExt(): FieldControllerExtensions {
+    return this._fieldExt;
+  }
+
+  /**
+   * @en Returns rating for game state
+   */
+  public getRating(): number {
+    const playerTiles = this._fieldExt.getPlayerTiles(this._playerModel);
+    const enemyTiles = this._fieldExt.getPlayerTiles(this._enemyModel);
+
     let result = 0;
     playerTiles.forEach((t) => {
-      const distFromBaseToEnemy = this.getVerticalDistance(t, enemyBaseTiles[0]);
+      const distFromBaseToEnemy = this._fieldExt.getVerticalDistance(t, this._enemyBaseTiles[0]);
 
       if (distFromBaseToEnemy <= 1) {
-        result += 10;
+        result += this._tileAttackCoef;
       }
 
-      result += 1;
+      result += t.tileModel.dangerRating;
     });
 
     enemyTiles.forEach((t) => {
-      const distToEnemyBase = this.getVerticalDistance(t, playerBaseTiles[0]);
+      const distToEnemyBase = this._fieldExt.getVerticalDistance(t, this._playerBaseTiles[0]);
       if (distToEnemyBase <= 1) {
-        result -= 10;
+        result -= this._tileAttackCoef;
       }
+
+      result -= t.tileModel.dangerRating;
     });
 
     return result;

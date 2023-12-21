@@ -17,9 +17,9 @@ export class BodyExchangeCardSubehaviour extends CardsSubBehaviour {
 
   prepare(): boolean {
     this.effectDurationValue = 1.8;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
+    const playerTag = this.parent.cardService.getPlayerTag();
     if (playerTag == null) return false;
-    if (this.parent.cardsService == null) return false;
+    if (this.parent.cardService == null) return false;
     if (this.parent.target instanceof StdTileController) {
       if (this.parent.target.tileModel.containsTag(playerTag)) {
         return false;
@@ -31,7 +31,7 @@ export class BodyExchangeCardSubehaviour extends CardsSubBehaviour {
     const targetTile = this.parent.target as StdTileController;
 
     this._tileModels = this.parent.dataService?.field?.fieldModel
-      .getTileModelsByTags(this.parent.cardsService?.getOponentTag())
+      .getTileModelsByTags(this.parent.cardService.getOponentTag())
       .filter(
         (tm) =>
           tm.specialTile == false && tm.tileId != targetTile.tileModel.tileId

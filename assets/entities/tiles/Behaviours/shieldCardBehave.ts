@@ -16,12 +16,12 @@ export class ShieldCardSubehaviour extends CardsSubBehaviour {
     this.parent.debug?.log("[shield_card_sub] Start prepare.");
 
     const targetTile = this.parent.target as StdTileController;
-    const curPlayerModel = this.parent.cardsService?.getCurrentPlayerModel();
+    const curPlayerModel = this.parent.cardService.getCurrentPlayerModel();
     if (curPlayerModel == null) return false;
 
     if (targetTile instanceof StdTileController) {
       if (
-        targetTile.playerModel == this.parent.cardsService?.getOponentModel()
+        targetTile.playerModel == this.parent.cardService.getOponentModel()
       ) {
         return false;
       }
@@ -33,7 +33,7 @@ export class ShieldCardSubehaviour extends CardsSubBehaviour {
       throw Error("Cache is null");
     }
 
-    const cardsService = this.parent.cardsService;
+    const cardsService = this.parent.cardService;
     const field = this.parent.field;
     if (cardsService == null) return false;
     if (field == null) return false;
@@ -76,7 +76,7 @@ export class ShieldCardSubehaviour extends CardsSubBehaviour {
   effect(): boolean {
     this.parent.debug?.log("[shield_card_sub] Start effect.");
 
-    this.parent.audio.playSoundEffect("shield");
+    this.parent.audioManager.playSoundEffect("shield");
 
     if (this._resultSet.size > 1) {
       this._resultSet.forEach((tile) => {

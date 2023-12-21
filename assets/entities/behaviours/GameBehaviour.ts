@@ -97,6 +97,10 @@ export class GameBehaviour extends Behaviour {
     return this._dataService?.field;
   }
 
+  get fieldViewController() {
+    return this._dataService.fieldController;
+  }
+
   get fieldExt() {
     return this._dataService?.fieldExt;
   }

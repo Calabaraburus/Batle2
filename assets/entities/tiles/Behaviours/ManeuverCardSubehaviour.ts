@@ -12,15 +12,15 @@ export class ManeuverCardSubehaviour extends CardsSubBehaviour {
 
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardsService?.getPlayerTag();
-    const enemyTag = this.parent.cardsService?.getOponentTag();
+    const playerTag = this.parent.cardService.getPlayerTag();
+    const enemyTag = this.parent.cardService.getOponentTag();
 
     if (playerTag == null || enemyTag == null) return false;
-    if (this.parent.cardsService == null) return false;
+    if (this.parent.cardService == null) return false;
 
     if (targetTile instanceof StdTileController) {
       if (
-        targetTile.playerModel == this.parent.cardsService?.getOponentModel()
+        targetTile.playerModel == this.parent.cardService.getOponentModel()
       ) {
         return false;
       }
@@ -31,7 +31,7 @@ export class ManeuverCardSubehaviour extends CardsSubBehaviour {
     this._cache = ObjectsCache.instance;
     this.effectDurationValue = 1;
 
-    const playerModel = this.parent.cardsService.getCurrentPlayerModel();
+    const playerModel = this.parent.cardService.getCurrentPlayerModel();
     this._tilesToPanic = this.parent.field?.fieldMatrix.filter((tile) => {
       if (tile.tileModel.tileName != "berserk") {
         return tile.playerModel == playerModel;
@@ -102,9 +102,8 @@ export class ManeuverCardSubehaviour extends CardsSubBehaviour {
   }
 
   effect(): boolean {
-    this.parent.field?.moveTilesAnimate();
-
-    this.parent.audio.playSoundEffect("maneuver");
+    this.parent.fieldViewController.moveTilesAnimate();
+    this.parent.audioManager.playSoundEffect("maneuver");
 
     return true;
   }

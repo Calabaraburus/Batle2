@@ -36,8 +36,7 @@ const { ccclass, property } = _decorator;
 @ccclass("AssassinTileController")
 export class AssassinTileController
   extends TileController
-  implements IAttackable
-{
+  implements IAttackable {
   private _cardService: CardService;
   private _effectsService: EffectsService;
   private _state: TileState;
@@ -52,6 +51,7 @@ export class AssassinTileController
   maxCount: number;
   _tilesToDestroy: TileController[] | undefined;
   private _shootEffect: ShootEffect;
+  private _fieldViewController: FieldController;
 
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -63,6 +63,7 @@ export class AssassinTileController
     this._effectsService = Service.getServiceOrThrow(EffectsService);
     this._gameManager = Service.getServiceOrThrow(GameManager);
     this._shootEffect = Service.getServiceOrThrow(ShootEffect);
+    this._fieldViewController = Service.getServiceOrThrow(FieldController);
 
     assert(ObjectsCache.instance, "Cache can't be null");
 
@@ -194,7 +195,7 @@ export class AssassinTileController
 
     animator
       .delay(0.5)
-      .call(() => this.fieldController.moveTilesAnimate())
+      .call(() => this._fieldViewController.moveTilesAnimate())
       .delay(1)
       .call(() => effects.forEach((e) => e.cacheDestroy()))
       .start();

@@ -111,7 +111,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
     }
 
     this.debug?.log(`[behaviour][tilesBehaviour] update tile field`);
-    this.updateTileField();
+    this.effectsManager.PlayEffect(() => this.updateTileField(), 0.4);
 
     // this.gameManager?.changeGameState("endTurnEvent");
     this._inProcess = false;
@@ -158,6 +158,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
       this.field?.moveTilesLogicaly(!this.gameState.isPlayerTurn);
       this.field?.fixTiles();
       this.field?.flush();
+      this.fieldViewController.moveTilesAnimate();
     }
   }
 

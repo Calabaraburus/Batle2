@@ -47,7 +47,7 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
   run(): boolean {
     if (!this._tilesToDestroy) return false;
     this._tilesToDestroy.forEach((tile) => {
-      this.parent.field.fakeDestroyTile(tile);
+      tile.fakeDestroy();
     });
 
     return true;

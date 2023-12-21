@@ -188,13 +188,21 @@ export class GameManager extends Service {
     console.log("[GameManager] Tile clicked");
     this.behaviourSeletor.run(tile);
 
-    this._field.moveTilesAnimate();
 
     this.waitAnimations(() => {
       if (this._stateMachine.getCurrentState() == "playerTurn") {
         this.unlockUi();
       }
+      //   this.moveTiles();
     });
+  }
+
+  private moveTiles() {
+    this._field.moveTilesLogicaly(!this._gameState.isPlayerTurn);
+    this._field.fixTiles();
+    this._field.Flush();
+    this._field.moveTilesAnimate();
+
   }
 
   private waitAnimations(action: () => void) {

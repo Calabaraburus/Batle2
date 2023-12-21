@@ -30,10 +30,11 @@ export interface ITileFieldController {
     col,
     tileModel,
     playerModel,
-    position = null,
-    putOnField = false,
+    position,
+    putOnField,
   }: CreateTileArgs): TileController | null;
   fakeDestroyTile(tile: TileController): void;
+  markTileForDestraction(tile: TileController): void;
   fixTiles(): void;
   mixTiles(): void;
   exchangeTiles(t1: TileController, t2: TileController): void;
