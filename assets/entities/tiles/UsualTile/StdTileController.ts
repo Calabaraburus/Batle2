@@ -28,8 +28,8 @@ export class StdTileController extends TileController {
   private _shieldIsActivated: boolean;
 
   /** Destroy particle system */
-  @property(Prefab)
-  destroyPartycles: Prefab;
+  //  @property(Prefab)
+  // destroyPartycles: Prefab;
 
   @property(Node)
   shieldSprite: Node;
@@ -55,9 +55,6 @@ export class StdTileController extends TileController {
   }
 
   public destroyTile() {
-    if (!this.virtual) {
-      this.createParticles();
-    }
     super.destroyTile();
   }
 
@@ -68,21 +65,5 @@ export class StdTileController extends TileController {
     ) {
       this.activateShield(false);
     }
-  }
-
-  private createParticles() {
-    const ps = instantiate(this.destroyPartycles);
-    ps.parent = this.node.parent;
-    const ui = this.getComponent(UITransform);
-
-    if (ui == null) {
-      return;
-    }
-
-    ps.position = new Vec3(
-      this.node.position.x + ui.contentSize.width / 2,
-      this.node.position.y + ui.contentSize.height / 2,
-      this.node.position.z
-    );
   }
 }

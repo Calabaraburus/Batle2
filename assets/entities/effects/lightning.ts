@@ -147,7 +147,7 @@ export class lightning extends Component {
       animator.to(0.1, { time: 1 }).call(() => {
         this._lighningVectors.push(v);
         tileLightninEffect =
-          this._cache?.getObjectByPrefabName<CardEffect>("lightnin  gEffect");
+          this._cache?.getObjectByPrefabName<CardEffect>("lightningEffect");
         if (tileLightninEffect == null) return;
         effects.push(tileLightninEffect);
 

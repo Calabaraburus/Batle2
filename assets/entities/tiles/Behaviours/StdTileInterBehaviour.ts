@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { director, _decorator } from "cc";
+import { director, _decorator, tween } from "cc";
 import { interfaces } from "inversify";
 import { TileModel } from "../../../models/TileModel";
 import { helpers } from "../../../scripts/helpers";
@@ -13,6 +13,7 @@ import { StdTileController } from "../UsualTile/StdTileController";
 import { IAttackable, isIAttackable } from "../IAttackable";
 import { LevelModel } from "../../../models/LevelModel";
 import { MatchStatisticService } from "../../services/MatchStatisticService";
+import { CardEffect } from "../../effects/CardEffect";
 
 const { ccclass } = _decorator;
 
@@ -104,6 +105,13 @@ export class StdTileInterBehaviour extends GameBehaviour {
     if (tilesCount > 0) {
       this.manaUpdate(tilesCount, connectedTiles[0].tileModel);
       this.eotInvoker.endTurn();
+
+      this.effectsManager
+        .PlayEffect(() => {
+          this.effect(connectedTiles);
+          this.updateTileField();
+        }, 0.3);
+
       /*      this._matchStatistic?.updateTapTileStatistic(
               tilesCount,
               connectedTiles[0].tileModel
@@ -111,7 +119,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
     }
 
     this.debug?.log(`[behaviour][tilesBehaviour] update tile field`);
-    this.effectsManager.PlayEffect(() => this.updateTileField(), 0.4);
+
 
     // this.gameManager?.changeGameState("endTurnEvent");
     this._inProcess = false;
@@ -137,6 +145,55 @@ export class StdTileInterBehaviour extends GameBehaviour {
       }
     });
   }
+
+  effect(tiles: TileController[]): boolean {
+    console.log("tiles destroy effect");
+    const timeObj = { time: 0 };
+    const animator = tween(timeObj);
+    const effects: CardEffect[] = [];
+
+    // this.parent.audioManager.playSoundEffect("firewall");
+
+    animator.call(() => {
+      tiles.forEach((t, i) => {
+        const effect =
+          this.objectsCache.getObjectByPrefabName<CardEffect>("TilesCrushEffect");
+        if (effect == null) {
+          return;
+        }
+
+        effect.node.position = t.node.position;
+        effect.node.parent = this.effectsService.effectsNode;
+        effect.play();
+
+        effects.push(effect);
+      });
+    });
+
+    animator
+      .delay(2)
+      .call(() => effects.forEach((e) => e.cacheDestroy()));
+
+    animator.start();
+    return true;
+  }
+
+  /*  private createParticles() {
+      const ps = instantiate(this.destroyPartycles);
+      ps.parent = this.node.parent;
+      const ui = this.getComponent(UITransform);
+  
+      if (ui == null) {
+        return;
+      }
+  
+      ps.position = new Vec3(
+        this.node.position.x + ui.contentSize.width / 2,
+        this.node.position.y + ui.contentSize.height / 2,
+        this.node.position.z
+      );
+    }
+  */
 
   private getTile(row: number, col: number): TileController | null {
     const m = this.field?.fieldMatrix;

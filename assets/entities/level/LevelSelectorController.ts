@@ -47,7 +47,7 @@ export class LevelSelectorController extends Service {
 
     if (cfgAction == null)
       throw Error("No configuration for " + levelName + " level");
-    this.sceneLoader.loadGameScene("scene_dev_art_1", cfgAction);
+    this.sceneLoader.loadGameScene("scene_game_field", cfgAction);
   }
 
   loadScene(sender: object, sceneName: string): void {
@@ -154,6 +154,7 @@ export class LevelSelectorController extends Service {
 
       playerHero?.bonuses.push(heroBonusOne);
     });
+
     this.configDict.set("lvl3", (config) => {
       config.botHeroName = "monkey";
       config.playerHeroName = "lion";
@@ -176,6 +177,7 @@ export class LevelSelectorController extends Service {
 
       playerHero?.bonuses.push(heroBonusOne);
     });
+
     this.configDict.set("lvl4", (config) => {
       config.botHeroName = "bot3";
       config.playerHeroName = "lion";
@@ -186,6 +188,7 @@ export class LevelSelectorController extends Service {
         ?.getComponent(PlayerModel);
 
       playerHero!.life = 60;
+      playerHero!.lifeMax = 60;
 
       const bonuses = config.node
         .getChildByName("BonusModels")
