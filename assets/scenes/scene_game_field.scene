@@ -4890,7 +4890,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot1",
+    "_name": "Bot1Hero",
     "_objFlags": 0,
     "_parent": {
       "__id__": 134
@@ -4957,7 +4957,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot2",
+    "_name": "Bot2Hero",
     "_objFlags": 0,
     "_parent": {
       "__id__": 134
@@ -5026,7 +5026,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot3",
+    "_name": "Bot3Hero",
     "_objFlags": 0,
     "_parent": {
       "__id__": 134
@@ -5096,7 +5096,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot4",
+    "_name": "Bot4Hero",
     "_objFlags": 0,
     "_parent": {
       "__id__": 134
@@ -5167,7 +5167,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot5",
+    "_name": "Bot5Hero",
     "_objFlags": 0,
     "_parent": {
       "__id__": 134
@@ -5238,7 +5238,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot6",
+    "_name": "Bot6Hero",
     "_objFlags": 0,
     "_parent": {
       "__id__": 134
@@ -5309,7 +5309,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot7",
+    "_name": "Bot7Heros",
     "_objFlags": 0,
     "_parent": {
       "__id__": 134
