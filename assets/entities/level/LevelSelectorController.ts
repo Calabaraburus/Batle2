@@ -11,6 +11,7 @@ import {
   randomRangeInt,
   random,
   AudioSource,
+  LineComponent,
 } from "cc";
 import { Service } from "../services/Service";
 import { SceneLoaderService } from "../services/SceneLoaderService";
@@ -64,7 +65,9 @@ export class LevelSelectorController extends Service {
     director.loadScene(sceneName);
   }
 
+
   fillConfigurations() {
+
     this.configDict.set("test", (config) => {
       config.botHeroName = "testBot";
       config.playerHeroName = "testPlayer";
@@ -124,8 +127,9 @@ export class LevelSelectorController extends Service {
     });
 
     this.configDict.set("lvl2", (config) => {
-      config.botHeroName = "bot2";
-      config.playerHeroName = "lion";
+      this.configPlayerStd({ config, name: "bot2", isBot: true })
+      var player = this.configPlayerStd({ config, name: "lion", life: 50 })
+      this.addBonuses(config, player, ["meteoriteLow"]);
 
       this._cardUpBonus = config.node.getComponentInChildren(
         EndLevelCardUpdateBonusModel
@@ -135,251 +139,54 @@ export class LevelSelectorController extends Service {
         this._cardUpBonus.cardUp = "catapult";
         config.endLevelBonuses.push(this._cardUpBonus);
       }
-
-      const playerHero = config.node
-        .getChildByName("HeroModels")!
-        .getChildByName("LionHero")
-        ?.getComponent(PlayerModel);
-
-      playerHero!.life = 50;
-
-      const bonuses = config.node
-        .getChildByName("BonusModels")
-        ?.getComponentsInChildren(BonusModel);
-      const heroBonusOne = bonuses?.find((value) => {
-        return value.mnemonic == "meteoriteLow";
-      });
-
-      if (!heroBonusOne) return;
-
-      playerHero?.bonuses.push(heroBonusOne);
     });
 
     this.configDict.set("lvl3", (config) => {
-      config.botHeroName = "monkey";
-      config.playerHeroName = "lion";
-
-      const playerHero = config.node
-        .getChildByName("HeroModels")!
-        .getChildByName("LionHero")
-        ?.getComponent(PlayerModel);
-
-      playerHero!.life = 60;
-
-      const bonuses = config.node
-        .getChildByName("BonusModels")
-        ?.getComponentsInChildren(BonusModel);
-      const heroBonusOne = bonuses?.find((value) => {
-        return value.mnemonic == "meteoriteLow";
-      });
-
-      if (!heroBonusOne) return;
-
-      playerHero?.bonuses.push(heroBonusOne);
+      this.configPlayerStd({ config, name: "monkey", life: 60, isBot: true })
+      var player = this.configPlayerStd({ config, name: "lion", life: 60 })
+      this.addBonuses(config, player, ["meteoriteLow"]);
     });
 
     this.configDict.set("lvl4", (config) => {
-      config.botHeroName = "bot3";
-      config.playerHeroName = "lion";
-
-      const playerHero = config.node
-        .getChildByName("HeroModels")!
-        .getChildByName("LionHero")
-        ?.getComponent(PlayerModel);
-
-      playerHero!.life = 60;
-      playerHero!.lifeMax = 60;
-
-      const bonuses = config.node
-        .getChildByName("BonusModels")
-        ?.getComponentsInChildren(BonusModel);
-      const heroBonusOne = bonuses?.find((value) => {
-        return value.mnemonic == "meteoriteLow";
-      });
-      const heroBonusTwo = bonuses?.find((value) => {
-        return value.mnemonic == "assassin";
-      });
-
-      if (!heroBonusOne || !heroBonusTwo) return;
-
-      playerHero?.bonuses.push(heroBonusOne);
-      playerHero?.bonuses.push(heroBonusTwo);
+      this.configPlayerStd({ config, name: "bot3", life: 60, isBot: true })
+      var player = this.configPlayerStd({ config, name: "lion", life: 60 })
+      this.addBonuses(config, player, ["meteoriteLow", "assassin"]);
     });
+
     this.configDict.set("lvl5", (config) => {
-      config.botHeroName = "bot4";
-      config.playerHeroName = "lion";
-
-      const playerHero = config.node
-        .getChildByName("HeroModels")!
-        .getChildByName("LionHero")
-        ?.getComponent(PlayerModel);
-
-      playerHero!.life = 70;
-
-      const bonuses = config.node
-        .getChildByName("BonusModels")
-        ?.getComponentsInChildren(BonusModel);
-      const heroBonusOne = bonuses?.find((value) => {
-        return value.mnemonic == "meteoriteLow";
-      });
-      const heroBonusTwo = bonuses?.find((value) => {
-        return value.mnemonic == "assassin";
-      });
-
-      if (!heroBonusOne || !heroBonusTwo) return;
-
-      playerHero?.bonuses.push(heroBonusOne);
-      playerHero?.bonuses.push(heroBonusTwo);
+      var bot = this.configPlayerStd({ config, name: "bot4", life: 70, isBot: true })
+      var player = this.configPlayerStd({ config, name: "lion", life: 70 })
+      this.addBonuses(config, player, ["meteoriteLow", "assassin"]);
     });
+
     this.configDict.set("lvl6", (config) => {
-      config.botHeroName = "bear";
-      config.playerHeroName = "lion";
-
-      const playerHero = config.node
-        .getChildByName("HeroModels")!
-        .getChildByName("LionHero")
-        ?.getComponent(PlayerModel);
-
-      playerHero!.life = 70;
-
-      const bonuses = config.node
-        .getChildByName("BonusModels")
-        ?.getComponentsInChildren(BonusModel);
-      const heroBonusOne = bonuses?.find((value) => {
-        return value.mnemonic == "meteoriteLow";
-      });
-      const heroBonusTwo = bonuses?.find((value) => {
-        return value.mnemonic == "assassin";
-      });
-      const heroBonusThree = bonuses?.find((value) => {
-        return value.mnemonic == "c_attack";
-      });
-
-      if (!heroBonusOne || !heroBonusTwo || !heroBonusThree) return;
-
-      playerHero?.bonuses.push(heroBonusOne);
-      playerHero?.bonuses.push(heroBonusTwo);
-      playerHero?.bonuses.push(heroBonusThree);
+      var bot = this.configPlayerStd({ config, name: "bear", isBot: true })
+      var player = this.configPlayerStd({ config, name: "lion", life: 70 })
+      this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
     });
+
     this.configDict.set("lvl7", (config) => {
-      config.botHeroName = "bot5";
-      config.playerHeroName = "lion";
-
-      const playerHero = config.node
-        .getChildByName("HeroModels")!
-        .getChildByName("LionHero")
-        ?.getComponent(PlayerModel);
-
-      playerHero!.life = 80;
-
-      const bonuses = config.node
-        .getChildByName("BonusModels")
-        ?.getComponentsInChildren(BonusModel);
-      const heroBonusOne = bonuses?.find((value) => {
-        return value.mnemonic == "meteoriteLow";
-      });
-      const heroBonusTwo = bonuses?.find((value) => {
-        return value.mnemonic == "assassin";
-      });
-      const heroBonusThree = bonuses?.find((value) => {
-        return value.mnemonic == "c_attack";
-      });
-
-      if (!heroBonusOne || !heroBonusTwo || !heroBonusThree) return;
-
-      playerHero?.bonuses.push(heroBonusOne);
-      playerHero?.bonuses.push(heroBonusTwo);
-      playerHero?.bonuses.push(heroBonusThree);
+      var bot = this.configPlayerStd({ config, name: "bot5", isBot: true })
+      var player = this.configPlayerStd({ config, name: "lion", life: 80 })
+      this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
     });
+
     this.configDict.set("lvl8", (config) => {
-      config.botHeroName = "bot6";
-      config.playerHeroName = "lion";
-
-      const playerHero = config.node
-        .getChildByName("HeroModels")!
-        .getChildByName("LionHero")
-        ?.getComponent(PlayerModel);
-
-      playerHero!.life = 80;
-
-      const bonuses = config.node
-        .getChildByName("BonusModels")
-        ?.getComponentsInChildren(BonusModel);
-      const heroBonusOne = bonuses?.find((value) => {
-        return value.mnemonic == "meteoriteMiddle";
-      });
-      const heroBonusTwo = bonuses?.find((value) => {
-        return value.mnemonic == "assassin";
-      });
-      const heroBonusThree = bonuses?.find((value) => {
-        return value.mnemonic == "c_attack";
-      });
-
-      if (!heroBonusOne || !heroBonusTwo || !heroBonusThree) return;
-
-      playerHero?.bonuses.push(heroBonusOne);
-      playerHero?.bonuses.push(heroBonusTwo);
-      playerHero?.bonuses.push(heroBonusThree);
+      var bot = this.configPlayerStd({ config, name: "bot6", isBot: true })
+      var player = this.configPlayerStd({ config, name: "lion", life: 80 })
+      this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
     });
+
     this.configDict.set("lvl9", (config) => {
-      config.botHeroName = "bot7";
-      config.playerHeroName = "lion";
-
-      const playerHero = config.node
-        .getChildByName("HeroModels")!
-        .getChildByName("LionHero")
-        ?.getComponent(PlayerModel);
-
-      playerHero!.life = 90;
-
-      const bonuses = config.node
-        .getChildByName("BonusModels")
-        ?.getComponentsInChildren(BonusModel);
-      const heroBonusOne = bonuses?.find((value) => {
-        return value.mnemonic == "meteoriteMiddle";
-      });
-      const heroBonusTwo = bonuses?.find((value) => {
-        return value.mnemonic == "assassin";
-      });
-      const heroBonusThree = bonuses?.find((value) => {
-        return value.mnemonic == "c_attack";
-      });
-
-      if (!heroBonusOne || !heroBonusTwo || !heroBonusThree) return;
-
-      playerHero?.bonuses.push(heroBonusOne);
-      playerHero?.bonuses.push(heroBonusTwo);
-      playerHero?.bonuses.push(heroBonusThree);
+      var bot = this.configPlayerStd({ config, name: "bot7", isBot: true })
+      var player = this.configPlayerStd({ config, name: "lion", life: 80 })
+      this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
     });
+
     this.configDict.set("lvl10", (config) => {
-      config.botHeroName = "panda";
-      config.playerHeroName = "lion";
-
-      const playerHero = config.node
-        .getChildByName("HeroModels")!
-        .getChildByName("LionHero")
-        ?.getComponent(PlayerModel);
-
-      playerHero!.life = 90;
-
-      const bonuses = config.node
-        .getChildByName("BonusModels")
-        ?.getComponentsInChildren(BonusModel);
-      const heroBonusOne = bonuses?.find((value) => {
-        return value.mnemonic == "meteorite";
-      });
-      const heroBonusTwo = bonuses?.find((value) => {
-        return value.mnemonic == "assassin";
-      });
-      const heroBonusThree = bonuses?.find((value) => {
-        return value.mnemonic == "c_attack";
-      });
-
-      if (!heroBonusOne || !heroBonusTwo || !heroBonusThree) return;
-
-      playerHero?.bonuses.push(heroBonusOne);
-      playerHero?.bonuses.push(heroBonusTwo);
-      playerHero?.bonuses.push(heroBonusThree);
+      var bot = this.configPlayerStd({ config, name: "panda", isBot: true })
+      var player = this.configPlayerStd({ config, name: "lion", life: 90 })
+      this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
     });
 
     // arena of 1st part
@@ -411,6 +218,58 @@ export class LevelSelectorController extends Service {
       config.botHeroName = "rnd_bot";
       config.playerHeroName = "rnd_player";
     });
+  }
+
+  addBonuses(config: LevelConfiguration, playerModel: PlayerModel | null, bonusNames: string[]) {
+    const bonuses = config.node
+      .getChildByName("BonusModels")
+      ?.getComponentsInChildren(BonusModel);
+
+    bonusNames.forEach((bName) => {
+      const bonusModel = bonuses?.find((bm) => bm.mnemonic == bName);
+
+      if (bonusModel && playerModel) {
+        playerModel.bonuses.push(bonusModel);
+      }
+    });
+  };
+
+  configPlayerStd({
+    config,
+    name,
+    life = -1,
+    isBot = false
+  }: {
+    config: LevelConfiguration,
+    name: string,
+    life?: number,
+    isBot?: boolean
+  }) {
+
+    if (isBot) {
+      config.botHeroName = name;
+    } else {
+      config.playerHeroName = name;
+    }
+
+    const player = config.node
+      .getChildByName("HeroModels")!
+      .getChildByName(this.titleCaseWord(name) + "Hero")
+      ?.getComponent(PlayerModel);
+
+    if (player) {
+      if (life > 0) player.life = life;
+      player.lifeMax = life;
+
+      return player;
+    } else {
+      return null;
+    }
+  }
+
+  titleCaseWord(word: string) {
+    if (!word) return word;
+    return word[0].toUpperCase() + word.substring(1);
   }
 
   compliteBonuses(player: PlayerModel) {
