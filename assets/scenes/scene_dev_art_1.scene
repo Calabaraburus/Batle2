@@ -384,6 +384,7 @@
     "specialTile": false,
     "serviceTile": false,
     "tags": "#enemy #close_range",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "b1wtv/ygBELKfu+fFk5JKv"
   },
@@ -603,6 +604,7 @@
     "specialTile": false,
     "serviceTile": false,
     "tags": "#enemy #protect",
+    "dangerRating": 1,
     "additionalSprites": [
       {
         "__id__": 12
@@ -708,6 +710,7 @@
     "specialTile": false,
     "serviceTile": false,
     "tags": "#enemy #long_range",
+    "dangerRating": 1,
     "additionalSprites": [
       {
         "__id__": 17
@@ -813,6 +816,7 @@
     "specialTile": false,
     "serviceTile": false,
     "tags": "#player #close_range",
+    "dangerRating": 1,
     "additionalSprites": [
       {
         "__id__": 22
@@ -918,6 +922,7 @@
     "specialTile": false,
     "serviceTile": false,
     "tags": "#player #protect",
+    "dangerRating": 1,
     "additionalSprites": [
       {
         "__id__": 27
@@ -1023,6 +1028,7 @@
     "specialTile": false,
     "serviceTile": false,
     "tags": "#player #long_range",
+    "dangerRating": 1,
     "additionalSprites": [
       {
         "__id__": 32
@@ -1125,6 +1131,7 @@
     "specialTile": true,
     "serviceTile": true,
     "tags": "",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "5cLdG79cxHCpdIP5zBfVNf"
   },
@@ -1193,6 +1200,7 @@
     "specialTile": true,
     "serviceTile": true,
     "tags": "",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "08immrAIJBZIiqWsVtuMK0"
   },
@@ -1261,6 +1269,7 @@
     "specialTile": true,
     "serviceTile": false,
     "tags": "",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "78cK1Zj1xKE7gp1PERP2Fz"
   },
@@ -1329,6 +1338,7 @@
     "specialTile": true,
     "serviceTile": false,
     "tags": "",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "0eilPgi2RIXrJ5rL1hQxfM"
   },
@@ -1400,6 +1410,7 @@
     "specialTile": true,
     "serviceTile": false,
     "tags": "#totem",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "f5y6dPc8lBk6N4ET1adcFY"
   },
@@ -1468,6 +1479,7 @@
     "specialTile": true,
     "serviceTile": false,
     "tags": "",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "cfq5Gc26dMgaQynXNsGVmR"
   },
@@ -1536,6 +1548,7 @@
     "specialTile": true,
     "serviceTile": true,
     "tags": "",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "27QBDsFVpAO7zJqhvMtLcQ"
   },
@@ -1607,6 +1620,7 @@
     "specialTile": true,
     "serviceTile": false,
     "tags": "#background",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "6eJiLdYLRB/LWyekmFkHoF"
   },
@@ -1678,6 +1692,7 @@
     "specialTile": true,
     "serviceTile": false,
     "tags": "#background",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "574q7riW9NIJx3ITCKFZ+e"
   },
@@ -1749,6 +1764,7 @@
     "specialTile": true,
     "serviceTile": false,
     "tags": "",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "5fdYE7ujJNNroHL3nBbE2P"
   },
@@ -1820,6 +1836,7 @@
     "specialTile": true,
     "serviceTile": false,
     "tags": "#close_range",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "c73p1jRzZHZpIoDj1/pBeK"
   },
@@ -1891,6 +1908,7 @@
     "specialTile": true,
     "serviceTile": false,
     "tags": "#catapult",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "33+sWkXotBJJ3/W9JxoTN2"
   },
@@ -1962,6 +1980,7 @@
     "specialTile": true,
     "serviceTile": false,
     "tags": "#shaman",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "78B8VnA9hJQK4ssE80wqeA"
   },
@@ -2033,6 +2052,7 @@
     "specialTile": true,
     "serviceTile": false,
     "tags": "#berserk",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "b7ohwD5TdOs46+m09Q9AoZ"
   },
@@ -2104,6 +2124,7 @@
     "specialTile": true,
     "serviceTile": false,
     "tags": "#assassin #protect",
+    "dangerRating": 1,
     "additionalSprites": [],
     "_id": "d8h2wYQrxCsJsN5zpCIpnx"
   },
@@ -10510,7 +10531,7 @@
       "__uuid__": "b1de70ad-6b58-48d0-a14d-ff95816d126d",
       "__expectedType__": "cc.Prefab"
     },
-    "fileId": "a6jZz0x/NH5aqV+WZtzTel",
+    "fileId": "",
     "instance": {
       "__id__": 404
     },
@@ -10776,7 +10797,7 @@
       "__uuid__": "b1de70ad-6b58-48d0-a14d-ff95816d126d",
       "__expectedType__": "cc.Prefab"
     },
-    "fileId": "a6jZz0x/NH5aqV+WZtzTel",
+    "fileId": "",
     "instance": {
       "__id__": 425
     },
@@ -11029,7 +11050,7 @@
       "__uuid__": "b1de70ad-6b58-48d0-a14d-ff95816d126d",
       "__expectedType__": "cc.Prefab"
     },
-    "fileId": "a6jZz0x/NH5aqV+WZtzTel",
+    "fileId": "",
     "instance": {
       "__id__": 445
     },
@@ -11516,7 +11537,7 @@
       "__uuid__": "b1de70ad-6b58-48d0-a14d-ff95816d126d",
       "__expectedType__": "cc.Prefab"
     },
-    "fileId": "a6jZz0x/NH5aqV+WZtzTel",
+    "fileId": "",
     "instance": {
       "__id__": 472
     },
@@ -11782,7 +11803,7 @@
       "__uuid__": "b1de70ad-6b58-48d0-a14d-ff95816d126d",
       "__expectedType__": "cc.Prefab"
     },
-    "fileId": "a6jZz0x/NH5aqV+WZtzTel",
+    "fileId": "",
     "instance": {
       "__id__": 493
     },
@@ -12035,7 +12056,7 @@
       "__uuid__": "b1de70ad-6b58-48d0-a14d-ff95816d126d",
       "__expectedType__": "cc.Prefab"
     },
-    "fileId": "a6jZz0x/NH5aqV+WZtzTel",
+    "fileId": "",
     "instance": {
       "__id__": 513
     },

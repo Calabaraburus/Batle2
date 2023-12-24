@@ -42,7 +42,6 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
     this.effectDurationValue = 1.5;
     this._cardsService = this.parent.cardService;
     this._field = this.parent.field;
-    this._lightning = this.parent.getService(lightning);
 
     if (this._cardsService == null) return false;
     if (this._field == null) return false;
@@ -79,6 +78,8 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
   }
 
   effect(): boolean {
+    this._lightning = this.parent.getService(lightning);
+
     if (this._lightning == null) return false;
     if (this._tilesToDestroy == undefined) return false;
 
