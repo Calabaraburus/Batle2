@@ -1,8 +1,8 @@
 import { random } from "cc";
-import { AnalizedData } from "../entities/field/AnalizedData";
-import { CardAnalizator } from "./CardAnalizator";
-import { TileController } from "../entities/tiles/TileController";
-import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
+import { AnalizedData } from "../../entities/field/AnalizedData";
+import { CardAnalizator } from "../CardAnalizator";
+import { TileController } from "../../entities/tiles/TileController";
+import { StdTileController } from "../../entities/tiles/UsualTile/StdTileController";
 
 export class CounterattackCardBotAnalizator extends CardAnalizator {
   private bonusName = "c_attack";

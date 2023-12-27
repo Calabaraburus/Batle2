@@ -17,9 +17,9 @@ export class TileService extends Service {
   start() {
     this._dataService = this.getServiceOrThrow(DataService);
 
-    assert(this._dataService.field,"Field can't be null");
+    assert(this._dataService.field, "Field can't be null");
 
-    this._fieldExtensions=new FieldControllerExtensions(this._dataService.field.logicField);
+    this._fieldExtensions = new FieldControllerExtensions(this._dataService.field);
   }
 
   public prepareForNewTurn() {
@@ -40,7 +40,7 @@ export class TileService extends Service {
     colId: number,
     filtFunc: (val: TileController) => boolean
   ) {
-    return this._fieldExtensions.getTilesInColumn(colId,filtFunc)
+    return this._fieldExtensions.getTilesInColumn(colId, filtFunc)
   }
 
   public getTilesInRow(
@@ -49,7 +49,7 @@ export class TileService extends Service {
     power: number,
     filtFunc: (val: TileController) => boolean
   ) {
-        return this._fieldExtensions.getTilesInRow(targetTile,rowId,power,filtFunc);
+    return this._fieldExtensions.getTilesInRow(targetTile, rowId, power, filtFunc);
   }
 
   public getIdenticalTiles(

@@ -26,8 +26,8 @@ import { BotTileSelectionStrategy } from "./BotTileSelectionStrategy";
 import { StdSelectorBotStrategy } from "./StdSelectorBotStrategy";
 import { ICloneable, isICloneable } from "../scripts/ICloneable";
 import { isIVirtualisable } from "../scripts/IVirtualisable";
-import { FirewallMiddleCardBotAnalizator } from "./FirewallMiddleCardBotAnalizator";
-import { FieldControllerExtensions, RaitingEvaluator as RatingEvaluator } from "../entities/field/FieldExtensions";
+import { FieldControllerExtensions } from "../entities/field/FieldExtensions";
+import { RaitingEvaluator as RatingEvaluator } from "./RaitingEvaluator";
 import { BehaviourSelector } from "../entities/behaviours/BehaviourSelector";
 import { ObjectsCache } from "../ObjectsCache/ObjectsCache";
 import { DataServiceForBot } from "./DataServiceForBot";
@@ -35,9 +35,8 @@ import { LevelModel } from "../models/LevelModel";
 import { CardServiceForBot } from "./CardServiceForBot";
 import { GameStateWritable } from "../entities/game/GameStateWritable";
 import { CardAnalizator } from "./CardAnalizator";
-import { FirewallCardBotAnalizator } from "./FirewallCardBotAnalizator";
+import { DefaultBotAnalizator } from "./analizators/DefaultBotAnalizator";
 import { BonusModel } from "../models/BonusModel";
-import { FirewallLowCardBotAnalizator } from "./FirewallLowCardBotAnalizator";
 import { CardsBehaviour } from "../entities/tiles/Behaviours/CardsBehaviour";
 import { EffectsService } from "../entities/services/EffectsService";
 import { EffectsManagerForBot } from "./EffectsManagerForBot";
@@ -45,8 +44,8 @@ import { AudioManagerService } from "../soundsPlayer/AudioManagerService";
 import { EffectsManager } from "../entities/game/EffectsManager";
 import { Queue } from "../scripts/Queue";
 import { StdTileInterBehaviour } from "../entities/tiles/Behaviours/StdTileInterBehaviour";
-import { CounterattackCardBotAnalizator } from "./CounterattackCardBotAnalizator";
-import { PerdefinedScoreCardAnalizator } from "./PerdefinedScoreCardAnalizator";
+import { CounterattackCardBotAnalizator } from "./analizators/CounterattackCardBotAnalizator";
+import { PerdefinedScoreCardAnalizator as PerdefinedScoreCardBotAnalizator } from "./analizators/PerdefinedScoreCardAnalizator";
 import { EotForBot } from "./EotForBot";
 
 const { ccclass, property } = _decorator;
@@ -156,17 +155,39 @@ export class Bot_v2 extends Service implements IBot {
 
   private initCardActivators() {
     var field = this._dataService.field;
-    this._cardStrategiesActivators.set("firewall", cm => new FirewallCardBotAnalizator(cm, this, field, this._playerModel));
-    this._cardStrategiesActivators.set("firewallLow", cm => new FirewallLowCardBotAnalizator(cm, this, field, this._playerModel));
-    this._cardStrategiesActivators.set("firewallMiddle", cm => new FirewallMiddleCardBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("firewall", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("firewallLow", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("firewallMiddle", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
 
     this._cardStrategiesActivators.set("c_attack", cm => new CounterattackCardBotAnalizator(cm, this, field, this._playerModel));
 
     this._cardStrategiesActivators.set("push", cm => new CounterattackCardBotAnalizator(cm, this, field, this._playerModel));
 
-    this._cardStrategiesActivators.set("lightning", cm => new PerdefinedScoreCardAnalizator(cm, this, field, this._playerModel));
-    this._cardStrategiesActivators.set("lightningLow", cm => new PerdefinedScoreCardAnalizator(cm, this, field, this._playerModel));
-    this._cardStrategiesActivators.set("lightningMiddle", cm => new PerdefinedScoreCardAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("lightning", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("lightningLow", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("lightningMiddle", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("totem", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("mine", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("meteorite", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("meteoriteLow", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("meteoriteMiddle", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("catapult", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("shaman", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("worm", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("wormLow", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("wormMiddle", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("pike", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("pikeLow", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("pikeMiddle", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("berserk", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
   }
 
   private initCardAnalizators() {
