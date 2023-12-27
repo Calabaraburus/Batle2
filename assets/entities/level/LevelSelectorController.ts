@@ -258,8 +258,10 @@ export class LevelSelectorController extends Service {
       ?.getComponent(PlayerModel);
 
     if (player) {
-      if (life > 0) player.life = life;
-      player.lifeMax = life;
+      if (life > 0) {
+        player.life = life;
+        player.lifeMax = life;
+      }
 
       return player;
     } else {
