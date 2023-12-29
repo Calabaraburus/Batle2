@@ -3,7 +3,6 @@ import { ITileFieldController } from "../entities/field/ITileFieldController";
 import { BonusModel } from "../models/BonusModel";
 import { LevelModel } from "../models/LevelModel";
 import { PlayerModel } from "../models/PlayerModel";
-import { Bot } from "./Bot";
 import { BotTileSelectionStrategy } from "./BotTileSelectionStrategy";
 import { IBot } from "./IBot";
 

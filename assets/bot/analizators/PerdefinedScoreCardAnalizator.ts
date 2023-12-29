@@ -1,6 +1,5 @@
 import { AnalizedData } from "../../entities/field/AnalizedData";
 import { TileController } from "../../entities/tiles/TileController";
-import { StdTileController } from "../../entities/tiles/UsualTile/StdTileController";
 import { CardAnalizator } from "../CardAnalizator";
 
 

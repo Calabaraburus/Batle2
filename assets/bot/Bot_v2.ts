@@ -47,6 +47,9 @@ import { StdTileInterBehaviour } from "../entities/tiles/Behaviours/StdTileInter
 import { CounterattackCardBotAnalizator } from "./analizators/CounterattackCardBotAnalizator";
 import { PerdefinedScoreCardAnalizator as PerdefinedScoreCardBotAnalizator } from "./analizators/PerdefinedScoreCardAnalizator";
 import { EotForBot } from "./EotForBot";
+import { SummonToMyArmyBotAnalizator } from "./analizators/SummonToMyArmyBotAnalizator";
+import { PerdefinedScoreRandomCardAnalizator } from "./analizators/PerdefinedScoreRandomCardAnalizator";
+import { ManeuverCardAnalizator } from "./analizators/ManeuverCardAnalizator";
 
 const { ccclass, property } = _decorator;
 
@@ -175,19 +178,30 @@ export class Bot_v2 extends Service implements IBot {
     this._cardStrategiesActivators.set("meteoriteLow", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("meteoriteMiddle", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
 
-    this._cardStrategiesActivators.set("catapult", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("catapult", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
 
-    this._cardStrategiesActivators.set("shaman", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("shaman", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
 
-    this._cardStrategiesActivators.set("worm", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
-    this._cardStrategiesActivators.set("wormLow", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
-    this._cardStrategiesActivators.set("wormMiddle", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("worm", cm => new PerdefinedScoreRandomCardAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("wormLow", cm => new PerdefinedScoreRandomCardAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("wormMiddle", cm => new PerdefinedScoreRandomCardAnalizator(cm, this, field, this._playerModel));
 
     this._cardStrategiesActivators.set("pike", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("pikeLow", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("pikeMiddle", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
 
-    this._cardStrategiesActivators.set("berserk", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("berserk", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("assassin", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("maneuver", cm => new ManeuverCardAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("hammer", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("hammerLow", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("hammerMiddle", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+
+
+
   }
 
   private initCardAnalizators() {

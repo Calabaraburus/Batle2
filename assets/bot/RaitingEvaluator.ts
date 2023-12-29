@@ -1,6 +1,7 @@
 import { PlayerModel } from "../models/PlayerModel";
 import { TileController } from "../entities/tiles/TileController";
 import { FieldControllerExtensions } from "../entities/field/FieldExtensions";
+import { StdTileController } from "../entities/tiles/UsualTile/StdTileController";
 
 
 export class RaitingEvaluator {
@@ -60,10 +61,14 @@ export class RaitingEvaluator {
     }
 
     EvaluateRating(t: TileController, isEnemyTile: boolean) {
-        if (this._evaluationTileStrategies.has(t.tileModel.tileName)) {
-            const ev = this._evaluationTileStrategies.get(t.tileModel.tileName);
-            if (ev) {
-                return ev(t, isEnemyTile);
+        if (t instanceof (StdTileController) && t.shieldIsActivated) {
+            return 2;
+        } else {
+            if (this._evaluationTileStrategies.has(t.tileModel.tileName)) {
+                const ev = this._evaluationTileStrategies.get(t.tileModel.tileName);
+                if (ev) {
+                    return ev(t, isEnemyTile);
+                }
             }
         }
 
