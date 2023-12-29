@@ -237,6 +237,7 @@ export class CardsBehaviour extends GameBehaviour {
       model.activeBonus!.alreadyUsedOnTurn = true;
       this.deactivateBonusWithModel(model);
       this.cardService.updateBonusesActiveState();
+      this.levelController.updateData();
     }
 
     //    this.levelController?.updateData();
