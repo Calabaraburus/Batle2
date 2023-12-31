@@ -114,7 +114,7 @@ export class ShamanTileController
   playEffect() {
     this.prepareForEffect();
 
-    const effect = this._cache?.getObject(HealingEffect);
+    const effect = this._cache?.getObjectByName<HealingEffect>("HealingEffect");
 
     if (effect != null) {
       effect.node.position = this.node.position;

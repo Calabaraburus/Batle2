@@ -48,6 +48,7 @@ import { EffectsManager } from "../../game/EffectsManager";
 import { EOTInvoker } from "../../game/EOTInvoker";
 import { TileController } from "../TileController";
 import { FieldControllerExtensions } from "../../field/FieldExtensions";
+import { Behaviour } from "../../behaviours/Behaviour";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
@@ -309,5 +310,17 @@ export class CardsBehaviour extends GameBehaviour {
       this._startTilesP1 = fieldExt.findTilesByModelName("start");
       this._startTilesP2 = fieldExt.findTilesByModelName("end");
     }
+  }
+
+  clone(): Behaviour {
+    const result = new CardsBehaviour();
+    this.cloneInternal(result);
+
+    this._cardsRunDict.forEach((v, k) => {
+      result._cardsRunDict.set(k, v);
+    });
+
+    result.applyCardsLogicOnly = this.applyCardsLogicOnly;
+    return result;
   }
 }

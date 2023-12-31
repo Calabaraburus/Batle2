@@ -35,11 +35,11 @@ export class MenuItem extends Service {
 
     this._audio = this.getService(AudioManagerService);
 
-    assert(this._audio, "Can't find AudioManagerService");
+    assert(this._audio != null, "Can't find AudioManagerService");
 
     const button = this.node.getComponent(Button);
 
-    assert(button, "Can't get Button component");
+    assert(button != null, "Can't get Button component");
 
     button.node.on(Button.EventType.CLICK, this.clickCallback, this);
   }

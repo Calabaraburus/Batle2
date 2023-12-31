@@ -22,7 +22,7 @@ export class DataServiceForBot extends DataService {
         return this._debug;
     }
     public set debugView(value: DebugView) {
-        // this._debug = value;
+        this._debug = value;
     }
 
     public get levelController() {

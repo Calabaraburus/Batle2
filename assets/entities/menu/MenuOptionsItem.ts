@@ -2,6 +2,7 @@ import {
   _decorator,
   assert,
   Button,
+  CCFloat,
   CCString,
   Component,
   Enum,
@@ -18,7 +19,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass("MenuOptionsItem")
 export class MenuOptionsItem extends Service {
-  @property(Number)
+  @property(CCFloat)
   volume = 0;
 
   @property(Node)
@@ -47,7 +48,7 @@ export class MenuOptionsItem extends Service {
     });
 
     this._audio = this.getService(AudioManagerService);
-    assert(this._audio, "Can't find AudioManagerService");
+    assert(this._audio != null, "Can't find AudioManagerService");
 
     // const button = this.node.getComponent(Button);
     // assert(button, "Can't get Button component");

@@ -25,13 +25,13 @@ export class MenuSelectorController extends MainMenu {
 
     this._aManager = this.getService(AudioManagerService);
 
-    assert(this._aManager, "Can't find AudioManagerService");
+    assert(this._aManager != null, "Can't find AudioManagerService");
 
     this._aManager.playMusic("start_menu");
 
     const tService = this.getService(SettingsLoader);
 
-    assert(tService, "SettingsLoader can't be found");
+    assert(tService != null, "SettingsLoader can't be found");
 
     this.settingsLoader = tService;
 

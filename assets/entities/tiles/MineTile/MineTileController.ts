@@ -39,7 +39,7 @@ export class MineTileController extends TileController {
     this._gameManager = Service.getServiceOrThrow(GameManager);
     this._fieldViewController = Service.getServiceOrThrow(FieldController);
 
-    assert(ObjectsCache.instance, "ObjectsCache can't be null");
+    assert(ObjectsCache.instance != null, "ObjectsCache can't be null");
 
     this._cache = ObjectsCache.instance;
   }

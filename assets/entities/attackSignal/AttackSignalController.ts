@@ -18,15 +18,15 @@ export class AttackSignalController extends Service {
 
   start() {
     const f = this.getService(FieldController);
-    assert(f, "FieldController not found");
+    assert(f != null, "FieldController not found");
     this.fieldController = f;
 
     const s = this.node.children;
-    assert(s, "Nodes not found");
+    assert(s != null, "Nodes not found");
     this.sides = s;
 
     const t = this.getService(DataService);
-    assert(t, "DataService not found");
+    assert(t != null, "DataService not found");
     this.dataService = t;
 
     for (let i = 0; i < this.fieldController.fieldMatrix.cols; i++) {

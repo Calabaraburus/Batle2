@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, CCString } from "cc";
 import { Service } from "../services/Service";
+import { DEBUG } from "cc/env";
 const { ccclass, property } = _decorator;
 
 @ccclass("Behaviour")
@@ -42,7 +43,18 @@ export class Behaviour extends Service {
     this._isStoped = true;
   }
 
-  clone(): this {
-    return new (this.constructor as new () => this)()
+  clone(): Behaviour {
+    const result = new Behaviour();
+
+    this.cloneInternal(result);
+
+    return new (this.constructor as new () => this)();
+  }
+
+  protected cloneInternal(b: Behaviour) {
+    b.type = this.type;
+    b._target = this._target;
+    b._inProcess = this._inProcess;
+    b._isStoped = this._isStoped;
   }
 }

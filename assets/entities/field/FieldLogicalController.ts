@@ -456,6 +456,9 @@ export class FieldLogicalController
   }
 
   public reset() {
+
+    this.flush();
+
     this._field.forEach((tile) => {
       tile.cacheDestroy();
       // this._tilesToDestroy.push(tile);

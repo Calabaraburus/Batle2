@@ -80,7 +80,7 @@ export class RewardWindow extends Service {
 
     const tService = this.getService(SettingsLoader);
 
-    assert(tService, "SettingsLoader can't be found");
+    assert(tService != null, "SettingsLoader can't be found");
 
     this.settingsLoader = tService;
 
@@ -106,7 +106,7 @@ export class RewardWindow extends Service {
     this.bGround = this.node.getChildByName("Bkground");
 
     this.closeButton = this.node.getChildByName("Close");
-    assert(this.closeButton, "Do not found Close node");
+    assert(this.closeButton != null, "Do not found Close node");
 
     this.startAnimateBackCard();
 
@@ -154,7 +154,7 @@ export class RewardWindow extends Service {
     cardImage.spriteFrame = this.bonusModelUp.cardImage;
 
     this.infoButton = this.node.getChildByName("InfoUp");
-    assert(this.infoButton, "Do not found Info node");
+    assert(this.infoButton != null, "Do not found Info node");
   }
 
   initCardSelector() {
@@ -173,9 +173,9 @@ export class RewardWindow extends Service {
     this.cardImageTwo.spriteFrame = this.bonusModelSelectorTwo.unactiveSprite;
 
     this.infoButton = this.node.getChildByName("InfoSelectOne");
-    assert(this.infoButton, "Do not found InfoOne node");
+    assert(this.infoButton != null, "Do not found InfoOne node");
     this.infoButtonTwo = this.node.getChildByName("InfoSelectTwo");
-    assert(this.infoButtonTwo, "Do not found InfoTwo node");
+    assert(this.infoButtonTwo != null, "Do not found InfoTwo node");
   }
 
   selectCardOne() {

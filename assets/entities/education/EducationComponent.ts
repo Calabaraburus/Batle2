@@ -59,7 +59,7 @@ export class EducationComponent extends Service {
 
   start() {
     const cService = this.getService(CardService);
-    assert(cService, "Can not find CardService");
+    assert(cService != null, "Can not find CardService");
     this.cardService = cService;
 
     this.bonus = this.cardService.getCurrentPlayerModel()?.bonuses.find((b) => {
@@ -69,7 +69,7 @@ export class EducationComponent extends Service {
     this.pOpacity = this.playerField.getComponent(UIOpacity);
     this.eOpacity = this.enemyField.getComponent(UIOpacity);
     const back = this.node.getChildByName("Bkground");
-    assert(back, "BackGround node is not find");
+    assert(back != null, "BackGround node is not find");
 
     this.activateFields();
 

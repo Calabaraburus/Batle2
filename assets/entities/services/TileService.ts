@@ -17,7 +17,7 @@ export class TileService extends Service {
   start() {
     this._dataService = this.getServiceOrThrow(DataService);
 
-    assert(this._dataService.field, "Field can't be null");
+    assert(this._dataService.field != null, "Field can't be null");
 
     this._fieldExtensions = new FieldControllerExtensions(this._dataService.field);
   }

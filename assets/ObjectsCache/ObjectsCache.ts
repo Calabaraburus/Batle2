@@ -35,6 +35,14 @@ export class ObjectsCache extends Component implements IObjectsCache {
   @property(Prefab)
   prefabs: Prefab[] = [];
 
+  public get size() {
+    let result = 0;
+
+    this._objectBags.forEach(b => { result += b.bagDestroied.size + b.bagNotDestroied.size });
+
+    return result;
+  }
+
   onLoad() {
     ObjectsCache._instance = this;
   }

@@ -22,8 +22,7 @@ const { ccclass, property } = _decorator;
 @ccclass("CatapultTileController")
 export class CatapultTileController
   extends TileController
-  implements IAttackable
-{
+  implements IAttackable {
   private _cardService: CardService;
   private _state: TileState;
   private _attacksCountToDestroy: number;
@@ -47,7 +46,7 @@ export class CatapultTileController
     this._cardService = Service.getServiceOrThrow(CardService);
     this._effectsService = Service.getServiceOrThrow(EffectsService);
 
-    assert(ObjectsCache.instance, "Cache can't be null");
+    assert(ObjectsCache.instance != null, "Cache can't be null");
     this._cache = ObjectsCache.instance;
     this._dataService = Service.getServiceOrThrow(DataService);
   }
@@ -125,7 +124,7 @@ export class CatapultTileController
   playEffect() {
     this.prepareForEffect();
 
-    const effect = this._cache?.getObject(BalistaCardEffect);
+    const effect = this._cache?.getObjectByName<BalistaCardEffect>("BalistaCardEffect");
 
     if (effect != null) {
       effect.node.position = this.node.position;

@@ -14,6 +14,7 @@ import { IAttackable, isIAttackable } from "../IAttackable";
 import { LevelModel } from "../../../models/LevelModel";
 import { MatchStatisticService } from "../../services/MatchStatisticService";
 import { CardEffect } from "../../effects/CardEffect";
+import { Behaviour } from "../../behaviours/Behaviour";
 
 const { ccclass } = _decorator;
 
@@ -241,5 +242,13 @@ export class StdTileInterBehaviour extends GameBehaviour {
           tilesCount > 6 ? (tilesCount > 10 ? 3 : 2) : 1)
       );
     }
+  }
+
+  clone(): Behaviour {
+    const result = new StdTileInterBehaviour();
+    this.cloneInternal(result);
+    result._doNotUpdateMana = this.doNotUpdateMana;
+
+    return result;
   }
 }

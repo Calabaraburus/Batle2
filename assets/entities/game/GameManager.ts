@@ -12,8 +12,8 @@ import {
   _decorator,
   assert,
   AudioSource,
+  log,
 } from "cc";
-import { Bot } from "../../bot/Bot";
 import type { IBot } from "../../bot/IBot";
 import { LevelController } from "../level/LevelController";
 import { FieldController } from "../field/FieldController";
@@ -247,6 +247,7 @@ export class GameManager extends Service {
 
   startPlayerTurn(): void {
     this._gameState.isPlayerTurn = true;
+    this._debug?.log('Cache size:' + ObjectsCache.instance?.size);
     this.unlockUi();
   }
 

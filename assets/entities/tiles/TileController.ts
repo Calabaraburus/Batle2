@@ -145,7 +145,7 @@ export class TileController extends CacheObject {
 
     const ds = Service.getService(DataService);
 
-    assert(ds, "DataService is null");
+    assert(ds != null, "DataService is null");
 
     this.dataService = ds;
 

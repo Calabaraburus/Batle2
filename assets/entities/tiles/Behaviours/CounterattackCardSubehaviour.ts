@@ -13,8 +13,8 @@ import { IAttackable, isIAttackable } from "../IAttackable";
 export class CounterattackCardSubehaviour extends CardsSubBehaviour {
   private _tilesToDestroy: TileController[];
   private _direction: number;
-  private _minSelect: number = 1;
-  private _maxSelect: number = 4;
+  private _minSelect: number = 2;
+  private _maxSelect: number = 5;
 
   prepare(): boolean {
 
@@ -79,7 +79,7 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
   effect(): boolean {
     this.parent.debug?.log("[c_attack_sub] Start effect.");
 
-    assert(ObjectsCache.instance, "Cache is null");
+    assert(ObjectsCache.instance != null, "Cache is null");
 
     const cache = ObjectsCache.instance;
 
