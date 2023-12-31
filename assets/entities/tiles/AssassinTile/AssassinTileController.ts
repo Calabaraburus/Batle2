@@ -65,7 +65,7 @@ export class AssassinTileController
     this._shootEffect = Service.getServiceOrThrow(ShootEffect);
     this._fieldViewController = Service.getServiceOrThrow(FieldController);
 
-    assert(ObjectsCache.instance, "Cache can't be null");
+    assert(ObjectsCache.instance != null, "Cache can't be null");
 
     this._cache = ObjectsCache.instance;
     this.updateSprite();
@@ -168,7 +168,7 @@ export class AssassinTileController
       // const dd = Vec3.distance(this.node.position, t.node.position) / 10;
 
       for (let index = 0; index < 10; index++) {
-        const smokeEffect = this._cache?.getObject(ShootSmokeEffect);
+        const smokeEffect = this._cache?.getObjectByName<ShootSmokeEffect>("ShootSmokeEffect");
 
         if (smokeEffect == null) {
           return;

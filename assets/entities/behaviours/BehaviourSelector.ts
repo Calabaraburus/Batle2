@@ -41,7 +41,7 @@ export class BehaviourSelector extends Service {
   public get dataService() { return this._dataService; }
 
   start() {
-    this._debug = this.getServiceOrThrow(DebugView);
+    //this._debug = this.getServiceOrThrow(DebugView);
     this.fillBehavDict(this.getComponentsInChildren(Behaviour));
     this.Setup(this._objectCache,
       this._cardService,
@@ -73,6 +73,8 @@ export class BehaviourSelector extends Service {
     this._effectsManager = effectsManager;
     this._audioManager = audioManager;
     this._eotInvoker = eotInvoker;
+
+    this._debug = this._dataService.debugView;
 
     this._behavioursDictionary.forEach(bd => bd.forEach(b => {
       if (b instanceof GameBehaviour) {
@@ -121,18 +123,15 @@ export class BehaviourSelector extends Service {
   }
 
   getBehaviour<T extends Behaviour>(
-    classConstructor:
-      | __private._types_globals__Constructor<T>
-      | __private._types_globals__AbstractedConstructor<T>
+    classConstructor: __private._types_globals__Constructor<T>
   ): T | null {
     for (const behaveGroup of this._behavioursDictionary.values()) {
       for (const behave of behaveGroup) {
-        if (behave.name == classConstructor.name) {
-          return behave as T;
+        if (behave instanceof classConstructor) {
+          return behave as T | null;
         };
       }
     }
-
     return null;
   }
 

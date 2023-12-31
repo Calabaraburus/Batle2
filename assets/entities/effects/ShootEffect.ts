@@ -29,7 +29,7 @@ export class ShootEffect extends StaticEffect {
   @property({ type: Color })
   color: Color;
 
-  @property({ type: Number })
+  @property({ type: CCFloat })
   width: number;
 
   public makeShoots(shootLines: Line[]) {

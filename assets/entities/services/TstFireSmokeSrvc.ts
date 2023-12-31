@@ -64,7 +64,7 @@ export class TstFireSmokeSrvc extends Service {
 
     const effects: CardEffect[] = [];
 
-    const smokeEffect = this._cache?.getObject(ShootSmokeEffect);
+    const smokeEffect = this._cache?.getObjectByName<ShootSmokeEffect>("ShootSmokeEffect");
 
     if (smokeEffect == null) {
       return;

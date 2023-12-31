@@ -105,8 +105,8 @@ export class CardController extends Service {
 
     this._spritePos = this.maskNode.position;
 
-    this._button?.node.on(Node.EventType.MOUSE_DOWN, this.onTouchStart, this);
-    this._button?.node.on(Node.EventType.MOUSE_UP, this.onTouchEnd, this);
+    this._button?.node.on(Node.EventType.TOUCH_START, this.onTouchStart, this);
+    this._button?.node.on(Node.EventType.TOUCH_END, this.onTouchEnd, this);
 
     this.updateData();
   }

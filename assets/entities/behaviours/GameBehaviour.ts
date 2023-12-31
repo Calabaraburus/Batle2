@@ -163,4 +163,29 @@ export class GameBehaviour extends Behaviour {
     throw Error("not implemented method");
   }
 
+  clone(): Behaviour {
+    const result = new GameBehaviour();
+
+    this.cloneInternal(result);
+
+    return result;
+  }
+
+  protected cloneInternal(b: Behaviour): void {
+
+    if (b instanceof (GameBehaviour)) {
+      b._dataService = this._dataService;
+      b._cardService = this._cardService;
+      b._objectsCache = this._objectsCache;
+      b._levelModel = this._levelModel;
+      b._gameState = this._gameState;
+      b._effectsService = this._effectsService;
+      b._audioManager = this._audioManager;
+      b._effectsManager = this._effectsManager;
+      b._eotInvoker = this._eotInvoker;
+
+    }
+
+    super.cloneInternal(b);
+  }
 }

@@ -4,7 +4,7 @@
 //
 // Calabaraburus (c) 2023
 
-import { randomRangeInt, tween, _decorator, assert, game } from "cc";
+import { randomRangeInt, tween, _decorator, assert, game, log, DebugView } from "cc";
 import { FieldAnalyzer as FieldAnalyzer } from "../entities/field/FieldAnalizer";
 import type { ITileFieldController } from "../entities/field/ITileFieldController";
 import "../entities/field/FieldExtensions";
@@ -50,6 +50,8 @@ import { EotForBot } from "./EotForBot";
 import { SummonToMyArmyBotAnalizator } from "./analizators/SummonToMyArmyBotAnalizator";
 import { PerdefinedScoreRandomCardAnalizator } from "./analizators/PerdefinedScoreRandomCardAnalizator";
 import { ManeuverCardAnalizator } from "./analizators/ManeuverCardAnalizator";
+import { DebugViewForBot } from "./DebugViewForBot";
+import { DEBUG } from "cc/env";
 
 const { ccclass, property } = _decorator;
 
@@ -85,6 +87,7 @@ export class Bot_v2 extends Service implements IBot {
   private _cardsBehaviour: CardsBehaviour;
   private _gameManager: GameManager;
   private _effectsManager: EffectsManager;
+  private _stdTileBehave: StdTileInterBehaviour;
 
   public get dataService() {
     return this._dataService;
@@ -149,7 +152,8 @@ export class Bot_v2 extends Service implements IBot {
     const stib = this._behaviourSelector.getBehaviour(StdTileInterBehaviour);
 
     if (stib != null) {
-      stib.doNotUpdateMana = true;
+      this._stdTileBehave = stib;
+      this._stdTileBehave.doNotUpdateMana = true;
     }
 
     this.initCardActivators();
@@ -208,7 +212,7 @@ export class Bot_v2 extends Service implements IBot {
     this._botModel.bonuses.forEach(b => {
       if (!this._cardAnalizators.has(b.mnemonic)) {
         const activator = this._cardStrategiesActivators.get(b.mnemonic);
-        assert(activator, "can't find " + b.mnemonic + "activator");
+        assert(activator != null, "can't find " + b.mnemonic + "activator");
         this._cardAnalizators.set(b.mnemonic, activator(b));
       }
     });
@@ -217,11 +221,12 @@ export class Bot_v2 extends Service implements IBot {
   private getBotDataService(): DataServiceForBot {
 
     const result = new DataServiceForBot();
-    result.debugView = this._dataService.debugView;
+    result.debugView = new DebugViewForBot();
     result.botModel = this._botModel;
     result.playerModel = this._playerModel;
     result.enemyFieldController = this._dataService.enemyFieldController;
     result.playerFieldController = this._dataService.playerFieldController;
+
     return result;
   }
 
@@ -237,27 +242,47 @@ export class Bot_v2 extends Service implements IBot {
 
 
   public move(): void {
-    let clonedField: ITileFieldController;
+
+    // let clonedField: ITileFieldController;
     const field = this._dataService.field;
     this._cardsBehaviour
-    if (isICloneable(field)) {
-      clonedField =
-        field.clone() as ITileFieldController;
-    } else {
-      throw Error("logicField must be clonable.");
-    }
+    // if (isICloneable(field)) {
+    //   clonedField =
+    //     field.clone() as ITileFieldController;
+    // } else {
+    //   throw Error("logicField must be clonable.");
+    // }
 
-    if (isIVirtualisable(clonedField)) {
-      clonedField.virtualize();
-    } else {
-      throw Error("Field isn't virtualizable.");
-    }
+    // if (isIVirtualisable(clonedField)) {
+    //   clonedField.virtualize();
+    // } else {
+    //   throw Error("Field isn't virtualizable.");
+    // }
 
-    const analyzer = new FieldAnalyzer(clonedField);
+    // const analyzer = new FieldAnalyzer(clonedField);
+
+
+    console.log("[Bot] Start to analize move");
+
+    console.log(`[Bot] internalDataService ${this._internalDataService == null}`);
+    console.log(`[Bot] internalDataService ${this._internalDataService.debugView == null}`);
+    console.log(`[Bot] internalDataService ${this._internalDataService.botModel == null}`);
+    console.log(`[Bot] internalDataService ${this._internalDataService.playerModel == null}`);
+    console.log(`[Bot] internalDataService ${this._internalDataService.enemyFieldController == null}`);
+    console.log(`[Bot] internalDataService ${this._internalDataService.playerFieldController == null}`);
+    console.log(`[Bot] internalCardService ${this._internalCardService == null}`);
+    console.log(`[Bot] internalCardService ${this._internalCardService.levelModel == null}`);
+    console.log(`[Bot] internalCardService ${this._internalCardService.dataService == null}`);
+    console.log(`[Bot] behaviourSelector ${this._behaviourSelector == null}`);
+
+    console.log(`[Bot] _cardsBehaviour ${this._cardsBehaviour == null}`);
+    console.log(`[Bot] _stdTileBehave ${this._stdTileBehave == null}`);
+
+    //console.log(JSON.stringify(this._internalCardService));
 
     const results: RatingResult[] = [];
 
-    const fieldExt = new FieldControllerExtensions(clonedField);
+    const fieldExt = new FieldControllerExtensions(field);
 
     // player is enemy for bot
     this._ratingEvaluator = new RatingEvaluator(fieldExt, this.botModel, this._playerModel);
@@ -289,31 +314,62 @@ export class Bot_v2 extends Service implements IBot {
 
     const queue = new Queue<() => void>();
 
+    console.log(`[Bot] Analizers size: ${this._cardAnalizators.size}`);
+
     if (this._cardAnalizators.size > 0) {
 
       this._cardAnalizators.forEach(c => {
         queue.enqueue(() => {
 
+          console.log(`[Bot] Try to activate Card ${c.cardModel.mnemonic}`);
           const analizator = this._cardAnalizators.get(c.cardModel.mnemonic);
 
           if (analizator != null && analizator.canActivateCard()) {
+            console.log(`[Bot] Run analizator`);
 
-            const tile = this.getTileForCardActivation(field, analizator);
-            if (tile != null) {
-              this.botModel.setBonus(c.cardModel);
-              this.pressTileRC(tile.row, tile.col);
+            try {
+              const tile = this.getTileForCardActivation(field, analizator);
+              if (tile != null) {
+                this.botModel.setBonus(c.cardModel);
+
+                this.debugTile(tile);
+
+                console.log(`[Bot] Activate card on tile {${tile.row},${tile.col}}`);
+
+                this.pressTileRC(tile.row, tile.col);
+
+                console.log(`[Bot] Card have been activated`);
+
+              } else {
+                this.debugTile(tile);
+              }
+
+
+
+            } catch (error) {
+              console.log(`[Bot][Error] ${error}`);
             }
+
           }
         });
       });
     }
 
     queue.enqueue(() => {
+
+      console.log(`[Bot] Try to find best tile to tap`);
+
       this.botModel.unSetBonus();
       this.getTilesRating(field, [], results);
       results.sort((r1, r2) => -(r1.rating - r2.rating));
 
-      this.pressTileRC(results[0].tile.row, results[0].tile.col);
+      console.log(`[Bot] ratings ${results.map(r => r.rating).join("|")}`);
+
+      const tile = results[0].tile;
+      this.debugTile(tile);
+      console.log(`[Bot] Activate card on tile {${tile.row},${tile.col}}`);
+
+      this.pressTileRC(tile.row, tile.col);
     });
 
     const conv = tween(this);
@@ -333,6 +389,19 @@ export class Bot_v2 extends Service implements IBot {
 
     conv.start();
 
+  }
+
+  debugTile(tile: TileController | null) {
+    if (tile == null) {
+      console.log(`[Bot][TileDebug] Tile is null`);
+
+    } else {
+      console.log(`[Bot][TileDebug] pos: {${tile.row},${tile.col}}`);
+      console.log(`[Bot][TileDebug] model: ${tile.tileModel.tileName}`);
+      console.log(`[Bot][TileDebug] playerModel: ${tile.playerModel == null ?
+        '-' :
+        tile.playerModel.playerName}`);
+    }
   }
 
   private getComplexRating(
@@ -370,14 +439,24 @@ export class Bot_v2 extends Service implements IBot {
     cards: CardToTile[],
     results: RatingResult[]) {
 
+    console.log("[Bot] getTilesRating");
+
     const analizer = new FieldAnalyzer(field);
     const data = analizer.analyze();
     const tiles = this.getTilesForTouch(data);
     const fieldExt = new FieldControllerExtensions(field);
 
     tiles.forEach(t => {
+
+      if (DEBUG) console.log(`[Bot] tile: ${t == null ? 'null' : `{${t.row};${t.col}}`}`);
+
       if (isICloneable(field)) {
+        if (DEBUG) console.log("[Bot] try to clone field");
+
         const clonedFieldForTiles = field.clone() as ITileFieldController;
+
+        if (DEBUG) console.log("[Bot] cloned");
+
         fieldExt.setField(clonedFieldForTiles);
 
         const result = new RatingResult();
@@ -425,7 +504,14 @@ export class Bot_v2 extends Service implements IBot {
     });
 
     if (ratingList.length > 0) {
-      return ratingList.sort((r1, r2) => r1.rating - r2.rating)[0].tile;
+      const top = ratingList.sort((r1, r2) => -(r1.rating - r2.rating))
+
+      console.log(`[Bot] card ratings: ${ratingList.map(r => r.rating).join("|")}`);
+
+      // console.log(`[Bot] Run analizator: ${top.mnemonic}`);
+
+      return top[0].tile;
+
     } else {
       return null;
     }
@@ -435,11 +521,30 @@ export class Bot_v2 extends Service implements IBot {
     fieldExt: FieldControllerExtensions,
     tile: TileController | null): number {
 
+    if (DEBUG) console.log(`[Bot] getTileRating2`);
+
     this._internalDataService.field = fieldExt.field;
     this._internalDataService.fieldAnalizer = new FieldAnalyzer(fieldExt.field);
 
+    if (DEBUG) console.log(`[Bot] this._internalDataService.field ${this._internalDataService.field == null}`);
+    if (DEBUG) console.log(`[Bot] this._internalDataService.fieldAnalizer ${this._internalDataService.fieldAnalizer == null}`);
+
     if (tile != null) {
-      this._behaviourSelector.run(fieldExt.field.fieldMatrix.get(tile.row, tile.col));
+
+      if (DEBUG) console.log(`[Bot] bs before run`);
+
+      if (DEBUG) console.log(`[Bot] fieldExt.field ${fieldExt.field == null}`);
+      if (DEBUG) console.log(`[Bot] fieldExt.field.fieldMatrix ${fieldExt.field.fieldMatrix == null}`);
+
+
+      const cTile = fieldExt.field.fieldMatrix.get(tile.row, tile.col)
+
+      if (DEBUG) console.log(`[Bot] cTile ${cTile == null}`);
+
+      this._behaviourSelector.run(cTile);
+
+      if (DEBUG) console.log(`[Bot] bs after run`);
+
       this.updateField(fieldExt.field);
     }
 

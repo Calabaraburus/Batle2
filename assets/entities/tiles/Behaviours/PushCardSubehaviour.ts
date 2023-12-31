@@ -37,7 +37,7 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
       }
     });
 
-    assert(ObjectsCache.instance, "Cache is null");
+    assert(ObjectsCache.instance != null, "Cache is null");
 
     this._cache = ObjectsCache.instance;
 

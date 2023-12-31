@@ -30,7 +30,7 @@ export class AudioManager {
     // add to the scene.
     const scene = director.getScene();
 
-    assert(scene, "Scene is null");
+    assert(scene != null, "Scene is null");
 
     let audioMgr = scene.getChildByName(this.mgrNodeName);
 
@@ -50,7 +50,7 @@ export class AudioManager {
     } else {
       const ast = audioMgr.getComponents(AudioSource);
 
-      assert(ast, "Can't find audio source");
+      assert(ast != null, "Can't find audio source");
 
       this._audioSource = ast[0];
       this._soundSource = ast[1];

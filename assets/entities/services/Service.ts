@@ -41,7 +41,7 @@ export class Service extends Component {
     const scene = director.getScene();
     if (scene == null) throw Error("Can't get scene");
     const t = scene.getComponentInChildren(classConstructor);
-    assert(t, `Can't get service ${classConstructor.name}`);
+    assert(t != null, `Can't get service ${classConstructor.name}`);
 
     return t;
   }

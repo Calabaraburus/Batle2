@@ -11,7 +11,7 @@ import {
   Sprite,
   Node,
   UITransform,
-  Vec3,
+  Vec3, CCFloat
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -25,7 +25,7 @@ export class LoadLine extends Component {
   @property({ type: Node })
   loadLineNode: Node;
 
-  @property(Number)
+  @property(CCFloat)
   max = 100;
   public get Max(): number {
     return this.max;
@@ -36,7 +36,7 @@ export class LoadLine extends Component {
     this.updateLifeLinePos();
   }
 
-  @property(Number)
+  @property(CCFloat)
   min = 0;
   public get Min(): number {
     return this.min;
