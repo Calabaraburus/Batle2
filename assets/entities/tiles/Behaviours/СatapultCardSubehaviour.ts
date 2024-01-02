@@ -1,14 +1,15 @@
-import { randomRangeInt, tween } from "cc";
+import { assert, randomRangeInt, tween } from "cc";
 import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 import { CardEffect } from "../../effects/CardEffect";
+import { TileModel } from "../../../models/TileModel";
 
 export class CatapultCardSubehaviour extends CardsSubBehaviour {
   private _tilesToTransform: TileController[] = [];
   private _cache: ObjectsCache | null;
-
+  private _catapultModel: TileModel;
   prepare(): boolean {
     this.parent.debug?.log("[catapult_card_sub] Start preparing.");
 
@@ -40,34 +41,20 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
 
   run(): boolean {
     this.parent.debug?.log("[catapult_card_sub] Starting run.");
+
+    assert(this.parent.currentPlayerModel != null);
+
     const targetTile = this.parent.target as StdTileController;
 
-    const model = this.parent.field?.fieldModel.getTileModel("catapult");
+    const model = this.parent.field.fieldModel.getTileModel("catapult");
 
-    if (model == undefined) {
-      this.parent.debug?.log(
-        "[catapult_card_sub][error] Catapult model is null. return false."
-      );
-      return false;
-    }
+    targetTile.fakeDestroy();
 
-    const pModel = this.parent.cardService.getCurrentPlayerModel();
-
-    if (pModel == undefined || pModel == null) {
-      this.parent.debug?.log(
-        "[catapult_card_sub][error] CurrentPlayerModel is null or undefined." +
-        " return false."
-      );
-      return false;
-    }
-
-    targetTile.destroyTile();
-
-    this.parent.field?.createTile({
+    this.parent.field.createTile({
       row: targetTile.row,
       col: targetTile.col,
       tileModel: model,
-      playerModel: pModel,
+      playerModel: this.parent.currentPlayerModel,
       position: targetTile.node.position,
       putOnField: true,
     });

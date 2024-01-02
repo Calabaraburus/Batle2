@@ -49,6 +49,7 @@ import { EOTInvoker } from "../../game/EOTInvoker";
 import { TileController } from "../TileController";
 import { FieldControllerExtensions } from "../../field/FieldExtensions";
 import { Behaviour } from "../../behaviours/Behaviour";
+import { CardsSubBehaviour } from "./SubBehaviour";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
@@ -317,7 +318,11 @@ export class CardsBehaviour extends GameBehaviour {
     this.cloneInternal(result);
 
     this._cardsRunDict.forEach((v, k) => {
-      result._cardsRunDict.set(k, v);
+      const clonedV = v.clone();
+      if (clonedV instanceof CardsSubBehaviour) {
+        clonedV.parent = result;
+      }
+      result._cardsRunDict.set(k, clonedV);
     });
 
     result.applyCardsLogicOnly = this.applyCardsLogicOnly;

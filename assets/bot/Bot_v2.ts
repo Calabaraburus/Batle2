@@ -203,9 +203,6 @@ export class Bot_v2 extends Service implements IBot {
     this._cardStrategiesActivators.set("hammer", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("hammerLow", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("hammerMiddle", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
-
-
-
   }
 
   private initCardAnalizators() {
@@ -243,24 +240,7 @@ export class Bot_v2 extends Service implements IBot {
 
   public move(): void {
 
-    // let clonedField: ITileFieldController;
-    const field = this._dataService.field;
-    this._cardsBehaviour
-    // if (isICloneable(field)) {
-    //   clonedField =
-    //     field.clone() as ITileFieldController;
-    // } else {
-    //   throw Error("logicField must be clonable.");
-    // }
-
-    // if (isIVirtualisable(clonedField)) {
-    //   clonedField.virtualize();
-    // } else {
-    //   throw Error("Field isn't virtualizable.");
-    // }
-
-    // const analyzer = new FieldAnalyzer(clonedField);
-
+    let clonedField = this.cloneField();
 
     console.log("[Bot] Start to analize move");
 
@@ -282,10 +262,13 @@ export class Bot_v2 extends Service implements IBot {
 
     const results: RatingResult[] = [];
 
-    const fieldExt = new FieldControllerExtensions(field);
+    const fieldExt = new FieldControllerExtensions(this.dataService.field);
 
     // player is enemy for bot
-    this._ratingEvaluator = new RatingEvaluator(fieldExt, this.botModel, this._playerModel);
+    this._ratingEvaluator = new RatingEvaluator(
+      fieldExt,
+      this.botModel,
+      this._playerModel);
 
     // const aData = analyzer.analyze();
 
@@ -328,23 +311,21 @@ export class Bot_v2 extends Service implements IBot {
             console.log(`[Bot] Run analizator`);
 
             try {
-              const tile = this.getTileForCardActivation(field, analizator);
-              if (tile != null) {
+              const result = this.getTileForCardActivation(clonedField, analizator);
+              if (result != null) {
                 this.botModel.setBonus(c.cardModel);
 
-                this.debugTile(tile);
+                // this.debugTile(tile);
 
-                console.log(`[Bot] Activate card on tile {${tile.row},${tile.col}}`);
+                console.log(`[Bot] Activate card on tile {${result.row},${result.col}}`);
 
-                this.pressTileRC(tile.row, tile.col);
+                this.pressTileRC(result.row, result.col);
 
                 console.log(`[Bot] Card have been activated`);
 
               } else {
-                this.debugTile(tile);
+                // this.debugTile(tile);
               }
-
-
 
             } catch (error) {
               console.log(`[Bot][Error] ${error}`);
@@ -359,17 +340,26 @@ export class Bot_v2 extends Service implements IBot {
 
       console.log(`[Bot] Try to find best tile to tap`);
 
+      clonedField.reset();
+
+      clonedField = this.cloneField();
+
       this.botModel.unSetBonus();
-      this.getTilesRating(field, [], results);
+      this.getTilesRating(clonedField, [], results);
+
+      clonedField.reset();
+
       results.sort((r1, r2) => -(r1.rating - r2.rating));
 
       console.log(`[Bot] ratings ${results.map(r => r.rating).join("|")}`);
 
-      const tile = results[0].tile;
-      this.debugTile(tile);
-      console.log(`[Bot] Activate card on tile {${tile.row},${tile.col}}`);
+      const result = results[0];
+      //      this.debugTile(tile);
+      console.log(`[Bot] Activate tile {${result.row},${result.col}}`);
 
-      this.pressTileRC(tile.row, tile.col);
+      this.pressTileRC(result.row, result.col);
+
+      // clonedField.reset();
     });
 
     const conv = tween(this);
@@ -391,14 +381,34 @@ export class Bot_v2 extends Service implements IBot {
 
   }
 
-  debugTile(tile: TileController | null) {
+  cloneField() {
+    let clonedField: ITileFieldController;
+    const field = this._dataService.field;
+
+    if (isICloneable(field)) {
+      clonedField =
+        field.clone() as ITileFieldController;
+    } else {
+      throw Error("logicField must be clonable.");
+    }
+
+    if (isIVirtualisable(clonedField)) {
+      clonedField.virtualize();
+    } else {
+      throw Error("Field isn't virtualizable.");
+    }
+
+    return clonedField;
+  }
+
+  debugTile(tile: TileController | null, preStr = "[Bot][TileDebug]") {
     if (tile == null) {
-      console.log(`[Bot][TileDebug] Tile is null`);
+      console.log(`${preStr} Tile is null`);
 
     } else {
-      console.log(`[Bot][TileDebug] pos: {${tile.row},${tile.col}}`);
-      console.log(`[Bot][TileDebug] model: ${tile.tileModel.tileName}`);
-      console.log(`[Bot][TileDebug] playerModel: ${tile.playerModel == null ?
+      console.log(`${preStr} pos: {${tile.row},${tile.col}}`);
+      console.log(`${preStr} model: ${tile.tileModel.tileName}`);
+      console.log(`${preStr} playerModel: ${tile.playerModel == null ?
         '-' :
         tile.playerModel.playerName}`);
     }
@@ -463,7 +473,8 @@ export class Bot_v2 extends Service implements IBot {
 
         result.rating = this.getTileRating(fieldExt, t);
         result.cards = cards;
-        result.tile = t;
+        result.row = t.row;
+        result.col = t.col;
 
         results.push(result);
 
@@ -474,7 +485,7 @@ export class Bot_v2 extends Service implements IBot {
 
   private getTileForCardActivation(
     field: ITileFieldController,
-    ca: CardAnalizator): TileController | null {
+    ca: CardAnalizator): RatingResult | null {
 
     const fieldExt = new FieldControllerExtensions(field);
     const analizer = new FieldAnalyzer(fieldExt.field);
@@ -494,9 +505,24 @@ export class Bot_v2 extends Service implements IBot {
         analizer.field = clonedFieldForCard;
         this._internalDataService.fieldAnalizer = analizer;
 
+        const tt = clonedFieldForCard.fieldMatrix.get(t.row, t.col);
+
+        this.debugTile(tt, "[Bot][cuca]");
+
+        this._behaviourSelector.run(tt);
+        this.updateField(clonedFieldForCard);
+
         const res = new RatingResult();
-        res.tile = t;
+        res.row = t.row;
+        res.col = t.col;
+
         res.rating = this.getTileRating(fieldExt, null);
+
+        if (DEBUG) {
+          console.log(`[Bot][TileDebug] pos: {${res.row},${res.col}}`);
+          console.log(`[Bot][TileDebug] rating: {${res.rating}}`);
+        }
+
         ratingList.push(res);
 
         clonedFieldForCard.reset();
@@ -510,7 +536,7 @@ export class Bot_v2 extends Service implements IBot {
 
       // console.log(`[Bot] Run analizator: ${top.mnemonic}`);
 
-      return top[0].tile;
+      return top[0];
 
     } else {
       return null;
@@ -528,6 +554,8 @@ export class Bot_v2 extends Service implements IBot {
 
     if (DEBUG) console.log(`[Bot] this._internalDataService.field ${this._internalDataService.field == null}`);
     if (DEBUG) console.log(`[Bot] this._internalDataService.fieldAnalizer ${this._internalDataService.fieldAnalizer == null}`);
+
+    this.debugTile(tile);
 
     if (tile != null) {
 
@@ -623,7 +651,8 @@ class CardToTile {
 class RatingResult {
   public rating: number;
   public cards: CardToTile[];
-  public tile: TileController;
+  public row: number;
+  public col: number;
 }
 
 

@@ -33,9 +33,9 @@ export class RaitingEvaluator {
     }
 
     fillEvaluations() {
-        this._evaluationTileStrategies.set("mine", this.safePlaceEvStrategy);
-        this._evaluationTileStrategies.set("catapult", this.safePlaceEvStrategy);
-        this._evaluationTileStrategies.set("shaman", this.safePlaceEvStrategy);
+        this._evaluationTileStrategies.set("mine", this.safePlaceEvStrategy.bind(this));
+        this._evaluationTileStrategies.set("catapult", this.safePlaceEvStrategy.bind(this));
+        this._evaluationTileStrategies.set("shaman", this.safePlaceEvStrategy.bind(this));
 
     }
 
@@ -43,7 +43,7 @@ export class RaitingEvaluator {
         if (isEnemyTile) {
             return t.tileModel.dangerRating
         } else {
-            return t.tileModel.dangerRating / (this.tileDangNeigboursCount(t) + 1);
+            return t.tileModel.dangerRating / (2 * (this.tileDangNeigboursCount(t) + 1));
         }
     }
 

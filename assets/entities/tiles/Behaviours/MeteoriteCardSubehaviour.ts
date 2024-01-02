@@ -23,7 +23,6 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
   private _cache: ObjectsCache | null;
   protected powerCard = 2;
   private _targetTile: StdTileController;
-  private _fieldTransform: UITransform;
   private _soundEffect: AudioManager | null;
 
   prepare(): boolean {
@@ -41,15 +40,6 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
     } else {
       return false;
     }
-
-    const fieldTransform = this.parent.effectsNode?.getComponent(UITransform);
-
-    if (fieldTransform == null) {
-      console.log("[meteor_cardsub][error] fieldTransform is null");
-      return false;
-    }
-
-    this._fieldTransform = fieldTransform;
 
     this._cache = ObjectsCache.instance;
     this.effectDurationValue = 1.5;
@@ -104,6 +94,14 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
 
   effect(): boolean {
     console.log("[meteor_cardsub] start effect");
+
+    const fieldTransform = this.parent.effectsNode?.getComponent(UITransform);
+
+    if (fieldTransform == null) {
+      console.log("[meteor_cardsub][error] fieldTransform is null");
+      return false;
+    }
+
     // const soundEffect = this.parent.
     const effects: CardEffect[] = [];
 
@@ -116,12 +114,12 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
 
     const border = [
       [
-        -this._fieldTransform.width * this._fieldTransform.anchorX,
-        this._fieldTransform.width * this._fieldTransform.anchorX,
+        -fieldTransform.width * fieldTransform.anchorX,
+        fieldTransform.width * fieldTransform.anchorX,
       ],
       [
-        -this._fieldTransform.height * this._fieldTransform.anchorY,
-        this._fieldTransform.height * this._fieldTransform.anchorY,
+        -fieldTransform.height * fieldTransform.anchorY,
+        fieldTransform.height * fieldTransform.anchorY,
       ],
     ];
 

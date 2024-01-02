@@ -48,7 +48,7 @@ export class FieldLogicalController
   private _tileCreator: TileCreator;
   private _dataService: IDataService;
   private _fieldModel: FieldModel;
-  private _tilesArea: UITransform;
+  private _tilesArea: UITransform | null;
   private _onTileCreating: ((tile: TileController) => void) = (t) => { };
   private _isVirtual: boolean = false;
 
@@ -59,7 +59,7 @@ export class FieldLogicalController
 
   public constructor(
     fieldModel: FieldModel,
-    tilesArea: UITransform,
+    tilesArea: UITransform | null,
     dataService: IDataService,
     tileCreator: TileCreator
   ) {
@@ -180,11 +180,10 @@ export class FieldLogicalController
     const tileController = tile.getComponent(TileController);
 
     if (tileController != null) {
-      tileController.virtual = this._isVirtual;
 
       tileController.justCreated = true;
       tileController.playerModel = playerModel;
-      tileController.node.parent = this._tilesArea.node;
+      tileController.node.parent = this._tilesArea == null ? null : this._tilesArea.node;
       tileController.row = row;
       tileController.col = col;
 
@@ -192,6 +191,8 @@ export class FieldLogicalController
 
       tileController.setField(this);
       tileController.setModel(tileModel);
+
+      this.virtualizeTile(tileController, this._isVirtual);
 
       if (putOnField) {
         this._field.set(row, col, tileController);
@@ -211,6 +212,9 @@ export class FieldLogicalController
   }
 
   public calculateTilePosition(row: number, col: number): Vec3 {
+
+    if (this._tilesArea == null) return new Vec3();
+
     const border = this._fieldModel.border / 2;
     const tW = this._tilesArea.width / this._fieldModel.cols;
     const tilesHeight = tW * this._fieldModel.rows;
@@ -226,6 +230,8 @@ export class FieldLogicalController
   public calculateTileSize(
     tileTransform: UITransform | null | undefined
   ): Vec3 {
+    if (this._tilesArea == null) return new Vec3();
+
     const tW = this._tilesArea.width / this._fieldModel.cols;
     const tileTransformwidth = tileTransform != null ? tileTransform.width : 0;
     const coef = tW / (tileTransformwidth + this._fieldModel.border);
@@ -490,26 +496,37 @@ export class FieldLogicalController
     }
   }
 
-  virtualize(): void {
+  virtualize(virtualize = true): void {
 
     this._isVirtual = true;
 
     this._field.forEach((t) => {
-      t.node.parent = null;
-      t.virtual = true;
+      this.virtualizeTile(t, virtualize);
     });
+  }
+
+  virtualizeTile(tile: TileController, virtualize = true) {
+    if (virtualize) {
+      tile.node.parent = null;
+    } else {
+      tile.node.parent = this._tilesArea == null ? null : this._tilesArea.node;
+
+    }
+
+    tile.virtual = virtualize;
   }
 
   clone(): FieldLogicalController {
     const clone = new FieldLogicalController(
       this.fieldModel,
-      this._tilesArea,
+      null,
       this._dataService,
       this._tileCreator
     );
 
     clone._field = this._field.clone();
     clone._isVirtual = this._isVirtual;
+    clone._tilesArea = this._isVirtual ? null : this._tilesArea;
 
     this._field.forEach((item, i, j) => {
       const cTile = clone.createTile({
@@ -520,10 +537,12 @@ export class FieldLogicalController
         putOnField: true,
       });
 
-      if (cTile != null) {
-        cTile.virtual = this._isVirtual;
-        clone._field.set(item.row, item.col, cTile);
-      }
+      //if (cTile != null) {
+
+      // this.virtualizeTile(cTile, this._isVirtual);
+
+      // clone._field.set(item.row, item.col, cTile);
+      //}
     });
 
     return clone;
