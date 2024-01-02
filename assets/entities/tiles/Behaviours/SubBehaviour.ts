@@ -13,6 +13,10 @@ export class CardsSubBehaviour implements ISubBehaviour {
     return this._mainBehave;
   }
 
+  public set parent(value: CardsBehaviour) {
+    this._mainBehave = value;
+  }
+
   constructor(mainBehaviour: CardsBehaviour) {
     this._mainBehave = mainBehaviour;
   }
@@ -28,5 +32,10 @@ export class CardsSubBehaviour implements ISubBehaviour {
   }
   effect(): boolean {
     return true;
+  }
+
+  public clone() {
+    const clone = Object.create(this);;
+    return clone;
   }
 }

@@ -272,7 +272,7 @@ export class FieldControllerExtensions {
       const c = tile.col + item[1];
 
       if ((r >= 0 && r < this._field.fieldMatrix.rows) &&
-        (c >= 0 && c < this._field.fieldMatrix.rows)) {
+        (c >= 0 && c < this._field.fieldMatrix.cols)) {
         res.push(this.field.fieldMatrix.get(r, c));
       }
     }

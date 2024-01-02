@@ -21,10 +21,9 @@ export class CacheObject extends Component implements ICacheObject {
   public set virtual(value: boolean) {
     this._virtual = value;
 
-    if (this.node.active == true && value == true) {
+    if (this.node.active == true && this._virtual == true) {
       this.node.active = false;
     }
-
   }
 
   cacheCreate(): void {

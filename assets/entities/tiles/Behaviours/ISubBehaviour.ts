@@ -4,4 +4,5 @@ export interface ISubBehaviour {
   run(): boolean;
   select(): boolean;
   effect(): boolean;
+  clone(): ISubBehaviour;
 }

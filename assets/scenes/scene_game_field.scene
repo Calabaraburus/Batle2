@@ -3306,7 +3306,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "catapult",
-    "priceToActivate": 4,
+    "priceToActivate": 3,
     "sprite": {
       "__uuid__": "7a3d6c5c-7094-4ae3-aed2-28e6929ee96e@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -3962,7 +3962,7 @@
       "__uuid__": "b5d3b635-147b-472a-9ad8-ae33b53a91a5@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "activateType": "long_range",
+    "activateType": "protect",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -4387,7 +4387,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "hammerMiddle",
-    "priceToActivate": 4,
+    "priceToActivate": 1,
     "sprite": {
       "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
       "__expectedType__": "cc.SpriteFrame"

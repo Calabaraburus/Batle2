@@ -26,7 +26,6 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
     [0, 0],
   ];
   private _targetTile: StdTileController;
-  private _fieldTransform: UITransform;
 
   prepare(): boolean {
     let maxCountLength = this.powerCard;
@@ -54,14 +53,6 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
       return false;
     }
 
-    const fieldTransform = this.parent.effectsNode?.getComponent(UITransform);
-
-    if (fieldTransform == null) {
-      console.log("[pike_cardsub][error] fieldTransform is null");
-      return false;
-    }
-
-    this._fieldTransform = fieldTransform;
     const matrix = this.parent.field?.fieldMatrix;
     this._cache = ObjectsCache.instance;
     this.effectDurationValue = 1.5;
@@ -145,6 +136,13 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
   effect(): boolean {
     console.log("[pike_cardsub] start effect");
 
+    const fieldTransform = this.parent.effectsNode?.getComponent(UITransform);
+
+    if (fieldTransform == null) {
+      console.log("[pike_cardsub][error] fieldTransform is null");
+      return false;
+    }
+
     const effects: CardEffect[] = [];
 
     const spareEffect =
@@ -156,7 +154,7 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
 
     const startPos = this._targetTile.node.position.clone();
 
-    startPos.y = this._fieldTransform.height * this._fieldTransform.anchorY;
+    startPos.y = fieldTransform.height * fieldTransform.anchorY;
 
     spareEffect.node.parent = this._targetTile.node.parent;
     spareEffect.node.position = startPos;
