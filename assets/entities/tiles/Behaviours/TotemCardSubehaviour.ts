@@ -20,10 +20,6 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
 
     const totemCount = 3;
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardService.getPlayerTag();
-    const enemyTag = this.parent.cardService.getOponentTag();
-
-    if (playerTag == null || enemyTag == null) return false;
     if (this.parent.cardService == null) return false;
 
     if (targetTile instanceof StdTileController) {
@@ -41,7 +37,7 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
     this._tilesToTransform = [];
 
     const myTiles = this.parent.field?.fieldMatrix.filter((tile) => {
-      return tile.tileModel.containsTag(playerTag);
+      return tile.playerModel == this.parent.currentPlayerModel;
     });
 
     if (myTiles == null) {

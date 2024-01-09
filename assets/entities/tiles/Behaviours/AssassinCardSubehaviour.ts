@@ -15,10 +15,6 @@ export class AssassinCardSubehaviour extends CardsSubBehaviour {
     this.parent.debug?.log("[assassin_card_sub] Start preparing.");
 
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardService?.getPlayerTag();
-    const enemyTag = this.parent.cardService?.getOponentTag();
-
-    if (playerTag == null || enemyTag == null) return false;
     if (this.parent.cardService == null) return false;
 
     if (targetTile instanceof StdTileController) {

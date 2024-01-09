@@ -6,7 +6,7 @@ import { StdTileController } from "../entities/tiles/UsualTile/StdTileController
 
 export class RaitingEvaluator {
 
-    private _tileAttackCoef = 10;
+    private _tileAttackCoef = 20;
     private _fieldExt: FieldControllerExtensions;
     private _playerModel: PlayerModel;
     private _enemyModel: PlayerModel;

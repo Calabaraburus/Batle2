@@ -66,23 +66,6 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
     this._tilesPanicCopy.splice(j, 1);
   }
 
-  // get tile and col to complete panic list
-  // private completFieldOfTiles(currentTile: TileController, targetCol: number) {
-  //   this.parent.field?.fieldMatrix.forEachCol(targetCol, (tile, rowId) => {
-  //     if (this.parent.cardsService == null) return;
-  //     if (
-  //       tile.tileModel.containsTag(this.parent.cardsService.getOponentTag())
-  //     ) {
-  //       if (
-  //         currentTile.row + this.countForEachSide >= rowId &&
-  //         currentTile.row - this.countForEachSide <= rowId
-  //       ) {
-  //         this._tilesToPanic.push(tile);
-  //       }
-  //     }
-  //   });
-  // }
-
   run(): boolean {
     this.parent.debug?.log("[totem_card_sub] Starting run.");
 
