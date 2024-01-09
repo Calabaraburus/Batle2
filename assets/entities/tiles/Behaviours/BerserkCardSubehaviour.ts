@@ -17,8 +17,6 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
     const berserkCount = 2;
     let enemySide = 1;
     const targetTile = this.parent.target as StdTileController;
-    const playerTag = this.parent.cardService.getPlayerTag();
-    const enemyTag = this.parent.cardService.getOponentTag();
 
     if (
       this.parent.cardService.getCurrentPlayerModel() ==
@@ -47,7 +45,7 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
     this._tilesToTransform = [];
 
     const myPlayerTiles = this.parent.field?.fieldMatrix.filter((tile) => {
-      return tile.tileModel.containsTag(playerTag);
+      return tile.playerModel == this.parent.currentPlayerModel;
     });
 
     if (myPlayerTiles == null) {
@@ -60,7 +58,7 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
 
     myPlayerTiles?.forEach((tile) => {
       const enemyTile = matrix.get(tile.row + enemySide, tile.col);
-      if (enemyTile.tileModel.containsTag(enemyTag)) {
+      if (enemyTile.playerModel == this.parent.currentOponentModel) {
         myTiles.push(tile);
       }
     });

@@ -18,6 +18,8 @@ import {
   __private,
   spriteAssembler,
   assert,
+  SpriteFrame,
+  randomRangeInt,
 } from "cc";
 import { NextStepAttackTilesBotAnalizator } from "../../bot/NextStepAttackTilesBotAnalizator";
 import { PlayerModel } from "../../models/PlayerModel";
@@ -207,12 +209,22 @@ export class TileController extends CacheObject {
 
       const tm = this.fieldController.fieldModel.getTileModel(bckgName);
 
-      this._backgroundSprite.spriteFrame = tm.sprite;
+      this._backgroundSprite.spriteFrame = this.getRndSpriteFromModel(tm);
     }
 
     if (this._foregroundSprite != null) {
       this._foregroundSprite.spriteFrame = this.tileModel.sprite;
     }
+  }
+
+  private getRndSpriteFromModel(tm: TileModel) {
+    const arr: SpriteFrame[] = [];
+
+    arr.push(tm.sprite);
+
+    tm.additionalSprites.forEach(s => arr.push(s.sprite));
+
+    return arr[randomRangeInt(0, arr.length)];
   }
 
   public setField(field: ITileFieldController) {

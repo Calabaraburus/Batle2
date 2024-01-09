@@ -139,7 +139,7 @@ export class CardController extends Service {
 
     this.sprite.spriteFrame = this._model.sprite;
     this.unactiveSprite.spriteFrame = this._model.unactiveSprite;
-    this.lblCardAmount.string = this._model.priceToActivate.toString();
+    this.lblCardAmount.string = Math.floor(this._model.currentAmmountToActivate / this._model.priceToActivate).toString();
     this.selected = this.model.selected;
 
     if (this._levelModel?.gameMechanicType == 1) {

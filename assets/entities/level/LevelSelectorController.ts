@@ -156,7 +156,7 @@ export class LevelSelectorController extends Service {
     this.configDict.set("lvl5", (config) => {
       var bot = this.configPlayerStd({ config, name: "bot4", life: 70, isBot: true })
       var player = this.configPlayerStd({ config, name: "lion", life: 70 })
-      this.addBonuses(config, player, ["meteoriteLow", "assassin"]);
+      this.addBonuses(config, player, ["meteoriteMiddle", "assassin"]);
     });
 
     this.configDict.set("lvl6", (config) => {

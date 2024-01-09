@@ -49,7 +49,7 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
       this._targetTile.col,
       (tile, rowId) => {
         if (
-          tile.tileModel.containsTag(this.parent.cardService.getOponentTag())
+          tile.playerModel == this.parent.currentOponentModel
         ) {
           if (
             this._targetTile.row + maxCountForEachSide >= rowId &&
@@ -65,7 +65,7 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
       this._targetTile.row,
       (tile, colId) => {
         if (
-          tile.tileModel.containsTag(this.parent.cardService.getOponentTag())
+          tile.playerModel == this.parent.currentOponentModel
         ) {
           if (
             this._targetTile.col + maxCountForEachSide >= colId &&
