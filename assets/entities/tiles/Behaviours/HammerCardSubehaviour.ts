@@ -123,6 +123,7 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
 
     startPos.y = fieldTransform.height * fieldTransform.anchorY;
 
+    spareEffect.node.parent = null;
     spareEffect.node.parent = this._targetTile.node.parent;
     spareEffect.node.position = startPos;
     spareEffect.play();

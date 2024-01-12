@@ -3,7 +3,7 @@
 //  Calabaraburus (c) 2023
 //
 
-import { _decorator, Sprite, tween, Node, error, assert } from "cc";
+import { _decorator, Sprite, tween, Node, error, assert, UITransform } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
@@ -133,12 +133,14 @@ export class CatapultTileController
 
       effect.aim = this._aimForEffect;
 
+      const transform = effect.node.parent?.getComponent(UITransform);
+
       effect.play();
 
       const animator = tween(effect.node);
 
       animator
-        .to(0.8, { position: this._aimForEffect.position })
+        .to(0.8, { position: transform?.convertToNodeSpaceAR(this._aimForEffect.worldPosition) })
         .delay(0.8)
         .call(() => effect.stopEmmit())
         .delay(1)

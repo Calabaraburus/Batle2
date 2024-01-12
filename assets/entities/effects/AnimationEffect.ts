@@ -1,4 +1,4 @@
-import { Animation, AnimationState, _decorator } from "cc";
+import { Animation, AnimationState, _decorator, log } from "cc";
 const { ccclass, property } = _decorator;
 import { CacheObject } from "../../ObjectsCache/CacheObject";
 
@@ -10,10 +10,11 @@ export class AnimationEffect extends CacheObject {
   animations: Animation[] = [];
 
   play() {
-    this.isplaying = true;
     this.animations.forEach((a) => {
+      a.resume();
       a.play();
     });
+    this.isplaying = true;
   }
 
   protected update(dt: number): void {

@@ -6,11 +6,12 @@ import { SettingsLoader } from "../services/SettingsLoader";
 import { GameState } from "../game/GameState";
 import { GameParameters } from "../game/GameParameters";
 import { MenuOptionsItem } from "./MenuOptionsItem";
+import { Window } from "../ui/window/Window";
+import { Service } from "../services/Service";
 const { ccclass, property } = _decorator;
 
 @ccclass("MenuSelectorController")
-export class MenuSelectorController extends MainMenu {
-  private _tarnsitionScene = new LoaderScreen();
+export class MenuSelectorController extends Service {
   private _aManager: AudioManagerService | null | undefined;
 
   @property(Node)
@@ -21,7 +22,6 @@ export class MenuSelectorController extends MainMenu {
   state: GameState;
 
   start(): void {
-    this.init();
 
     this._aManager = this.getService(AudioManagerService);
 
@@ -59,11 +59,11 @@ export class MenuSelectorController extends MainMenu {
   loadScene(sender: object, sceneName: string): void {
     // stop start audio track
     const currentScene = director.getScene()?.name;
-    if (currentScene == "scene_dev_art_1") {
+    if (currentScene == "scene_game_field") {
       this._aManager?.stopMusic();
 
       this._aManager?.playMusic("start_menu");
-    } else if (sceneName == "scene_dev_art_1") {
+    } else if (sceneName == "scene_game_field") {
       this._aManager?.stopMusic();
     }
 
