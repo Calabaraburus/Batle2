@@ -115,7 +115,7 @@ export class GameManager extends Service {
     });
 
   private _stateMachine: StateMachine<string, string>;
-  private _menuSelector: MenuSelectorController | null;
+  //private _menuSelector: MenuSelectorController | null;
   private _gameState: GameStateWritable;
   private _effectsManager: EffectsManager //
     ;
@@ -131,7 +131,7 @@ export class GameManager extends Service {
     this._tileService = this.getServiceOrThrow(TileService);
     this._matchStatistic = this.getServiceOrThrow(MatchStatisticService);
     this._audioManager = this.getServiceOrThrow(AudioManagerService);
-    this._menuSelector = this.getServiceOrThrow(MenuSelectorController);
+    //this._menuSelector = this.getServiceOrThrow(MenuSelectorController);
     this._gameState = this.getServiceOrThrow(GameStateWritable);
     this._gameState.isPlayerTurn = true;
 
@@ -312,7 +312,7 @@ export class GameManager extends Service {
     }
 
     if (enemyModel.life <= 0) {
-      this._menuSelector?.openSectionMenu(this, "RewardBlock");
+      //   this._menuSelector?.openSectionMenu(this, "RewardBlock");
     }
 
     this.levelController.updateData();

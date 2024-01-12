@@ -131,15 +131,10 @@ export class LevelSelectorController extends Service {
       var player = this.configPlayerStd({ config, name: "lion", life: 50 })
       this.addBonuses(config, player, ["meteoriteLow"]);
 
-      this._cardUpBonus = config.node.getComponentInChildren(
-        EndLevelCardUpdateBonusModel
-      );
-
-      if (this._cardUpBonus) {
-        this._cardUpBonus.cardUp = "catapult";
-        config.endLevelBonuses.push(this._cardUpBonus);
-      }
+      this.setEndBonusCard(config, "catapult");
     });
+
+
 
     this.configDict.set("lvl3", (config) => {
       this.configPlayerStd({ config, name: "monkey", life: 60, isBot: true })
@@ -218,6 +213,17 @@ export class LevelSelectorController extends Service {
       config.botHeroName = "rnd_bot";
       config.playerHeroName = "rnd_player";
     });
+  }
+
+  setEndBonusCard(config: LevelConfiguration, cardName: string) {
+    this._cardUpBonus = config.node.getComponentInChildren(
+      EndLevelCardUpdateBonusModel
+    );
+
+    if (this._cardUpBonus) {
+      this._cardUpBonus.cardUp = cardName;
+      config.endLevelBonuses.push(this._cardUpBonus);
+    }
   }
 
   addBonuses(config: LevelConfiguration, playerModel: PlayerModel | null, bonusNames: string[]) {

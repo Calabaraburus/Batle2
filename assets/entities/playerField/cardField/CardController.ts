@@ -138,7 +138,7 @@ export class CardController extends Service {
       this._model.active && !this.model.alreadyUsedOnTurn;
 
     this.sprite.spriteFrame = this._model.sprite;
-    this.unactiveSprite.spriteFrame = this._model.unactiveSprite;
+    this.unactiveSprite.spriteFrame = this._model.sprite;
     this.lblCardAmount.string = Math.floor(this._model.currentAmmountToActivate / this._model.priceToActivate).toString();
     this.selected = this.model.selected;
 

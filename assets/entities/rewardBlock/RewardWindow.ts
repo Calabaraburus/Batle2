@@ -110,18 +110,18 @@ export class RewardWindow extends Service {
 
     this.startAnimateBackCard();
 
-    this.backCard.on(Node.EventType.MOUSE_DOWN, this.openBonus, this);
+    this.backCard.on(Node.EventType.TOUCH_START, this.openBonus, this);
 
-    this.closeButton.on(Node.EventType.MOUSE_DOWN, this.closeBonusWindow, this);
+    this.closeButton.on(Node.EventType.TOUCH_START, this.closeBonusWindow, this);
 
     this.infoButton!.on(
-      Node.EventType.MOUSE_DOWN,
+      Node.EventType.TOUCH_START,
       this.openInfoOneWindow,
       this
     );
 
     this.infoButtonTwo!.on(
-      Node.EventType.MOUSE_DOWN,
+      Node.EventType.TOUCH_START,
       this.openInfoTwoWindow,
       this
     );
@@ -151,7 +151,7 @@ export class RewardWindow extends Service {
     if (!cardImage) return;
     if (!this.bonusModelUp) return;
 
-    cardImage.spriteFrame = this.bonusModelUp.cardImage;
+    cardImage.spriteFrame = this.bonusModelUp.sprite;
 
     this.infoButton = this.node.getChildByName("InfoUp");
     assert(this.infoButton != null, "Do not found Info node");
@@ -343,7 +343,7 @@ export class RewardWindow extends Service {
   }
 
   animateCardUp() {
-    Quat.fromEuler(this.quatEnd, 0, 0, -3);
+    Quat.fromEuler(this.quatEnd, 0, 0, 0);
 
     tween(this.cardUp)
       .delay(this.timeTurn)

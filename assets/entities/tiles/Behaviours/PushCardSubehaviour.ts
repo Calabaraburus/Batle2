@@ -68,6 +68,8 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
       if (effect == null) {
         return false;
       }
+
+      effect.node.parent = null;
       effect.node.parent = tile.node.parent;
       effect.node.position = tile.node.position;
       effect.node.scale = tile.node.scale;

@@ -3,6 +3,7 @@
     "__type__": "cc.Prefab",
     "_name": "lightningEffect",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "_native": "",
     "data": {
       "__id__": 1
@@ -66,6 +67,7 @@
     "__type__": "cc.Node",
     "_name": "bz",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "_parent": {
       "__id__": 1
     },
@@ -112,6 +114,7 @@
     "__type__": "cc.ParticleSystem",
     "_name": "",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "node": {
       "__id__": 2
     },
@@ -947,6 +950,7 @@
     "__type__": "cc.Node",
     "_name": "particles",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "_parent": {
       "__id__": 1
     },
@@ -993,6 +997,7 @@
     "__type__": "cc.ParticleSystem",
     "_name": "",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "node": {
       "__id__": 69
     },
@@ -1723,7 +1728,7 @@
   },
   {
     "__type__": "cc.TrailModule",
-    "_enable": true,
+    "_enable": false,
     "mode": 0,
     "lifeTime": {
       "__id__": 130
@@ -1875,6 +1880,7 @@
     "__type__": "1d661sqN6FAhrKYIE6XkUiV",
     "_name": "",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "node": {
       "__id__": 1
     },

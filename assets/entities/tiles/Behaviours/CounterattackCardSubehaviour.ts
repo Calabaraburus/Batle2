@@ -13,8 +13,10 @@ import { IAttackable, isIAttackable } from "../IAttackable";
 export class CounterattackCardSubehaviour extends CardsSubBehaviour {
   private _tilesToDestroy: TileController[];
   private _direction: number;
-  private _minSelect: number = 2;
-  private _maxSelect: number = 5;
+  private _minSelect: number = 4;
+  private _maxSelect: number = 4;
+  private _rowsToCAtk: number = 2;
+  private _selectedCols: { c: number, rstrt: number, rstp: number }[];
 
   prepare(): boolean {
 
@@ -36,23 +38,29 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
     const colToSelect = randomRangeInt(this._minSelect, this._maxSelect > matrix.rows ? matrix.rows : this._maxSelect);
 
     const columnsIdToSelect = Array<number>(10).fill(0).map((_, i) => i);
-    const selectedCols: number[] = [];
+    this._selectedCols = [];
 
     for (let index = 0; index < colToSelect; index++) {
       const id = randomRangeInt(0, columnsIdToSelect.length);
       const element = columnsIdToSelect[id];
       columnsIdToSelect.splice(id, 1);
-      selectedCols.push(element);
+      this._selectedCols.push({ c: element, rstrt: -1, rstp: -1 });
     }
 
-    for (const col of selectedCols) {
+    for (const col of this._selectedCols) {
+      let addedRows = 0;
+      col.rstrt = eRow;
+
       for (let row = eRow;
         this._direction > 0 ? row < targetRow : row >= targetRow;
         row += this._direction) {
-        const tile = matrix.get(row, col);
+        const tile = matrix.get(row, col.c);
         if (tile.playerModel == this.parent.currentOponentModel) {
           this._tilesToDestroy.push(tile);
-          break;
+          addedRows++;
+          if (addedRows > this._rowsToCAtk) break;
+        } else {
+          col.rstp = row;
         }
       }
     }
@@ -87,11 +95,14 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
 
     const matrix = this.parent.field.fieldMatrix;
 
-    this._tilesToDestroy.forEach(t => {
+    this._selectedCols.forEach(col => {
 
-      matrix.forEachCol(t.col, (tile, rowId) => {
-        if (tile.playerModel != this.parent.currentPlayerModel) return;
-
+      /* for (let r = col.rstrt;
+         this._direction > 0 ? r <= col.rstp : r >= col.rstp;
+         r += this._direction) {
+ 
+         const tile = matrix.get(r, col.c);*/
+      matrix.forEachCol(col.c, (tile, row) => {
         const effect =
           cache.getObjectByPrefabName<AnimationEffect>("motivateEffect");
 
@@ -99,12 +110,15 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
           return false;
         }
 
+        effect.node.parent = null;
         effect.node.parent = tile.node.parent;
         effect.node.position = tile.node.position;
         effect.node.scale = tile.node.scale;
         effect.node.setRotationFromEuler(new Vec3(0, 0, this._direction > 0 ? 0 : 180))
+
         effect.play();
       });
+
     });
 
     this.parent.debug?.log("[c_attack_sub] End effect.");
