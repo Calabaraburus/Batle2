@@ -6,6 +6,7 @@ const { ccclass, property } = _decorator;
 export class Window extends Service {
 
     private _origPos: Vec3;
+    private _groups: Node[] = [];
 
     private set origPos(value: Vec3) {
         this._origPos = value;
@@ -17,6 +18,20 @@ export class Window extends Service {
 
     start() {
         this.origPos = this.node.position.clone();
+        this.fillGroupArr();
+        this.showContentGroup("default");
+    }
+
+    private fillGroupArr() {
+        const content = this.node.children.find(n => n.name == "content");
+
+        if (content) {
+            content.children.forEach(n => {
+                if (n.name.toLowerCase().endsWith('group')) {
+                    this._groups.push(n);
+                }
+            });
+        }
     }
 
     public showWindow() {
@@ -35,6 +50,13 @@ export class Window extends Service {
                 this.node.active = false;
             })
             .start();
+    }
+
+    public showContentGroup(groupName: string) {
+
+        this._groups.forEach(g => {
+            g.active = g.name.toLowerCase() == groupName + "group" ? true : false;
+        });
 
     }
 }
