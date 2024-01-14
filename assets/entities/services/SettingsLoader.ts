@@ -2,12 +2,18 @@ import { _decorator, Component, game, Node, sys } from "cc";
 import { GameParameters } from "../game/GameParameters";
 import { GameState } from "../game/GameState";
 import { Service } from "./Service";
+import { GameConfigurationModel } from "../game/GameConfiguration";
 const { ccclass, property } = _decorator;
 
 @ccclass("SettingsLoader")
 export class SettingsLoader extends Service {
   private _gameState: GameState;
   private _gameParameters: GameParameters;
+  private _gameConfiguration: GameConfigurationModel;
+
+  public get gameConfiguration(): GameConfigurationModel {
+    return this._gameConfiguration;
+  }
 
   public get gameParameters(): GameParameters {
     return this._gameParameters;
@@ -21,6 +27,19 @@ export class SettingsLoader extends Service {
     super();
     this.loadParameters();
     this.loadGameState();
+    this.loadGameConfiguration();
+  }
+
+  public loadGameConfiguration() {
+    const data = sys.localStorage.getItem("gameConfiguration");
+
+    if (data == null) {
+      this._gameConfiguration = new GameConfigurationModel();
+    } else {
+      this._gameConfiguration = JSON.parse(data);
+    }
+
+    return this._gameConfiguration;
   }
 
   public loadParameters(): GameParameters {
@@ -33,6 +52,13 @@ export class SettingsLoader extends Service {
     }
 
     return this._gameParameters;
+  }
+
+  public saveConfiguration() {
+    sys.localStorage.setItem(
+      "gameConfiguration",
+      JSON.stringify(this._gameConfiguration)
+    );
   }
 
   public saveParameters() {

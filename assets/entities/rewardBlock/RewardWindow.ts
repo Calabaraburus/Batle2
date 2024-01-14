@@ -105,14 +105,15 @@ export class RewardWindow extends Service {
 
     this.bGround = this.node.getChildByName("Bkground");
 
-    this.closeButton = this.node.getChildByName("Close");
-    assert(this.closeButton != null, "Do not found Close node");
+    // this.closeButton = this.node.getChildByName("Close");
+    // assert(this.closeButton != null, "Do not found Close node");
 
     this.startAnimateBackCard();
 
     this.backCard.on(Node.EventType.TOUCH_START, this.openBonus, this);
 
-    this.closeButton.on(Node.EventType.TOUCH_START, this.closeBonusWindow, this);
+
+    // this.closeButton.on(Node.EventType.TOUCH_START, this.closeBonusWindow, this);
 
     this.infoButton!.on(
       Node.EventType.TOUCH_START,
