@@ -34,7 +34,7 @@ export class SettingsLoader extends Service {
     const data = sys.localStorage.getItem("gameConfiguration");
 
     if (data == null) {
-      this._gameConfiguration = new GameConfigurationModel();
+      this._gameConfiguration = GameConfigurationModel.getDefaultConfig();
     } else {
       this._gameConfiguration = JSON.parse(data);
     }
@@ -59,6 +59,10 @@ export class SettingsLoader extends Service {
       "gameConfiguration",
       JSON.stringify(this._gameConfiguration)
     );
+  }
+
+  public removeConfiguration() {
+    sys.localStorage.removeItem("gameConfiguration");
   }
 
   public saveParameters() {

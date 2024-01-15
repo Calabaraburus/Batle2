@@ -9,15 +9,27 @@ const { ccclass, property } = _decorator;
 export class SceneLoaderService extends Service {
   loaderScreen: LoaderScreen;
 
-  start() {
-    director.addPersistRootNode(this.node);
+  @property(Boolean)
+  persThisNode: boolean = true;
 
-    const tmp = this.node?.getComponentInChildren(LoaderScreen);
-    if (tmp == null) throw Error("LevelSelector is null");
-    this.loaderScreen = tmp;
+  start() {
+
+    //this.getService(SceneLoaderService);
+    if (this.persThisNode) {
+      director.addPersistRootNode(this.node);
+
+      const tmp = this.node?.getComponentInChildren(LoaderScreen);
+      if (tmp == null) throw Error("LevelSelector is null");
+      this.loaderScreen = tmp;
+    }
+
   }
 
   loadLevel(levelName: string): void {
+    director.loadScene(levelName);
+  }
+
+  loadLevelEventData(event: Event, levelName: string): void {
     director.loadScene(levelName);
   }
 
