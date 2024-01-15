@@ -1,44 +1,37 @@
-import { _decorator, Component, EditBox, instantiate, Layout, Node, Prefab, UITransform, Widget } from 'cc';
+import { _decorator, assert, Component, EditBox, instantiate, Layout, Node, Prefab, UITransform, Widget } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Grid')
 export class Grid extends Component {
 
     @property(Number)
-    rows: number = 2;
+    rowCount: number = 2;
 
     @property(Prefab)
     rowPrefab: Prefab;
 
-    public cells: EditBox[][] = []
+    public rows: Node[] = []
 
     start() {
+        this.updateGrid();
+    }
 
-
-        //const rowTemplate = this.node.getChildByName("GridRowTemplate");
+    public updateGrid() {
         const rowsNode = this.node.getChildByName("rows");
 
-        for (let ri = 0; ri < this.rows; ri++) {
+        assert(rowsNode != null);
 
-            const row = instantiate(this.rowPrefab);
-            /*const rtfm = row.addComponent(UITransform);
-            rtfm.height = 50;
-            //  rtfm.anchorX = 0;
+        if (this.rowCount >= rowsNode.children.length) {
+            for (let ri = rowsNode.children.length; ri < this.rowCount; ri++) {
+                const row = instantiate(this.rowPrefab);
+                rowsNode.addChild(row);
+            }
 
-            const widget = row.addComponent(Widget);
-            const ly = row.addComponent(Layout);
-            ly.type = 1;
-            widget.isAlignRight = true;
-            widget.isAlignLeft = true;
-            widget.left = 0;
-            widget.right = 0;
-*/
-
-
-            rowsNode?.addChild(row);
-
+        } else {
+            rowsNode.children.length = this.rowCount;
         }
+
+        this.rows = rowsNode.children;
     }
 }
-
 

@@ -1,5 +1,5 @@
 
 export class GameCardCfgModel {
     mnemonic: string;
-    price: number;
+    price: string;
 }

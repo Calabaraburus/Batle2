@@ -2008,10 +2008,6 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "backGround": {
-      "__uuid__": "8d764d2a-0a72-493a-bcd0-821e0788caef@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
     "sections": [
       {
         "__id__": 59

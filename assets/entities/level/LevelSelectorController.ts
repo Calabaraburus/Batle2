@@ -23,6 +23,7 @@ import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
 import { EndLevelCardSelectorBonusModel } from "../configuration/EndLevelCardSelectorBonusModel";
 import { EndLevelLifeBonusModel } from "../configuration/EndLevelLifeBonusModel";
 import { EndLevelCardUpdateBonusModel } from "../configuration/EndLevelCardUpdateBonusModel";
+import { SettingsLoader } from "../services/SettingsLoader";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
@@ -31,14 +32,17 @@ export class LevelSelectorController extends Service {
   _bonusSorted: BonusModel[][];
   private _aManager: AudioManagerService | null;
 
-  private _lifeBonus: EndLevelLifeBonusModel | null;
-  private _cardUpBonus: EndLevelCardUpdateBonusModel | null;
-  private _cardsSelectorBonus: EndLevelCardSelectorBonusModel | null;
+  //private _lifeBonus: EndLevelLifeBonusModel | null;
+  //private _cardUpBonus: EndLevelCardUpdateBonusModel | null;
+  //private _cardsSelectorBonus: EndLevelCardSelectorBonusModel | null;
 
   configDict = new Map<string, (config: LevelConfiguration) => void>();
+  private _settingsLoader: SettingsLoader;
 
   start() {
     this.sceneLoader = this.getService(SceneLoaderService);
+    this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
+    this._settingsLoader.loadGameConfiguration();
     this.fillConfigurations();
   }
 
@@ -72,116 +76,55 @@ export class LevelSelectorController extends Service {
       config.botHeroName = "testBot";
       config.playerHeroName = "testPlayer";
 
-      this._lifeBonus = config.node.getComponentInChildren(
-        EndLevelLifeBonusModel
-      );
-      this._cardUpBonus = config.node.getComponentInChildren(
-        EndLevelCardUpdateBonusModel
-      );
-      this._cardsSelectorBonus = config.node.getComponentInChildren(
-        EndLevelCardSelectorBonusModel
-      );
-      if (this._cardsSelectorBonus) {
-        this._cardsSelectorBonus.cardOne = "firewall";
-        this._cardsSelectorBonus.cardTwo = "meteorite";
-        config.endLevelBonuses.push(this._cardsSelectorBonus);
-      }
+      // this._lifeBonus = config.node.getComponentInChildren(
+      //   EndLevelLifeBonusModel
+      // );
+      // this._cardUpBonus = config.node.getComponentInChildren(
+      //   EndLevelCardUpdateBonusModel
+      // );
+      // this._cardsSelectorBonus = config.node.getComponentInChildren(
+      //   EndLevelCardSelectorBonusModel
+      // );
+      // if (this._cardsSelectorBonus) {
+      //   this._cardsSelectorBonus.cardOne = "firewall";
+      //   this._cardsSelectorBonus.cardTwo = "meteorite";
+      //   config.endLevelBonuses.push(this._cardsSelectorBonus);
+      // }
     });
 
-    this.configDict.set("lvl1", (config) => {
-      config.botHeroName = "bot1";
-      config.playerHeroName = "lion";
+    this._settingsLoader.gameConfiguration.levels.forEach(lvl => {
+      this.configDict.set(lvl.lvlName, (config) => {
 
-      this._lifeBonus = config.node.getComponentInChildren(
-        EndLevelLifeBonusModel
-      );
+        const player = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
+        const bot = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true })
 
-      const education = config.node.parent?.getChildByPath(
-        "LevelView/Education"
-      );
-      if (!education) return;
-      education.active = true;
+        const bonuses: { name: string, price: number }[] = []
 
-      if (this._lifeBonus) {
-        this._lifeBonus.life = "10";
-        config.endLevelBonuses.push(this._lifeBonus);
-      }
+        lvl.playerCards.forEach(c => bonuses.push({ name: c.mnemonic, price: Number(c.price) }));
 
-      const playerHero = config.node
-        .getChildByName("HeroModels")!
-        .getChildByName("LionHero")
-        ?.getComponent(PlayerModel);
+        this.addBonuses(config, player, bonuses);
 
-      const bonuses = config.node
-        .getChildByName("BonusModels")
-        ?.getComponentsInChildren(BonusModel);
-      const heroBonusOne = bonuses?.find((value) => {
-        return value.mnemonic == "firewallLow";
+        bonuses.length = 0;
+        lvl.botCards.forEach(c => bonuses.push({ name: c.mnemonic, price: Number(c.price) }));
+
+        this.addBonuses(config, bot, bonuses);
+
+        switch (lvl.endLevelBonus.toLowerCase()) {
+          case 'onecard':
+            this.setEndBonusCard(config, lvl.endLevelBonusParams[0]);
+            break;
+          case 'twocards':
+            this.setEndBonusTwoCards(config, lvl.endLevelBonusParams);
+            break;
+          case 'life':
+            this.setEndBonusLife(config, lvl.endLevelBonusParams[0]);
+            break;
+          default:
+            break;
+        }
+
+
       });
-
-      heroBonusOne!.currentAmmountToActivate = 3;
-
-      if (!heroBonusOne) return;
-
-      playerHero?.bonuses.push(heroBonusOne);
-    });
-
-    this.configDict.set("lvl2", (config) => {
-      this.configPlayerStd({ config, name: "bot2", isBot: true })
-      var player = this.configPlayerStd({ config, name: "lion", life: 50 })
-      this.addBonuses(config, player, ["meteoriteLow"]);
-
-      this.setEndBonusCard(config, "catapult");
-    });
-
-
-
-    this.configDict.set("lvl3", (config) => {
-      this.configPlayerStd({ config, name: "monkey", life: 60, isBot: true })
-      var player = this.configPlayerStd({ config, name: "lion", life: 60 })
-      this.addBonuses(config, player, ["meteoriteLow"]);
-    });
-
-    this.configDict.set("lvl4", (config) => {
-      this.configPlayerStd({ config, name: "bot3", life: 60, isBot: true })
-      var player = this.configPlayerStd({ config, name: "lion", life: 60 })
-      this.addBonuses(config, player, ["meteoriteLow", "assassin"]);
-    });
-
-    this.configDict.set("lvl5", (config) => {
-      var bot = this.configPlayerStd({ config, name: "bot4", life: 70, isBot: true })
-      var player = this.configPlayerStd({ config, name: "lion", life: 70 })
-      this.addBonuses(config, player, ["meteoriteMiddle", "assassin"]);
-    });
-
-    this.configDict.set("lvl6", (config) => {
-      var bot = this.configPlayerStd({ config, name: "bear", isBot: true })
-      var player = this.configPlayerStd({ config, name: "lion", life: 70 })
-      this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
-    });
-
-    this.configDict.set("lvl7", (config) => {
-      var bot = this.configPlayerStd({ config, name: "bot5", isBot: true })
-      var player = this.configPlayerStd({ config, name: "lion", life: 80 })
-      this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
-    });
-
-    this.configDict.set("lvl8", (config) => {
-      var bot = this.configPlayerStd({ config, name: "bot6", isBot: true })
-      var player = this.configPlayerStd({ config, name: "lion", life: 80 })
-      this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
-    });
-
-    this.configDict.set("lvl9", (config) => {
-      var bot = this.configPlayerStd({ config, name: "bot7", isBot: true })
-      var player = this.configPlayerStd({ config, name: "lion", life: 80 })
-      this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
-    });
-
-    this.configDict.set("lvl10", (config) => {
-      var bot = this.configPlayerStd({ config, name: "panda", isBot: true })
-      var player = this.configPlayerStd({ config, name: "lion", life: 90 })
-      this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
     });
 
     // arena of 1st part
@@ -216,25 +159,53 @@ export class LevelSelectorController extends Service {
   }
 
   setEndBonusCard(config: LevelConfiguration, cardName: string) {
-    this._cardUpBonus = config.node.getComponentInChildren(
+    const cardUpBonus = config.node.getComponentInChildren(
       EndLevelCardUpdateBonusModel
     );
 
-    if (this._cardUpBonus) {
-      this._cardUpBonus.cardUp = cardName;
-      config.endLevelBonuses.push(this._cardUpBonus);
+    if (cardUpBonus) {
+      cardUpBonus.cardUp = cardName;
+      config.endLevelBonuses.push(cardUpBonus);
     }
   }
 
-  addBonuses(config: LevelConfiguration, playerModel: PlayerModel | null, bonusNames: string[]) {
+  setEndBonusTwoCards(config: LevelConfiguration, cardNames: string[]) {
+    const cardsSelectorBonus = config.node.getComponentInChildren(
+      EndLevelCardSelectorBonusModel
+    );
+
+    if (cardsSelectorBonus) {
+      cardsSelectorBonus.cardOne = cardNames[0];
+      cardsSelectorBonus.cardOne = cardNames[1];
+      config.endLevelBonuses.push(cardsSelectorBonus);
+    }
+  }
+
+  setEndBonusLife(config: LevelConfiguration, life: string) {
+    const lifeBonus = config.node.getComponentInChildren(
+      EndLevelLifeBonusModel
+    );
+
+    if (lifeBonus) {
+      lifeBonus.life = life;
+      config.endLevelBonuses.push(lifeBonus);
+    }
+  }
+
+  addBonuses(config: LevelConfiguration, playerModel: PlayerModel | null, bonusCards: { name: string, price: number }[]) {
     const bonuses = config.node
       .getChildByName("BonusModels")
       ?.getComponentsInChildren(BonusModel);
 
-    bonusNames.forEach((bName) => {
-      const bonusModel = bonuses?.find((bm) => bm.mnemonic == bName);
+    if (playerModel) {
+      playerModel.bonuses.length = 0;
+    }
+
+    bonusCards.forEach((bc) => {
+      const bonusModel = bonuses?.find((bm) => bm.mnemonic == bc.name);
 
       if (bonusModel && playerModel) {
+        bonusModel.priceToActivate = bc.price;
         playerModel.bonuses.push(bonusModel);
       }
     });

@@ -7,10 +7,12 @@ export class GameLevelCfgModel {
     playerHeroName: string;
     botHeroName: string;
 
-    playerLife: number;
-    botLife: number;
+    playerLife: string;
+    botLife: string;
 
     playerCards: GameCardCfgModel[] = [];
     botCards: GameCardCfgModel[] = [];
 
+    endLevelBonus = '';
+    endLevelBonusParams: string[] = []
 }
