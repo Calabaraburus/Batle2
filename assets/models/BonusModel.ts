@@ -24,6 +24,9 @@ export class BonusModel extends Component {
   @property(CCString)
   mnemonic = "mnem";
 
+  @property(CCString)
+  baseCardMnemonic = "";
+
   //** Amount of tiles that need to be destroied to activate bonus */
   @property({ type: CCInteger })
   public priceToActivate: number;

@@ -19,7 +19,6 @@ export class MenuSelectorController extends Service {
 
   settingsLoader: SettingsLoader;
   parameters: GameParameters;
-  state: GameState;
 
   start(): void {
 
@@ -36,7 +35,6 @@ export class MenuSelectorController extends Service {
     this.settingsLoader = tService;
 
     this.parameters = this.settingsLoader.gameParameters;
-    this.state = this.settingsLoader.gameState;
 
     this.settingSound(this, this.parameters.soundLevel.toString());
     this.settingMusic(this, this.parameters.musicLevel.toString());

@@ -30,7 +30,6 @@ const { ccclass, property } = _decorator;
 export class LevelSelectorController extends Service {
   sceneLoader: SceneLoaderService | null;
   _bonusSorted: BonusModel[][];
-  private _aManager: AudioManagerService | null;
 
   //private _lifeBonus: EndLevelLifeBonusModel | null;
   //private _cardUpBonus: EndLevelCardUpdateBonusModel | null;
@@ -94,6 +93,8 @@ export class LevelSelectorController extends Service {
 
     this._settingsLoader.gameConfiguration.levels.forEach(lvl => {
       this.configDict.set(lvl.lvlName, (config) => {
+
+        config.levelName = lvl.lvlName;
 
         const player = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
         const bot = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true })
@@ -164,7 +165,7 @@ export class LevelSelectorController extends Service {
     );
 
     if (cardUpBonus) {
-      cardUpBonus.cardUp = cardName;
+      cardUpBonus.cardMnemonic = cardName;
       config.endLevelBonuses.push(cardUpBonus);
     }
   }
@@ -176,7 +177,7 @@ export class LevelSelectorController extends Service {
 
     if (cardsSelectorBonus) {
       cardsSelectorBonus.cardOne = cardNames[0];
-      cardsSelectorBonus.cardOne = cardNames[1];
+      cardsSelectorBonus.cardTwo = cardNames[1];
       config.endLevelBonuses.push(cardsSelectorBonus);
     }
   }
@@ -198,7 +199,7 @@ export class LevelSelectorController extends Service {
       ?.getComponentsInChildren(BonusModel);
 
     if (playerModel) {
-      playerModel.bonuses.length = 0;
+      playerModel.bonusesMetaData.length = 0;
     }
 
     bonusCards.forEach((bc) => {
@@ -206,7 +207,7 @@ export class LevelSelectorController extends Service {
 
       if (bonusModel && playerModel) {
         bonusModel.priceToActivate = bc.price;
-        playerModel.bonuses.push(bonusModel);
+        playerModel.bonusesMetaData.push(bonusModel);
       }
     });
   };

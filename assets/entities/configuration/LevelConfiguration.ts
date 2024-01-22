@@ -19,6 +19,8 @@ export class LevelConfiguration extends Component {
 
   endLevelBonuses: any[] = [];
 
+  public levelName: string;
+
   private _playerModel: PlayerModel;
   private _bonuses: BonusModel[] | undefined;
   public get playerModel(): PlayerModel {

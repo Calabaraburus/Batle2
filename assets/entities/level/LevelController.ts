@@ -77,8 +77,8 @@ export class LevelController extends Component {
 
   public updateData() {
     this.view.AimPoints = this.model.aimPoints;
-    this.view.TurnsCount = this.model.turnsCount;
-    this.view.PointsCount = this.model.pointsCount;
+    // this.view.TurnsCount = this.model.turnsCount;
+    // this.view.PointsCount = this.model.pointsCount;
 
     this.playerField.updateData();
     this.enemyField.updateData();
