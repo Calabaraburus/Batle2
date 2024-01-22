@@ -19,6 +19,8 @@ import { LevelModel } from "../../models/LevelModel";
 import { ILevelView } from "./ILevelView";
 import { LevelController } from "./LevelController";
 import { MatchStatisticService } from "../services/MatchStatisticService";
+import { Window } from "../ui/window/Window";
+import { FinalWindow } from "../rewardBlock/FinalWindow";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelView")
@@ -50,12 +52,8 @@ export class LevelView extends Component implements ILevelView {
   pointsCountLbl: Label;
 
   /** Win block */
-  @property({ type: Node })
-  winBlock: Node;
-
-  /** Lose block */
-  @property({ type: Node })
-  loseBlock: Node;
+  @property({ type: Window })
+  finalWindow: FinalWindow;
 
   /** Object wich lock interctions with field */
   @property({ type: Button })
@@ -96,11 +94,21 @@ export class LevelView extends Component implements ILevelView {
   }
 
   public showWin(show: boolean) {
-    this.winBlock.active = show;
+    if (show) {
+      this.finalWindow.showWindow(true);
+    }
+    else {
+      this.finalWindow.hideWindow();
+    }
   }
 
   public showLose(show: boolean) {
-    this.loseBlock.active = show;
+    if (show) {
+      this.finalWindow.showWindow(false);
+    }
+    else {
+      this.finalWindow.hideWindow();
+    }
   }
 
   //#endregion
@@ -128,3 +136,5 @@ export class LevelView extends Component implements ILevelView {
     this._controller = controller;
   }
 }
+
+

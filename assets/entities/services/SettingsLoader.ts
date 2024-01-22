@@ -3,13 +3,15 @@ import { GameParameters } from "../game/GameParameters";
 import { GameState } from "../game/GameState";
 import { Service } from "./Service";
 import { GameConfigurationModel } from "../game/GameConfiguration";
+import { PlayerCurrentGameState } from "./PlayerCurrentGameState";
 const { ccclass, property } = _decorator;
 
 @ccclass("SettingsLoader")
 export class SettingsLoader extends Service {
-  private _gameState: GameState;
+  //private _gameState: GameState;
   private _gameParameters: GameParameters;
   private _gameConfiguration: GameConfigurationModel;
+  private _playerCurrentState: PlayerCurrentGameState;
 
   public get gameConfiguration(): GameConfigurationModel {
     return this._gameConfiguration;
@@ -19,14 +21,14 @@ export class SettingsLoader extends Service {
     return this._gameParameters;
   }
 
-  public get gameState(): GameState {
-    return this._gameState;
+  public get playerCurrentGameState(): PlayerCurrentGameState {
+    return this._playerCurrentState;
   }
 
   constructor() {
     super();
     this.loadParameters();
-    this.loadGameState();
+    this.loadPlayerCurrentGameState();
     this.loadGameConfiguration();
   }
 
@@ -72,19 +74,19 @@ export class SettingsLoader extends Service {
     );
   }
 
-  public loadGameState(): GameState {
+  public loadPlayerCurrentGameState(): PlayerCurrentGameState {
     const data = sys.localStorage.getItem("gameState");
 
     if (data == null) {
-      this._gameState = new GameState();
+      this._playerCurrentState = new PlayerCurrentGameState();
     } else {
-      this._gameState = JSON.parse(data);
+      this._playerCurrentState = JSON.parse(data);
     }
 
-    return this._gameState;
+    return this._playerCurrentState;
   }
 
   public saveGameState() {
-    sys.localStorage.setItem("gameState", JSON.stringify(this._gameState));
+    sys.localStorage.setItem("gameState", JSON.stringify(this._playerCurrentState));
   }
 }

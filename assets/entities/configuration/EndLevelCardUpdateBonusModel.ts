@@ -10,5 +10,5 @@ export class EndLevelCardUpdateBonusModel extends EndLevelBonusModel {
   //   this.type = "CardSelectBonus";
   // }
   @property(CCString)
-  cardUp = "card";
+  cardMnemonic = "card";
 }
