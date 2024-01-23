@@ -31,7 +31,7 @@ export class AnimationEffect extends CacheObject {
     });
 
     if (!isplaying) {
-      this.stop();
+      //   this.stop();
     }
   }
 

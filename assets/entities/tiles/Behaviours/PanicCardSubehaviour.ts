@@ -15,43 +15,21 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
 
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
-
     if (this.parent.cardService == null) return false;
-
-    if (targetTile instanceof StdTileController) {
-      if (
-        targetTile.playerModel ==
-        this.parent.cardService.getCurrentPlayerModel()
-      ) {
-        return false;
-      }
-    } else {
-      return false;
-    }
 
     this._cache = ObjectsCache.instance;
     this.effectDurationValue = 1;
-    // this._tilesToPanic = [];
-    const oponentModel = this.parent.cardService.getOponentModel();
+
+    // const playerModel = this.parent.cardService.getCurrentPlayerModel();
     this._tilesToPanic = this.parent.field?.fieldMatrix.filter((tile) => {
       if (tile.tileModel.tileName != "berserk") {
-        return tile.playerModel == oponentModel;
+        return tile.playerModel == this.parent.currentOponentModel;
       }
     });
 
     if (!this._tilesToPanic) return false;
 
-    // const currentTile: TileController = targetTile;
-
-    // list with columns index
-    // const ids = [-1, 0, 1];
-
-    // ids.forEach((i) =>
-    //   this.completFieldOfTiles(currentTile, currentTile.col + i)
-    // );
-
     this._tilesPanicCopy = this._tilesToPanic.slice();
-
     this._tilesShufflePanic = [];
 
     while (this._tilesPanicCopy.length > 0) {
@@ -67,11 +45,10 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
   }
 
   run(): boolean {
-    this.parent.debug?.log("[totem_card_sub] Starting run.");
+    this.parent.debug?.log("[maneuver_card_sub] Starting run.");
 
     const matrix = this.parent.field?.fieldMatrix;
     if (matrix == null) return false;
-
     if (!this._tilesToPanic) return false;
 
     for (let index = 0; index < this._tilesToPanic.length; index++) {
@@ -87,13 +64,13 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
       this.parent.field?.exchangeTiles(tile, tileChange);
     }
 
-    this.parent.debug?.log("[totem_card_sub] End run with true.");
+    this.parent.debug?.log("[maneuver_card_sub] End run with true.");
     return true;
   }
 
   effect(): boolean {
     this.parent.fieldViewController.moveTilesAnimate();
-    this.parent.audioManager.playSoundEffect("panic");
+    this.parent.audioManager.playSoundEffect("maneuver");
 
     return true;
   }

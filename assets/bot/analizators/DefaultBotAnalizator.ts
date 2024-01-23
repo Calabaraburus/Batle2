@@ -17,4 +17,3 @@ export class DefaultBotAnalizator extends CardAnalizator {
     });
   }
 }
-

@@ -96,12 +96,6 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
     const matrix = this.parent.field.fieldMatrix;
 
     this._selectedCols.forEach(col => {
-
-      /* for (let r = col.rstrt;
-         this._direction > 0 ? r <= col.rstp : r >= col.rstp;
-         r += this._direction) {
- 
-         const tile = matrix.get(r, col.c);*/
       matrix.forEachCol(col.c, (tile, row) => {
         const effect =
           cache.getObjectByPrefabName<AnimationEffect>("motivateEffect");
