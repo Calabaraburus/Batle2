@@ -74,7 +74,7 @@ export class FinalWindow extends Service {
 
   timeTurn = 0.6;
 
-  private _selectedBonus: string;
+  private _selectedBonus: { name: string, price: string } = { name: "", price: "" };
 
   private _overlayWnd: OverlayWindow | null;
   private _wnd: Window | null;
@@ -120,7 +120,7 @@ export class FinalWindow extends Service {
 
       }, close: (bonus) => {
         if (bonus instanceof EndLevelCardUpdateBonusModel) {
-          this.state.cards.push({ mnemonic: bonus.cardMnemonic, price: '' });
+          this.state.cards.push({ mnemonic: bonus.cardMnemonic, price: bonus.cardPrice.toString() });
         }
       }
     });
@@ -134,7 +134,7 @@ export class FinalWindow extends Service {
 
       },
       close: () => {
-        const sBonus = this._config?.getBonus(this._selectedBonus);
+        const sBonus = this._config?.getBonus(this._selectedBonus.name);
         if (sBonus) {
 
           let bonusIsUpdated = false;
@@ -148,7 +148,7 @@ export class FinalWindow extends Service {
           });
 
           if (!bonusIsUpdated) {
-            this.state.cards.push({ mnemonic: this._selectedBonus, price: '' });
+            this.state.cards.push({ mnemonic: this._selectedBonus.name, price: this._selectedBonus.price });
           }
         }
       }
@@ -259,7 +259,10 @@ export class FinalWindow extends Service {
     const selectCard = (s: Sprite | null | undefined) => {
       const otherS = s == this.cardImageOne ? this.cardImageTwo : this.cardImageOne;
 
-      this._selectedBonus = s == this.cardImageOne ? bonus.cardOne : bonus.cardTwo;
+      this._selectedBonus.name = s == this.cardImageOne ? bonus.cardOne : bonus.cardTwo;
+      this._selectedBonus.price = s == this.cardImageOne ?
+        bonus.cardOnePrice.toString() :
+        bonus.cardTwoPrice.toString();
 
       enableCard(s);
       enableCard(otherS, false);

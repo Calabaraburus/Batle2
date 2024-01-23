@@ -76,11 +76,10 @@ export class SettingsLoader extends Service {
 
   public loadPlayerCurrentGameState(): PlayerCurrentGameState {
     const data = sys.localStorage.getItem("gameState");
+    this._playerCurrentState = new PlayerCurrentGameState();
 
-    if (data == null) {
-      this._playerCurrentState = new PlayerCurrentGameState();
-    } else {
-      this._playerCurrentState = JSON.parse(data);
+    if (data != null) {
+      Object.assign(this._playerCurrentState, JSON.parse(data));
     }
 
     return this._playerCurrentState;
