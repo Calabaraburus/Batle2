@@ -52,6 +52,7 @@ import { PerdefinedScoreRandomCardAnalizator } from "./analizators/PerdefinedSco
 import { ManeuverCardAnalizator } from "./analizators/ManeuverCardAnalizator";
 import { DebugViewForBot } from "./DebugViewForBot";
 import { DEBUG } from "cc/env";
+import { ShieldBotAnalizator } from "./analizators/ShieldBotAnalizator";
 
 const { ccclass, property } = _decorator;
 
@@ -199,6 +200,10 @@ export class Bot_v2 extends Service implements IBot {
     this._cardStrategiesActivators.set("assassin", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
 
     this._cardStrategiesActivators.set("maneuver", cm => new ManeuverCardAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("shield", cm => new ShieldBotAnalizator(cm, this, field, this._playerModel));
+
+    this._cardStrategiesActivators.set("panic", cm => new ManeuverCardAnalizator(cm, this, field, this._playerModel));
 
     this._cardStrategiesActivators.set("hammer", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("hammerLow", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));

@@ -4,46 +4,27 @@ import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 
 export class ManeuverCardSubehaviour extends CardsSubBehaviour {
-  private _tilesToPanic: TileController[] | undefined = [];
+  private _tilesToManuv: TileController[] | undefined = [];
   private _tilesShufflePanic: TileController[] = [];
   private _tilesPanicCopy: TileController[] = [];
   private _cache: ObjectsCache | null;
   private countForEachSide = 2;
 
   prepare(): boolean {
-    const targetTile = this.parent.target as StdTileController;
     if (this.parent.cardService == null) return false;
-
-    if (targetTile instanceof StdTileController) {
-      if (
-        targetTile.playerModel == this.parent.cardService.getOponentModel()
-      ) {
-        return false;
-      }
-    } else {
-      return false;
-    }
 
     this._cache = ObjectsCache.instance;
     this.effectDurationValue = 1;
 
-    const playerModel = this.parent.cardService.getCurrentPlayerModel();
-    this._tilesToPanic = this.parent.field?.fieldMatrix.filter((tile) => {
+    this._tilesToManuv = this.parent.field?.fieldMatrix.filter((tile) => {
       if (tile.tileModel.tileName != "berserk") {
-        return tile.playerModel == playerModel;
+        return tile.playerModel == this.parent.currentPlayerModel;
       }
     });
 
-    if (!this._tilesToPanic) return false;
+    if (!this._tilesToManuv) return false;
 
-    // list with columns index
-    // const ids = [-1, 0, 1];
-
-    // ids.forEach((i) =>
-    //   this.completFieldOfTiles(currentTile, currentTile.col + i)
-    // );
-
-    this._tilesPanicCopy = this._tilesToPanic.slice();
+    this._tilesPanicCopy = this._tilesToManuv.slice();
     this._tilesShufflePanic = [];
 
     while (this._tilesPanicCopy.length > 0) {
@@ -58,32 +39,17 @@ export class ManeuverCardSubehaviour extends CardsSubBehaviour {
     this._tilesPanicCopy.splice(j, 1);
   }
 
-  // get tile and col to complete panic list
-  // private completFieldOfTiles(currentTile: TileController, targetCol: number) {
-  //   this.parent.field?.fieldMatrix.forEachCol(targetCol, (tile, rowId) => {
-  //     if (this.parent.cardsService == null) return;
-  //     if (tile.tileModel.containsTag(this.parent.cardsService.getPlayerTag())) {
-  //       if (
-  //         currentTile.row + this.countForEachSide >= rowId &&
-  //         currentTile.row - this.countForEachSide <= rowId
-  //       ) {
-  //         this._tilesToPanic.push(tile);
-  //       }
-  //     }
-  //   });
-  // }
-
   run(): boolean {
     this.parent.debug?.log("[maneuver_card_sub] Starting run.");
 
     const matrix = this.parent.field?.fieldMatrix;
     if (matrix == null) return false;
-    if (!this._tilesToPanic) return false;
+    if (!this._tilesToManuv) return false;
 
-    for (let index = 0; index < this._tilesToPanic.length; index++) {
+    for (let index = 0; index < this._tilesToManuv.length; index++) {
       const tile: TileController = matrix?.get(
-        this._tilesToPanic[index].row,
-        this._tilesToPanic[index].col
+        this._tilesToManuv[index].row,
+        this._tilesToManuv[index].col
       );
       const tileChange: TileController = matrix?.get(
         this._tilesShufflePanic[index].row,
