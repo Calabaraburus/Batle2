@@ -34,6 +34,7 @@ import { DataService } from "../services/DataService";
 import { ICloneable } from "../../scripts/ICloneable";
 import { IDataService } from "../services/IDataService";
 import { IVirtualisable } from "../../scripts/IVirtualisable";
+import { StdTileController } from "../tiles/UsualTile/StdTileController";
 const { ccclass, property } = _decorator;
 
 export class FieldLogicalController
@@ -536,6 +537,13 @@ export class FieldLogicalController
         playerModel: item.playerModel,
         putOnField: true,
       });
+
+      if (cTile instanceof StdTileController) {
+        if (item instanceof StdTileController) {
+          cTile.activateShield(item.shieldIsActivated);
+
+        }
+      }
 
       //if (cTile != null) {
 
