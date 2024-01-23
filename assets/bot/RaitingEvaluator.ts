@@ -79,6 +79,7 @@ export class RaitingEvaluator {
      * @en Returns rating for game state
      */
     public getRating(): number {
+
         const playerTiles = this._fieldExt.getPlayerTiles(this._playerModel);
         const enemyTiles = this._fieldExt.getPlayerTiles(this._enemyModel);
 
@@ -93,6 +94,10 @@ export class RaitingEvaluator {
             result += this.EvaluateRating(t, false);
         });
 
+        const cccbant = this.countColumnCanBeAttackNextTurn(this._playerModel);
+
+        result -= cccbant * (this._tileAttackCoef / 3)
+
         enemyTiles.forEach((t) => {
             const distToPlayerBase = this._fieldExt.getVerticalDistance(t, this._playerBaseTiles[0]);
             if (distToPlayerBase <= 1) {
@@ -103,6 +108,54 @@ export class RaitingEvaluator {
         });
 
         return result;
+    }
+
+    private countColumnCanBeAttackNextTurn(playerModel: PlayerModel) {
+        let res = 0;
+        for (let index = 0; index < this._fieldExt.field.fieldMatrix.cols; index++) {
+            if (this.isColumnHasDestructableTilesOfOneType(index, playerModel)) {
+                res++;
+            }
+        }
+
+        return res;
+    }
+
+    private isColumnHasDestructableTilesOfOneType(colId: number, playerModel: PlayerModel) {
+
+        var tiles = this._fieldExt.field.fieldMatrix.filter((tile) => {
+            if (tile instanceof StdTileController) {
+                if (tile.playerModel == playerModel && tile.col == colId && !tile.shieldIsActivated) {
+                    return true;
+                }
+            }
+            return false;
+        });
+
+        if (tiles.length == 0) {
+            return false;
+        }
+
+        const columnOneType = () => {
+            const baseType = tiles[0].tileModel;
+
+            for (const tile of tiles) {
+                if (tile.tileModel != baseType) {
+                    return false;
+                }
+            }
+
+            return true;
+        };
+
+        if (tiles.length == 1) {
+            const tCount = this._fieldExt.countTilesOfSameGroup(this._fieldExt.closest(tiles[0]), tiles[0].tileModel);
+            return tCount > 0 ? true : false;
+        } else if (tiles.length > 1 && columnOneType()) {
+            return true;
+        }
+
+        return false;
     }
 }
 

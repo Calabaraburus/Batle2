@@ -51,11 +51,13 @@ export class StdTileController extends TileController {
 
   public activateShield(activate: boolean) {
     this._shieldIsActivated = activate;
-    this.shieldSprite.active = activate;
+    if (!this.virtual) this.shieldSprite.active = activate;
   }
 
-  public destroyTile() {
-    super.destroyTile();
+  public cacheCreate(): void {
+    super.cacheCreate();
+
+    this.activateShield(false);
   }
 
   turnEnds(): void {
