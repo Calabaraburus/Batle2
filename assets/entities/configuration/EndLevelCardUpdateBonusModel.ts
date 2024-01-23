@@ -11,4 +11,5 @@ export class EndLevelCardUpdateBonusModel extends EndLevelBonusModel {
   // }
   @property(CCString)
   cardMnemonic = "card";
+  cardPrice = 0;
 }

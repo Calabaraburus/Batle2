@@ -12,6 +12,7 @@ import {
   random,
   AudioSource,
   LineComponent,
+  assert,
 } from "cc";
 import { Service } from "../services/Service";
 import { SceneLoaderService } from "../services/SceneLoaderService";
@@ -24,86 +25,60 @@ import { EndLevelCardSelectorBonusModel } from "../configuration/EndLevelCardSel
 import { EndLevelLifeBonusModel } from "../configuration/EndLevelLifeBonusModel";
 import { EndLevelCardUpdateBonusModel } from "../configuration/EndLevelCardUpdateBonusModel";
 import { SettingsLoader } from "../services/SettingsLoader";
+import { GameConfigurationModel } from "../game/GameConfiguration";
+import { GameLevelCfgModel } from "../game/GameLevelCfgModel";
+import { PlayerCurrentGameState } from "../services/PlayerCurrentGameState";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
 export class LevelSelectorController extends Service {
-  sceneLoader: SceneLoaderService | null;
-  _bonusSorted: BonusModel[][];
-
-  //private _lifeBonus: EndLevelLifeBonusModel | null;
-  //private _cardUpBonus: EndLevelCardUpdateBonusModel | null;
-  //private _cardsSelectorBonus: EndLevelCardSelectorBonusModel | null;
-
+  private _sceneLoader: SceneLoaderService;
+  private _bonusSorted: BonusModel[][];
   configDict = new Map<string, (config: LevelConfiguration) => void>();
   private _settingsLoader: SettingsLoader;
 
   start() {
-    this.sceneLoader = this.getService(SceneLoaderService);
+    this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
     this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
     this._settingsLoader.loadGameConfiguration();
     this.fillConfigurations();
   }
 
   loadLevel(sender: object, levelName: string): void {
-    if (this.sceneLoader == null) throw Error("SceneLoader is null");
+    if (this._sceneLoader == null) throw Error("SceneLoader is null");
     const cfgAction = this.configDict.get(levelName);
 
     if (cfgAction == null)
       throw Error("No configuration for " + levelName + " level");
-    this.sceneLoader.loadGameScene("scene_game_field", cfgAction);
+    this._sceneLoader.loadGameScene("scene_game_field", cfgAction);
   }
 
   loadScene(sender: object, sceneName: string): void {
-    // stop start audio track
-    // const currentScene = director.getScene()?.name;
-    // if (currentScene == "scene_dev_art_1") {
-    //   this._aManager?.stopMusic();
-
-    //   this._aManager?.playMusic("start_menu");
-    // } else if (sceneName == "scene_dev_art_1") {
-    //   this._aManager?.stopMusic();
-    // }
-
-    director.loadScene(sceneName);
+    this._sceneLoader.loadLevel(sceneName);
   }
 
-
   fillConfigurations() {
-
     this.configDict.set("test", (config) => {
       config.botHeroName = "testBot";
       config.playerHeroName = "testPlayer";
-
-      // this._lifeBonus = config.node.getComponentInChildren(
-      //   EndLevelLifeBonusModel
-      // );
-      // this._cardUpBonus = config.node.getComponentInChildren(
-      //   EndLevelCardUpdateBonusModel
-      // );
-      // this._cardsSelectorBonus = config.node.getComponentInChildren(
-      //   EndLevelCardSelectorBonusModel
-      // );
-      // if (this._cardsSelectorBonus) {
-      //   this._cardsSelectorBonus.cardOne = "firewall";
-      //   this._cardsSelectorBonus.cardTwo = "meteorite";
-      //   config.endLevelBonuses.push(this._cardsSelectorBonus);
-      // }
     });
 
-    this._settingsLoader.gameConfiguration.levels.forEach(lvl => {
-      this.configDict.set(lvl.lvlName, (config) => {
+    const settingsLoader = this.getServiceOrThrow(SettingsLoader);
+
+    settingsLoader.gameConfiguration.levels.forEach(lvl => {
+      this.configDict.set(lvl.lvlName, (config: LevelConfiguration) => {
 
         config.levelName = lvl.lvlName;
 
         const player = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
         const bot = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true })
 
+        assert(player != null);
+        assert(bot != null);
+
+        this.loadPlayerState(config, lvl, settingsLoader.playerCurrentGameState, player);
+
         const bonuses: { name: string, price: number }[] = []
-
-        lvl.playerCards.forEach(c => bonuses.push({ name: c.mnemonic, price: Number(c.price) }));
-
-        this.addBonuses(config, player, bonuses);
 
         bonuses.length = 0;
         lvl.botCards.forEach(c => bonuses.push({ name: c.mnemonic, price: Number(c.price) }));
@@ -123,8 +98,6 @@ export class LevelSelectorController extends Service {
           default:
             break;
         }
-
-
       });
     });
 
@@ -134,10 +107,6 @@ export class LevelSelectorController extends Service {
         .getChildByName("BonusModels")
         ?.getComponentsInChildren(BonusModel);
 
-      const playerHero = config.node
-        .getChildByName("HeroModels")!
-        .getChildByName("HeroPlayer")
-        ?.getComponent(PlayerModel);
 
       const botHero = config.node
         .getChildByName("HeroModels")!
@@ -145,13 +114,13 @@ export class LevelSelectorController extends Service {
         ?.getComponent(PlayerModel);
 
       if (!bonuses) return;
-      if (!playerHero || !botHero) return;
+      if (!botHero) return;
 
       const bonusLevel = randomRangeInt(0, 3);
       this._bonusSorted = [[], [], []];
       this.filterBonuses(bonuses, bonusLevel);
 
-      this.compliteBonuses(playerHero);
+      //this.compliteBonuses(playerHero);
       this.compliteBonuses(botHero);
 
       config.botHeroName = "rnd_bot";
@@ -159,25 +128,51 @@ export class LevelSelectorController extends Service {
     });
   }
 
-  setEndBonusCard(config: LevelConfiguration, cardName: string) {
+  private loadPlayerState(config: LevelConfiguration,
+    lvlCfg: GameLevelCfgModel,
+    playerState: PlayerCurrentGameState,
+    playerModel: PlayerModel) {
+
+    playerModel.life = lvlCfg.playerLife == '' ? playerState.life : Number(lvlCfg.playerLife);
+    playerModel.lifeMax = playerModel.life;
+
+    playerModel.playerName = lvlCfg.playerHeroName == "" ? playerState.hero : lvlCfg.playerHeroName;
+
+    const bonuses: { name: string, price: number }[] = []
+
+    if (lvlCfg.playerCards.length > 0) {
+      lvlCfg.playerCards.forEach(c => bonuses.push({ name: c.mnemonic, price: Number(c.price) }));
+    } else {
+      playerState.cards.forEach(c => bonuses.push({ name: c.mnemonic, price: Number(c.price) }));
+    }
+
+    if (bonuses.length > 0) this.addBonuses(config, playerModel, bonuses);
+
+  }
+
+  setEndBonusCard(config: LevelConfiguration, cardParams: string) {
     const cardUpBonus = config.node.getComponentInChildren(
       EndLevelCardUpdateBonusModel
     );
 
     if (cardUpBonus) {
-      cardUpBonus.cardMnemonic = cardName;
+      cardUpBonus.cardMnemonic = cardParams.split(':')[0];
+      cardUpBonus.cardPrice = Number(cardParams.split(':')[1]);
       config.endLevelBonuses.push(cardUpBonus);
     }
   }
 
-  setEndBonusTwoCards(config: LevelConfiguration, cardNames: string[]) {
+  setEndBonusTwoCards(config: LevelConfiguration, cardParams: string[]) {
     const cardsSelectorBonus = config.node.getComponentInChildren(
       EndLevelCardSelectorBonusModel
     );
 
     if (cardsSelectorBonus) {
-      cardsSelectorBonus.cardOne = cardNames[0];
-      cardsSelectorBonus.cardTwo = cardNames[1];
+      cardsSelectorBonus.cardOne = cardParams[0].split(':')[0];
+      cardsSelectorBonus.cardOnePrice = Number(cardParams[0].split(':')[1]);
+
+      cardsSelectorBonus.cardTwo = cardParams[1].split(':')[0];
+      cardsSelectorBonus.cardTwoPrice = Number(cardParams[1].split(':')[1]);
       config.endLevelBonuses.push(cardsSelectorBonus);
     }
   }
@@ -206,7 +201,7 @@ export class LevelSelectorController extends Service {
       const bonusModel = bonuses?.find((bm) => bm.mnemonic == bc.name);
 
       if (bonusModel && playerModel) {
-        bonusModel.priceToActivate = bc.price;
+        if (bc.price > 0) bonusModel.priceToActivate = bc.price;
         playerModel.bonusesMetaData.push(bonusModel);
       }
     });

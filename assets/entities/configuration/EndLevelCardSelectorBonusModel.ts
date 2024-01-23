@@ -11,6 +11,9 @@ export class EndLevelCardSelectorBonusModel extends EndLevelBonusModel {
   // }
   @property(CCString)
   cardOne = "card";
+  cardOnePrice = 0;
+
   @property(CCString)
   cardTwo = "card";
+  cardTwoPrice = 0;
 }
