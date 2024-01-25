@@ -39,6 +39,18 @@ export class StdTileController extends TileController {
     return this._shieldIsActivated;
   }
 
+  public get virtual() {
+    return super.virtual;
+  }
+
+  public set virtual(value: boolean) {
+    super.virtual = value;
+
+    if (!value) {
+      this.activateShield(this._shieldIsActivated);
+    }
+  }
+
   start() {
     super.start();
 
