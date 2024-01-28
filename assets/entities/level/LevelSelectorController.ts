@@ -73,6 +73,7 @@ export class LevelSelectorController extends Service {
         const player = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
         const bot = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true })
 
+
         assert(player != null);
         assert(bot != null);
 
@@ -98,6 +99,8 @@ export class LevelSelectorController extends Service {
           default:
             break;
         }
+
+        config.updateData();
       });
     });
 
@@ -205,6 +208,8 @@ export class LevelSelectorController extends Service {
         playerModel.bonusesMetaData.push(bonusModel);
       }
     });
+
+    playerModel?.updateData();
   };
 
   configPlayerStd({

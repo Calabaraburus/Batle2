@@ -13,6 +13,7 @@ import {
   assert,
   AudioSource,
   log,
+  RichText,
 } from "cc";
 import type { IBot } from "../../bot/IBot";
 import { LevelController } from "../level/LevelController";
@@ -40,6 +41,7 @@ import { GameStateWritable } from "./GameStateWritable";
 import { EffectsService } from "../services/EffectsService";
 import { EffectsManager } from "./EffectsManager";
 import { EOTInvoker } from "./EOTInvoker";
+import { LevelConfiguration } from "../configuration/LevelConfiguration";
 
 const { ccclass, property } = _decorator;
 
@@ -120,17 +122,20 @@ export class GameManager extends Service {
   private _effectsManager: EffectsManager //
     ;
   private _eotInvoker: EOTInvoker;
+  private _levelConfiguration: LevelConfiguration;
 
   public get playerTurn(): boolean {
     return this._gameState.isPlayerTurn;
   }
 
   start() {
+    this._levelConfiguration = this.getServiceOrThrow(LevelConfiguration);
     this._cardService = this.getServiceOrThrow(CardService);
     this._dataService = this.getServiceOrThrow(DataService);
     this._tileService = this.getServiceOrThrow(TileService);
     this._matchStatistic = this.getServiceOrThrow(MatchStatisticService);
     this._audioManager = this.getServiceOrThrow(AudioManagerService);
+
     //this._menuSelector = this.getServiceOrThrow(MenuSelectorController);
     this._gameState = this.getServiceOrThrow(GameStateWritable);
     this._gameState.isPlayerTurn = true;
@@ -138,6 +143,13 @@ export class GameManager extends Service {
     this._bot = this.getServiceOrThrow(Bot_v2);
     this._debug = this._dataService?.debugView;
     this.levelController.gameManager = this;
+
+    const model = this._levelConfiguration.getComponentInChildren(LevelModel);
+    assert(model != null);
+    this.levelController.model = model;
+
+    this.levelController.levelConfiguration = this._levelConfiguration;
+
     this._field = this.levelController.fieldController;
     this._field.tileCreator = this.getService(TileCreator);
     this._fieldAnalizer = new FieldAnalyzer(this._field.logicField);

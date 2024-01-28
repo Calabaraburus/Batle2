@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, tween, Vec3 } from 'cc';
+import { _decorator, assert, Component, Node, tween, UIOpacity, Vec3 } from 'cc';
 import { Service } from '../../services/Service';
 const { ccclass, property } = _decorator;
 
@@ -7,6 +7,9 @@ export class Window extends Service {
 
     private _origPos: Vec3;
     private _groups: Node[] = [];
+    private _uiOpacity: UIOpacity;
+    private _tweenObj: targetWndTweenObj;
+    private _speed: number = 0.3;
 
     private set origPos(value: Vec3) {
         this._origPos = value;
@@ -16,10 +19,24 @@ export class Window extends Service {
         return this._origPos;
     }
 
+    public get uiOpacity() {
+        return this._uiOpacity;
+    }
+
     start() {
+        const tComponent = this.getComponent(UIOpacity);
+
+        assert(tComponent != null, "can't find UIOpacity");
+
+        this._uiOpacity = tComponent;
+
+        this._uiOpacity.opacity = 0;
+
         this.origPos = this.node.position.clone();
         this.fillGroupArr();
         this.showContentGroup("default");
+
+        this._tweenObj = new targetWndTweenObj(this);
     }
 
     private fillGroupArr() {
@@ -37,15 +54,15 @@ export class Window extends Service {
     public showWindow() {
         this.node.active = true;
 
-        tween(this.node)
-            .to(0.4, { position: new Vec3(0, 0, 0) }, { easing: "backInOut" })
+        tween(this._tweenObj)
+            .to(this._speed, { position: new Vec3(0, 0, 0), opacity: 255 }, { easing: "cubicIn" })
             .start();
     }
 
     public hideWindow() {
 
-        tween(this.node)
-            .to(0.4, { position: this.origPos }, { easing: "backOut" })
+        tween(this._tweenObj)
+            .to(this._speed, { position: this.origPos, opacity: 0 }, { easing: "cubicOut" })
             .call(() => {
                 this.node.active = false;
             })
@@ -60,5 +77,33 @@ export class Window extends Service {
 
     }
 }
+
+class targetWndTweenObj {
+
+    private _wnd: Window;
+
+    public set position(value: Vec3) {
+        this._wnd.node.position = value;
+    }
+
+    public get position() {
+        return this._wnd.node.position;
+    }
+
+
+    public set opacity(value: number) {
+        this._wnd.uiOpacity.opacity = value;
+    }
+
+    public get opacity() {
+        return this._wnd.uiOpacity.opacity;
+    }
+
+    constructor(window: Window) {
+        this._wnd = window;
+    }
+}
+
+
 
 
