@@ -36,12 +36,15 @@ export class LevelConfiguration extends Component {
 
   start() {
     this._playerModels = this.getComponentsInChildren(PlayerModel);
-    this._playerModel = this.getModel(this.playerHeroName);
-    this._botModel = this.getModel(this.botHeroName);
 
     this._bonuses = this.node
       .getChildByName("BonusModels")
       ?.getComponentsInChildren(BonusModel);
+  }
+
+  updateData() {
+    this._playerModel = this.getModel(this.playerHeroName);
+    this._botModel = this.getModel(this.botHeroName);
   }
 
   public getModel(name: string): PlayerModel {

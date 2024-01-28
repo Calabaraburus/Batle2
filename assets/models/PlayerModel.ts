@@ -54,6 +54,10 @@ export class PlayerModel extends Component {
   }
 
   start() {
+
+  }
+
+  updateData() {
     this.bonusesMetaData.forEach((metadata) => {
       this._bonuses.push(metadata.clone());
     });
