@@ -103,7 +103,3 @@ class targetWndTweenObj {
         this._wnd = window;
     }
 }
-
-
-
-

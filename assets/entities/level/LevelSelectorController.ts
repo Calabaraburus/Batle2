@@ -232,7 +232,7 @@ export class LevelSelectorController extends Service {
 
     const player = config.node
       .getChildByName("HeroModels")!
-      .getChildByName(this.titleCaseWord(name) + "Hero")
+      .getChildByName(LevelSelectorController.titleCaseWord(name) + "Hero")
       ?.getComponent(PlayerModel);
 
     if (player) {
@@ -247,7 +247,7 @@ export class LevelSelectorController extends Service {
     }
   }
 
-  titleCaseWord(word: string) {
+  static titleCaseWord(word: string) {
     if (!word) return word;
     return word[0].toUpperCase() + word.substring(1);
   }
