@@ -30,11 +30,13 @@ export class StartLevelWindow extends Service {
     private _levelConfigModel: GameLevelCfgModel;
     private _levelConfig: LevelConfiguration;
     private _cardSprites: Sprite[] = [];
+    private _levelSelector: LevelSelectorController;
 
     start(): void {
         this._settings = this.getServiceOrThrow(SettingsLoader);
         this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
         this._wnd = this.getComponent(OverlayWindow);
+        this._levelSelector = this.getServiceOrThrow(LevelSelectorController);
 
         this._cardSprites.push(this.card1);
         this._cardSprites.push(this.card2);
@@ -80,5 +82,9 @@ export class StartLevelWindow extends Service {
 
     hideWindow() {
         this._wnd?.hideWindow();
+    }
+
+    loadLevel() {
+        this._levelSelector.loadLevel(this, this._levelName);
     }
 }
