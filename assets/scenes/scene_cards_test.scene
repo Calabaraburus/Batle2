@@ -2484,6 +2484,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "firewall",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
@@ -2563,6 +2564,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "firewallLow",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
@@ -2642,6 +2644,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "firewallMiddle",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
@@ -2721,6 +2724,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "lightning",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "47408ef0-8f8a-4f38-a1d8-beca307a0c2e@f9941",
@@ -2797,6 +2801,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "lightningLow",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "47408ef0-8f8a-4f38-a1d8-beca307a0c2e@f9941",
@@ -2873,6 +2878,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "lightningMiddle",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "47408ef0-8f8a-4f38-a1d8-beca307a0c2e@f9941",
@@ -2948,6 +2954,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "totem",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "9730e565-e1f7-4f38-8833-795d7b5c8ca4@f9941",
@@ -3019,6 +3026,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "mine",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "fb25ff90-f7ad-45c7-8d90-216387f8466a@f9941",
@@ -3090,6 +3098,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "meteorite",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "6a0a64be-dc4b-4782-9b17-57e3cd412a99@f9941",
@@ -3161,6 +3170,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "meteoriteLow",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
@@ -3232,6 +3242,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "meteoriteMiddle",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "6a0a64be-dc4b-4782-9b17-57e3cd412a99@f9941",
@@ -3303,6 +3314,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "recruit",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "fb25ff90-f7ad-45c7-8d90-216387f8466a@f9941",
@@ -3374,6 +3386,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "catapult",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "7a3d6c5c-7094-4ae3-aed2-28e6929ee96e@f9941",
@@ -3445,6 +3458,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "shaman",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "2827cb54-dd74-40b2-9dba-d8647af3263d@f9941",
@@ -3516,6 +3530,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "c_attack",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "5700d7ea-8d4e-46ca-9944-41900bfc4ef1@f9941",
@@ -3587,6 +3602,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "worm",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "38f314e1-54d8-4b0f-91ac-b445030e7180@f9941",
@@ -3658,6 +3674,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "wormMiddle",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "38f314e1-54d8-4b0f-91ac-b445030e7180@f9941",
@@ -3729,6 +3746,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "wormLow",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "38f314e1-54d8-4b0f-91ac-b445030e7180@f9941",
@@ -3800,6 +3818,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "pike",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "36375727-b18c-40f8-82e2-f94a6bc8aadb@f9941",
@@ -3871,6 +3890,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "pikeLow",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "36375727-b18c-40f8-82e2-f94a6bc8aadb@f9941",
@@ -3946,6 +3966,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "pikeMiddle",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "36375727-b18c-40f8-82e2-f94a6bc8aadb@f9941",
@@ -4021,6 +4042,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "push",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "457b7806-930a-4c6b-b343-4fb5eeb72413@f9941",
@@ -4092,6 +4114,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "berserk",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "291127f6-37ac-40ed-952c-8c6d65875507@f9941",
@@ -4163,6 +4186,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "assassin",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "c4a910c3-4cc4-4db5-97f4-0dab4553bc2a@f9941",
@@ -4234,6 +4258,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "shield",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
@@ -4305,6 +4330,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "hammer",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
@@ -4380,6 +4406,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "hammerLow",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
@@ -4455,6 +4482,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "hammerMiddle",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
@@ -4530,6 +4558,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "maneuver",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
@@ -4605,6 +4634,7 @@
     "_enabled": true,
     "__prefab": null,
     "mnemonic": "panic",
+    "baseCardMnemonic": "",
     "priceToActivate": 0,
     "sprite": {
       "__uuid__": "a264145f-720c-47e1-a630-0be94fe737e4@f9941",
@@ -16033,7 +16063,6 @@
     "__type__": "005a6dwri5PbLlcqkRT4yzU",
     "_name": "",
     "_objFlags": 0,
-    "__editorExtras__": {},
     "node": {
       "__id__": 423
     },
@@ -23227,7 +23256,6 @@
     "__type__": "22fd3e1ulNB0oVsvuH2wDZd",
     "_name": "",
     "_objFlags": 0,
-    "__editorExtras__": {},
     "node": {
       "__id__": 891
     },
@@ -26479,7 +26507,6 @@
     "__type__": "22fd3e1ulNB0oVsvuH2wDZd",
     "_name": "",
     "_objFlags": 0,
-    "__editorExtras__": {},
     "node": {
       "__id__": 890
     },
@@ -27883,12 +27910,6 @@
     },
     "pointsCountLbl": {
       "__id__": 310
-    },
-    "winBlock": {
-      "__id__": 392
-    },
-    "loseBlock": {
-      "__id__": 406
     },
     "touchLockObject": {
       "__id__": 883

@@ -1,4 +1,4 @@
-import { Sprite, _decorator, Node, assert } from 'cc';
+import { Sprite, _decorator, Node, assert, RichText, Label } from 'cc';
 import { Service } from '../../services/Service';
 import { SettingsLoader } from '../../services/SettingsLoader';
 import { LevelConfiguration } from '../../configuration/LevelConfiguration';
@@ -7,6 +7,11 @@ import { GameLevelCfgModel } from '../../game/GameLevelCfgModel';
 import { LevelSelectorController } from '../../level/LevelSelectorController';
 import { PlayerModel } from '../../../models/PlayerModel';
 import { BonusModel } from '../../../models/BonusModel';
+import { t, init as i18n_init } from '../../../../extensions/i18n/assets/LanguageData';
+
+
+//import L from '../../../localization/i18n-node';
+
 const { ccclass, property } = _decorator;
 
 @ccclass('StartLevelWindow')
@@ -23,6 +28,16 @@ export class StartLevelWindow extends Service {
 
     @property(Sprite)
     card3: Sprite;
+
+    @property(RichText)
+    scenarioTextField: RichText;
+
+    @property(Label)
+    levelNumberLabel: Label;
+
+    @property(Label)
+    levelNameLabel: Label;
+
 
     private _levelName: string;
     private _wnd: OverlayWindow | null;
@@ -52,6 +67,11 @@ export class StartLevelWindow extends Service {
 
         this._levelConfigModel = tcfg;
 
+        this.fillImageData();
+        this.fillStrings();
+    }
+
+    fillImageData() {
         const player = this._levelConfig.node
             .getChildByName("HeroModels")!
             .getChildByName(LevelSelectorController.titleCaseWord(this._levelConfigModel.botHeroName) + "Hero")
@@ -79,9 +99,17 @@ export class StartLevelWindow extends Service {
         });
     }
 
+    fillStrings() {
+        i18n_init('ru');
+
+        this.scenarioTextField.string = t(`levels.${this._levelName}.intro`);
+        this.levelNameLabel.string = t(`levels.${this._levelName}.name`);
+        this.levelNumberLabel.string = t(`levels.${this._levelName}.num`);
+    }
 
     hideWindow() {
         this._wnd?.hideWindow();
+
     }
 
     loadLevel() {
