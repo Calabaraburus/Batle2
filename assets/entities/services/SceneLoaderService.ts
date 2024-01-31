@@ -41,10 +41,7 @@ export class SceneLoaderService extends Service {
     director.preloadScene(sceneName, () => {
       director.loadScene(sceneName, () => {
         if (configurate != null) {
-          const lvlConfig = director
-            .getScene()
-            ?.getChildByName("LevelConfiguration")
-            ?.getComponent(LevelConfiguration);
+          const lvlConfig = this.getComponentInChildren(LevelConfiguration);
 
           if (lvlConfig != null) {
             configurate(lvlConfig);
