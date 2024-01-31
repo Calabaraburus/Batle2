@@ -55,10 +55,6 @@ export class LevelController extends Component {
 
   start() {
     this.view.setController(this);
-    this._turnsCount = this.model.turnsCount;
-
-    this.playerField.playerModel = this.levelConfiguration.playerModel;
-    this.enemyField.playerModel = this.levelConfiguration.botModel;
 
     this.updateData();
   }
@@ -76,6 +72,10 @@ export class LevelController extends Component {
   }
 
   public updateData() {
+    this._turnsCount = this.model.turnsCount;
+
+    this.playerField.playerModel = this.levelConfiguration.playerModel;
+    this.enemyField.playerModel = this.levelConfiguration.botModel;
     this.view.AimPoints = this.model.aimPoints;
     // this.view.TurnsCount = this.model.turnsCount;
     // this.view.PointsCount = this.model.pointsCount;

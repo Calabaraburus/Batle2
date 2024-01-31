@@ -73,6 +73,7 @@ export class LevelSelectorController extends Service {
         const player = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
         const bot = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true })
 
+
         assert(player != null);
         assert(bot != null);
 
@@ -98,6 +99,8 @@ export class LevelSelectorController extends Service {
           default:
             break;
         }
+
+        config.updateData();
       });
     });
 
@@ -205,6 +208,8 @@ export class LevelSelectorController extends Service {
         playerModel.bonusesMetaData.push(bonusModel);
       }
     });
+
+    playerModel?.updateData();
   };
 
   configPlayerStd({
@@ -227,7 +232,7 @@ export class LevelSelectorController extends Service {
 
     const player = config.node
       .getChildByName("HeroModels")!
-      .getChildByName(this.titleCaseWord(name) + "Hero")
+      .getChildByName(LevelSelectorController.titleCaseWord(name) + "Hero")
       ?.getComponent(PlayerModel);
 
     if (player) {
@@ -242,7 +247,7 @@ export class LevelSelectorController extends Service {
     }
   }
 
-  titleCaseWord(word: string) {
+  static titleCaseWord(word: string) {
     if (!word) return word;
     return word[0].toUpperCase() + word.substring(1);
   }
