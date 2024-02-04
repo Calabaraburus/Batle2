@@ -215,7 +215,8 @@ export class FinalWindow extends Service {
     this._overlayWnd?.showWindow();
 
     if (win) {
-      if (this._config!.endLevelBonuses.length > 0) {
+      if (this._config!.endLevelBonuses.length > 0 &&
+        this.canUpdateCurStateData()) {
         this._wnd?.showContentGroup('reward');
       } else {
         this._wnd?.showContentGroup('win');
@@ -305,11 +306,12 @@ export class FinalWindow extends Service {
   }
 
   closeFinalWindow() {
-    this.closeBonusEvents();
+    if (this.canUpdateCurStateData()) {
+      this.closeBonusEvents();
+      this._state.addLevel(this._config.levelName);
+      this._settingsLoader.saveGameState();
+    }
 
-    this._state.addLevel(this._config.levelName);
-
-    this._settingsLoader.saveGameState();
     this._sceneLoader.loadLevel("LvlScene");
   }
 }
