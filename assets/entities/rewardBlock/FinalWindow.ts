@@ -22,6 +22,7 @@ import { OverlayWindow } from "../menu/OverlayWindow";
 import { Window } from "../ui/window/Window";
 import { EndLevelBonusModel } from "../configuration/EndLevelBonusModel";
 import { SceneLoaderService } from "../services/SceneLoaderService";
+import { config } from "chai";
 
 const { ccclass, property } = _decorator;
 
@@ -65,12 +66,12 @@ export class FinalWindow extends Service {
 
   bonusLife: string;
 
-  cardImageOne: Sprite | null | undefined;
-  cardImageTwo: Sprite | null | undefined;
-  cardFlagSelector: string;
+  private _cardImageOne: Sprite | null | undefined;
+  private _cardImageTwo: Sprite | null | undefined;
+  private _cardFlagSelector: string;
 
-  settingsLoader: SettingsLoader;
-  state: PlayerCurrentGameState;
+  private _settingsLoader: SettingsLoader;
+  private _state: PlayerCurrentGameState;
 
   timeTurn = 0.6;
 
@@ -86,15 +87,15 @@ export class FinalWindow extends Service {
     this._wnd = this.getComponent(Window);
     this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
 
-    this.cardFlagSelector = "empty";
+    this._cardFlagSelector = "empty";
 
     const tService = this.getService(SettingsLoader);
 
     assert(tService != null, "SettingsLoader can't be found");
 
-    this.settingsLoader = tService;
+    this._settingsLoader = tService;
 
-    this.state = this.settingsLoader.playerCurrentGameState;
+    this._state = this._settingsLoader.playerCurrentGameState;
 
     this._bonusOperations.set(EndLevelLifeBonusModel, {
       init: (bonus) => {
@@ -107,7 +108,7 @@ export class FinalWindow extends Service {
       open: () => {
 
       }, close: () => {
-        this.state.life += parseFloat(this.bonusLife);
+        this.addLifeToCurrentState();
       }
     });
     this._bonusOperations.set(EndLevelCardUpdateBonusModel, {
@@ -120,7 +121,7 @@ export class FinalWindow extends Service {
 
       }, close: (bonus) => {
         if (bonus instanceof EndLevelCardUpdateBonusModel) {
-          this.state.cards.push({ mnemonic: bonus.cardMnemonic, price: bonus.cardPrice.toString() });
+          this.addBonusToCurrentState(bonus.cardMnemonic, bonus.cardPrice.toString());
         }
       }
     });
@@ -139,22 +140,53 @@ export class FinalWindow extends Service {
 
           let bonusIsUpdated = false;
           // try to update bonus
-          this.state.cards.forEach(c => {
-            const b = this._config?.getBonus(c.mnemonic);
-            if (b != null && b.baseCardMnemonic == sBonus.baseCardMnemonic) {
-              c.mnemonic = sBonus.mnemonic;
-              bonusIsUpdated = true;
-            }
-          });
+          bonusIsUpdated = this.tryToUpdateBonus(sBonus);
 
           if (!bonusIsUpdated) {
-            this.state.cards.push({ mnemonic: this._selectedBonus.name, price: this._selectedBonus.price });
+            this.addBonusToCurrentState(this._selectedBonus.name, this._selectedBonus.price);
           }
         }
       }
     });
 
     this.initBonuses();
+  }
+
+  canUpdateCurStateData() {
+    return !this._state.levelExists(this._config.levelName);
+  }
+
+  private tryToUpdateBonus(sBonus: BonusModel) {
+    if (this.canUpdateCurStateData()) {
+      return false;
+    }
+
+    let bonusIsUpdated: boolean = false;
+
+    this._state.cards.forEach(c => {
+      const b = this._config?.getBonus(c.mnemonic);
+      if (b != null && b.baseCardMnemonic == sBonus.baseCardMnemonic) {
+        c.mnemonic = sBonus.mnemonic;
+        bonusIsUpdated = true;
+      }
+    });
+    return bonusIsUpdated;
+  }
+
+  private addLifeToCurrentState() {
+    if (this.canUpdateCurStateData()) {
+      return false;
+    }
+
+    this._state.life += parseFloat(this.bonusLife);
+  }
+
+  private addBonusToCurrentState(mnemonic: string, price: string) {
+    if (this.canUpdateCurStateData()) {
+      return false;
+    }
+
+    this._state.cards.push({ mnemonic: mnemonic, price: price });
   }
 
   initBonuses() {
@@ -223,25 +255,25 @@ export class FinalWindow extends Service {
     const bonusModelSelectorOne = this._config?.getBonus(bonus.cardOne);
     const bonusModelSelectorTwo = this._config?.getBonus(bonus.cardTwo);
 
-    this.cardImageOne = this.cardChoice
+    this._cardImageOne = this.cardChoice
       .getChildByName("CardOne")
       ?.getComponent(Sprite);
 
-    this.cardImageTwo = this.cardChoice
+    this._cardImageTwo = this.cardChoice
       .getChildByName("CardTwo")
       ?.getComponent(Sprite);
 
-    assert(this.cardImageOne != null);
-    assert(this.cardImageTwo != null);
+    assert(this._cardImageOne != null);
+    assert(this._cardImageTwo != null);
 
     if (!bonusModelSelectorOne || !bonusModelSelectorTwo) return;
 
     this.cardChoice.active = true;
-    this.cardImageOne.spriteFrame = bonusModelSelectorOne.sprite;
-    this.cardImageTwo.spriteFrame = bonusModelSelectorTwo.sprite;
+    this._cardImageOne.spriteFrame = bonusModelSelectorOne.sprite;
+    this._cardImageTwo.spriteFrame = bonusModelSelectorTwo.sprite;
 
-    const c1Node = this.cardImageOne.node;
-    const c2Node = this.cardImageTwo.node;
+    const c1Node = this._cardImageOne.node;
+    const c2Node = this._cardImageTwo.node;
 
     let enableCard = (s: Sprite | null | undefined, enable = true) => {
       if (s != null) {
@@ -253,14 +285,14 @@ export class FinalWindow extends Service {
 
     enableCard = enableCard.bind(this);
 
-    enableCard(this.cardImageOne, false);
-    enableCard(this.cardImageTwo, false);
+    enableCard(this._cardImageOne, false);
+    enableCard(this._cardImageTwo, false);
 
     const selectCard = (s: Sprite | null | undefined) => {
-      const otherS = s == this.cardImageOne ? this.cardImageTwo : this.cardImageOne;
+      const otherS = s == this._cardImageOne ? this._cardImageTwo : this._cardImageOne;
 
-      this._selectedBonus.name = s == this.cardImageOne ? bonus.cardOne : bonus.cardTwo;
-      this._selectedBonus.price = s == this.cardImageOne ?
+      this._selectedBonus.name = s == this._cardImageOne ? bonus.cardOne : bonus.cardTwo;
+      this._selectedBonus.price = s == this._cardImageOne ?
         bonus.cardOnePrice.toString() :
         bonus.cardTwoPrice.toString();
 
@@ -268,16 +300,16 @@ export class FinalWindow extends Service {
       enableCard(otherS, false);
     };
 
-    c1Node.on(Node.EventType.TOUCH_START, () => selectCard(this.cardImageOne), this)
-    c2Node.on(Node.EventType.TOUCH_START, () => selectCard(this.cardImageTwo), this)
+    c1Node.on(Node.EventType.TOUCH_START, () => selectCard(this._cardImageOne), this)
+    c2Node.on(Node.EventType.TOUCH_START, () => selectCard(this._cardImageTwo), this)
   }
 
   closeFinalWindow() {
     this.closeBonusEvents();
 
-    this.settingsLoader.playerCurrentGameState.addLevel(this._config.levelName);
+    this._state.addLevel(this._config.levelName);
 
-    this.settingsLoader.saveGameState();
+    this._settingsLoader.saveGameState();
     this._sceneLoader.loadLevel("LvlScene");
   }
 }
