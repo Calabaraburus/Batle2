@@ -8,7 +8,7 @@ export class PlayerCurrentGameState {
     currentLvl: string;
 
     public levelExists(lvlName: string) {
-        return this.finishedLevels.findIndex(l => l == lvlName) > 0;
+        return this.finishedLevels.findIndex(l => l == lvlName) >= 0;
     }
 
     public addLevel(lvlName: string) {
