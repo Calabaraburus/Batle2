@@ -7,6 +7,7 @@ import { CardsSubBehaviour } from "./SubBehaviour";
 
 export class ShamanCardSubehaviour extends CardsSubBehaviour {
   private _cache: ObjectsCache | null;
+  protected lvlTile = "shaman";
 
   prepare(): boolean {
     this.parent.debug?.log("[shaman_card_sub] Start preparing.");
@@ -16,9 +17,7 @@ export class ShamanCardSubehaviour extends CardsSubBehaviour {
     if (this.parent.cardService == null) return false;
 
     if (targetTile instanceof StdTileController) {
-      if (
-        targetTile.playerModel == this.parent.cardService.getOponentModel()
-      ) {
+      if (targetTile.playerModel == this.parent.cardService.getOponentModel()) {
         return false;
       }
     } else {
@@ -37,7 +36,7 @@ export class ShamanCardSubehaviour extends CardsSubBehaviour {
     this.parent.debug?.log("[shaman_card_sub] Starting run.");
     const targetTile = this.parent.target as StdTileController;
 
-    const model = this.parent.field?.fieldModel.getTileModel("shaman");
+    const model = this.parent.field?.fieldModel.getTileModel(this.lvlTile);
 
     if (model == undefined) {
       this.parent.debug?.log(
@@ -51,7 +50,7 @@ export class ShamanCardSubehaviour extends CardsSubBehaviour {
     if (pModel == undefined || pModel == null) {
       this.parent.debug?.log(
         "[shaman_card_sub][error] CurrentPlayerModel is null or undefined." +
-        " return false."
+          " return false."
       );
       return false;
     }

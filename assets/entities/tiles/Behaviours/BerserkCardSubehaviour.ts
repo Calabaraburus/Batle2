@@ -10,25 +10,23 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
   private _tilesToTransform: TileController[] = [];
   private _cache: ObjectsCache | null;
   private _cardsService: CardService | null;
+  protected lvlTile = 2;
 
   prepare(): boolean {
     this.parent.debug?.log("[berserk_card_sub] Start preparing.");
 
-    const berserkCount = 2;
+    const berserkCount = this.lvlTile;
     let enemySide = 1;
     const targetTile = this.parent.target as StdTileController;
 
     if (
-      this.parent.cardService.getCurrentPlayerModel() ==
-      this.parent.botModel
+      this.parent.cardService.getCurrentPlayerModel() == this.parent.botModel
     ) {
       enemySide = -1;
     }
 
     if (targetTile instanceof StdTileController) {
-      if (
-        targetTile.playerModel == this.parent.cardService.getOponentModel()
-      ) {
+      if (targetTile.playerModel == this.parent.cardService.getOponentModel()) {
         return false;
       }
     } else {
@@ -102,7 +100,7 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
       if (pModel == undefined || pModel == null) {
         this.parent.debug?.log(
           "[berserk_card_sub][error] CurrentPlayerModel is null or undefined." +
-          " return false."
+            " return false."
         );
         return false;
       }

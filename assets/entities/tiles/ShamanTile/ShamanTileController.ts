@@ -22,7 +22,8 @@ const { ccclass, property } = _decorator;
 @ccclass("ShamanTileController")
 export class ShamanTileController
   extends TileController
-  implements IAttackable {
+  implements IAttackable
+{
   private _cardService: CardService | null;
   private _curSprite: Sprite | null;
   private _state: TileState;
@@ -34,6 +35,10 @@ export class ShamanTileController
   /** Destroy particle system */
   @property(Prefab)
   destroyPartycles: Prefab;
+
+  @property(Number)
+  healLife = 5;
+
   private _effectsService: EffectsService | null;
 
   get attacksCountToDestroy() {
@@ -57,7 +62,7 @@ export class ShamanTileController
           Service.getService(AudioManagerService)?.playSoundEffect(
             "shaman_attack"
           );
-          playerModel.life = playerModel.life + 5;
+          playerModel.life = playerModel.life + this.healLife;
         }
       }
     }
@@ -117,8 +122,6 @@ export class ShamanTileController
     const effect = this._cache?.getObjectByName<HealingEffect>("HealingEffect");
 
     if (effect != null) {
-
-
       effect.node.position = this.node.position;
       effect.node.parent =
         this._effectsService != null ? this._effectsService?.effectsNode : null;
@@ -130,7 +133,11 @@ export class ShamanTileController
       const animator = tween(effect.node);
 
       animator
-        .to(0.8, { position: transform?.convertToNodeSpaceAR(this._aimForEffect.worldPosition) })
+        .to(0.8, {
+          position: transform?.convertToNodeSpaceAR(
+            this._aimForEffect.worldPosition
+          ),
+        })
         .delay(0.8)
         .call(() => effect.stopEmmit())
         .delay(1)

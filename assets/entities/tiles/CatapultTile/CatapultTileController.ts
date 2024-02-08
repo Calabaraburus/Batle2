@@ -3,7 +3,15 @@
 //  Calabaraburus (c) 2023
 //
 
-import { _decorator, Sprite, tween, Node, error, assert, UITransform } from "cc";
+import {
+  _decorator,
+  Sprite,
+  tween,
+  Node,
+  error,
+  assert,
+  UITransform,
+} from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
@@ -22,7 +30,11 @@ const { ccclass, property } = _decorator;
 @ccclass("CatapultTileController")
 export class CatapultTileController
   extends TileController
-  implements IAttackable {
+  implements IAttackable
+{
+  @property(Number)
+  damageLife = 5;
+
   private _cardService: CardService;
   private _state: TileState;
   private _attacksCountToDestroy: number;
@@ -70,7 +82,7 @@ export class CatapultTileController
         Service.getServiceOrThrow(AudioManagerService).playSoundEffect(
           "catapult_attack"
         );
-        damageModel.life = damageModel.life - 5;
+        damageModel.life = damageModel.life - this.damageLife;
       }
     }
   }
@@ -124,7 +136,8 @@ export class CatapultTileController
   playEffect() {
     this.prepareForEffect();
 
-    const effect = this._cache?.getObjectByName<BalistaCardEffect>("BalistaCardEffect");
+    const effect =
+      this._cache?.getObjectByName<BalistaCardEffect>("BalistaCardEffect");
 
     if (effect != null) {
       effect.node.position = this.node.position;
@@ -140,7 +153,11 @@ export class CatapultTileController
       const animator = tween(effect.node);
 
       animator
-        .to(0.8, { position: transform?.convertToNodeSpaceAR(this._aimForEffect.worldPosition) })
+        .to(0.8, {
+          position: transform?.convertToNodeSpaceAR(
+            this._aimForEffect.worldPosition
+          ),
+        })
         .delay(0.8)
         .call(() => effect.stopEmmit())
         .delay(1)
