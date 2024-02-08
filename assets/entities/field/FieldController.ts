@@ -50,8 +50,16 @@ export class FieldController extends Service {
   public readonly tileActivatedEvent: EventTarget = new EventTarget();
 
   /** Field model */
-  @property({ type: [FieldModel], visible: true, tooltip: "Field model" })
-  fieldModel: FieldModel;
+  // @property({ type: [FieldModel], visible: true, tooltip: "Field model" })
+  private _fieldModel: FieldModel; //вот тут баг
+
+  public get fieldModel() {
+    return this._fieldModel;
+  }
+
+  public set fieldModel(value: FieldModel) {
+    //  this._fieldModel = this.fieldModel;
+  }
 
   @property(UITransform)
   tilesArea: UITransform;
@@ -83,8 +91,9 @@ export class FieldController extends Service {
   start() {
     this._dataService = this.getServiceOrThrow(DataService);
     this._tileCreator = this.getServiceOrThrow(TileCreator);
+    this._fieldModel = this.getServiceOrThrow(FieldModel);
     this._logicFieldController = new FieldLogicalController(
-      this.fieldModel,
+      this._fieldModel,
       this.tilesArea,
       this._dataService,
       this._tileCreator
@@ -93,12 +102,11 @@ export class FieldController extends Service {
     this.logicField.onTileCreating = this.onTileCreating.bind(this);
   }
 
-
-  private onTileCreating(tile:TileController){
-      tile.clickedEvent.off("TileController");
-      tile.tileActivateEvent.off("TileController");
-      tile.clickedEvent.on("TileController", this.tileClicked, this);
-      tile.tileActivateEvent.on("TileController", this.tileActivated, this);
+  private onTileCreating(tile: TileController) {
+    tile.clickedEvent.off("TileController");
+    tile.tileActivateEvent.off("TileController");
+    tile.clickedEvent.on("TileController", this.tileClicked, this);
+    tile.tileActivateEvent.on("TileController", this.tileActivated, this);
   }
 
   /**
@@ -107,9 +115,9 @@ export class FieldController extends Service {
   public generateTiles() {
     console.log(
       "[FieldController] Rows: " +
-        this.fieldModel.rows +
+        this._fieldModel.rows +
         " Cols: " +
-        this.fieldModel.cols
+        this._fieldModel.cols
     );
 
     this._logicFieldController.generateTiles();

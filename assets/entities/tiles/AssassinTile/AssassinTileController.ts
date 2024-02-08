@@ -36,7 +36,8 @@ const { ccclass, property } = _decorator;
 @ccclass("AssassinTileController")
 export class AssassinTileController
   extends TileController
-  implements IAttackable {
+  implements IAttackable
+{
   private _cardService: CardService;
   private _effectsService: EffectsService;
   private _state: TileState;
@@ -48,7 +49,10 @@ export class AssassinTileController
   /** Destroy particle system */
   @property(Prefab)
   destroyPartycles: Prefab;
-  maxCount: number;
+
+  @property(Number)
+  maxCount = 2;
+
   _tilesToDestroy: TileController[] | undefined;
   private _shootEffect: ShootEffect;
   private _fieldViewController: FieldController;
@@ -73,7 +77,7 @@ export class AssassinTileController
 
   turnEnds(): void {
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
-      this.maxCount = 2;
+      // this.maxCount = 2;
       this._tilesToDestroy = [];
 
       const oponentModel = this._cardService?.getCurrentPlayerModel();
@@ -168,7 +172,8 @@ export class AssassinTileController
       // const dd = Vec3.distance(this.node.position, t.node.position) / 10;
 
       for (let index = 0; index < 10; index++) {
-        const smokeEffect = this._cache?.getObjectByName<ShootSmokeEffect>("ShootSmokeEffect");
+        const smokeEffect =
+          this._cache?.getObjectByName<ShootSmokeEffect>("ShootSmokeEffect");
 
         if (smokeEffect == null) {
           return;

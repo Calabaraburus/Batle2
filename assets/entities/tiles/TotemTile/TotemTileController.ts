@@ -24,6 +24,9 @@ export class TotemTileController extends TileController implements IAttackable {
   @property(Prefab)
   destroyPartycles: Prefab;
 
+  @property(Number)
+  power = 2;
+
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
   }
@@ -54,9 +57,9 @@ export class TotemTileController extends TileController implements IAttackable {
   /** Attack this enemy with power.
    * @power Power.
    */
-  public attack(power = 1) {
+  public attack() {
     if (this._attackedNumber > 0) {
-      this._attackedNumber -= power;
+      this._attackedNumber -= this.power;
 
       if (this._attackedNumber <= 0) {
         this.fakeDestroy();

@@ -42,6 +42,7 @@ import { EffectsService } from "../services/EffectsService";
 import { EffectsManager } from "./EffectsManager";
 import { EOTInvoker } from "./EOTInvoker";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
+import { FieldModel } from "../../models/FieldModel";
 
 const { ccclass, property } = _decorator;
 
@@ -119,8 +120,7 @@ export class GameManager extends Service {
   private _stateMachine: StateMachine<string, string>;
   //private _menuSelector: MenuSelectorController | null;
   private _gameState: GameStateWritable;
-  private _effectsManager: EffectsManager //
-    ;
+  private _effectsManager: EffectsManager; //
   private _eotInvoker: EOTInvoker;
   private _levelConfiguration: LevelConfiguration;
 
@@ -151,6 +151,7 @@ export class GameManager extends Service {
     this.levelController.levelConfiguration = this._levelConfiguration;
 
     this._field = this.levelController.fieldController;
+
     this._field.tileCreator = this.getService(TileCreator);
     this._fieldAnalizer = new FieldAnalyzer(this._field.logicField);
 
@@ -158,7 +159,8 @@ export class GameManager extends Service {
 
     this._eotInvoker = new EOTInvoker(this, this._effectsManager);
 
-    this.behaviourSeletor.Setup(this.getServiceOrThrow(ObjectsCache),
+    this.behaviourSeletor.Setup(
+      this.getServiceOrThrow(ObjectsCache),
       this._cardService,
       this._dataService,
       this.getServiceOrThrow(LevelModel),
@@ -166,7 +168,8 @@ export class GameManager extends Service {
       this.getServiceOrThrow(EffectsService),
       this._effectsManager,
       this.getServiceOrThrow(AudioManagerService),
-      this._eotInvoker);
+      this._eotInvoker
+    );
 
     this._stateMachine = this._stateMachineConfig.start();
     this._stateMachine.handle("gameStartEvent");
@@ -200,7 +203,6 @@ export class GameManager extends Service {
     console.log("[GameManager] Tile clicked");
     this.behaviourSeletor.run(tile);
 
-
     this.waitAnimations(() => {
       if (this._stateMachine.getCurrentState() == "playerTurn") {
         this.unlockUi();
@@ -214,18 +216,21 @@ export class GameManager extends Service {
     this._field.fixTiles();
     this._field.Flush();
     this._field.moveTilesAnimate();
-
   }
 
   private waitAnimations(action: () => void) {
     const waiter = tween(this);
 
-    waiter.repeatForever(tween(this).call(() => {
-      if (!this._effectsManager.effectIsRunning) {
-        action();
-        waiter.stop();
-      }
-    }).delay(0.2));
+    waiter.repeatForever(
+      tween(this)
+        .call(() => {
+          if (!this._effectsManager.effectIsRunning) {
+            action();
+            waiter.stop();
+          }
+        })
+        .delay(0.2)
+    );
 
     waiter.start();
   }
@@ -259,7 +264,7 @@ export class GameManager extends Service {
 
   startPlayerTurn(): void {
     this._gameState.isPlayerTurn = true;
-    this._debug?.log('Cache size:' + ObjectsCache.instance?.size);
+    this._debug?.log("Cache size:" + ObjectsCache.instance?.size);
     this.unlockUi();
   }
 
@@ -278,7 +283,6 @@ export class GameManager extends Service {
   }
 
   private beforePlayerTurn() {
-
     this.notifyTilesAboutStartOfTurn();
 
     this._cardService?.resetBonusesForActivePlayer();
@@ -335,7 +339,10 @@ export class GameManager extends Service {
     this._bot?.move();
   }
 
-  private countAttackingTiles(tileNameToAttack: string, ...tags: string[]): number {
+  private countAttackingTiles(
+    tileNameToAttack: string,
+    ...tags: string[]
+  ): number {
     const tiles = this._fieldAnalizer.getAttackingTiles(
       tileNameToAttack,
       this._cardService?.getCurrentPlayerModel(),

@@ -10,6 +10,8 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
   private _tilesToTransform: TileController[] = [];
   private _cache: ObjectsCache | null;
   private _catapultModel: TileModel;
+  protected lvlTile = "catapult";
+
   prepare(): boolean {
     this.parent.debug?.log("[catapult_card_sub] Start preparing.");
 
@@ -18,9 +20,7 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
     if (this.parent.cardService == null) return false;
 
     if (targetTile instanceof StdTileController) {
-      if (
-        targetTile.playerModel == this.parent.cardService.getOponentModel()
-      ) {
+      if (targetTile.playerModel == this.parent.cardService.getOponentModel()) {
         return false;
       }
     } else {
@@ -43,7 +43,7 @@ export class CatapultCardSubehaviour extends CardsSubBehaviour {
 
     const targetTile = this.parent.target as StdTileController;
 
-    const model = this.parent.field.fieldModel.getTileModel("catapult");
+    const model = this.parent.field.fieldModel.getTileModel(this.lvlTile);
 
     targetTile.fakeDestroy();
 
