@@ -15,11 +15,12 @@ import type { ILevelView } from "./ILevelView";
 import { LevelView } from "./LevelView";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { AttackSignalController } from "../attackSignal/AttackSignalController";
+import { Service } from "../services/Service";
 const { ccclass, property } = _decorator;
 
 /** Controls level view. */
 @ccclass("LevelController")
-export class LevelController extends Component {
+export class LevelController extends Service {
   private _turnsCount: number;
   private _gameManager: GameManager;
 
@@ -54,6 +55,8 @@ export class LevelController extends Component {
   }
 
   start() {
+    this.model = this.getServiceOrThrow(LevelModel);
+    this.levelConfiguration = this.getServiceOrThrow(LevelConfiguration);
     this.view.setController(this);
 
     this.updateData();
