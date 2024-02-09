@@ -2,6 +2,10 @@
 const win = window as any;
 
 export const languages = {
+    label_text: {
+        music: "Музыка",
+        sound: "Звук"
+    },
     levels: {
         lvl1: {
             num: "1",

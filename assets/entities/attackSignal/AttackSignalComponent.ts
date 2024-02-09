@@ -36,7 +36,7 @@ export class AttackSignalComponent extends Component {
     // if (this.wndIsHiding) return;
     // this.wndIsHiding = true;
     tween(this.opacity)
-      .to(0.2, { opacity: 40 }, { easing: "quadOut" })
+      .to(0.2, { opacity: 0 }, { easing: "quadOut" })
       // .call(() => (this.wndIsHiding = false))
       .start();
   }

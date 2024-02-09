@@ -14,9 +14,11 @@ import {
   random,
   randomRange,
   randomRangeInt,
+  Node
 } from "cc";
 import { TileModel } from "./TileModel";
 import { MnemonicMapping } from "./MnemonicMapping";
+import { BonusModel } from "./BonusModel";
 const { ccclass, property } = _decorator;
 
 /**
@@ -25,6 +27,8 @@ const { ccclass, property } = _decorator;
 @ccclass("FieldModel")
 export class FieldModel extends Component {
   private tilesGroupDict = new Map<string, TileModel[]>();
+  private _tiles: TileModel[] = [];
+
 
   /**
    * Tiles cols count
@@ -65,8 +69,8 @@ export class FieldModel extends Component {
   /**
    * Tile model collection
    */
-  @property({ type: [TileModel], visible: true, tooltip: "Tile models" })
-  tiles: TileModel[] = [];
+  @property({ type: Node, visible: true, tooltip: "Node with tile models" })
+  tilesNode: Node;
 
   /**
    * Field map
@@ -84,12 +88,16 @@ export class FieldModel extends Component {
   })
   mnemMapping: MnemonicMapping[] = [];
 
+  start(): void {
+    this._tiles = this.tilesNode.children.flatMap(cn => cn.getComponent(TileModel) ?? []);
+  }
+
   /**
    * Get standart tile models
    * @returns collection of std tile models
    */
   public getStandartTiles(): TileModel[] {
-    return this.tiles.filter((item) => !item.specialTile);
+    return this._tiles.filter((item) => !item.specialTile);
   }
 
   /**
@@ -98,7 +106,7 @@ export class FieldModel extends Component {
    * @returns Tile model
    */
   public getTileModel(typeName: string): TileModel {
-    return this.tiles.filter((item) => item.tileName == typeName)[0];
+    return this._tiles.filter((item) => item.tileName == typeName)[0];
   }
 
   /**
@@ -110,15 +118,15 @@ export class FieldModel extends Component {
     const tileName = this.getTileNameByMnem(mnemonic);
 
     if (tileName == "") {
-      return this.tiles.filter((item) => item.tileName == mnemonic)[0];
+      return this._tiles.filter((item) => item.tileName == mnemonic)[0];
     }
 
     if (tileName.startsWith("#")) {
       return this.getTileModelByGroupName(tileName.replace("#", ""));
     }
 
-    const res = this.tiles.filter((item) => item.tileName == tileName);
-    return res.length != 0 ? res[0] : this.tiles[0];
+    const res = this._tiles.filter((item) => item.tileName == tileName);
+    return res.length != 0 ? res[0] : this._tiles[0];
   }
 
   /**
@@ -160,7 +168,7 @@ export class FieldModel extends Component {
    * Get models by tag
    */
   public getTileModelsByTags(...tags: string[]): TileModel[] {
-    return this.tiles.filter((item) => {
+    return this._tiles.filter((item) => {
       let exists = false;
       tags.forEach((tag) => {
         if (item.containsTag(tag)) {
