@@ -61,7 +61,13 @@ export class StdTileInterBehaviour extends GameBehaviour {
       throw Error("[behaviour][tileBehaviour] tile cant be undefined or null");
     }
 
+    if (tile.playerModel == this.currentPlayerModel) {
+      this._inProcess = false;
+      return
+    }
+
     if (tile.shieldIsActivated) {
+      this._inProcess = false;
       return;
     }
 
@@ -75,6 +81,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
       this.debug?.log(
         `[behaviour][tilesBehaviour] Error connected tiles is null or undefined`
       );
+      this._inProcess = false;
       return;
     }
 
@@ -82,7 +89,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
       this.debug?.log(
         `[behaviour][tilesBehaviour] there is no connected tiles`
       );
-
+      this._inProcess = false;
       return;
     }
 

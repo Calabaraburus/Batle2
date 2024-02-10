@@ -1,8 +1,11 @@
 import { _decorator, CCFloat, Color, color, Component, Graphics, Node, Vec2, Vec3 } from 'cc';
-const { ccclass, property } = _decorator;
+import { MapGraphics } from '../../map/MapGraphics';
+import { MapGraphicsObject } from '../../map/MapGraphicsObject';
+const { ccclass, property, executeInEditMode } = _decorator;
 
 @ccclass('MapLine')
-export class MapLine extends Component {
+@executeInEditMode(true)
+export class MapLine extends Component implements MapGraphicsObject {
 
     @property(Node)
     aPoint: Node;
@@ -10,8 +13,8 @@ export class MapLine extends Component {
     @property(Node)
     bPoint: Node;
 
-    @property(Graphics)
-    graphic: Graphics;
+    @property(MapGraphics)
+    graphics: MapGraphics;
 
     @property(CCFloat)
     lineWidth: number = 40;
@@ -25,8 +28,10 @@ export class MapLine extends Component {
     //    @property(Color)
     color: Color = new Color("7f1919ff");
 
+
+
     start() {
-        this.drawDashedLine(this.aPoint.position, this.bPoint.position);
+        this.graphics.addObject(this);
     }
 
     drawDashedLine(origin: Vec3, destination: Vec3) {
@@ -36,8 +41,8 @@ export class MapLine extends Component {
 
         const dist = Vec3.distance(origin, destination);
 
-        this.graphic.lineWidth = this.lineWidth;
-        this.graphic.strokeColor = this.color;
+        this.graphics.lineWidth = this.lineWidth;
+        this.graphics.strokeColor = this.color;
 
         let delta1 = new Vec3();
         Vec3.multiplyScalar(delta1, dir, this.dashSize + this.dashDistance);
@@ -51,13 +56,19 @@ export class MapLine extends Component {
         for (let i: number = 0; i <= dist / (this.dashSize + this.dashDistance); i++) {
             Vec3.add(p2, p1, delta2);
 
-            this.graphic.moveTo(p1.x, p1.y);
-            this.graphic.lineTo(p2.x, p2.y);
+            this.graphics.moveTo(p1.x, p1.y);
+            this.graphics.lineTo(p2.x, p2.y);
 
             p1.add(delta1);
         }
 
-        this.graphic.stroke();
+        this.graphics.stroke();
+    }
+
+    draw(): void {
+        if (this.node.active) {
+            this.drawDashedLine(this.aPoint.position, this.bPoint.position);
+        }
     }
 }
 

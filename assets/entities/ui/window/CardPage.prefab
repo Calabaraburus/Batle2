@@ -1124,6 +1124,8 @@
       "__id__": 0
     },
     "fileId": "545tcBxS5KyYxsJPy6mLlS",
+    "instance": null,
+    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
@@ -1206,7 +1208,7 @@
     "node": {
       "__id__": 36
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": {
       "__id__": 52
     },
