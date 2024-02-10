@@ -17,6 +17,18 @@ export class MenuSelectorController extends Service {
   @property(Node)
   sections: Node[] = [];
 
+  @property(Node)
+  soundCross: Node;
+
+  @property(Node)
+  musicCross: Node;
+
+  @property(Node)
+  soundBtns: Node[] = [];
+
+  @property(Node)
+  musicBtns: Node[] = [];
+
   settingsLoader: SettingsLoader;
   parameters: GameParameters;
 
@@ -68,17 +80,40 @@ export class MenuSelectorController extends Service {
     director.loadScene(sceneName);
   }
 
-  settingSound(sender: object, volume: string) {
-    this._aManager?.changeVolume(parseFloat(volume), "sound");
+  settingSound(sender: object, volumeStr: string) {
 
-    this.parameters.soundLevel = parseFloat(volume);
+    const volume = parseFloat(volumeStr);
+
+    this._aManager?.changeVolume(volume, "sound");
+
+    this.parameters.soundLevel = volume;
     this.settingsLoader.saveParameters();
+
+    this.setCross(this.soundBtns, this.soundCross, volume);
   }
 
-  settingMusic(sender: object, volume: string) {
-    this._aManager?.changeVolume(parseFloat(volume), "music");
+  settingMusic(sender: object, volumeStr: string) {
+    const volume = parseFloat(volumeStr);
+    this._aManager?.changeVolume(volume, "music");
 
-    this.parameters.musicLevel = parseFloat(volume);
+    this.parameters.musicLevel = volume;
     this.settingsLoader.saveParameters();
+
+    this.setCross(this.musicBtns, this.musicCross, volume);
+  }
+
+  setCross(btns: Node[], cross: Node, volume: number) {
+    const btn = this.getButtonByVolume(btns, volume);
+    cross.position = btn.position.clone();
+  }
+
+  getButtonByVolume(btns: Node[], volume: number) {
+    if (volume == 0) {
+      return btns[0];
+    } else if (volume == 1) {
+      return btns[2];
+    } else {
+      return btns[1];
+    }
   }
 }
