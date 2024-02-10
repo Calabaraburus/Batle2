@@ -17,6 +17,7 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
   private _maxSelect: number = 4;
   private _rowsToCAtk: number = 2;
   private _selectedCols: { c: number, rstrt: number, rstp: number }[];
+  private _excludeTiles: [string,string] =["mine", "mineLow"];
 
   prepare(): boolean {
 
@@ -52,14 +53,15 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
       col.rstrt = eRow;
 
       for (let row = eRow;
-        this._direction > 0 ? row < targetRow : row >= targetRow;
+        this._direction > 0 ? row <= targetRow : row >= targetRow;
         row += this._direction) {
         const tile = matrix.get(row, col.c);
         if (tile.playerModel == this.parent.currentOponentModel) {
-          this._tilesToDestroy.push(tile);
-          addedRows++;
-          if (addedRows > this._rowsToCAtk) break;
-        } else {
+          if(!this._excludeTiles.includes(tile.tileModel.tileName)){
+            this._tilesToDestroy.push(tile);
+            addedRows++;
+            if (addedRows > this._rowsToCAtk) break;
+        }} else {
           col.rstp = row;
         }
       }
