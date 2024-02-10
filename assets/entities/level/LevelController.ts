@@ -57,7 +57,10 @@ export class LevelController extends Service {
   start() {
     this.model = this.getServiceOrThrow(LevelModel);
     this.levelConfiguration = this.getServiceOrThrow(LevelConfiguration);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 75de0e3a174b75736a9b21a310a0ff0a5446967b
     this.view.setController(this);
 
     this.updateData();
