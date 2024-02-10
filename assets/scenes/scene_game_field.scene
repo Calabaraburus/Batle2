@@ -14548,6 +14548,7 @@
     "instance": {
       "__id__": 651
     },
+    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
@@ -15476,7 +15477,9 @@
       "0",
       "target"
     ],
-    "value": null
+    "value": {
+      "__id__": 603
+    }
   },
   {
     "__type__": "cc.TargetInfo",
@@ -15506,7 +15509,7 @@
       "0",
       "handler"
     ],
-    "value": "loadScene"
+    "value": "settingMusic"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -15528,7 +15531,7 @@
       "0",
       "customEventData"
     ],
-    "value": "LvlScene"
+    "value": "0"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -15856,7 +15859,9 @@
       "0",
       "target"
     ],
-    "value": null
+    "value": {
+      "__id__": 603
+    }
   },
   {
     "__type__": "cc.TargetInfo",
@@ -15886,7 +15891,7 @@
       "0",
       "handler"
     ],
-    "value": "loadScene"
+    "value": "settingMusic"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -15908,7 +15913,7 @@
       "0",
       "customEventData"
     ],
-    "value": "LvlScene"
+    "value": "0.5"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -16236,7 +16241,9 @@
       "0",
       "target"
     ],
-    "value": null
+    "value": {
+      "__id__": 603
+    }
   },
   {
     "__type__": "cc.TargetInfo",
@@ -16266,7 +16273,7 @@
       "0",
       "handler"
     ],
-    "value": "loadScene"
+    "value": "settingMusic"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -16288,7 +16295,7 @@
       "0",
       "customEventData"
     ],
-    "value": "LvlScene"
+    "value": "1"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -16555,8 +16562,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.544,
-      "y": -5.806,
+      "x": 0,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
@@ -16603,8 +16610,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.927,
-      "y": -0.502,
+      "x": -0.928,
+      "y": -6.053,
       "z": 0
     },
     "_lrot": {
@@ -17179,7 +17186,9 @@
       "0",
       "target"
     ],
-    "value": null
+    "value": {
+      "__id__": 603
+    }
   },
   {
     "__type__": "cc.TargetInfo",
@@ -17209,7 +17218,7 @@
       "0",
       "handler"
     ],
-    "value": "loadScene"
+    "value": "settingSound"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -17231,7 +17240,7 @@
       "0",
       "customEventData"
     ],
-    "value": "LvlScene"
+    "value": "0"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -17559,7 +17568,9 @@
       "0",
       "target"
     ],
-    "value": null
+    "value": {
+      "__id__": 603
+    }
   },
   {
     "__type__": "cc.TargetInfo",
@@ -17589,7 +17600,7 @@
       "0",
       "handler"
     ],
-    "value": "loadScene"
+    "value": "settingSound"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -17611,7 +17622,7 @@
       "0",
       "customEventData"
     ],
-    "value": "LvlScene"
+    "value": "0.5"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -17939,7 +17950,9 @@
       "0",
       "target"
     ],
-    "value": null
+    "value": {
+      "__id__": 603
+    }
   },
   {
     "__type__": "cc.TargetInfo",
@@ -17969,7 +17982,7 @@
       "0",
       "handler"
     ],
-    "value": "loadScene"
+    "value": "settingSound"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -17991,7 +18004,7 @@
       "0",
       "customEventData"
     ],
-    "value": "LvlScene"
+    "value": "1"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -18259,7 +18272,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": -0.543,
-      "y": -6.89,
+      "y": 0,
       "z": 0
     },
     "_lrot": {
@@ -18306,8 +18319,8 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -0.927,
-      "y": -0.502,
+      "x": -0.928,
+      "y": -8.223,
       "z": 0
     },
     "_lrot": {
@@ -18659,6 +18672,34 @@
     "_enabled": true,
     "__prefab": null,
     "sections": [],
+    "soundCross": {
+      "__id__": 907
+    },
+    "musicCross": {
+      "__id__": 798
+    },
+    "soundBtns": [
+      {
+        "__id__": 811
+      },
+      {
+        "__id__": 842
+      },
+      {
+        "__id__": 873
+      }
+    ],
+    "musicBtns": [
+      {
+        "__id__": 702
+      },
+      {
+        "__id__": 733
+      },
+      {
+        "__id__": 764
+      }
+    ],
     "_id": "76c3Rx21ZEIL7a/eZL8FFP"
   },
   {
