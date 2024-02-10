@@ -4352,7 +4352,7 @@
       "r": 255,
       "g": 255,
       "b": 255,
-      "a": 95
+      "a": 0
     },
     "_spriteFrame": {
       "__uuid__": "ffb88a8f-af62-48f4-8f1d-3cb606443a43@f9941",
@@ -4736,7 +4736,7 @@
     "node": {
       "__id__": 148
     },
-    "_enabled": true,
+    "_enabled": false,
     "__prefab": null,
     "_alignFlags": 45,
     "_target": null,
@@ -12653,7 +12653,7 @@
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": null,
-    "_id": "7dvaFWiwJIfY6i1lXXQL41"
+    "_id": "3ezfIKR2tIJpszHhcHbsCW"
   },
   {
     "__type__": "cc.CompPrefabInfo",
