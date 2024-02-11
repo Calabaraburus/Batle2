@@ -64,13 +64,14 @@ export class CatapultTileController
   }
 
   rotateToEnemy(enemy: Node) {
-    const dir = enemy.position.clone().subtract(this.node.position).y;
-
+    // const dir = enemy.position.clone().subtract(this.node.position).y;
+    
     const foregroundNode = this.node.getChildByName("Foreground");
 
     if (foregroundNode == null) throw Error("Foreground node is null");
 
-    foregroundNode.angle = dir >= 0 ? 0 : 180;
+    foregroundNode.angle = this.playerModel == this._dataService?.playerModel ? 0 : 180;
+    
   }
 
   turnEnds(): void {

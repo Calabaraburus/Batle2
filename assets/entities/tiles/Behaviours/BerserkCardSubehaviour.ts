@@ -57,7 +57,9 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
     myPlayerTiles?.forEach((tile) => {
       const enemyTile = matrix.get(tile.row + enemySide, tile.col);
       if (enemyTile.playerModel == this.parent.currentOponentModel) {
-        myTiles.push(tile);
+        if(!tile.tileModel.specialTile){
+          myTiles.push(tile);
+        }
       }
     });
 
