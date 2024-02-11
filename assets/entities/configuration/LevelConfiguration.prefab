@@ -1558,7 +1558,7 @@
       "b": 53,
       "a": 255
     },
-    "specialTile": false,
+    "specialTile": true,
     "serviceTile": false,
     "tags": "#totem",
     "dangerRating": 5,
@@ -2223,7 +2223,7 @@
       "b": 53,
       "a": 255
     },
-    "specialTile": false,
+    "specialTile": true,
     "serviceTile": false,
     "tags": "#close_range",
     "dangerRating": 10,
@@ -2318,7 +2318,7 @@
       "b": 53,
       "a": 255
     },
-    "specialTile": false,
+    "specialTile": true,
     "serviceTile": false,
     "tags": "#catapult",
     "dangerRating": 10,
@@ -2413,7 +2413,7 @@
       "b": 53,
       "a": 255
     },
-    "specialTile": false,
+    "specialTile": true,
     "serviceTile": false,
     "tags": "#shaman",
     "dangerRating": 5,
@@ -2508,7 +2508,7 @@
       "b": 53,
       "a": 255
     },
-    "specialTile": false,
+    "specialTile": true,
     "serviceTile": false,
     "tags": "#berserk",
     "dangerRating": 10,
@@ -2603,7 +2603,7 @@
       "b": 53,
       "a": 255
     },
-    "specialTile": false,
+    "specialTile": true,
     "serviceTile": false,
     "tags": "#assassin #protect",
     "dangerRating": 10,
