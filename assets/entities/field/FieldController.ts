@@ -51,17 +51,6 @@ export class FieldController extends Service {
 
   /** Field model */
   // @property({ type: [FieldModel], visible: true, tooltip: "Field model" })
-<<<<<<< HEAD
-  private _fieldModel: FieldModel; //вот тут баг
-
-  public get fieldModel() {
-    return this._fieldModel;
-  }
-
-  public set fieldModel(value: FieldModel) {
-    //  this._fieldModel = this.fieldModel;
-  }
-=======
   _fieldModel: FieldModel;
 
   get fieldModel() {
@@ -71,7 +60,6 @@ export class FieldController extends Service {
   //set fieldModel(value) {
   //  this._fieldModel = value;
   //}
->>>>>>> 75de0e3a174b75736a9b21a310a0ff0a5446967b
 
   @property(UITransform)
   tilesArea: UITransform;
@@ -104,10 +92,6 @@ export class FieldController extends Service {
     this._dataService = this.getServiceOrThrow(DataService);
     this._tileCreator = this.getServiceOrThrow(TileCreator);
     this._fieldModel = this.getServiceOrThrow(FieldModel);
-<<<<<<< HEAD
-=======
-
->>>>>>> 75de0e3a174b75736a9b21a310a0ff0a5446967b
     this._logicFieldController = new FieldLogicalController(
       this._fieldModel,
       this.tilesArea,
@@ -118,10 +102,6 @@ export class FieldController extends Service {
     this.logicField.onTileCreating = this.onTileCreating.bind(this);
   }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 75de0e3a174b75736a9b21a310a0ff0a5446967b
   private onTileCreating(tile: TileController) {
     tile.clickedEvent.off("TileController");
     tile.tileActivateEvent.off("TileController");
@@ -135,15 +115,9 @@ export class FieldController extends Service {
   public generateTiles() {
     console.log(
       "[FieldController] Rows: " +
-<<<<<<< HEAD
-        this._fieldModel.rows +
-        " Cols: " +
-        this._fieldModel.cols
-=======
       this._fieldModel.rows +
       " Cols: " +
       this._fieldModel.cols
->>>>>>> 75de0e3a174b75736a9b21a310a0ff0a5446967b
     );
 
     this._logicFieldController.generateTiles();
