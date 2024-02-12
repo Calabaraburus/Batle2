@@ -92,7 +92,6 @@ export class FieldController extends Service {
     this._dataService = this.getServiceOrThrow(DataService);
     this._tileCreator = this.getServiceOrThrow(TileCreator);
     this._fieldModel = this.getServiceOrThrow(FieldModel);
-
     this._logicFieldController = new FieldLogicalController(
       this._fieldModel,
       this.tilesArea,
@@ -102,7 +101,6 @@ export class FieldController extends Service {
 
     this.logicField.onTileCreating = this.onTileCreating.bind(this);
   }
-
 
   private onTileCreating(tile: TileController) {
     tile.clickedEvent.off("TileController");

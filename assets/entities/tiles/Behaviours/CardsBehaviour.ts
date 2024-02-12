@@ -50,6 +50,12 @@ import { TileController } from "../TileController";
 import { FieldControllerExtensions } from "../../field/FieldExtensions";
 import { Behaviour } from "../../behaviours/Behaviour";
 import { CardsSubBehaviour } from "./SubBehaviour";
+import { AssassinLowCardSubehaviour } from "./AssassinLowCardSubehaviour";
+import { BerserkLowCardSubehaviour } from "./BerserkLowCardSubehaviour";
+import { CatapultLowCardSubehaviour } from "./CatapultLowCardSubehaviour";
+import { ShamanLowCardSubehaviour } from "./ShamanLowCardSubehaviour";
+import { TotemLowCardSubehaviour } from "./TotemLowCardSubehaviour";
+import { MineLowCardSubehaviour } from "./MineLowCardSubehaviour";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
@@ -71,7 +77,7 @@ export class CardsBehaviour extends GameBehaviour {
     return this._startTilesP2;
   }
 
-  public applyCardsLogicOnly: boolean = false;
+  public applyCardsLogicOnly = false;
 
   constructor() {
     super();
@@ -98,9 +104,13 @@ export class CardsBehaviour extends GameBehaviour {
 
     this._cardsRunDict.set("shield", new ShieldCardSubehaviour(this));
     this._cardsRunDict.set("totem", new TotemCardSubehaviour(this));
+    this._cardsRunDict.set("totemLow", new TotemLowCardSubehaviour(this));
 
     // Mine card
     this._cardsRunDict.set("mine", new MineCardSubehaviour(this));
+
+    // MineLow card
+    this._cardsRunDict.set("mineLow", new MineLowCardSubehaviour(this));
 
     // Bodyexchange card
     this._cardsRunDict.set(
@@ -140,11 +150,20 @@ export class CardsBehaviour extends GameBehaviour {
     // Catapult card
     this._cardsRunDict.set("catapult", new CatapultCardSubehaviour(this));
 
+    // CatapultLow card
+    this._cardsRunDict.set("catapultLow", new CatapultLowCardSubehaviour(this));
+
     // Assassin card
     this._cardsRunDict.set("assassin", new AssassinCardSubehaviour(this));
 
+    // Assassin Low card
+    this._cardsRunDict.set("assassinLow", new AssassinLowCardSubehaviour(this));
+
     // Shaman card
     this._cardsRunDict.set("shaman", new ShamanCardSubehaviour(this));
+
+    // ShamanLow card
+    this._cardsRunDict.set("shamanLow", new ShamanLowCardSubehaviour(this));
 
     // Panic card
     this._cardsRunDict.set("panic", new PanicCardSubehaviour(this));
@@ -166,6 +185,9 @@ export class CardsBehaviour extends GameBehaviour {
 
     // Berserk card
     this._cardsRunDict.set("berserk", new BerserkCardSubehaviour(this));
+
+    // BerserkLow card
+    this._cardsRunDict.set("berserkLow", new BerserkLowCardSubehaviour(this));
   }
 
   start() {
@@ -192,13 +214,13 @@ export class CardsBehaviour extends GameBehaviour {
 
       if (subBehave != undefined) {
         if (subBehave.prepare()) {
-          subBehave.run()
+          subBehave.run();
 
           if (this.applyCardsLogicOnly) {
             this.cancel();
           } else {
-
-            this.effectsManager.PlayEffect(() => subBehave.effect(), subBehave.effectDuration)
+            this.effectsManager
+              .PlayEffect(() => subBehave.effect(), subBehave.effectDuration)
               .PlayEffect(() => this.afterEffect(), 0.4);
 
             this.finalize();
@@ -284,8 +306,8 @@ export class CardsBehaviour extends GameBehaviour {
     model.unSetBonus();
   }
 
-
-  public Setup(objectsCache: ObjectsCache,
+  public Setup(
+    objectsCache: ObjectsCache,
     cardService: CardService,
     dataService: DataService,
     levelModel: LevelModel,
@@ -293,9 +315,10 @@ export class CardsBehaviour extends GameBehaviour {
     effectsService: EffectsService,
     effectsManager: EffectsManager,
     audioManager: AudioManagerService,
-    eotInvoker: EOTInvoker) {
-
-    super.Setup(objectsCache,
+    eotInvoker: EOTInvoker
+  ) {
+    super.Setup(
+      objectsCache,
       cardService,
       dataService,
       levelModel,
@@ -303,7 +326,8 @@ export class CardsBehaviour extends GameBehaviour {
       effectsService,
       effectsManager,
       audioManager,
-      eotInvoker);
+      eotInvoker
+    );
 
     if (dataService.field != null) {
       const fieldExt = new FieldControllerExtensions(dataService.field);

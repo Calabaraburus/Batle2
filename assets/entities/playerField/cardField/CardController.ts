@@ -27,7 +27,7 @@ export class CardController extends Service {
   private _toPos: Vec3;
   private _fromScale: Vec3;
   private _toScale: Vec3;
-  private _animMultiplier = 1.2;
+  private _animMultiplier = 1.12;
   private _animSift = 15;
   private _selected: boolean;
   private _maskPos: Vec3 = new Vec3();

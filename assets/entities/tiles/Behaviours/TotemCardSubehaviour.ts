@@ -14,6 +14,7 @@ import { CardsSubBehaviour } from "./SubBehaviour";
 export class TotemCardSubehaviour extends CardsSubBehaviour {
   private _tilesToTransform: TileController[] = [];
   private _cache: ObjectsCache | null;
+  protected lvlTile = "totem";
 
   prepare(): boolean {
     this.parent.debug?.log("[totem_card_sub] Start preparing.");
@@ -23,9 +24,7 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
     if (this.parent.cardService == null) return false;
 
     if (targetTile instanceof StdTileController) {
-      if (
-        targetTile.playerModel == this.parent.cardService.getOponentModel()
-      ) {
+      if (targetTile.playerModel == this.parent.cardService.getOponentModel()) {
         return false;
       }
     } else {
@@ -62,7 +61,7 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
   run(): boolean {
     this.parent.debug?.log("[totem_card_sub] Starting run.");
 
-    const model = this.parent.field?.fieldModel.getTileModel("totem");
+    const model = this.parent.field?.fieldModel.getTileModel(this.lvlTile);
 
     if (model == undefined) {
       this.parent.debug?.log(
@@ -79,7 +78,7 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
       if (pModel == undefined || pModel == null) {
         this.parent.debug?.log(
           "[totem_card_sub][error] CurrentPlayerModel is null or undefined." +
-          " return false."
+            " return false."
         );
         return false;
       }
