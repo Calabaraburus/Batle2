@@ -24,6 +24,9 @@ const { ccclass, property } = _decorator;
 
 @ccclass("MineTileController")
 export class MineTileController extends TileController {
+  @property(Number)
+  lvl = 2;
+
   private _cardService: CardService;
   private _effectsService: EffectsService;
   private _cache: ObjectsCache;
@@ -50,12 +53,24 @@ export class MineTileController extends TileController {
       Service.getService(AudioManagerService)?.playSoundEffect("mine_attack");
       this.destroyTile();
 
-      const coordTiles = [
-        [-1, 0],
-        [0, -1],
-        [1, 0],
-        [0, 1],
-      ];
+      let coordTiles: number[][];
+
+      if (this.lvl === 2) {
+        coordTiles = [
+          [-1, 0],
+          [0, -1],
+          [1, 0],
+          [0, 1],
+        ];
+      } else if (this.lvl === 1) {
+        coordTiles = [
+          [0, -1],
+          [0, 1],
+        ];
+      } else {
+        console.error("Неподдерживаемый уровень (lvl):", this.lvl);
+        coordTiles = [];
+      }
 
       coordTiles.forEach((coords) => {
         const tile = this.fieldController.fieldMatrix.get(

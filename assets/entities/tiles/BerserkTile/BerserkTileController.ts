@@ -32,7 +32,8 @@ const { ccclass, property } = _decorator;
 @ccclass("BerserkTileController")
 export class AssassinTileController
   extends TileController
-  implements IAttackable {
+  implements IAttackable
+{
   private _cardService: CardService;
   private _state: TileState;
   private _attacksCountToDestroy: number;
@@ -163,7 +164,9 @@ export class AssassinTileController
     //   });
     // });
 
-    animator.delay(0.2).call(() => this._fieldViewController.moveTilesAnimate());
+    animator
+      .delay(0.2)
+      .call(() => this._fieldViewController.moveTilesAnimate());
     // .delay(0.5)
     // .call(() => effects.forEach((e) => e.stopEmmit()))
     // .delay(5)

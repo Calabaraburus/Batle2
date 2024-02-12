@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "ShamanTilePrefab",
+    "_name": "ShamanLowTilePrefab",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ShamanTilePrefab",
+    "_name": "ShamanLowTilePrefab",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -456,7 +456,7 @@
     },
     "Speed": 0.3,
     "Acceleration": 3000,
-    "healLife": 5,
+    "healLife": 3,
     "_id": ""
   },
   {

@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "ShamanTilePrefab",
+    "_name": "TotemLowTilePrefab",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ShamanTilePrefab",
+    "_name": "TotemLowTilePrefab",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -145,7 +145,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "04KYxFjrhPs5BYPOCPMRAv"
+    "fileId": "43nVUYT/pHZIiQHgqZh2I9"
   },
   {
     "__type__": "cc.Sprite",
@@ -190,7 +190,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "55tn7XWj9NlY6GsRkR14vM"
+    "fileId": "d2l/aNMT1G+IpB44Q9by8c"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -200,7 +200,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "0aQiVgef9L56uDe9DTjWAF",
+    "fileId": "f9/J6XV0ZMibARGgy1Pd6+",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -281,7 +281,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "c9+xm5X9JJobyzW4e77tWE"
+    "fileId": "c27y1S+SJP8aEhcX8Z780h"
   },
   {
     "__type__": "cc.Sprite",
@@ -326,7 +326,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "7ed4QhjkpL96U6wjmrrgfJ"
+    "fileId": "2auto8qZ5Enri2Hdn/+Kf/"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -336,7 +336,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "e6G5/UwpRDrbWQoq+bjA5S",
+    "fileId": "44wJ+gqqxDR6VM5Yz6LFrY",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -438,12 +438,12 @@
       "__id__": 1
     },
     "component": "",
-    "_componentId": "29421bCJ4xJ7ZsRjdxMfmr2",
+    "_componentId": "b31f9JPQcZNtY62OMHqvAvI",
     "handler": "clicked",
     "customEventData": ""
   },
   {
-    "__type__": "29421bCJ4xJ7ZsRjdxMfmr2",
+    "__type__": "b31f9JPQcZNtY62OMHqvAvI",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -456,12 +456,16 @@
     },
     "Speed": 0.3,
     "Acceleration": 3000,
-    "healLife": 5,
+    "destroyPartycles": {
+      "__uuid__": "a28ccb9b-09e2-43e7-8132-da3a1d501d40",
+      "__expectedType__": "cc.Prefab"
+    },
+    "power": 2,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "0env6WWE9GBqbZIVFjECLN"
+    "fileId": "91bHLvF8BJVI05OVrhY6Lu"
   },
   {
     "__type__": "cc.PrefabInfo",

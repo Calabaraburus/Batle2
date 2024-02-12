@@ -68,7 +68,6 @@ export class LevelSelectorController extends Service {
 
     settingsLoader.gameConfiguration.levels.filter(l => l.lvlName != "lvl_arena").forEach(lvl => {
       this.configDict.set(lvl.lvlName, (config: LevelConfiguration) => {
-
         config.levelName = lvl.lvlName;
 
         const player = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
@@ -77,23 +76,30 @@ export class LevelSelectorController extends Service {
         assert(player != null);
         assert(bot != null);
 
-        this.loadPlayerState(config, lvl, settingsLoader.playerCurrentGameState, player);
+        this.loadPlayerState(
+          config,
+          lvl,
+          settingsLoader.playerCurrentGameState,
+          player
+        );
 
-        const bonuses: { name: string, price: number }[] = []
+        const bonuses: { name: string; price: number }[] = [];
 
         bonuses.length = 0;
-        lvl.botCards.forEach(c => bonuses.push({ name: c.mnemonic, price: Number(c.price) }));
+        lvl.botCards.forEach((c) =>
+          bonuses.push({ name: c.mnemonic, price: Number(c.price) })
+        );
 
         this.addBonuses(config, bot, bonuses);
 
         switch (lvl.endLevelBonus.toLowerCase()) {
-          case 'onecard':
+          case "onecard":
             this.setEndBonusCard(config, lvl.endLevelBonusParams[0]);
             break;
-          case 'twocards':
+          case "twocards":
             this.setEndBonusTwoCards(config, lvl.endLevelBonusParams);
             break;
-          case 'life':
+          case "life":
             this.setEndBonusLife(config, lvl.endLevelBonusParams[0]);
             break;
           default:
@@ -173,23 +179,28 @@ export class LevelSelectorController extends Service {
   private loadPlayerState(config: LevelConfiguration,
     lvlCfg: GameLevelCfgModel,
     playerState: PlayerCurrentGameState,
-    playerModel: PlayerModel) {
-
-    playerModel.life = lvlCfg.playerLife == '' ? playerState.life : Number(lvlCfg.playerLife);
+    playerModel: PlayerModel
+  ) {
+    playerModel.life =
+      lvlCfg.playerLife == "" ? playerState.life : Number(lvlCfg.playerLife);
     playerModel.lifeMax = playerModel.life;
 
-    playerModel.playerName = lvlCfg.playerHeroName == "" ? playerState.hero : lvlCfg.playerHeroName;
+    playerModel.playerName =
+      lvlCfg.playerHeroName == "" ? playerState.hero : lvlCfg.playerHeroName;
 
-    const bonuses: { name: string, price: number }[] = []
+    const bonuses: { name: string; price: number }[] = [];
 
     if (lvlCfg.playerCards.length > 0) {
-      lvlCfg.playerCards.forEach(c => bonuses.push({ name: c.mnemonic, price: Number(c.price) }));
+      lvlCfg.playerCards.forEach((c) =>
+        bonuses.push({ name: c.mnemonic, price: Number(c.price) })
+      );
     } else {
-      playerState.cards.forEach(c => bonuses.push({ name: c.mnemonic, price: Number(c.price) }));
+      playerState.cards.forEach((c) =>
+        bonuses.push({ name: c.mnemonic, price: Number(c.price) })
+      );
     }
 
     if (bonuses.length > 0) this.addBonuses(config, playerModel, bonuses);
-
   }
 
   setEndBonusCard(config: LevelConfiguration, cardParams: string) {
@@ -198,8 +209,8 @@ export class LevelSelectorController extends Service {
     );
 
     if (cardUpBonus) {
-      cardUpBonus.cardMnemonic = cardParams.split(':')[0];
-      cardUpBonus.cardPrice = Number(cardParams.split(':')[1]);
+      cardUpBonus.cardMnemonic = cardParams.split(":")[0];
+      cardUpBonus.cardPrice = Number(cardParams.split(":")[1]);
       config.endLevelBonuses.push(cardUpBonus);
     }
   }
@@ -210,11 +221,11 @@ export class LevelSelectorController extends Service {
     );
 
     if (cardsSelectorBonus) {
-      cardsSelectorBonus.cardOne = cardParams[0].split(':')[0];
-      cardsSelectorBonus.cardOnePrice = Number(cardParams[0].split(':')[1]);
+      cardsSelectorBonus.cardOne = cardParams[0].split(":")[0];
+      cardsSelectorBonus.cardOnePrice = Number(cardParams[0].split(":")[1]);
 
-      cardsSelectorBonus.cardTwo = cardParams[1].split(':')[0];
-      cardsSelectorBonus.cardTwoPrice = Number(cardParams[1].split(':')[1]);
+      cardsSelectorBonus.cardTwo = cardParams[1].split(":")[0];
+      cardsSelectorBonus.cardTwoPrice = Number(cardParams[1].split(":")[1]);
       config.endLevelBonuses.push(cardsSelectorBonus);
     }
   }
@@ -230,7 +241,11 @@ export class LevelSelectorController extends Service {
     }
   }
 
-  addBonuses(config: LevelConfiguration, playerModel: PlayerModel | null, bonusCards: { name: string, price: number }[]) {
+  addBonuses(
+    config: LevelConfiguration,
+    playerModel: PlayerModel | null,
+    bonusCards: { name: string; price: number }[]
+  ) {
     const bonuses = config.node
       .getChildByName("BonusModels")
       ?.getComponentsInChildren(BonusModel);
@@ -249,20 +264,19 @@ export class LevelSelectorController extends Service {
     });
 
     playerModel?.updateData();
-  };
+  }
 
   configPlayerStd({
     config,
     name,
     life = -1,
-    isBot = false
+    isBot = false,
   }: {
-    config: LevelConfiguration,
-    name: string,
-    life?: number,
-    isBot?: boolean
+    config: LevelConfiguration;
+    name: string;
+    life?: number;
+    isBot?: boolean;
   }) {
-
     if (isBot) {
       config.botHeroName = name;
     } else {

@@ -1,63 +1,159 @@
 import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
+import { TileModel } from "../../../models/TileModel";
+import { AudioManager } from "../../../soundsPlayer/AudioManager";
 import { TileController } from "../TileController";
 import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 
 export class ManeuverCardSubehaviour extends CardsSubBehaviour {
-  private _tilesToManuv: TileController[] | undefined = [];
-  private _tilesShufflePanic: TileController[] = [];
-  private _tilesPanicCopy: TileController[] = [];
+  private _tilesToManeuv: TileController[] = [];
   private _cache: ObjectsCache | null;
-  private countForEachSide = 2;
+  protected powerCard = 1;
+  private _targetTile: StdTileController;
+  private _soundEffect: AudioManager | null;
 
   prepare(): boolean {
-    if (this.parent.cardService == null) return false;
+    const maxCountForEachSide = this.powerCard;
+    this._targetTile = this.parent.target as StdTileController;
+
+    if (this._targetTile instanceof StdTileController) {
+      if (
+        this._targetTile.playerModel ==
+        this.parent.cardService.getOponentModel()
+      ) {
+        return false;
+      }
+    } else {
+      return false;
+    }
 
     this._cache = ObjectsCache.instance;
-    this.effectDurationValue = 1;
+    this._tilesToManeuv = [];
+    const tilesInRow:TileController[] = [];
+    // tilesInRow.push(this._targetTile);
 
-    this._tilesToManuv = this.parent.field?.fieldMatrix.filter((tile) => {
-      if (tile.tileModel.tileName != "berserk") {
-        return tile.playerModel == this.parent.currentPlayerModel;
+    this.parent.field?.fieldMatrix.forEachCol(
+      this._targetTile.col,
+      (tile, rowId) => {
+        if (tile.playerModel == this.parent.currentPlayerModel) {
+          if (
+            this._targetTile.row + maxCountForEachSide >= rowId &&
+            this._targetTile.row - maxCountForEachSide <= rowId
+          ) {
+            tilesInRow.push(tile);
+            // if(tile!=this._targetTile) {
+            //   this._tilesToManeuv.push(tile)
+            // }
+          }
+        }
       }
-    });
+    );
 
-    if (!this._tilesToManuv) return false;
-
-    this._tilesPanicCopy = this._tilesToManuv.slice();
-    this._tilesShufflePanic = [];
-
-    while (this._tilesPanicCopy.length > 0) {
-      this.shuffleArray();
-    }
+    tilesInRow.forEach((t) =>
+      this.parent.field?.fieldMatrix.forEachInRow(t.row, (tile, colId) => {
+        if (tile.playerModel == this.parent.currentPlayerModel) {
+          if (
+            t.col + maxCountForEachSide >= colId &&
+            t.col - maxCountForEachSide <= colId
+          ) {
+            this._tilesToManeuv.push(tile);
+          }
+        }
+      })
+    );
+    this._tilesToManeuv.forEach((t)=>{console.log(t.col)
+      console.log(t.row)}
+    )
+    
     return true;
-  }
-
-  private shuffleArray() {
-    const j = Math.floor(Math.random() * this._tilesPanicCopy.length);
-    this._tilesShufflePanic.push(this._tilesPanicCopy[j]);
-    this._tilesPanicCopy.splice(j, 1);
   }
 
   run(): boolean {
     this.parent.debug?.log("[maneuver_card_sub] Starting run.");
 
-    const matrix = this.parent.field?.fieldMatrix;
-    if (matrix == null) return false;
-    if (!this._tilesToManuv) return false;
+    const tModel = this._targetTile.tileModel;
 
-    for (let index = 0; index < this._tilesToManuv.length; index++) {
-      const tile: TileController = matrix?.get(
-        this._tilesToManuv[index].row,
-        this._tilesToManuv[index].col
-      );
-      const tileChange: TileController = matrix?.get(
-        this._tilesShufflePanic[index].row,
-        this._tilesShufflePanic[index].col
-      );
+    const tileList: TileModel[] = [];
 
-      this.parent.field?.exchangeTiles(tile, tileChange);
+    if (tModel == undefined) {
+      this.parent.debug?.log(
+        "[maneuver_card_sub][error] maneuver model is null. return false."
+      );
+      return false;
     }
+
+    const pModel = this.parent.cardService.getCurrentPlayerModel();
+
+    if (pModel == undefined || pModel == null) {
+      this.parent.debug?.log(
+        "[maneuver_card_sub][error] CurrentPlayerModel is null or undefined." +
+          " return false."
+      );
+      return false;
+    }
+    if(["r","y","p"].includes(tModel.tileName)){
+      const swordTile = this.parent.field?.fieldModel.getTileModel("r");
+      if (tModel != swordTile) tileList.push(swordTile);
+      const shieldTile = this.parent.field?.fieldModel.getTileModel("y");
+      if (tModel != shieldTile) tileList.push(shieldTile);
+      const bowTile = this.parent.field?.fieldModel.getTileModel("p");
+      if (tModel != bowTile) tileList.push(bowTile);}
+     
+    if (["b","g","k"].includes(tModel.tileName)) {
+      const swordBTile = this.parent.field?.fieldModel.getTileModel("b");
+      if (tModel != swordBTile) tileList.push(swordBTile);
+      const shielBdTile = this.parent.field?.fieldModel.getTileModel("g");
+      if (tModel != shielBdTile) tileList.push(shielBdTile);
+      const bowBTile = this.parent.field?.fieldModel.getTileModel("k");
+      if (tModel != bowBTile) tileList.push(bowBTile);
+    }
+
+    // if (tileList.length != 2) return false;
+
+    const coordFirst = [
+      [0, 1],
+      [1, 0],
+      [-1, 0],
+      [0, -1],
+    ];
+    const coordSecond = [
+      [-1, -1],
+      [1, 1],
+      [-1, 1],
+      [1, -1],
+    ];
+
+    this._tilesToManeuv.forEach((t) => {
+      coordFirst.forEach((c) => {
+
+        if (t.row == this._targetTile.row + c[0] && t.col == this._targetTile.col + c[1]) {
+          t.cacheDestroy();
+
+          this.parent.field?.createTile({
+            row: t.row,
+            col: t.col,
+            tileModel: tileList[0],
+            playerModel: pModel,
+            position: t.node.position,
+            putOnField: true,
+          });
+        }
+      });
+      coordSecond.forEach((c) => {
+        if (t.row == this._targetTile.row + c[0] && t.col == this._targetTile.col + c[1]) {
+          t.cacheDestroy();
+
+          this.parent.field?.createTile({
+            row: t.row,
+            col: t.col,
+            tileModel: tileList[1],
+            playerModel: pModel,
+            position: t.node.position,
+            putOnField: true,
+          });
+        }
+      });
+    });
 
     this.parent.debug?.log("[maneuver_card_sub] End run with true.");
     return true;
