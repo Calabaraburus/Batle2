@@ -143,9 +143,7 @@ export class LevelSelectorController extends Service {
   }
 
   getAvailableBonusesForArena(lvlConfig: LevelConfiguration, settingsLoader: SettingsLoader) {
-    const bonuses = lvlConfig.node
-      .getChildByName("BonusModels")
-      ?.getComponentsInChildren(BonusModel);
+    const bonuses = lvlConfig.bonuses;
 
     const gameCfg = settingsLoader.gameConfiguration;
     const curState = settingsLoader.playerCurrentGameState;
@@ -166,6 +164,9 @@ export class LevelSelectorController extends Service {
       const lvl = gameCfg.levels.find(v => v.lvlName == lvlName);
       if (lvl) {
         lvl.botCards.forEach(bc => {
+          addBonus(bc);
+        });
+        lvl.playerCards.forEach(bc => {
           addBonus(bc);
         });
       }
