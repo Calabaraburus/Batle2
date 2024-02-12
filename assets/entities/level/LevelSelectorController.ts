@@ -119,8 +119,8 @@ export class LevelSelectorController extends Service {
 
       assert(lvl != null);
 
-      const botHero = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
-      const playerHero = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true })
+      const playerHero = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
+      const botHero = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true })
 
       if (!playerHero) return;
       if (!botHero) return;
@@ -154,7 +154,7 @@ export class LevelSelectorController extends Service {
 
     const addBonus = (bc: GameCardCfgModel) => {
       if (!resultBonuses.has(bc.mnemonic)) {
-        const bonus = bonuses?.find(b => b.mnemonic = bc.mnemonic);
+        const bonus = bonuses?.find(b => b.mnemonic == bc.mnemonic);
         if (bonus) {
           resultBonuses.set(bc.mnemonic, bc);
         }
@@ -246,9 +246,7 @@ export class LevelSelectorController extends Service {
     playerModel: PlayerModel | null,
     bonusCards: { name: string; price: number }[]
   ) {
-    const bonuses = config.node
-      .getChildByName("BonusModels")
-      ?.getComponentsInChildren(BonusModel);
+    const bonuses = config.bonuses;
 
     if (playerModel) {
       playerModel.bonusesMetaData.length = 0;
@@ -310,7 +308,7 @@ export class LevelSelectorController extends Service {
   }
 
   selectBonuses(groupedBonuses: { close_range: GameCardCfgModel[], long_range: GameCardCfgModel[], protect: GameCardCfgModel[] }) {
-    const result = []
+    const result = [];
 
     let ar = groupedBonuses.close_range;
     result.push(ar[randomRangeInt(0, ar.length)]);
