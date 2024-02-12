@@ -28,12 +28,13 @@ import { SettingsLoader } from "../services/SettingsLoader";
 import { GameConfigurationModel } from "../game/GameConfiguration";
 import { GameLevelCfgModel } from "../game/GameLevelCfgModel";
 import { PlayerCurrentGameState } from "../services/PlayerCurrentGameState";
+import { GameCardCfgModel } from "../game/GameCardCfgModel";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
 export class LevelSelectorController extends Service {
   private _sceneLoader: SceneLoaderService;
-  private _bonusSorted: BonusModel[][];
+  //private _bonusSorted: BonusModel[][];
   configDict = new Map<string, (config: LevelConfiguration) => void>();
   private _settingsLoader: SettingsLoader;
 
@@ -65,14 +66,13 @@ export class LevelSelectorController extends Service {
 
     const settingsLoader = this.getServiceOrThrow(SettingsLoader);
 
-    settingsLoader.gameConfiguration.levels.forEach(lvl => {
+    settingsLoader.gameConfiguration.levels.filter(l => l.lvlName != "lvl_arena").forEach(lvl => {
       this.configDict.set(lvl.lvlName, (config: LevelConfiguration) => {
 
         config.levelName = lvl.lvlName;
 
         const player = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
         const bot = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true })
-
 
         assert(player != null);
         assert(bot != null);
@@ -105,30 +105,69 @@ export class LevelSelectorController extends Service {
     });
 
     // arena of 1st part
-    this.configDict.set("lvlrnd", (config) => {
-      const bonuses = config.node
-        .getChildByName("BonusModels")
-        ?.getComponentsInChildren(BonusModel);
+    this.configDict.set("lvl_arena", (config) => {
 
+      const cardCfgs = this.getAvailableBonusesForArena(config, settingsLoader);
 
-      const botHero = config.node
-        .getChildByName("HeroModels")!
-        .getChildByName("HeroBot")
-        ?.getComponent(PlayerModel);
+      const lvl = settingsLoader.gameConfiguration.levels.find(l => l.lvlName == "lvl_arena");
 
-      if (!bonuses) return;
+      assert(lvl != null);
+
+      const botHero = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
+      const playerHero = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true })
+
+      if (!playerHero) return;
       if (!botHero) return;
 
-      const bonusLevel = randomRangeInt(0, 3);
-      this._bonusSorted = [[], [], []];
-      this.filterBonuses(bonuses, bonusLevel);
+      const groupedBonuses = this.groupBonuses(config, cardCfgs);
 
-      //this.compliteBonuses(playerHero);
-      this.compliteBonuses(botHero);
+      let bonusList = this.selectBonuses(groupedBonuses).map(c => ({ name: c.mnemonic, price: Number(c.price) }));
 
-      config.botHeroName = "rnd_bot";
-      config.playerHeroName = "rnd_player";
+      this.addBonuses(config, botHero, bonusList);
+
+      bonusList = this.selectBonuses(groupedBonuses).map(c => ({ name: c.mnemonic, price: Number(c.price) }));
+
+      this.addBonuses(config, playerHero, bonusList);
+
+      // this.fillPlayerWithBonuses(playerHero, groupedBonuses);
+      // this.fillPlayerWithBonuses(botHero, groupedBonuses);
+
+      config.updateData();
     });
+  }
+
+  getAvailableBonusesForArena(lvlConfig: LevelConfiguration, settingsLoader: SettingsLoader) {
+    const bonuses = lvlConfig.node
+      .getChildByName("BonusModels")
+      ?.getComponentsInChildren(BonusModel);
+
+    const gameCfg = settingsLoader.gameConfiguration;
+    const curState = settingsLoader.playerCurrentGameState;
+
+    const resultBonuses = new Map<string, GameCardCfgModel>();
+
+    const addBonus = (bc: GameCardCfgModel) => {
+      if (!resultBonuses.has(bc.mnemonic)) {
+        const bonus = bonuses?.find(b => b.mnemonic = bc.mnemonic);
+        if (bonus) {
+          resultBonuses.set(bc.mnemonic, bc);
+        }
+
+      }
+    }
+
+    curState.finishedLevels.forEach(lvlName => {
+      const lvl = gameCfg.levels.find(v => v.lvlName == lvlName);
+      if (lvl) {
+        lvl.botCards.forEach(bc => {
+          addBonus(bc);
+        });
+      }
+    });
+
+    curState.cards.forEach(bc => addBonus(bc));
+
+    return Array.from(resultBonuses.values());
   }
 
   private loadPlayerState(config: LevelConfiguration,
@@ -230,10 +269,7 @@ export class LevelSelectorController extends Service {
       config.playerHeroName = name;
     }
 
-    const player = config.node
-      .getChildByName("HeroModels")!
-      .getChildByName(LevelSelectorController.titleCaseWord(name) + "Hero")
-      ?.getComponent(PlayerModel);
+    const player = this.findPlayerModel(config, name)
 
     if (player) {
       if (life > 0) {
@@ -247,32 +283,60 @@ export class LevelSelectorController extends Service {
     }
   }
 
+  findPlayerModel(config: LevelConfiguration, name: string) {
+    return config.node
+      .getChildByName("HeroModels")!
+      .getChildByName(LevelSelectorController.titleCaseWord(name) + "Hero")
+      ?.getComponent(PlayerModel);
+  }
+
   static titleCaseWord(word: string) {
     if (!word) return word;
     return word[0].toUpperCase() + word.substring(1);
   }
 
-  compliteBonuses(player: PlayerModel) {
-    this._bonusSorted.forEach((item) => {
-      player.bonuses.push(item[randomRangeInt(0, item.length)]);
-    });
+  selectBonuses(groupedBonuses: { close_range: GameCardCfgModel[], long_range: GameCardCfgModel[], protect: GameCardCfgModel[] }) {
+    const result = []
+
+    let ar = groupedBonuses.close_range;
+    result.push(ar[randomRangeInt(0, ar.length)]);
+
+    ar = groupedBonuses.long_range;
+    result.push(ar[randomRangeInt(0, ar.length)]);
+
+    ar = groupedBonuses.protect;
+    result.push(ar[randomRangeInt(0, ar.length)]);
+
+    return result;
   }
 
-  filterBonuses(bonuses: BonusModel[], bonusLevel: number) {
-    bonuses.forEach((value) => {
-      switch (value.activateType) {
-        case "close_range":
-          if (bonusLevel == value.bonusLevel) {
-            this._bonusSorted[0].push(value);
-          }
-          break;
-        case "long_range":
-          this._bonusSorted[1].push(value);
-          break;
-        case "protect":
-          this._bonusSorted[2].push(value);
-          break;
+  groupBonuses(config: LevelConfiguration, cards: GameCardCfgModel[]): { close_range: GameCardCfgModel[], long_range: GameCardCfgModel[], protect: GameCardCfgModel[] } {
+    const bonuses = config.node
+      .getChildByName("BonusModels")
+      ?.getComponentsInChildren(BonusModel);
+
+    const result: { close_range: GameCardCfgModel[], long_range: GameCardCfgModel[], protect: GameCardCfgModel[] } = { close_range: [], long_range: [], protect: [] };
+
+    cards.forEach((card) => {
+
+      const bonus = bonuses?.find(b => b.mnemonic == card.mnemonic);
+
+      if (bonus) {
+        switch (bonus.activateType) {
+          case "close_range":
+            result.close_range.push(card);
+            break;
+          case "long_range":
+            result.long_range.push(card);
+            break;
+          case "protect":
+            result.protect.push(card);
+            break;
+        }
       }
     });
+
+    return result;
   }
+
 }
