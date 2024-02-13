@@ -6500,7 +6500,7 @@
     ],
     "value": {
       "__type__": "cc.Vec3",
-      "x": 450.438,
+      "x": 450.63599999999997,
       "y": -3.7770000000000437,
       "z": 0
     }
@@ -12662,7 +12662,7 @@
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": null,
-    "_id": "43om1DaeFALLUtXdgIcA4x"
+    "_id": "dafwqlraxG1qwpW++pQH7Z"
   },
   {
     "__type__": "cc.CompPrefabInfo",
