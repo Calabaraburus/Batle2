@@ -20,6 +20,8 @@ export class GameConfigurator extends Service {
 
     reset() {
         this._settingsLoader.removeConfiguration();
+        this._settingsLoader.removePlayerCurrentGameState();
+        this.fillGrid();
     }
 
     fillGrid() {
