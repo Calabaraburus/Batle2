@@ -76,6 +76,7 @@ export class StartLevelWindow extends Service {
 
     showWindow(sender: any, lvlName: string) {
         if (this._isInit == false) {
+            this._isInit = true;
             this.start();
             this._wnd?.start();
         }
