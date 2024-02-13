@@ -65,10 +65,12 @@ export class SettingsLoader extends Service {
 
   public removeConfiguration() {
     sys.localStorage.removeItem("gameConfiguration");
+    this.loadGameConfiguration();
   }
 
   public removePlayerCurrentGameState() {
     sys.localStorage.removeItem("gameState");
+    this.loadPlayerCurrentGameState()
   }
 
   public saveParameters() {
