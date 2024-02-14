@@ -97,10 +97,10 @@ export class GameManager extends Service {
     .onTimeout(1100)
     .transitionTo("botTurn")
     .withAction(() => this.beforeBotTurn())
-    .withCondition(() => this._gameState.isPlayerTurn == true)
+    .withCondition(() => this._gameState.isPlayerTurn == true && !this.isGameEnded())
     .transitionTo("playerTurn")
     .withAction(() => this.beforePlayerTurn())
-    .withCondition(() => this._gameState.isPlayerTurn == false)
+    .withCondition(() => this._gameState.isPlayerTurn == false && !this.isGameEnded())
 
     .state("botTurn")
     .onEnter(() => this.startBotTurn())
@@ -173,6 +173,13 @@ export class GameManager extends Service {
 
     this._stateMachine = this._stateMachineConfig.start();
     this._stateMachine.handle("gameStartEvent");
+  }
+
+  isGameEnded() {
+    const playerModel = this.levelController.playerField.playerModel;
+    const enemyModel = this.levelController.enemyField.playerModel;
+
+    return !(playerModel.life > 0 && enemyModel.life > 0);
   }
 
   initGame(): void {
@@ -328,6 +335,7 @@ export class GameManager extends Service {
     }
 
     if (enemyModel.life <= 0) {
+      this.levelController.showWinView(true);
       //   this._menuSelector?.openSectionMenu(this, "RewardBlock");
     }
 

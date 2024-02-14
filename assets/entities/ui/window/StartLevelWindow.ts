@@ -56,6 +56,7 @@ export class StartLevelWindow extends Service {
     private _cardSprites: Sprite[] = [];
     private _levelSelector: LevelSelectorController;
     private _botCardModels: BonusModel[];
+    private _isInit = false;
 
     start(): void {
         this._settings = this.getServiceOrThrow(SettingsLoader);
@@ -74,6 +75,11 @@ export class StartLevelWindow extends Service {
     }
 
     showWindow(sender: any, lvlName: string) {
+        if (this._isInit == false) {
+            this._isInit = true;
+            this.start();
+            this._wnd?.start();
+        }
 
         this._levelName = lvlName;
         this._wndOverlay?.showWindow();

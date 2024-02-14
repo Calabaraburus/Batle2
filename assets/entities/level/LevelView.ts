@@ -52,7 +52,7 @@ export class LevelView extends Component implements ILevelView {
   pointsCountLbl: Label;
 
   /** Win block */
-  @property({ type: Window })
+  @property({ type: FinalWindow })
   finalWindow: FinalWindow;
 
   /** Object wich lock interctions with field */
