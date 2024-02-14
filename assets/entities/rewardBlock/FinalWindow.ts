@@ -159,7 +159,7 @@ export class FinalWindow extends Service {
   }
 
   private tryToUpdateBonus(sBonus: BonusModel) {
-    if (this.canUpdateCurStateData()) {
+    if (!this.canUpdateCurStateData()) {
       return false;
     }
 
@@ -176,7 +176,7 @@ export class FinalWindow extends Service {
   }
 
   private addLifeToCurrentState() {
-    if (this.canUpdateCurStateData()) {
+    if (!this.canUpdateCurStateData()) {
       return false;
     }
 
@@ -184,7 +184,7 @@ export class FinalWindow extends Service {
   }
 
   private addBonusToCurrentState(mnemonic: string, price: string) {
-    if (this.canUpdateCurStateData()) {
+    if (!this.canUpdateCurStateData()) {
       return false;
     }
 
@@ -316,6 +316,14 @@ export class FinalWindow extends Service {
     if (this.canUpdateCurStateData()) {
       this.closeBonusEvents();
       this._state.addLevel(this._config.levelName);
+      if (this._state.life == null) {
+        const cfgLvl = this._settingsLoader.gameConfiguration.levels.find(l => l.lvlName == this._config.levelName);
+
+        if (cfgLvl) {
+          this._state.life = Number(cfgLvl.playerLife);
+        }
+      }
+
       this._settingsLoader.saveGameState();
     }
 
