@@ -55,7 +55,7 @@ export class FinalWindow extends Service {
   //@property(Color)
   colorForEnables: math.Color = Color.WHITE;
 
-
+  private _isInit = false;
   private _config: LevelConfiguration;
   private _bonusOperations = new Map<{ new(): EndLevelBonusModel },
     {
@@ -150,6 +150,8 @@ export class FinalWindow extends Service {
     });
 
     this.initBonuses();
+
+    this._isInit = true;
   }
 
   canUpdateCurStateData() {
@@ -212,6 +214,11 @@ export class FinalWindow extends Service {
   }
 
   showWindow(win: boolean = true) {
+    if (this._isInit) {
+      this.start();
+      this._wnd?.start();
+    }
+
     this._overlayWnd?.showWindow();
 
     if (win) {
