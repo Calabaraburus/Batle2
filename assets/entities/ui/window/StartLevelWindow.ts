@@ -1,4 +1,12 @@
-import { Sprite, _decorator, Node, assert, RichText, Label, System, Prefab, instantiate, PageView, tween } from 'cc';
+import {
+    Sprite,
+    _decorator,
+    Node,
+    assert,
+    RichText,
+    Label,
+    System, Prefab, instantiate, PageView, tween
+} from 'cc';
 import { Service } from '../../services/Service';
 import { SettingsLoader } from '../../services/SettingsLoader';
 import { LevelConfiguration } from '../../configuration/LevelConfiguration';
@@ -11,9 +19,6 @@ import { t, init as i18n_init } from '../../../../extensions/i18n/assets/Languag
 import { Window } from './Window';
 import { preferencesProtocol } from '../../../../extensions/i18n/@types/editor/profile/public/interface';
 import { CardInfoPage } from './CardInfoPage';
-
-
-//import L from '../../../localization/i18n-node';
 
 const { ccclass, property } = _decorator;
 
@@ -49,10 +54,10 @@ export class StartLevelWindow extends Service {
 
     private _levelName: string;
     private _wndOverlay: OverlayWindow | null;
-    private _wnd: Window | null;
-    private _settings: SettingsLoader;
-    private _levelConfigModel: GameLevelCfgModel;
-    private _levelConfig: LevelConfiguration;
+    protected _wnd: Window | null;
+    protected _settings: SettingsLoader;
+    protected _levelConfigModel: GameLevelCfgModel;
+    protected _levelConfig: LevelConfiguration;
     private _cardSprites: Sprite[] = [];
     private _levelSelector: LevelSelectorController;
     private _botCardModels: BonusModel[];
@@ -63,7 +68,11 @@ export class StartLevelWindow extends Service {
         this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
         this._wndOverlay = this.getComponent(OverlayWindow);
         this._wnd = this.getComponent(Window);
-        this._levelSelector = this.getServiceOrThrow(LevelSelectorController);
+        const tmpSelector = this.getService(LevelSelectorController);
+
+        if (tmpSelector) {
+            this._levelSelector = tmpSelector;
+        }
 
         this._cardSprites.push(this.card1);
         this._cardSprites.push(this.card2);
@@ -90,6 +99,8 @@ export class StartLevelWindow extends Service {
 
         this.fillImageData();
         this.fillStrings();
+
+        this._wnd?.showContentGroup("default");
     }
 
     fillImageData() {
@@ -171,6 +182,4 @@ export class StartLevelWindow extends Service {
         this._levelSelector.loadLevel(this, this._levelName);
     }
 }
-
-
 

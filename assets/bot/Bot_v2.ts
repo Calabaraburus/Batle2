@@ -197,6 +197,7 @@ export class Bot_v2 extends Service implements IBot {
 
     this._cardStrategiesActivators.set("berserk", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
 
+    this._cardStrategiesActivators.set("assassinLow", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("assassin", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
 
     this._cardStrategiesActivators.set("maneuver", cm => new ManeuverCardAnalizator(cm, this, field, this._playerModel));

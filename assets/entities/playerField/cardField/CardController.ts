@@ -35,7 +35,6 @@ export class CardController extends Service {
   private _maskHeight = 200;
   private _levelModel: LevelModel | null;
   private _manager: WindowManager | null;
-  private _timerFlag: boolean;
 
   @property(Sprite)
   sprite: Sprite;
@@ -112,16 +111,19 @@ export class CardController extends Service {
   }
 
   onTouchStart() {
-    this.scheduleOnce(this.scheduleOpenWindow, 1);
+    this.scheduleOnce(this.scheduleOpenWindow, 0.5);
   }
 
   onTouchEnd() {
     this.unschedule(this.scheduleOpenWindow);
-    this._timerFlag = false;
+
+    if (!this._manager?.cardWindowIsOpened() && this._button?.interactable) {
+      this.selected = !this.selected;
+      this.node.emit("cardClicked", this, this.selected);
+    }
   }
 
   scheduleOpenWindow() {
-    this._timerFlag = true;
     this._manager?.showCardWindow(this.model);
   }
 
@@ -167,14 +169,6 @@ export class CardController extends Service {
     tpos = new Vec3(0, this._maskHeight * coef, 0);
 
     this.sprite.node.setPosition(tpos);
-  }
-
-  cardClick() {
-    if (this._timerFlag == false) {
-      this.selected = !this.selected;
-      this.getService(AudioManagerService)?.playSoundEffect("card");
-      this.node.emit("cardClicked", this, this.selected);
-    }
   }
 
   animateSelect() {

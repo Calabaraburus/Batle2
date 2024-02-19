@@ -112,7 +112,7 @@ export const languages = {
             description: "",
         },
         meteoriteLow: {
-            name: "",
+            name: "Метеорит (слабый)",
             description: "",
         },
         meteoriteMiddle: {
