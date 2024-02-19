@@ -92,6 +92,8 @@ export class LevelSelectorController extends Service {
 
         this.addBonuses(config, bot, bonuses);
 
+        config.endLevelBonuses = [];
+
         switch (lvl.endLevelBonus.toLowerCase()) {
           case "onecard":
             this.setEndBonusCard(config, lvl.endLevelBonusParams[0]);
@@ -201,7 +203,11 @@ export class LevelSelectorController extends Service {
       );
     }
 
-    if (bonuses.length > 0) this.addBonuses(config, playerModel, bonuses);
+    if (bonuses.length > 0) {
+      this.addBonuses(config, playerModel, bonuses);
+    } else {
+      playerModel.bonusesMetaData.length = 0;
+    }
   }
 
   setEndBonusCard(config: LevelConfiguration, cardParams: string) {

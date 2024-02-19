@@ -5,20 +5,42 @@ import { PlayerInfoWindow } from "./PlayerInfoWindow";
 import { CardInfoWindow } from "./CardInfoWindow";
 import { _decorator } from "cc";
 import { PlayerInfoService } from "./PlayerInfoService";
+import { StartLevelWindow } from "../ui/window/StartLevelWindow";
+import { SettingsLoader } from "../services/SettingsLoader";
+import { LevelConfiguration } from "../configuration/LevelConfiguration";
+import { InfoWindow } from "../ui/window/InfoWindow";
 const { ccclass, property } = _decorator;
 
 @ccclass("WindowManager")
 export class WindowManager extends Service {
-  public showPlayerWindow(playerModel: PlayerModel) {
-    const pWindow = this.getService(PlayerInfoWindow);
-    pWindow?.setPlayer(playerModel);
-    pWindow?.showWindow();
+  public showPlayerWindow() {
+    const wnd = this.getService(InfoWindow);
+    const config = this.getService(LevelConfiguration);
+
+    if (wnd && config) {
+      wnd.showWindow(this, config.levelName);
+    }
   }
 
   public showCardWindow(cardModel: BonusModel | undefined) {
-    const wnd = this.getService(CardInfoWindow);
+    const wnd = this.getService(InfoWindow);
+    const config = this.getService(LevelConfiguration);
+
     if (!cardModel) return;
-    wnd?.setCard(cardModel);
-    wnd?.showWindow();
+
+    if (wnd && config) {
+      wnd.showWindow(this, config.levelName);
+      wnd.showPlayerCardInfoByModel(cardModel);
+    }
+  }
+
+  public cardWindowIsOpened(): boolean {
+    const wnd = this.getService(InfoWindow);
+
+    if (wnd) {
+      return wnd.node.active
+    }
+
+    return false;
   }
 }
