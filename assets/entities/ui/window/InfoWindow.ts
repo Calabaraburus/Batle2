@@ -34,6 +34,10 @@ export class InfoWindow extends StartLevelWindow {
     private _playerCardSprites: Sprite[] = [];
     private _curState: PlayerCurrentGameState;
 
+    public get isOpened() {
+        return this._wnd ? this._wnd.isOpened : false;
+    }
+
     override start(): void {
         super.start();
 

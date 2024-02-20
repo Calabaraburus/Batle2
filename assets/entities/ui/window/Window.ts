@@ -10,6 +10,11 @@ export class Window extends Service {
     private _uiOpacity: UIOpacity;
     private _tweenObj: targetWndTweenObj;
     private _speed: number = 0.3;
+    private _isOpened: boolean = false;
+
+    public get isOpened() {
+        return this._isOpened;
+    }
 
     private set origPos(value: Vec3) {
         this._origPos = value;
@@ -54,6 +59,7 @@ export class Window extends Service {
 
     public showWindow() {
         this.node.active = true;
+        this._isOpened = true;
 
         tween(this._tweenObj)
             .to(this._speed, { position: new Vec3(0, 0, 0), opacity: 255 }, { easing: "cubicIn" })
@@ -61,6 +67,7 @@ export class Window extends Service {
     }
 
     public hideWindow() {
+        this._isOpened = false;
 
         tween(this._tweenObj)
             .to(this._speed, { position: this.origPos, opacity: 0 }, { easing: "cubicOut" })
