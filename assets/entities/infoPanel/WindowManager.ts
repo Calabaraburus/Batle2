@@ -36,11 +36,6 @@ export class WindowManager extends Service {
 
   public cardWindowIsOpened(): boolean {
     const wnd = this.getService(InfoWindow);
-
-    if (wnd) {
-      return wnd.node.active
-    }
-
-    return false;
+    return wnd ? wnd.isOpened : false;
   }
 }
