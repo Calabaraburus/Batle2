@@ -49,6 +49,8 @@ export class FieldController extends Service {
   public readonly tileClickedEvent: EventTarget = new EventTarget();
   public readonly tileActivatedEvent: EventTarget = new EventTarget();
 
+  public readonly tilesMoveAnimationExecutes: EventTarget = new EventTarget();
+
   /** Field model */
   // @property({ type: [FieldModel], visible: true, tooltip: "Field model" })
   _fieldModel: FieldModel;
@@ -227,6 +229,8 @@ export class FieldController extends Service {
         this._logicFieldController.calculateTilePosition(t.row, t.col)
       );
     });
+
+    this.tilesMoveAnimationExecutes.emit("tilesMoveAnimation", this);
   }
 
   public analizeTiles() {
