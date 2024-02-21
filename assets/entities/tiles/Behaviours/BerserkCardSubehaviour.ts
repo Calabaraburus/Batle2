@@ -25,16 +25,6 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
       enemySide = -1;
     }
 
-    if (targetTile instanceof StdTileController) {
-      if (targetTile.playerModel == this.parent.cardService.getOponentModel()) {
-        return false;
-      }
-    } else {
-      return false;
-    }
-
-    if (targetTile.tileModel.specialTile) return false;
-
     const matrix = this.parent.field?.fieldMatrix;
     if (!matrix) return false;
 
@@ -57,7 +47,7 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
     myPlayerTiles?.forEach((tile) => {
       const enemyTile = matrix.get(tile.row + enemySide, tile.col);
       if (enemyTile.playerModel == this.parent.currentOponentModel) {
-        if(!tile.tileModel.specialTile){
+        if (!tile.tileModel.specialTile) {
           myTiles.push(tile);
         }
       }
@@ -102,7 +92,7 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
       if (pModel == undefined || pModel == null) {
         this.parent.debug?.log(
           "[berserk_card_sub][error] CurrentPlayerModel is null or undefined." +
-            " return false."
+          " return false."
         );
         return false;
       }
