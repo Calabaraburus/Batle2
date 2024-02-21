@@ -6654,62 +6654,62 @@
   {
     "__type__": "TileContollerListItem",
     "name": "totem",
-    "prefabTypeName": "TotemTileController"
+    "prefabTypeName": "p_TotemTilePrefab"
   },
   {
     "__type__": "TileContollerListItem",
     "name": "totemLow",
-    "prefabTypeName": "TotemTileController"
+    "prefabTypeName": "p_TotemLowTilePrefab"
   },
   {
     "__type__": "TileContollerListItem",
     "name": "mine",
-    "prefabTypeName": "MineTileController"
+    "prefabTypeName": "p_MineTilePrefab"
   },
   {
     "__type__": "TileContollerListItem",
     "name": "mineLow",
-    "prefabTypeName": "MineTileController"
+    "prefabTypeName": "p_MineLowTilePrefab"
   },
   {
     "__type__": "TileContollerListItem",
     "name": "catapult",
-    "prefabTypeName": "CatapultTileController"
+    "prefabTypeName": "p_CatapultTilePrefab"
   },
   {
     "__type__": "TileContollerListItem",
     "name": "catapultLow",
-    "prefabTypeName": "CatapultTileController"
+    "prefabTypeName": "p_CatapultLowTilePrefab"
   },
   {
     "__type__": "TileContollerListItem",
     "name": "shaman",
-    "prefabTypeName": "ShamanTileController"
+    "prefabTypeName": "p_ShamanTilePrefab"
   },
   {
     "__type__": "TileContollerListItem",
     "name": "shamanLow",
-    "prefabTypeName": "ShamanTileController"
+    "prefabTypeName": "p_ShamanLowTilePrefab"
   },
   {
     "__type__": "TileContollerListItem",
     "name": "berserk",
-    "prefabTypeName": "BerserkTileController"
+    "prefabTypeName": "p_BerserkTilePrefab"
   },
   {
     "__type__": "TileContollerListItem",
     "name": "berserkLow",
-    "prefabTypeName": "BerserkTileController"
+    "prefabTypeName": "p_BerserkLowTilePrefab"
   },
   {
     "__type__": "TileContollerListItem",
     "name": "assassin",
-    "prefabTypeName": "AssassinTileController"
+    "prefabTypeName": "p_AssassinTilePrefab"
   },
   {
     "__type__": "TileContollerListItem",
     "name": "assassinLow",
-    "prefabTypeName": "AssassinTileController"
+    "prefabTypeName": "p_AssassinLowTilePrefab"
   },
   {
     "__type__": "0f750KCHv5Dn767yBHbiZU5",
