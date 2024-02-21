@@ -3963,7 +3963,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "protect",
+    "activateType": "long_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -4053,7 +4053,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "close_range",
+    "activateType": "long_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -4596,7 +4596,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "protect",
+    "activateType": "long_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -4686,7 +4686,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "long_range",
+    "activateType": "protect",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -5414,7 +5414,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "protect",
+    "activateType": "long_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -5504,7 +5504,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "protect",
+    "activateType": "long_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -5594,7 +5594,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "protect",
+    "activateType": "long_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -6056,7 +6056,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "long_range",
+    "activateType": "protect",
     "bonusLevel": 0,
     "cardName": "maneuver",
     "cardDescription": "maneuver",
@@ -6150,7 +6150,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "long_range",
+    "activateType": "protect",
     "bonusLevel": 0,
     "cardName": "panic",
     "cardDescription": "panic",
@@ -6244,7 +6244,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "protect",
+    "activateType": "long_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -6424,7 +6424,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "protect",
+    "activateType": "long_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -6514,7 +6514,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "protect",
+    "activateType": "long_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -6604,7 +6604,7 @@
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "close_range",
+    "activateType": "long_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -8906,7 +8906,6 @@
       "__id__": 0
     },
     "fileId": "deTxFyHoRAKZEAxEpY12sc",
-    "instance": null,
     "targetOverrides": null
   }
 ]
