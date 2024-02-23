@@ -175,16 +175,20 @@ export class Bot_v2 extends Service implements IBot {
     this._cardStrategiesActivators.set("lightningLow", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("lightningMiddle", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
 
+    this._cardStrategiesActivators.set("totemLow", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("totem", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
 
+    this._cardStrategiesActivators.set("mineLow", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("mine", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
 
     this._cardStrategiesActivators.set("meteorite", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("meteoriteLow", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("meteoriteMiddle", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
 
+    this._cardStrategiesActivators.set("catapultLow", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("catapult", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
 
+    this._cardStrategiesActivators.set("shamanLow", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("shaman", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
 
     this._cardStrategiesActivators.set("worm", cm => new PerdefinedScoreRandomCardAnalizator(cm, this, field, this._playerModel));
@@ -195,6 +199,7 @@ export class Bot_v2 extends Service implements IBot {
     this._cardStrategiesActivators.set("pikeLow", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("pikeMiddle", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
 
+    this._cardStrategiesActivators.set("berserkLow", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("berserk", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
 
     this._cardStrategiesActivators.set("assassinLow", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
