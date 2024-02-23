@@ -25,26 +25,26 @@
         "__id__": 6
       },
       {
-        "__id__": 150
+        "__id__": 154
       },
       {
         "__id__": 9
       },
       {
-        "__id__": 296
+        "__id__": 300
       },
       {
-        "__id__": 374
+        "__id__": 378
       }
     ],
     "_active": true,
     "_components": [
       {
-        "__id__": 388
+        "__id__": 392
       }
     ],
     "_prefab": {
-      "__id__": 390
+      "__id__": 394
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -178,7 +178,7 @@
       }
     ],
     "_prefab": {
-      "__id__": 149
+      "__id__": 153
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -236,18 +236,6 @@
     },
     "mnemMapping": [
       {
-        "__id__": 139
-      },
-      {
-        "__id__": 140
-      },
-      {
-        "__id__": 141
-      },
-      {
-        "__id__": 142
-      },
-      {
         "__id__": 143
       },
       {
@@ -264,6 +252,18 @@
       },
       {
         "__id__": 148
+      },
+      {
+        "__id__": 149
+      },
+      {
+        "__id__": 150
+      },
+      {
+        "__id__": 151
+      },
+      {
+        "__id__": 152
       }
     ],
     "_id": ""
@@ -358,12 +358,15 @@
       },
       {
         "__id__": 134
+      },
+      {
+        "__id__": 138
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 138
+      "__id__": 142
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -3118,6 +3121,101 @@
     "nestedPrefabInstanceRoots": null
   },
   {
+    "__type__": "cc.Node",
+    "_name": "WallTileModel",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "_parent": {
+      "__id__": 9
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 139
+      }
+    ],
+    "_prefab": {
+      "__id__": 141
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_mobility": 0,
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "5fa47lPAh1CwbBunE+2EH8i",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 138
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 140
+    },
+    "tileName": "wall",
+    "sprite": {
+      "__uuid__": "90863228-6cf7-483b-b360-0a64863d767c@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
+    "starColor": {
+      "__type__": "cc.Color",
+      "r": 53,
+      "g": 255,
+      "b": 53,
+      "a": 255
+    },
+    "specialTile": false,
+    "serviceTile": false,
+    "tags": "#wall",
+    "dangerRating": 5,
+    "additionalSprites": [],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "1bqAS2ZTVBZKpoLN7j57TL"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "acXPjOLztJooHIdiifuleL",
+    "instance": null,
+    "targetOverrides": null,
+    "nestedPrefabInstanceRoots": null
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -3202,9 +3300,6 @@
       "__id__": 1
     },
     "_children": [
-      {
-        "__id__": 151
-      },
       {
         "__id__": 155
       },
@@ -3309,12 +3404,15 @@
       },
       {
         "__id__": 291
+      },
+      {
+        "__id__": 295
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 295
+      "__id__": 299
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -3351,99 +3449,7 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 152
-      }
-    ],
-    "_prefab": {
       "__id__": 154
-    },
-    "_lpos": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_lrot": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_lscale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_mobility": 0,
-    "_layer": 1073741824,
-    "_euler": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "5b0dbQutWdGy6MCu08vCAc2",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 151
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 153
-    },
-    "mnemonic": "firewall",
-    "baseCardMnemonic": "firewall",
-    "priceToActivate": 5,
-    "sprite": {
-      "__uuid__": "47a336f9-964f-4d25-82f7-d49383eaff41@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
-    "unactiveSprite": null,
-    "activateType": "close_range",
-    "bonusLevel": 5,
-    "cardName": "FIREWALL",
-    "cardDescription": "damage 5 tiles",
-    "cardImage": null,
-    "cardImageForExample": null,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "efAjQA+5xHaLkBog9172Jt"
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__id__": 0
-    },
-    "fileId": "c8pQf8c7xLfotkmCvKZQu8",
-    "instance": null,
-    "targetOverrides": null,
-    "nestedPrefabInstanceRoots": null
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "FirewallLowBonus",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "_parent": {
-      "__id__": 150
     },
     "_children": [],
     "_active": true,
@@ -3496,17 +3502,17 @@
     "__prefab": {
       "__id__": 157
     },
-    "mnemonic": "firewallLow",
+    "mnemonic": "firewall",
     "baseCardMnemonic": "firewall",
-    "priceToActivate": 3,
+    "priceToActivate": 5,
     "sprite": {
       "__uuid__": "47a336f9-964f-4d25-82f7-d49383eaff41@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 0,
-    "cardName": "FIREWALL Low",
+    "bonusLevel": 5,
+    "cardName": "FIREWALL",
     "cardDescription": "damage 5 tiles",
     "cardImage": null,
     "cardImageForExample": null,
@@ -3514,7 +3520,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "5fg6viC/pNU5PMZtEKmrC7"
+    "fileId": "efAjQA+5xHaLkBog9172Jt"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3524,18 +3530,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "f6bGQuOeRDV4qIdEmCQvxz",
+    "fileId": "c8pQf8c7xLfotkmCvKZQu8",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "FirewallMiddleBonus",
+    "_name": "FirewallLowBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -3588,17 +3594,17 @@
     "__prefab": {
       "__id__": 161
     },
-    "mnemonic": "firewallMiddle",
+    "mnemonic": "firewallLow",
     "baseCardMnemonic": "firewall",
-    "priceToActivate": 4,
+    "priceToActivate": 3,
     "sprite": {
       "__uuid__": "47a336f9-964f-4d25-82f7-d49383eaff41@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 1,
-    "cardName": "FIREWALL Middle",
+    "bonusLevel": 0,
+    "cardName": "FIREWALL Low",
     "cardDescription": "damage 5 tiles",
     "cardImage": null,
     "cardImageForExample": null,
@@ -3606,7 +3612,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "fdrF1wxC5Crad/NJYMB4Ob"
+    "fileId": "5fg6viC/pNU5PMZtEKmrC7"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3616,18 +3622,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "cdRHqWVx9JOLyMkRE6kyCa",
+    "fileId": "f6bGQuOeRDV4qIdEmCQvxz",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "LightningBonus",
+    "_name": "FirewallMiddleBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -3680,25 +3686,25 @@
     "__prefab": {
       "__id__": 165
     },
-    "mnemonic": "lightning",
-    "baseCardMnemonic": "lightning",
-    "priceToActivate": 5,
+    "mnemonic": "firewallMiddle",
+    "baseCardMnemonic": "firewall",
+    "priceToActivate": 4,
     "sprite": {
-      "__uuid__": "61755c71-c9ed-4b90-88a0-352b7a0db4d0@f9941",
+      "__uuid__": "47a336f9-964f-4d25-82f7-d49383eaff41@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 2,
-    "cardName": "Lightning",
-    "cardDescription": "damage random enemy tiles",
+    "bonusLevel": 1,
+    "cardName": "FIREWALL Middle",
+    "cardDescription": "damage 5 tiles",
     "cardImage": null,
     "cardImageForExample": null,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "1bF8c3bmVP5Ylr/xGe1dyX"
+    "fileId": "fdrF1wxC5Crad/NJYMB4Ob"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3708,18 +3714,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "95ycn9fhROtLsYe6an5Sya",
+    "fileId": "cdRHqWVx9JOLyMkRE6kyCa",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "LightningLowBonus",
+    "_name": "LightningBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -3772,17 +3778,17 @@
     "__prefab": {
       "__id__": 169
     },
-    "mnemonic": "lightningLow",
+    "mnemonic": "lightning",
     "baseCardMnemonic": "lightning",
-    "priceToActivate": 3,
+    "priceToActivate": 5,
     "sprite": {
       "__uuid__": "61755c71-c9ed-4b90-88a0-352b7a0db4d0@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 0,
-    "cardName": "Lightning low",
+    "bonusLevel": 2,
+    "cardName": "Lightning",
     "cardDescription": "damage random enemy tiles",
     "cardImage": null,
     "cardImageForExample": null,
@@ -3790,7 +3796,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "dcReItRaVIpKxlU+HyGDin"
+    "fileId": "1bF8c3bmVP5Ylr/xGe1dyX"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3800,18 +3806,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "cbhG3nEm5Fz7Hz57cJhvGA",
+    "fileId": "95ycn9fhROtLsYe6an5Sya",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "LightningMiddleBonus",
+    "_name": "LightningLowBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -3864,24 +3870,25 @@
     "__prefab": {
       "__id__": 173
     },
-    "mnemonic": "lightningMiddle",
+    "mnemonic": "lightningLow",
     "baseCardMnemonic": "lightning",
-    "priceToActivate": 4,
+    "priceToActivate": 3,
     "sprite": {
       "__uuid__": "61755c71-c9ed-4b90-88a0-352b7a0db4d0@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 1,
-    "cardName": "Lightning middle",
+    "bonusLevel": 0,
+    "cardName": "Lightning low",
     "cardDescription": "damage random enemy tiles",
     "cardImage": null,
+    "cardImageForExample": null,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "88HviD+3dFopCDuHmw0EsK"
+    "fileId": "dcReItRaVIpKxlU+HyGDin"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3891,18 +3898,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "e8cgtbDXRFx5Xq4pwKi8LK",
+    "fileId": "cbhG3nEm5Fz7Hz57cJhvGA",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "TotemBonus",
+    "_name": "LightningMiddleBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -3955,23 +3962,24 @@
     "__prefab": {
       "__id__": 177
     },
-    "mnemonic": "totem",
-    "baseCardMnemonic": "totem",
-    "priceToActivate": 3,
+    "mnemonic": "lightningMiddle",
+    "baseCardMnemonic": "lightning",
+    "priceToActivate": 4,
     "sprite": {
-      "__uuid__": "2effe673-3d13-43e0-ba6b-9a07c51c5104@f9941",
+      "__uuid__": "61755c71-c9ed-4b90-88a0-352b7a0db4d0@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "long_range",
-    "bonusLevel": 0,
-    "cardName": "",
-    "cardDescription": "",
+    "activateType": "close_range",
+    "bonusLevel": 1,
+    "cardName": "Lightning middle",
+    "cardDescription": "damage random enemy tiles",
+    "cardImage": null,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "2fIPHfJOJIcJrvIJu9Uv4b"
+    "fileId": "88HviD+3dFopCDuHmw0EsK"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -3981,18 +3989,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "824HpukmhJAJvPlRe8Sfzn",
+    "fileId": "e8cgtbDXRFx5Xq4pwKi8LK",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "MineBonus",
+    "_name": "TotemBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -4045,11 +4053,11 @@
     "__prefab": {
       "__id__": 181
     },
-    "mnemonic": "mine",
-    "baseCardMnemonic": "mine",
+    "mnemonic": "totem",
+    "baseCardMnemonic": "totem",
     "priceToActivate": 3,
     "sprite": {
-      "__uuid__": "be1bbb52-2a33-4805-94f2-122c1ae54c7f@f9941",
+      "__uuid__": "2effe673-3d13-43e0-ba6b-9a07c51c5104@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
@@ -4061,7 +4069,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "c0iC4LAdhDtK1q/rDcemm2"
+    "fileId": "2fIPHfJOJIcJrvIJu9Uv4b"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4071,18 +4079,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "5aKKDmMc9JtazFjr2Xga7q",
+    "fileId": "824HpukmhJAJvPlRe8Sfzn",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "MeteoriteBonus",
+    "_name": "MineBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -4135,15 +4143,15 @@
     "__prefab": {
       "__id__": 185
     },
-    "mnemonic": "meteorite",
-    "baseCardMnemonic": "meteorite",
-    "priceToActivate": 5,
+    "mnemonic": "mine",
+    "baseCardMnemonic": "mine",
+    "priceToActivate": 3,
     "sprite": {
-      "__uuid__": "3accd48c-9a1d-45fe-aaae-390c41cca1b0@f9941",
+      "__uuid__": "be1bbb52-2a33-4805-94f2-122c1ae54c7f@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "close_range",
+    "activateType": "long_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -4151,7 +4159,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "c2IAPs6R5BwL4ya1wwxzyo"
+    "fileId": "c0iC4LAdhDtK1q/rDcemm2"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4161,18 +4169,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "7fejSFEWRJF5pNoWBY0UNF",
+    "fileId": "5aKKDmMc9JtazFjr2Xga7q",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "MeteoriteLowBonus",
+    "_name": "MeteoriteBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -4225,9 +4233,9 @@
     "__prefab": {
       "__id__": 189
     },
-    "mnemonic": "meteoriteLow",
+    "mnemonic": "meteorite",
     "baseCardMnemonic": "meteorite",
-    "priceToActivate": 2,
+    "priceToActivate": 5,
     "sprite": {
       "__uuid__": "3accd48c-9a1d-45fe-aaae-390c41cca1b0@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -4241,7 +4249,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "f7rIyGjxNJVJLawVlBNM/f"
+    "fileId": "c2IAPs6R5BwL4ya1wwxzyo"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4251,18 +4259,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "43S+rDwFpCtqT1nBZq1rsB",
+    "fileId": "7fejSFEWRJF5pNoWBY0UNF",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "MeteoriteMiddleBonus",
+    "_name": "MeteoriteLowBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -4315,9 +4323,9 @@
     "__prefab": {
       "__id__": 193
     },
-    "mnemonic": "meteoriteMiddle",
+    "mnemonic": "meteoriteLow",
     "baseCardMnemonic": "meteorite",
-    "priceToActivate": 4,
+    "priceToActivate": 2,
     "sprite": {
       "__uuid__": "3accd48c-9a1d-45fe-aaae-390c41cca1b0@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -4331,7 +4339,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "d09v5Iy11Jg6N8a/87N/tK"
+    "fileId": "f7rIyGjxNJVJLawVlBNM/f"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4341,18 +4349,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "23UytB7GVFj7dNDAC8M2aL",
+    "fileId": "43S+rDwFpCtqT1nBZq1rsB",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "RecruitBonus",
+    "_name": "MeteoriteMiddleBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -4405,17 +4413,14 @@
     "__prefab": {
       "__id__": 197
     },
-    "mnemonic": "recruit",
-    "baseCardMnemonic": "recruit",
-    "priceToActivate": 1,
+    "mnemonic": "meteoriteMiddle",
+    "baseCardMnemonic": "meteorite",
+    "priceToActivate": 4,
     "sprite": {
-      "__uuid__": "fb25ff90-f7ad-45c7-8d90-216387f8466a@f9941",
+      "__uuid__": "3accd48c-9a1d-45fe-aaae-390c41cca1b0@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "unactiveSprite": {
-      "__uuid__": "dea9b166-8c03-4e6b-b675-97e470e2e0a3@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "unactiveSprite": null,
     "activateType": "close_range",
     "bonusLevel": 0,
     "cardName": "",
@@ -4424,7 +4429,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "86tndx+m1Ag5Yjv/m+F6Qb"
+    "fileId": "d09v5Iy11Jg6N8a/87N/tK"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4434,18 +4439,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "37BNjWIfJHb6VtdgNzhN/n",
+    "fileId": "23UytB7GVFj7dNDAC8M2aL",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "CatapultBonus",
+    "_name": "RecruitBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -4498,15 +4503,18 @@
     "__prefab": {
       "__id__": 201
     },
-    "mnemonic": "catapult",
-    "baseCardMnemonic": "catapult",
-    "priceToActivate": 3,
+    "mnemonic": "recruit",
+    "baseCardMnemonic": "recruit",
+    "priceToActivate": 1,
     "sprite": {
-      "__uuid__": "eb629c17-08f7-4bc8-9165-4f12cce9d932@f9941",
+      "__uuid__": "fb25ff90-f7ad-45c7-8d90-216387f8466a@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "unactiveSprite": null,
-    "activateType": "long_range",
+    "unactiveSprite": {
+      "__uuid__": "dea9b166-8c03-4e6b-b675-97e470e2e0a3@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
+    "activateType": "close_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -4514,7 +4522,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "1ajeAiZ25HtJnayWpP3X3N"
+    "fileId": "86tndx+m1Ag5Yjv/m+F6Qb"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4524,18 +4532,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "f1gk11UkpJHYuHeYzkGfio",
+    "fileId": "37BNjWIfJHb6VtdgNzhN/n",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "ShamanBonus",
+    "_name": "CatapultBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -4588,11 +4596,11 @@
     "__prefab": {
       "__id__": 205
     },
-    "mnemonic": "shaman",
-    "baseCardMnemonic": "shaman",
+    "mnemonic": "catapult",
+    "baseCardMnemonic": "catapult",
     "priceToActivate": 3,
     "sprite": {
-      "__uuid__": "0f0eddbb-3ba3-4248-b3c4-b71efeb37f53@f9941",
+      "__uuid__": "eb629c17-08f7-4bc8-9165-4f12cce9d932@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
@@ -4604,7 +4612,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "bbKtbb8UVGQa+UjjbkZQoG"
+    "fileId": "1ajeAiZ25HtJnayWpP3X3N"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4614,18 +4622,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "a62HkrJZdIbrkOs/BNVx9N",
+    "fileId": "f1gk11UkpJHYuHeYzkGfio",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "CounterattackBonus",
+    "_name": "ShamanBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -4678,15 +4686,15 @@
     "__prefab": {
       "__id__": 209
     },
-    "mnemonic": "c_attack",
-    "baseCardMnemonic": "c_attack",
+    "mnemonic": "shaman",
+    "baseCardMnemonic": "shaman",
     "priceToActivate": 3,
     "sprite": {
-      "__uuid__": "c02d328d-cc1c-4fe6-9003-36eee17ffd5b@f9941",
+      "__uuid__": "0f0eddbb-3ba3-4248-b3c4-b71efeb37f53@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "protect",
+    "activateType": "long_range",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -4694,7 +4702,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "3cJyEAszxOt4tFXniyffaa"
+    "fileId": "bbKtbb8UVGQa+UjjbkZQoG"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4704,18 +4712,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "cb6kCLZQROkqYXpF4v31zS",
+    "fileId": "a62HkrJZdIbrkOs/BNVx9N",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "WormBonus",
+    "_name": "CounterattackBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -4768,15 +4776,15 @@
     "__prefab": {
       "__id__": 213
     },
-    "mnemonic": "worm",
-    "baseCardMnemonic": "worm",
-    "priceToActivate": 5,
+    "mnemonic": "c_attack",
+    "baseCardMnemonic": "c_attack",
+    "priceToActivate": 3,
     "sprite": {
-      "__uuid__": "7b539b23-da79-401f-9eee-fee2f8bdcb8b@f9941",
+      "__uuid__": "c02d328d-cc1c-4fe6-9003-36eee17ffd5b@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "close_range",
+    "activateType": "protect",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -4784,7 +4792,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "c4XMDrI0NGypZmmcIbKCs1"
+    "fileId": "3cJyEAszxOt4tFXniyffaa"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4794,18 +4802,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "65zxFirP1Pr6PB7NJqsMoM",
+    "fileId": "cb6kCLZQROkqYXpF4v31zS",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "WormMiddleBonus",
+    "_name": "WormBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -4858,9 +4866,9 @@
     "__prefab": {
       "__id__": 217
     },
-    "mnemonic": "wormMiddle",
+    "mnemonic": "worm",
     "baseCardMnemonic": "worm",
-    "priceToActivate": 4,
+    "priceToActivate": 5,
     "sprite": {
       "__uuid__": "7b539b23-da79-401f-9eee-fee2f8bdcb8b@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -4874,7 +4882,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "2de/EIgaNMHo2NmU/JqJJ+"
+    "fileId": "c4XMDrI0NGypZmmcIbKCs1"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4884,18 +4892,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "ccBGDtdLZAGpsawO7bYVWw",
+    "fileId": "65zxFirP1Pr6PB7NJqsMoM",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "WormLowBonus",
+    "_name": "WormMiddleBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -4948,9 +4956,9 @@
     "__prefab": {
       "__id__": 221
     },
-    "mnemonic": "wormLow",
+    "mnemonic": "wormMiddle",
     "baseCardMnemonic": "worm",
-    "priceToActivate": 3,
+    "priceToActivate": 4,
     "sprite": {
       "__uuid__": "7b539b23-da79-401f-9eee-fee2f8bdcb8b@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -4964,7 +4972,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "7783kTeJtFvKp4LlgqPFI6"
+    "fileId": "2de/EIgaNMHo2NmU/JqJJ+"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -4974,18 +4982,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "c3/exqCh5Mh4LccIQ6VtxX",
+    "fileId": "ccBGDtdLZAGpsawO7bYVWw",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "PikeBonus",
+    "_name": "WormLowBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -5038,11 +5046,11 @@
     "__prefab": {
       "__id__": 225
     },
-    "mnemonic": "pike",
-    "baseCardMnemonic": "pike",
-    "priceToActivate": 5,
+    "mnemonic": "wormLow",
+    "baseCardMnemonic": "worm",
+    "priceToActivate": 3,
     "sprite": {
-      "__uuid__": "0ac74e49-299e-4004-a290-550a3b8f7ef7@f9941",
+      "__uuid__": "7b539b23-da79-401f-9eee-fee2f8bdcb8b@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
@@ -5054,7 +5062,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "4f5sx6IChMkLMIlVYiLAOD"
+    "fileId": "7783kTeJtFvKp4LlgqPFI6"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5064,18 +5072,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "112cCoi0FGUJzvf3ZG9LYa",
+    "fileId": "c3/exqCh5Mh4LccIQ6VtxX",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "PikeLowBonus",
+    "_name": "PikeBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -5128,9 +5136,9 @@
     "__prefab": {
       "__id__": 229
     },
-    "mnemonic": "pikeLow",
+    "mnemonic": "pike",
     "baseCardMnemonic": "pike",
-    "priceToActivate": 3,
+    "priceToActivate": 5,
     "sprite": {
       "__uuid__": "0ac74e49-299e-4004-a290-550a3b8f7ef7@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -5138,17 +5146,13 @@
     "unactiveSprite": null,
     "activateType": "close_range",
     "bonusLevel": 0,
-    "cardName": "pike low",
+    "cardName": "",
     "cardDescription": "",
-    "cardImage": {
-      "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "2c/12g6ohHxIHw0DZ+S5hv"
+    "fileId": "4f5sx6IChMkLMIlVYiLAOD"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5158,18 +5162,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "8ajSPEcEZOqpw+cxmw7uI0",
+    "fileId": "112cCoi0FGUJzvf3ZG9LYa",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "PikeMiddleBonus",
+    "_name": "PikeLowBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -5222,17 +5226,17 @@
     "__prefab": {
       "__id__": 233
     },
-    "mnemonic": "pikeMiddle",
+    "mnemonic": "pikeLow",
     "baseCardMnemonic": "pike",
-    "priceToActivate": 4,
+    "priceToActivate": 3,
     "sprite": {
       "__uuid__": "0ac74e49-299e-4004-a290-550a3b8f7ef7@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 1,
-    "cardName": "pike middle",
+    "bonusLevel": 0,
+    "cardName": "pike low",
     "cardDescription": "",
     "cardImage": {
       "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
@@ -5242,7 +5246,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "28U+GLIrxHIIaC+q6IbEPC"
+    "fileId": "2c/12g6ohHxIHw0DZ+S5hv"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5252,18 +5256,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "34ndcyeuxN+beUdipaNnFc",
+    "fileId": "8ajSPEcEZOqpw+cxmw7uI0",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "PushBonus",
+    "_name": "PikeMiddleBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -5316,23 +5320,27 @@
     "__prefab": {
       "__id__": 237
     },
-    "mnemonic": "push",
-    "baseCardMnemonic": "push",
+    "mnemonic": "pikeMiddle",
+    "baseCardMnemonic": "pike",
     "priceToActivate": 4,
     "sprite": {
-      "__uuid__": "3477b1b3-ca40-4b97-bb16-66e29c1ee44a@f9941",
+      "__uuid__": "0ac74e49-299e-4004-a290-550a3b8f7ef7@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "protect",
-    "bonusLevel": 0,
-    "cardName": "",
+    "activateType": "close_range",
+    "bonusLevel": 1,
+    "cardName": "pike middle",
     "cardDescription": "",
+    "cardImage": {
+      "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "b8wY0CP2tCg6iCkyqEL5Cj"
+    "fileId": "28U+GLIrxHIIaC+q6IbEPC"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5342,18 +5350,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "fcfgGbRe5EmZ79HtHh5FbH",
+    "fileId": "34ndcyeuxN+beUdipaNnFc",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "BerserkBonus",
+    "_name": "PushBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -5406,15 +5414,15 @@
     "__prefab": {
       "__id__": 241
     },
-    "mnemonic": "berserk",
-    "baseCardMnemonic": "berserk",
-    "priceToActivate": 3,
+    "mnemonic": "push",
+    "baseCardMnemonic": "push",
+    "priceToActivate": 4,
     "sprite": {
-      "__uuid__": "d0c4c938-82ea-44d4-b096-386c453e982e@f9941",
+      "__uuid__": "3477b1b3-ca40-4b97-bb16-66e29c1ee44a@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "long_range",
+    "activateType": "protect",
     "bonusLevel": 0,
     "cardName": "",
     "cardDescription": "",
@@ -5422,7 +5430,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "47wK9XSEBGKaeDIC5w2k8m"
+    "fileId": "b8wY0CP2tCg6iCkyqEL5Cj"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5432,18 +5440,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "b5vSL9yG1AtbuSEVJjyHat",
+    "fileId": "fcfgGbRe5EmZ79HtHh5FbH",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "AssassinBonus",
+    "_name": "BerserkBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -5496,11 +5504,11 @@
     "__prefab": {
       "__id__": 245
     },
-    "mnemonic": "assassin",
-    "baseCardMnemonic": "assassin",
+    "mnemonic": "berserk",
+    "baseCardMnemonic": "berserk",
     "priceToActivate": 3,
     "sprite": {
-      "__uuid__": "f99c9571-a295-4c37-afb6-4e11f2e30dd2@f9941",
+      "__uuid__": "d0c4c938-82ea-44d4-b096-386c453e982e@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
@@ -5512,7 +5520,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "8fCqxRPJFLsbeWRA2aVMz6"
+    "fileId": "47wK9XSEBGKaeDIC5w2k8m"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5522,18 +5530,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "41VPHmWsRPW5QUVOE11GB2",
+    "fileId": "b5vSL9yG1AtbuSEVJjyHat",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "AssassinLowBonus",
+    "_name": "AssassinBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -5586,9 +5594,9 @@
     "__prefab": {
       "__id__": 249
     },
-    "mnemonic": "assassinLow",
+    "mnemonic": "assassin",
     "baseCardMnemonic": "assassin",
-    "priceToActivate": 2,
+    "priceToActivate": 3,
     "sprite": {
       "__uuid__": "f99c9571-a295-4c37-afb6-4e11f2e30dd2@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -5602,7 +5610,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "0eMxeZTutG/pUjs6O/vUac"
+    "fileId": "8fCqxRPJFLsbeWRA2aVMz6"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5612,18 +5620,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "f7htKm6b1PxYyl4IxPRf6z",
+    "fileId": "41VPHmWsRPW5QUVOE11GB2",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "ShieldBonus",
+    "_name": "AssassinLowBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -5676,23 +5684,23 @@
     "__prefab": {
       "__id__": 253
     },
-    "mnemonic": "shield",
-    "baseCardMnemonic": "shield",
+    "mnemonic": "assassinLow",
+    "baseCardMnemonic": "assassin",
     "priceToActivate": 2,
     "sprite": {
-      "__uuid__": "3093488a-00f7-40b9-a972-cb8b120ca976@f9941",
+      "__uuid__": "f99c9571-a295-4c37-afb6-4e11f2e30dd2@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "protect",
+    "activateType": "long_range",
     "bonusLevel": 0,
-    "cardName": "shield",
-    "cardDescription": "shield",
+    "cardName": "",
+    "cardDescription": "",
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "acky3+q/ZBuJ9Mb0RV07dr"
+    "fileId": "0eMxeZTutG/pUjs6O/vUac"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5702,18 +5710,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "5dhnZCAppDf5Tz3t4mCt0C",
+    "fileId": "f7htKm6b1PxYyl4IxPRf6z",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "HammerBonus",
+    "_name": "ShieldBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -5766,27 +5774,23 @@
     "__prefab": {
       "__id__": 257
     },
-    "mnemonic": "hammer",
-    "baseCardMnemonic": "hammer",
-    "priceToActivate": 5,
+    "mnemonic": "shield",
+    "baseCardMnemonic": "shield",
+    "priceToActivate": 2,
     "sprite": {
-      "__uuid__": "71e91894-c789-4468-8d41-1b540b4d83c6@f9941",
+      "__uuid__": "3093488a-00f7-40b9-a972-cb8b120ca976@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "close_range",
-    "bonusLevel": 2,
-    "cardName": "hammer",
-    "cardDescription": "",
-    "cardImage": {
-      "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "activateType": "protect",
+    "bonusLevel": 0,
+    "cardName": "shield",
+    "cardDescription": "shield",
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "74rEu1y59P5ayt9lJzUxUR"
+    "fileId": "acky3+q/ZBuJ9Mb0RV07dr"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5796,18 +5800,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "3btSsIWCBPGJxDQ9KCyw1e",
+    "fileId": "5dhnZCAppDf5Tz3t4mCt0C",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "HammerLowBonus",
+    "_name": "HammerBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -5860,27 +5864,27 @@
     "__prefab": {
       "__id__": 261
     },
-    "mnemonic": "hammerLow",
+    "mnemonic": "hammer",
     "baseCardMnemonic": "hammer",
-    "priceToActivate": 3,
+    "priceToActivate": 5,
     "sprite": {
       "__uuid__": "71e91894-c789-4468-8d41-1b540b4d83c6@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 0,
-    "cardName": "hammer low",
+    "bonusLevel": 2,
+    "cardName": "hammer",
     "cardDescription": "",
     "cardImage": {
-      "__uuid__": "38f314e1-54d8-4b0f-91ac-b445030e7180@f9941",
+      "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "108qFPUsdEMKBeAKc/MIaO"
+    "fileId": "74rEu1y59P5ayt9lJzUxUR"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5890,18 +5894,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "95MuEuBNZMUK3RYKUxYMZz",
+    "fileId": "3btSsIWCBPGJxDQ9KCyw1e",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "HammerMiddleBonus",
+    "_name": "HammerLowBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -5954,27 +5958,27 @@
     "__prefab": {
       "__id__": 265
     },
-    "mnemonic": "hammerMiddle",
+    "mnemonic": "hammerLow",
     "baseCardMnemonic": "hammer",
-    "priceToActivate": 1,
+    "priceToActivate": 3,
     "sprite": {
       "__uuid__": "71e91894-c789-4468-8d41-1b540b4d83c6@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 1,
-    "cardName": "hammer middle",
+    "bonusLevel": 0,
+    "cardName": "hammer low",
     "cardDescription": "",
     "cardImage": {
-      "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
+      "__uuid__": "38f314e1-54d8-4b0f-91ac-b445030e7180@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "49ZjHtrjlJ6oa+jGYddzvt"
+    "fileId": "108qFPUsdEMKBeAKc/MIaO"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -5984,18 +5988,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "b2uuAIYr5CfahSkbfGrrv1",
+    "fileId": "95MuEuBNZMUK3RYKUxYMZz",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "ManeuverBonus",
+    "_name": "HammerMiddleBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -6048,27 +6052,27 @@
     "__prefab": {
       "__id__": 269
     },
-    "mnemonic": "maneuver",
-    "baseCardMnemonic": "maneuver",
-    "priceToActivate": 4,
+    "mnemonic": "hammerMiddle",
+    "baseCardMnemonic": "hammer",
+    "priceToActivate": 1,
     "sprite": {
-      "__uuid__": "3d93a725-b2b5-48db-84ad-f5038f91eee9@f9941",
+      "__uuid__": "71e91894-c789-4468-8d41-1b540b4d83c6@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "protect",
-    "bonusLevel": 0,
-    "cardName": "maneuver",
-    "cardDescription": "maneuver",
+    "activateType": "close_range",
+    "bonusLevel": 1,
+    "cardName": "hammer middle",
+    "cardDescription": "",
     "cardImage": {
-      "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
+      "__uuid__": "0b0de88f-b59c-4311-a0ef-d68f0c276f96@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "c2DvvAw2tIiq47ZO8wcjDF"
+    "fileId": "49ZjHtrjlJ6oa+jGYddzvt"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -6078,18 +6082,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "4bPjYM5QhPLbGVw+P+epde",
+    "fileId": "b2uuAIYr5CfahSkbfGrrv1",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "PanicBonus",
+    "_name": "ManeuverBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -6142,18 +6146,18 @@
     "__prefab": {
       "__id__": 273
     },
-    "mnemonic": "panic",
-    "baseCardMnemonic": "panic",
+    "mnemonic": "maneuver",
+    "baseCardMnemonic": "maneuver",
     "priceToActivate": 4,
     "sprite": {
-      "__uuid__": "b86800ef-0cd6-4a65-87b6-6d8d3bc4949f@f9941",
+      "__uuid__": "3d93a725-b2b5-48db-84ad-f5038f91eee9@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
     "activateType": "protect",
     "bonusLevel": 0,
-    "cardName": "panic",
-    "cardDescription": "panic",
+    "cardName": "maneuver",
+    "cardDescription": "maneuver",
     "cardImage": {
       "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -6162,7 +6166,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "fc9rJJvp9AirVITW7C08K2"
+    "fileId": "c2DvvAw2tIiq47ZO8wcjDF"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -6172,18 +6176,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "14ARxmlQxGerSwPK+W11GC",
+    "fileId": "4bPjYM5QhPLbGVw+P+epde",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "BerserkLowBonus",
+    "_name": "PanicBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -6236,23 +6240,27 @@
     "__prefab": {
       "__id__": 277
     },
-    "mnemonic": "berserkLow",
-    "baseCardMnemonic": "berserk",
-    "priceToActivate": 3,
+    "mnemonic": "panic",
+    "baseCardMnemonic": "panic",
+    "priceToActivate": 4,
     "sprite": {
-      "__uuid__": "d0c4c938-82ea-44d4-b096-386c453e982e@f9941",
+      "__uuid__": "b86800ef-0cd6-4a65-87b6-6d8d3bc4949f@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
-    "activateType": "long_range",
+    "activateType": "protect",
     "bonusLevel": 0,
-    "cardName": "",
-    "cardDescription": "",
+    "cardName": "panic",
+    "cardDescription": "panic",
+    "cardImage": {
+      "__uuid__": "8a81e170-dc79-4441-957f-641e7698a7c2@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "1dRyee3kpCZq5MdoAQQxgR"
+    "fileId": "fc9rJJvp9AirVITW7C08K2"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -6262,18 +6270,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "adpSXcxYJK4Lr+E50v+4Dt",
+    "fileId": "14ARxmlQxGerSwPK+W11GC",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "CatapultLowBonus",
+    "_name": "BerserkLowBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -6326,11 +6334,11 @@
     "__prefab": {
       "__id__": 281
     },
-    "mnemonic": "catapultLow",
-    "baseCardMnemonic": "catapult",
+    "mnemonic": "berserkLow",
+    "baseCardMnemonic": "berserk",
     "priceToActivate": 3,
     "sprite": {
-      "__uuid__": "eb629c17-08f7-4bc8-9165-4f12cce9d932@f9941",
+      "__uuid__": "d0c4c938-82ea-44d4-b096-386c453e982e@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
@@ -6342,7 +6350,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "48HaKfN6JE3JYYQ/94B/Cs"
+    "fileId": "1dRyee3kpCZq5MdoAQQxgR"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -6352,18 +6360,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "52JYUtr+tI/7NMFaFx7rlu",
+    "fileId": "adpSXcxYJK4Lr+E50v+4Dt",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "ShamanLowBonus",
+    "_name": "CatapultLowBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -6416,11 +6424,11 @@
     "__prefab": {
       "__id__": 285
     },
-    "mnemonic": "shamanLow",
-    "baseCardMnemonic": "shaman",
+    "mnemonic": "catapultLow",
+    "baseCardMnemonic": "catapult",
     "priceToActivate": 3,
     "sprite": {
-      "__uuid__": "0f0eddbb-3ba3-4248-b3c4-b71efeb37f53@f9941",
+      "__uuid__": "eb629c17-08f7-4bc8-9165-4f12cce9d932@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
@@ -6432,7 +6440,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "5dS6qFvOlF4oXgCBphpc45"
+    "fileId": "48HaKfN6JE3JYYQ/94B/Cs"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -6442,18 +6450,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "27wu5eQTRAvYoD/pcdaOK9",
+    "fileId": "52JYUtr+tI/7NMFaFx7rlu",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "TotemLowBonus",
+    "_name": "ShamanLowBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -6506,11 +6514,11 @@
     "__prefab": {
       "__id__": 289
     },
-    "mnemonic": "totemLow",
-    "baseCardMnemonic": "totem",
+    "mnemonic": "shamanLow",
+    "baseCardMnemonic": "shaman",
     "priceToActivate": 3,
     "sprite": {
-      "__uuid__": "2effe673-3d13-43e0-ba6b-9a07c51c5104@f9941",
+      "__uuid__": "0f0eddbb-3ba3-4248-b3c4-b71efeb37f53@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "unactiveSprite": null,
@@ -6522,7 +6530,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "64Z1d+eqJAN6aS6i3C+0x7"
+    "fileId": "5dS6qFvOlF4oXgCBphpc45"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -6532,18 +6540,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "f9Qh2S20hO0r9EKxEZqBji",
+    "fileId": "27wu5eQTRAvYoD/pcdaOK9",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "MineLowBonus",
+    "_name": "TotemLowBonus",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 150
+      "__id__": 154
     },
     "_children": [],
     "_active": true,
@@ -6595,6 +6603,96 @@
     "_enabled": true,
     "__prefab": {
       "__id__": 293
+    },
+    "mnemonic": "totemLow",
+    "baseCardMnemonic": "totem",
+    "priceToActivate": 3,
+    "sprite": {
+      "__uuid__": "2effe673-3d13-43e0-ba6b-9a07c51c5104@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
+    "unactiveSprite": null,
+    "activateType": "long_range",
+    "bonusLevel": 0,
+    "cardName": "",
+    "cardDescription": "",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "64Z1d+eqJAN6aS6i3C+0x7"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "f9Qh2S20hO0r9EKxEZqBji",
+    "instance": null,
+    "targetOverrides": null,
+    "nestedPrefabInstanceRoots": null
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "MineLowBonus",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "_parent": {
+      "__id__": 154
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 296
+      }
+    ],
+    "_prefab": {
+      "__id__": 298
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_mobility": 0,
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "5b0dbQutWdGy6MCu08vCAc2",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 295
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 297
     },
     "mnemonic": "mineLow",
     "baseCardMnemonic": "mine",
@@ -6650,9 +6748,6 @@
     },
     "_children": [
       {
-        "__id__": 297
-      },
-      {
         "__id__": 301
       },
       {
@@ -6705,12 +6800,15 @@
       },
       {
         "__id__": 369
+      },
+      {
+        "__id__": 373
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 373
+      "__id__": 377
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -6747,107 +6845,7 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 298
-      }
-    ],
-    "_prefab": {
       "__id__": 300
-    },
-    "_lpos": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_lrot": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_lscale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_mobility": 0,
-    "_layer": 1073741824,
-    "_euler": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "594d05G/pJANq7mmO91ILbf",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 297
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 299
-    },
-    "playerName": "bear",
-    "life": 75,
-    "lifeMax": 75,
-    "manaMax": 50,
-    "manaCurrent": 0,
-    "manaIncreaseCoeficient": 1,
-    "power": 5,
-    "heroImage": {
-      "__uuid__": "2cbc6520-71a5-45af-944e-6fb49788e600@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
-    "bonusesMetaData": [
-      {
-        "__id__": 212
-      },
-      {
-        "__id__": 200
-      },
-      {
-        "__id__": 252
-      }
-    ],
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "65HEcPu+JG06iUcbFUlfPJ"
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__id__": 0
-    },
-    "fileId": "e93+CpzBZMlKwbgbI3jyQ2",
-    "instance": null,
-    "targetOverrides": null,
-    "nestedPrefabInstanceRoots": null
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "LionHero",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "_parent": {
-      "__id__": 296
     },
     "_children": [],
     "_active": true,
@@ -6900,23 +6898,33 @@
     "__prefab": {
       "__id__": 303
     },
-    "playerName": "lion",
-    "life": 30,
-    "lifeMax": 30,
+    "playerName": "bear",
+    "life": 75,
+    "lifeMax": 75,
     "manaMax": 50,
     "manaCurrent": 0,
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "0d817397-2fcd-42af-9958-175ee3b69cd2@f9941",
+      "__uuid__": "2cbc6520-71a5-45af-944e-6fb49788e600@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "bonusesMetaData": [],
+    "bonusesMetaData": [
+      {
+        "__id__": 216
+      },
+      {
+        "__id__": 204
+      },
+      {
+        "__id__": 256
+      }
+    ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "348XbWg/9AVIHoR55C7pH8"
+    "fileId": "65HEcPu+JG06iUcbFUlfPJ"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -6926,18 +6934,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "91JKS7UcdFZJt/3c0UuZmv",
+    "fileId": "e93+CpzBZMlKwbgbI3jyQ2",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "RezkarHero",
+    "_name": "LionHero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -6990,7 +6998,7 @@
     "__prefab": {
       "__id__": 307
     },
-    "playerName": "rezkar",
+    "playerName": "lion",
     "life": 30,
     "lifeMax": 30,
     "manaMax": 50,
@@ -6998,7 +7006,7 @@
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "a5e9746a-772f-499c-94df-8c083e6c1975@f9941",
+      "__uuid__": "0d817397-2fcd-42af-9958-175ee3b69cd2@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "bonusesMetaData": [],
@@ -7006,7 +7014,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "37ckOGErNBnqg1WqAGiLxg"
+    "fileId": "348XbWg/9AVIHoR55C7pH8"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -7016,18 +7024,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "29X/Iev1tLp4U+vP2YFERI",
+    "fileId": "91JKS7UcdFZJt/3c0UuZmv",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "PandaHero",
+    "_name": "RezkarHero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -7080,33 +7088,23 @@
     "__prefab": {
       "__id__": 311
     },
-    "playerName": "panda",
-    "life": 100,
-    "lifeMax": 100,
+    "playerName": "rezkar",
+    "life": 30,
+    "lifeMax": 30,
     "manaMax": 50,
     "manaCurrent": 0,
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "2cbc6520-71a5-45af-944e-6fb49788e600@f9941",
+      "__uuid__": "a5e9746a-772f-499c-94df-8c083e6c1975@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "bonusesMetaData": [
-      {
-        "__id__": 256
-      },
-      {
-        "__id__": 200
-      },
-      {
-        "__id__": 236
-      }
-    ],
+    "bonusesMetaData": [],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "9fSZh1S1ZKWKIZgpOAl4Lo"
+    "fileId": "37ckOGErNBnqg1WqAGiLxg"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -7116,18 +7114,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "26cZxWoLZMToXBqpISWn7i",
+    "fileId": "29X/Iev1tLp4U+vP2YFERI",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "MonkeyHero",
+    "_name": "PandaHero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -7180,9 +7178,9 @@
     "__prefab": {
       "__id__": 315
     },
-    "playerName": "monkey",
-    "life": 50,
-    "lifeMax": 50,
+    "playerName": "panda",
+    "life": 100,
+    "lifeMax": 100,
     "manaMax": 50,
     "manaCurrent": 0,
     "manaIncreaseCoeficient": 1,
@@ -7193,14 +7191,20 @@
     },
     "bonusesMetaData": [
       {
-        "__id__": 156
+        "__id__": 260
+      },
+      {
+        "__id__": 204
+      },
+      {
+        "__id__": 240
       }
     ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "5aS5Ym791KoZwiFmtLkkZN"
+    "fileId": "9fSZh1S1ZKWKIZgpOAl4Lo"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -7210,18 +7214,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "1eaTPwag5Dcr+xeOvSuRFD",
+    "fileId": "26cZxWoLZMToXBqpISWn7i",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "ArenaPlayerHero",
+    "_name": "MonkeyHero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -7274,23 +7278,27 @@
     "__prefab": {
       "__id__": 319
     },
-    "playerName": "rnd_player",
-    "life": 100,
-    "lifeMax": 100,
+    "playerName": "monkey",
+    "life": 50,
+    "lifeMax": 50,
     "manaMax": 50,
     "manaCurrent": 0,
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "0d817397-2fcd-42af-9958-175ee3b69cd2@f9941",
+      "__uuid__": "2cbc6520-71a5-45af-944e-6fb49788e600@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "bonusesMetaData": [],
+    "bonusesMetaData": [
+      {
+        "__id__": 160
+      }
+    ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "ecD/8V/r1JaaCUyk2G4pz2"
+    "fileId": "5aS5Ym791KoZwiFmtLkkZN"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -7300,18 +7308,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "c01c5cBf1Np4mIKhP9I0zf",
+    "fileId": "1eaTPwag5Dcr+xeOvSuRFD",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "ArenaBotHero",
+    "_name": "ArenaPlayerHero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -7364,7 +7372,7 @@
     "__prefab": {
       "__id__": 323
     },
-    "playerName": "rnd_bot",
+    "playerName": "rnd_player",
     "life": 100,
     "lifeMax": 100,
     "manaMax": 50,
@@ -7372,7 +7380,7 @@
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "f8af9afc-2594-4bc2-b9d7-526450c817bd@f9941",
+      "__uuid__": "0d817397-2fcd-42af-9958-175ee3b69cd2@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "bonusesMetaData": [],
@@ -7380,7 +7388,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "c4Zu28AXlLSY/9y/qHlV1U"
+    "fileId": "ecD/8V/r1JaaCUyk2G4pz2"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -7390,18 +7398,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "871jg/GgNJfb1OrugG0fPS",
+    "fileId": "c01c5cBf1Np4mIKhP9I0zf",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot1Hero",
+    "_name": "ArenaBotHero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -7454,15 +7462,15 @@
     "__prefab": {
       "__id__": 327
     },
-    "playerName": "bot1",
-    "life": 30,
-    "lifeMax": 30,
+    "playerName": "rnd_bot",
+    "life": 100,
+    "lifeMax": 100,
     "manaMax": 50,
     "manaCurrent": 0,
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "15bacd13-a273-41f8-891c-b23fcc1629d1@f9941",
+      "__uuid__": "f8af9afc-2594-4bc2-b9d7-526450c817bd@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "bonusesMetaData": [],
@@ -7470,7 +7478,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "8cSazUPwlKv5f5XImK00BX"
+    "fileId": "c4Zu28AXlLSY/9y/qHlV1U"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -7480,18 +7488,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "726sk3n5NNMqjwbV8Ce7+0",
+    "fileId": "871jg/GgNJfb1OrugG0fPS",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot2Hero",
+    "_name": "Bot1Hero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -7544,27 +7552,23 @@
     "__prefab": {
       "__id__": 331
     },
-    "playerName": "bot2",
-    "life": 40,
-    "lifeMax": 40,
+    "playerName": "bot1",
+    "life": 30,
+    "lifeMax": 30,
     "manaMax": 50,
     "manaCurrent": 0,
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "9f6e4c32-6dcf-439d-9701-37497b4ccc8e@f9941",
+      "__uuid__": "15bacd13-a273-41f8-891c-b23fcc1629d1@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "bonusesMetaData": [
-      {
-        "__id__": 168
-      }
-    ],
+    "bonusesMetaData": [],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "331BJUPkRNp6zxvhXLOKcA"
+    "fileId": "8cSazUPwlKv5f5XImK00BX"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -7574,18 +7578,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "83l5LmAV9I1aN/jCDd2MoF",
+    "fileId": "726sk3n5NNMqjwbV8Ce7+0",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot3Hero",
+    "_name": "Bot2Hero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -7638,30 +7642,27 @@
     "__prefab": {
       "__id__": 335
     },
-    "playerName": "bot3",
-    "life": 60,
-    "lifeMax": 60,
+    "playerName": "bot2",
+    "life": 40,
+    "lifeMax": 40,
     "manaMax": 50,
     "manaCurrent": 0,
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "ad8fbcee-1e4f-4d79-ba15-236c5d50c046@f9941",
+      "__uuid__": "9f6e4c32-6dcf-439d-9701-37497b4ccc8e@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "bonusesMetaData": [
       {
-        "__id__": 168
-      },
-      {
-        "__id__": 176
+        "__id__": 172
       }
     ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "0dswxaUvhJqaaoyx5OIYu7"
+    "fileId": "331BJUPkRNp6zxvhXLOKcA"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -7671,18 +7672,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "a33UvMpfBLBrBW+yTDDEoV",
+    "fileId": "83l5LmAV9I1aN/jCDd2MoF",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot4Hero",
+    "_name": "Bot3Hero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -7735,33 +7736,30 @@
     "__prefab": {
       "__id__": 339
     },
-    "playerName": "bot4",
-    "life": 70,
-    "lifeMax": 70,
+    "playerName": "bot3",
+    "life": 60,
+    "lifeMax": 60,
     "manaMax": 50,
     "manaCurrent": 0,
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "c14bfd5d-d245-4858-a5c2-22ac3c4061ed@f9941",
+      "__uuid__": "ad8fbcee-1e4f-4d79-ba15-236c5d50c046@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "bonusesMetaData": [
       {
-        "__id__": 192
+        "__id__": 172
       },
       {
-        "__id__": 268
-      },
-      {
-        "__id__": 204
+        "__id__": 180
       }
     ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "4cjYDX1RBDBId5ahdZ32W1"
+    "fileId": "0dswxaUvhJqaaoyx5OIYu7"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -7771,18 +7769,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "42znvTvp5LFIww0d6b/rKN",
+    "fileId": "a33UvMpfBLBrBW+yTDDEoV",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot5Hero",
+    "_name": "Bot4Hero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -7835,23 +7833,23 @@
     "__prefab": {
       "__id__": 343
     },
-    "playerName": "bot5",
-    "life": 85,
-    "lifeMax": 85,
+    "playerName": "bot4",
+    "life": 70,
+    "lifeMax": 70,
     "manaMax": 50,
     "manaCurrent": 0,
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "f1609928-e16c-4586-b069-1591e57fc16a@f9941",
+      "__uuid__": "c14bfd5d-d245-4858-a5c2-22ac3c4061ed@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "bonusesMetaData": [
       {
-        "__id__": 232
+        "__id__": 196
       },
       {
-        "__id__": 180
+        "__id__": 272
       },
       {
         "__id__": 208
@@ -7861,7 +7859,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "799zYh5/JNFZENRLkB2YD3"
+    "fileId": "4cjYDX1RBDBId5ahdZ32W1"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -7871,18 +7869,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "a2G0uRYbdBxIFA414BIg1v",
+    "fileId": "42znvTvp5LFIww0d6b/rKN",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot6Hero",
+    "_name": "Bot5Hero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -7935,33 +7933,33 @@
     "__prefab": {
       "__id__": 347
     },
-    "playerName": "bot6",
-    "life": 90,
-    "lifeMax": 90,
+    "playerName": "bot5",
+    "life": 85,
+    "lifeMax": 85,
     "manaMax": 50,
     "manaCurrent": 0,
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "fe998127-e815-48ea-b938-cfa24cc847b0@f9941",
+      "__uuid__": "f1609928-e16c-4586-b069-1591e57fc16a@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "bonusesMetaData": [
       {
-        "__id__": 216
+        "__id__": 236
       },
       {
-        "__id__": 240
+        "__id__": 184
       },
       {
-        "__id__": 268
+        "__id__": 212
       }
     ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "0fGmE/O1RDALXFMA89Mige"
+    "fileId": "799zYh5/JNFZENRLkB2YD3"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -7971,18 +7969,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "cbrf3shrNIRJaFiJg/D+2W",
+    "fileId": "a2G0uRYbdBxIFA414BIg1v",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot7Hero",
+    "_name": "Bot6Hero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -8035,7 +8033,7 @@
     "__prefab": {
       "__id__": 351
     },
-    "playerName": "bot7",
+    "playerName": "bot6",
     "life": 90,
     "lifeMax": 90,
     "manaMax": 50,
@@ -8043,12 +8041,12 @@
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "0d817397-2fcd-42af-9958-175ee3b69cd2@f9941",
+      "__uuid__": "fe998127-e815-48ea-b938-cfa24cc847b0@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "bonusesMetaData": [
       {
-        "__id__": 160
+        "__id__": 220
       },
       {
         "__id__": 244
@@ -8061,7 +8059,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "9aN/ViJZdJka1wyCmhn3uz"
+    "fileId": "0fGmE/O1RDALXFMA89Mige"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -8071,18 +8069,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "64JPV8dehGzaT+ZNKhii0S",
+    "fileId": "cbrf3shrNIRJaFiJg/D+2W",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot8Hero",
+    "_name": "Bot7Hero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -8143,25 +8141,25 @@
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "3f176707-6b97-4ddd-b5ff-1bcb353e33c6@f9941",
+      "__uuid__": "0d817397-2fcd-42af-9958-175ee3b69cd2@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "bonusesMetaData": [
       {
-        "__id__": 160
+        "__id__": 164
       },
       {
-        "__id__": 244
+        "__id__": 248
       },
       {
-        "__id__": 272
+        "__id__": 276
       }
     ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "03uKP7kFZPdKiQWW1mpbkg"
+    "fileId": "9aN/ViJZdJka1wyCmhn3uz"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -8171,18 +8169,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "135uP36bJMlqPYbAb1p+ZZ",
+    "fileId": "64JPV8dehGzaT+ZNKhii0S",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot9Hero",
+    "_name": "Bot8Hero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -8243,25 +8241,25 @@
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "f9a1a5d6-a786-4125-ba4a-72daf91cae3d@f9941",
+      "__uuid__": "3f176707-6b97-4ddd-b5ff-1bcb353e33c6@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "bonusesMetaData": [
       {
-        "__id__": 160
+        "__id__": 164
       },
       {
-        "__id__": 244
+        "__id__": 248
       },
       {
-        "__id__": 272
+        "__id__": 276
       }
     ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "2drLOZfTRGPKO+x514gdpx"
+    "fileId": "03uKP7kFZPdKiQWW1mpbkg"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -8271,18 +8269,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "3d1aaqGzFN/pZ3wxvY5a5w",
+    "fileId": "135uP36bJMlqPYbAb1p+ZZ",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "Bot10Hero",
+    "_name": "Bot9Hero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -8343,25 +8341,25 @@
     "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "0d817397-2fcd-42af-9958-175ee3b69cd2@f9941",
+      "__uuid__": "f9a1a5d6-a786-4125-ba4a-72daf91cae3d@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "bonusesMetaData": [
       {
-        "__id__": 160
+        "__id__": 164
       },
       {
-        "__id__": 244
+        "__id__": 248
       },
       {
-        "__id__": 272
+        "__id__": 276
       }
     ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "d017tADmJMmbDEHPem0IrJ"
+    "fileId": "2drLOZfTRGPKO+x514gdpx"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -8371,18 +8369,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "afM73SIvtJ3ab3I8QpcMBj",
+    "fileId": "3d1aaqGzFN/pZ3wxvY5a5w",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "TestBot",
+    "_name": "Bot10Hero",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -8435,25 +8433,33 @@
     "__prefab": {
       "__id__": 367
     },
-    "playerName": "testBot",
-    "life": 50,
-    "lifeMax": 50,
+    "playerName": "bot7",
+    "life": 90,
+    "lifeMax": 90,
     "manaMax": 50,
     "manaCurrent": 0,
-    "manaIncreaseCoeficient": 2,
+    "manaIncreaseCoeficient": 1,
     "power": 5,
     "heroImage": {
-      "__uuid__": "2f05e4f3-7ded-4027-9486-31abd8d475a6@f9941",
+      "__uuid__": "0d817397-2fcd-42af-9958-175ee3b69cd2@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "bonusesMetaData": [
-      null
+      {
+        "__id__": 164
+      },
+      {
+        "__id__": 248
+      },
+      {
+        "__id__": 276
+      }
     ],
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "7bDd797wFHpozPNVfrW1OP"
+    "fileId": "d017tADmJMmbDEHPem0IrJ"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -8463,18 +8469,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "26qd4wM5JHgL3KvSVtJa2w",
+    "fileId": "afM73SIvtJ3ab3I8QpcMBj",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "TestPlayer",
+    "_name": "TestBot",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 296
+      "__id__": 300
     },
     "_children": [],
     "_active": true,
@@ -8526,6 +8532,98 @@
     "_enabled": true,
     "__prefab": {
       "__id__": 371
+    },
+    "playerName": "testBot",
+    "life": 50,
+    "lifeMax": 50,
+    "manaMax": 50,
+    "manaCurrent": 0,
+    "manaIncreaseCoeficient": 2,
+    "power": 5,
+    "heroImage": {
+      "__uuid__": "2f05e4f3-7ded-4027-9486-31abd8d475a6@f9941",
+      "__expectedType__": "cc.SpriteFrame"
+    },
+    "bonusesMetaData": [
+      null
+    ],
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "7bDd797wFHpozPNVfrW1OP"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "26qd4wM5JHgL3KvSVtJa2w",
+    "instance": null,
+    "targetOverrides": null,
+    "nestedPrefabInstanceRoots": null
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "TestPlayer",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "_parent": {
+      "__id__": 300
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 374
+      }
+    ],
+    "_prefab": {
+      "__id__": 376
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_mobility": 0,
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "594d05G/pJANq7mmO91ILbf",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 373
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 375
     },
     "playerName": "testPlayer",
     "life": 50,
@@ -8583,19 +8681,19 @@
     },
     "_children": [
       {
-        "__id__": 375
-      },
-      {
         "__id__": 379
       },
       {
         "__id__": 383
+      },
+      {
+        "__id__": 387
       }
     ],
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 387
+      "__id__": 391
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -8632,86 +8730,7 @@
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 374
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 376
-      }
-    ],
-    "_prefab": {
       "__id__": 378
-    },
-    "_lpos": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_lrot": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_lscale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_mobility": 0,
-    "_layer": 1073741824,
-    "_euler": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "62284M+/i9CML24l7UjhLsk",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 375
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 377
-    },
-    "life": 10,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "b2pmxmUPFDjbLG5wTqCqCf"
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__id__": 0
-    },
-    "fileId": "b3Z4sux4hIGqJMOQnM9HqV",
-    "instance": null,
-    "targetOverrides": null,
-    "nestedPrefabInstanceRoots": null
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "CardUp",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "_parent": {
-      "__id__": 374
     },
     "_children": [],
     "_active": true,
@@ -8753,7 +8772,7 @@
     "_id": ""
   },
   {
-    "__type__": "572e81/vkBJoKGx3z74Lnwx",
+    "__type__": "62284M+/i9CML24l7UjhLsk",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -8764,12 +8783,12 @@
     "__prefab": {
       "__id__": 381
     },
-    "cardMnemonic": "card",
+    "life": 10,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "a9IWk/659JeYOzpGbBbbII"
+    "fileId": "b2pmxmUPFDjbLG5wTqCqCf"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -8779,18 +8798,18 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "e3cPZM0aREl6e+Lf4B8CN9",
+    "fileId": "b3Z4sux4hIGqJMOQnM9HqV",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
     "__type__": "cc.Node",
-    "_name": "CardSelector",
+    "_name": "CardUp",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
-      "__id__": 374
+      "__id__": 378
     },
     "_children": [],
     "_active": true,
@@ -8832,7 +8851,7 @@
     "_id": ""
   },
   {
-    "__type__": "2378bqaTtdKqLQbHlP7OsK2",
+    "__type__": "572e81/vkBJoKGx3z74Lnwx",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -8842,6 +8861,85 @@
     "_enabled": true,
     "__prefab": {
       "__id__": 385
+    },
+    "cardMnemonic": "card",
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "a9IWk/659JeYOzpGbBbbII"
+  },
+  {
+    "__type__": "cc.PrefabInfo",
+    "root": {
+      "__id__": 1
+    },
+    "asset": {
+      "__id__": 0
+    },
+    "fileId": "e3cPZM0aREl6e+Lf4B8CN9",
+    "instance": null,
+    "targetOverrides": null,
+    "nestedPrefabInstanceRoots": null
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "CardSelector",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "_parent": {
+      "__id__": 378
+    },
+    "_children": [],
+    "_active": true,
+    "_components": [
+      {
+        "__id__": 388
+      }
+    ],
+    "_prefab": {
+      "__id__": 390
+    },
+    "_lpos": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_lrot": {
+      "__type__": "cc.Quat",
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "w": 1
+    },
+    "_lscale": {
+      "__type__": "cc.Vec3",
+      "x": 1,
+      "y": 1,
+      "z": 1
+    },
+    "_mobility": 0,
+    "_layer": 1073741824,
+    "_euler": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_id": ""
+  },
+  {
+    "__type__": "2378bqaTtdKqLQbHlP7OsK2",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 387
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 389
     },
     "cardOne": "card",
     "cardTwo": "card",
@@ -8887,7 +8985,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 389
+      "__id__": 393
     },
     "playerHeroName": "bear",
     "botHeroName": "lion",
@@ -8906,6 +9004,7 @@
       "__id__": 0
     },
     "fileId": "deTxFyHoRAKZEAxEpY12sc",
+    "instance": null,
     "targetOverrides": null
   }
 ]
