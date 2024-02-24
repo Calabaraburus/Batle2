@@ -281,30 +281,6 @@ export class Bot_v2 extends Service implements IBot {
       this.botModel,
       this._playerModel);
 
-    // const aData = analyzer.analyze();
-
-    /* const cardsTop: RatingResult[] = [];
- 
-     this._cardAnalizators.forEach(ca => {
-       if (!ca.canActivateCard()) return;
- 
-       ca.field = clonedField;
- 
-       const cardRating: RatingResult[] = [];
- 
-       if (!ca.hasPredefinedScore) {
- 
-         const tiles = ca.getAvailableTilesForAction(aData);
-         tiles.forEach(t => {
-           this.getComplexRating(clonedField, [new CardToTile(ca.cardModel, t)], finishTiles, endTiles, cardRating);
-         });
- 
-         cardRating.sort((r1, r2) => r1.rating - r2.rating);
-         cardsTop.push(cardRating[0]);
-       } else {
- 
-       }
-     });*/
 
     const queue = new Queue<() => void>();
 

@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "WallTilePrefab",
+    "_name": "FixedBalistaTilePrefab",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "WallTilePrefab",
+    "_name": "FixedBalistaTilePrefab",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -133,8 +133,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 48,
-      "height": 48
+      "width": 45,
+      "height": 45
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -145,7 +145,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "43nVUYT/pHZIiQHgqZh2I9"
+    "fileId": "24S4vtfulC06/x84R8zBPQ"
   },
   {
     "__type__": "cc.Sprite",
@@ -190,7 +190,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "d2l/aNMT1G+IpB44Q9by8c"
+    "fileId": "a43wHXCtpFIrrdP5pvjKPm"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -200,7 +200,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "f9/J6XV0ZMibARGgy1Pd6+",
+    "fileId": "b4un6SSKdNyKrPx9hy5149",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -269,8 +269,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 46,
-      "height": 46
+      "width": 50,
+      "height": 50
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -281,7 +281,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "c27y1S+SJP8aEhcX8Z780h"
+    "fileId": "fdyMQrFJ1JNqPoLTchde69"
   },
   {
     "__type__": "cc.Sprite",
@@ -326,7 +326,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "2auto8qZ5Enri2Hdn/+Kf/"
+    "fileId": "432mlyqmlHy4yCHsrCHyhs"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -336,7 +336,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "44wJ+gqqxDR6VM5Yz6LFrY",
+    "fileId": "f1u2I2QdhPaqxeFJPx7OWe",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
@@ -443,7 +443,7 @@
     "customEventData": ""
   },
   {
-    "__type__": "9c1a67Uq4lDNp4d+SS+4lHz",
+    "__type__": "d9006jUvaVEk7jUVqiCJySI",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -456,12 +456,13 @@
     },
     "Speed": 0.3,
     "Acceleration": 3000,
+    "damageLife": 5,
     "life": 3,
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "1eBS9zhNFJP5nuBK6+INSD"
+    "fileId": "5ccMC+oS9LQbbmRxXHbqj6"
   },
   {
     "__type__": "cc.PrefabInfo",

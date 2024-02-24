@@ -30,22 +30,20 @@ const { ccclass, property } = _decorator;
 @ccclass("CatapultTileController")
 export class CatapultTileController
   extends TileController
-  implements IAttackable
-{
+  implements IAttackable {
   @property(Number)
   damageLife = 5;
 
+  @property(Number)
+  life = 1;
+
   private _cardService: CardService;
   private _state: TileState;
-  private _attacksCountToDestroy: number;
   private _attackedNumber: number;
   private _effectsService: EffectsService;
   private _cache: ObjectsCache;
   private _dataService: DataService;
   private _aimForEffect: Node;
-  get attacksCountToDestroy() {
-    return this._attacksCountToDestroy;
-  }
 
   start(): void {
     super.start();
@@ -65,13 +63,13 @@ export class CatapultTileController
 
   rotateToEnemy(enemy: Node) {
     // const dir = enemy.position.clone().subtract(this.node.position).y;
-    
+
     const foregroundNode = this.node.getChildByName("Foreground");
 
     if (foregroundNode == null) throw Error("Foreground node is null");
 
     foregroundNode.angle = this.playerModel == this._dataService?.playerModel ? 0 : 180;
-    
+
   }
 
   turnEnds(): void {
@@ -94,16 +92,13 @@ export class CatapultTileController
 
   public setModel(tileModel: TileModel) {
     super.setModel(tileModel);
-
-    this._attacksCountToDestroy = 1;
-
-    this._attackedNumber = this.attacksCountToDestroy;
+    this._attackedNumber = this.life;
   }
 
   public cacheCreate(): void {
     super.cacheCreate();
 
-    this._attackedNumber = this.attacksCountToDestroy;
+    this._attackedNumber = this.life;
   }
 
   /** Attack this enemy with power.
@@ -168,3 +163,5 @@ export class CatapultTileController
     }
   }
 }
+
+
