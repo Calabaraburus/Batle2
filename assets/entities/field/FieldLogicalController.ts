@@ -121,12 +121,12 @@ export class FieldLogicalController
       for (let xIndex = 0; xIndex < this._fieldModel.cols; xIndex++) {
         const mapMnem = map[yIndex][xIndex];
 
-        const tileModel = this._fieldModel.getTileModelByMapMnemonic(mapMnem);
+        const tileModel = this._fieldModel.getTileModelByMapMnemonic(this.clearMnem(mapMnem));
 
         const playerModel =
-          mapMnem == "?"
+          mapMnem.endsWith("?")
             ? this._dataService.playerModel
-            : mapMnem == "^"
+            : mapMnem.endsWith("^")
               ? this._dataService.botModel
               : null;
 
@@ -141,6 +141,10 @@ export class FieldLogicalController
         }
       }
     }
+  }
+
+  clearMnem(mnem: string) {
+    return mnem.length > 1 ? mnem.replace("?", "").replace("^", "") : mnem;
   }
 
   /**
@@ -272,6 +276,7 @@ export class FieldLogicalController
     fwd = backwards ? !fwd : fwd;
 
     const tStartTile = backwards ? endTile : startTile;
+    const tEndTile = backwards ? startTile : endTile;
 
     const destroiedTiles = findTiles(true).map((t) => new Vec2(t.col, t.row));
 
@@ -321,17 +326,35 @@ export class FieldLogicalController
       pathTiles[fwd ? index : destroiedTiles.length - index - 1] = tile;
     }
 
+    let tileRowId = fwd ? tStartTile.row : tStartTile.row;
+
     pathTiles.forEach((t: TileController | null, i) => {
       if (t == null) {
         throw Error("Tile in path is null. It can't be null");
       }
 
-      const tileRowId = fwd ? tStartTile.row + 1 + i : tStartTile.row - 1 - i;
-      t.row = tileRowId;
+      if (t.isFixed) return;
 
+      let origTile: TileController;
+
+      do {
+        tileRowId = fwd ? (tileRowId + 1) : (tileRowId - 1);
+        origTile = this._field.get(tileRowId, t.col);
+      } while (!origTile.isDestroied && origTile.isFixed);
+
+      t.row = tileRowId;
       this._field.set(t.row, t.col, t);
     });
   }
+
+  // getCurOrNextNotFixed(fwd: boolean, row: number, col: number, endRow: number) {
+  //   for (let index = endRow; fwd ? index >= row : index < row; fwd ? index-- : index++) {
+  //     const tile = this._field.get(index, col);
+  //     if (tile.isDestroied) {
+  //       return tile;
+  //     }
+  //   }
+  // }
 
   public fakeDestroyTile(tile: TileController): void {
     tile.fakeDestroy();

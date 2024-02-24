@@ -13,6 +13,8 @@ import {
   AudioSource,
   LineComponent,
   assert,
+  resources,
+  TextAsset,
 } from "cc";
 import { Service } from "../services/Service";
 import { SceneLoaderService } from "../services/SceneLoaderService";
@@ -29,6 +31,7 @@ import { GameConfigurationModel } from "../game/GameConfiguration";
 import { GameLevelCfgModel } from "../game/GameLevelCfgModel";
 import { PlayerCurrentGameState } from "../services/PlayerCurrentGameState";
 import { GameCardCfgModel } from "../game/GameCardCfgModel";
+import { FieldModel } from "../../models/FieldModel";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
@@ -38,11 +41,24 @@ export class LevelSelectorController extends Service {
   configDict = new Map<string, (config: LevelConfiguration) => void>();
   private _settingsLoader: SettingsLoader;
 
+  field_maps = new Map<string, TextAsset>();
+
   start() {
+    //    resources.preloadDir("filed_maps");
+
+    resources.loadDir("filed_maps", (err, assets) => {
+      assets.forEach((asset) => {
+        if (asset instanceof TextAsset) {
+          this.field_maps.set(asset.name, asset);
+        }
+      });
+    });
+
     this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
     this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
     this._settingsLoader.loadGameConfiguration();
     this.fillConfigurations();
+
   }
 
   loadLevel(sender: object, levelName: string): void {
@@ -66,54 +82,69 @@ export class LevelSelectorController extends Service {
 
     const settingsLoader = this.getServiceOrThrow(SettingsLoader);
 
-    settingsLoader.gameConfiguration.levels.filter(l => l.lvlName != "lvl_arena").forEach(lvl => {
-      this.configDict.set(lvl.lvlName, (config: LevelConfiguration) => {
-        config.levelName = lvl.lvlName;
+    const std_init = (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+      config.levelName = lvl.lvlName;
 
-        const player = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
-        const bot = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true })
+      const player = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
+      const bot = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true })
 
-        assert(player != null);
-        assert(bot != null);
+      assert(player != null);
+      assert(bot != null);
 
-        this.loadPlayerState(
-          config,
-          lvl,
-          settingsLoader.playerCurrentGameState,
-          player
-        );
+      this.loadPlayerState(
+        config,
+        lvl,
+        settingsLoader.playerCurrentGameState,
+        player
+      );
 
-        const bonuses: { name: string; price: number }[] = [];
+      const bonuses: { name: string; price: number }[] = [];
 
-        bonuses.length = 0;
-        lvl.botCards.forEach((c) =>
-          bonuses.push({ name: c.mnemonic, price: Number(c.price) })
-        );
+      bonuses.length = 0;
+      lvl.botCards.forEach((c) =>
+        bonuses.push({ name: c.mnemonic, price: Number(c.price) })
+      );
 
-        this.addBonuses(config, bot, bonuses);
+      this.addBonuses(config, bot, bonuses);
 
-        config.endLevelBonuses = [];
+      config.endLevelBonuses = [];
 
-        switch (lvl.endLevelBonus.toLowerCase()) {
-          case "onecard":
-            this.setEndBonusCard(config, lvl.endLevelBonusParams[0]);
-            break;
-          case "twocards":
-            this.setEndBonusTwoCards(config, lvl.endLevelBonusParams);
-            break;
-          case "life":
-            this.setEndBonusLife(config, lvl.endLevelBonusParams[0]);
-            break;
-          default:
-            break;
+      switch (lvl.endLevelBonus.toLowerCase()) {
+        case "onecard":
+          this.setEndBonusCard(config, lvl.endLevelBonusParams[0]);
+          break;
+        case "twocards":
+          this.setEndBonusTwoCards(config, lvl.endLevelBonusParams);
+          break;
+        case "life":
+          this.setEndBonusLife(config, lvl.endLevelBonusParams[0]);
+          break;
+        default:
+          break;
+      }
+
+      config.updateData();
+    }
+
+    const specAlgs = new Map<string, (config: LevelConfiguration, lvl: GameLevelCfgModel) => void>();
+
+    const field_maps = this.field_maps;
+
+    // lvl_walls
+    specAlgs.set("lvl_walls", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+
+      const fm = config.node.getComponentInChildren(FieldModel);
+      if (fm) {
+        const m = field_maps.get("map_walls");
+        if (m) {
+          fm.fieldMap = m;
         }
-
-        config.updateData();
-      });
+        std_init(config, lvl);
+      }
     });
 
-    // arena of 1st part
-    this.configDict.set("lvl_arena", (config) => {
+    // arena
+    specAlgs.set("lvl_arena", (config) => {
 
       const cardCfgs = this.getAvailableBonusesForArena(config, settingsLoader);
 
@@ -141,6 +172,19 @@ export class LevelSelectorController extends Service {
       // this.fillPlayerWithBonuses(botHero, groupedBonuses);
 
       config.updateData();
+    });
+
+    settingsLoader.gameConfiguration.levels.forEach(lvl => {
+      if (specAlgs.has(lvl.lvlName)) {
+        this.configDict.set(lvl.lvlName, (config: LevelConfiguration) => {
+          const func = specAlgs.get(lvl.lvlName);
+          if (func) func(config, lvl);
+        });
+      } else {
+        this.configDict.set(lvl.lvlName, (config: LevelConfiguration) => {
+          std_init(config, lvl);
+        });
+      }
     });
   }
 

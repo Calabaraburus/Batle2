@@ -11,6 +11,7 @@ import {
     Vec2,
     Quat,
     assert,
+    CCInteger,
 } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
@@ -31,8 +32,55 @@ const { ccclass, property } = _decorator;
 
 
 @ccclass("WallTileController")
-export class WallTileController extends TileController {
+export class WallTileController extends TileController implements IAttackable {
+
+    @property(Prefab)
+    destroyPartycles: Prefab;
+
+    @property(CCInteger)
+    life = 3;
+
+    private _lifeOp = 0;
+
     start(): void {
+        super.start();
         this.isFixed = true;
+        this._lifeOp = this.life;
+
+    }
+
+    attack(power: number): void {
+        if (this._lifeOp <= 0) return;
+
+        this._lifeOp -= power;
+
+        if (this._lifeOp < 3 && this._lifeOp > 1) {
+            this._foregroundSprite!.spriteFrame = this.tileModel.additionalSprites[0].sprite;
+        } else if (this._lifeOp < 2) {
+            this._foregroundSprite!.spriteFrame = this.tileModel.additionalSprites[1].sprite;
+        } else { }
+
+        if (this._lifeOp <= 0) {
+            this.fakeDestroy();
+        }
+    }
+
+
+
+    private createParticles() {
+        const ps = instantiate(this.destroyPartycles);
+
+        ps.parent = this.node.parent;
+        const ui = this.getComponent(UITransform);
+
+        if (ui == null) {
+            return;
+        }
+
+        ps.position = new Vec3(
+            this.node.position.x + ui.contentSize.width / 2,
+            this.node.position.y + ui.contentSize.height / 2,
+            this.node.position.z
+        );
     }
 }
