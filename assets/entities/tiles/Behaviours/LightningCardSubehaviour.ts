@@ -111,3 +111,4 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
     return true;
   }
 }
+

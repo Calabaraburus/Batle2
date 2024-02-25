@@ -3,7 +3,6 @@
   "uuid": "764192fb-4cd1-404b-ad2a-d59c4b12bac2",
   "version": "3.8.1",
   "creator": {
-    "version": "3.8.0",
     "version": "3.8.1",
     "registry": {
       "remote": {}
@@ -24,10 +23,10 @@
   "devDependencies": {
     "@testdeck/mocha": "^0.2.0",
     "@types/chai": "^4.3.3",
-    "@typescript-eslint/eslint-plugin": "^5.33.1",
-    "@typescript-eslint/parser": "^5.33.1",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
     "chai": "^4.3.6",
-    "eslint": "^8.22.0",
+    "eslint": "^8.57.0",
     "mocha": "^10.0.0",
     "nyc": "^15.1.0",
     "prettier": "2.8.8",
