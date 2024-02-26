@@ -29,8 +29,8 @@ import { Service } from "../../services/Service";
 import { DataService } from "../../services/DataService";
 const { ccclass, property } = _decorator;
 
-@ccclass("BerserkTileController")
-export class BerserkTileController
+@ccclass("ChampionTileController")
+export class ChampionTileController
   extends TileController
   implements IAttackable
 {
@@ -65,7 +65,7 @@ export class BerserkTileController
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       this.playEffect();
 
-      this.maxCount = 1;
+      this.maxCount = 2;
       this._tilesToDestroy = [];
 
       const oponentModel = this._cardService?.getCurrentPlayerModel();
@@ -75,18 +75,15 @@ export class BerserkTileController
       if (this.playerModel == this._dataService.botModel) {
         vectorAttack = -1;
       }
-      const enemyTile = matrix.get(this.row + vectorAttack, this.col);
-
-      if (enemyTile.playerModel == oponentModel) {
-        Service.getServiceOrThrow(AudioManagerService).playSoundEffect(
-          "berserk_attack"
-        );
-      }
 
       for (let index = 0; index < this.maxCount; index++) {
-        // if (this.playerModel == this._cardService?._dataService?.botModel) {
-        //   vectorAttack = -1;
-        // }
+        const enemyTile = matrix.get(this.row + vectorAttack, this.col);
+  
+        if (enemyTile.playerModel == oponentModel) {
+          Service.getServiceOrThrow(AudioManagerService).playSoundEffect(
+            "berserk_attack"
+          );
+        }
 
         if (!enemyTile) return;
         this._tilesToDestroy.push(enemyTile);
@@ -114,7 +111,7 @@ export class BerserkTileController
   public setModel(tileModel: TileModel) {
     super.setModel(tileModel);
 
-    this._attacksCountToDestroy = 1;
+    this._attacksCountToDestroy = 2;
 
     this._attackedNumber = this.attacksCountToDestroy;
   }

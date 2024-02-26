@@ -6,22 +6,22 @@ import { CardsSubBehaviour } from "./SubBehaviour";
 import { CardEffect } from "../../effects/CardEffect";
 import { CardService } from "../../services/CardService";
 
-export class BerserkCardSubehaviour extends CardsSubBehaviour {
+
+
+export class ChampionCardSubehaviour extends CardsSubBehaviour {
   private _tilesToTransform: TileController[] = [];
   private _cache: ObjectsCache | null;
   private _cardsService: CardService | null;
-  protected lvlTile = 2;
+  protected powerTile = 1;
 
   prepare(): boolean {
     this.parent.debug?.log("[berserk_card_sub] Start preparing.");
 
-    const berserkCount = this.lvlTile;
+    const berserkCount = this.powerTile;
     let enemySide = 1;
     const targetTile = this.parent.target as StdTileController;
 
-    if (
-      this.parent.cardService.getCurrentPlayerModel() == this.parent.botModel
-    ) {
+    if (this.parent.cardService.getCurrentPlayerModel() == this.parent.botModel) {
       enemySide = -1;
     }
 
@@ -57,7 +57,7 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
     myPlayerTiles?.forEach((tile) => {
       const enemyTile = matrix.get(tile.row + enemySide, tile.col);
       if (enemyTile.playerModel == this.parent.currentOponentModel) {
-        if(!tile.tileModel.specialTile){
+        if (!tile.tileModel.specialTile) {
           myTiles.push(tile);
         }
       }
@@ -102,7 +102,7 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
       if (pModel == undefined || pModel == null) {
         this.parent.debug?.log(
           "[berserk_card_sub][error] CurrentPlayerModel is null or undefined." +
-            " return false."
+          " return false."
         );
         return false;
       }
@@ -127,8 +127,7 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
     const effects: CardEffect[] = [];
 
     this._tilesToTransform.forEach((element) => {
-      const effect =
-        this._cache?.getObjectByPrefabName<CardEffect>("explosion2Effect");
+      const effect = this._cache?.getObjectByPrefabName<CardEffect>("explosion2Effect");
 
       if (effect == null) {
         return false;
@@ -144,10 +143,9 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
     });
 
     const animator = tween(this);
-    animator.delay(1).call(() =>
-      effects.forEach((ef) => {
-        ef.cacheDestroy();
-      })
+    animator.delay(1).call(() => effects.forEach((ef) => {
+      ef.cacheDestroy();
+    })
     );
 
     animator.start();
@@ -156,5 +154,3 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
     return true;
   }
 }
-
-
