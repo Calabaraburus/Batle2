@@ -3348,6 +3348,8 @@
       "__id__": 0
     },
     "fileId": "28BzSLY1JMA6QJUaKS7qFh",
+    "instance": null,
+    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
@@ -7499,7 +7501,7 @@
     "__prefab": {
       "__id__": 330
     },
-    "playerName": "rnd_player",
+    "playerName": "arenaPlayer",
     "life": 100,
     "lifeMax": 100,
     "manaMax": 50,
@@ -7589,7 +7591,7 @@
     "__prefab": {
       "__id__": 334
     },
-    "playerName": "rnd_bot",
+    "playerName": "arenaBot",
     "life": 100,
     "lifeMax": 100,
     "manaMax": 50,

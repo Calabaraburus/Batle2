@@ -82,7 +82,19 @@ export class LevelSelectorController extends Service {
 
     const settingsLoader = this.getServiceOrThrow(SettingsLoader);
 
-    const std_init = (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+    const setMap = (config: LevelConfiguration, mapName: string) => {
+      const fm = config.node.getComponentInChildren(FieldModel);
+      if (fm) {
+        const m = field_maps.get(mapName);
+        if (m) {
+          fm.fieldMap = m;
+        }
+      }
+    };
+
+    const std_init = (config: LevelConfiguration, lvl: GameLevelCfgModel, mapName = "map6") => {
+      setMap(config, mapName);
+
       config.levelName = lvl.lvlName;
 
       const player = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
@@ -133,18 +145,14 @@ export class LevelSelectorController extends Service {
     // lvl_walls
     specAlgs.set("lvl_walls", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
 
-      const fm = config.node.getComponentInChildren(FieldModel);
-      if (fm) {
-        const m = field_maps.get("map_walls");
-        if (m) {
-          fm.fieldMap = m;
-        }
-        std_init(config, lvl);
-      }
+      std_init(config, lvl, "map_walls");
+
     });
 
     // arena
     specAlgs.set("lvl_arena", (config) => {
+
+      setMap(config, "map6");
 
       const cardCfgs = this.getAvailableBonusesForArena(config, settingsLoader);
 
