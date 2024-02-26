@@ -7,17 +7,17 @@ import { AnimationEffect } from "../../effects/AnimationEffect";
 import { IAttackable, isIAttackable } from "../IAttackable";
 
 /**
- * Co
+ * Counterattack behaviour
  * 
  */
 export class CounterattackCardSubehaviour extends CardsSubBehaviour {
   private _tilesToDestroy: TileController[];
   private _direction: number;
   private _minSelect = 4;
-  private _maxSelect = 4;
+  private _maxSelect = 5;
   private _rowsToCAtk = 2;
   private _selectedCols: { c: number, rstrt: number, rstp: number }[];
-  private _excludeTiles: [string,string] =["mine", "mineLow"];
+  private _excludeTiles: [string, string] = ["mine", "mineLow"];
 
   prepare(): boolean {
 
@@ -57,11 +57,12 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
         row += this._direction) {
         const tile = matrix.get(row, col.c);
         if (tile.playerModel == this.parent.currentOponentModel) {
-          if(!this._excludeTiles.includes(tile.tileModel.tileName)){
+          if (!this._excludeTiles.includes(tile.tileModel.tileName)) {
             this._tilesToDestroy.push(tile);
             addedRows++;
-            if (addedRows > this._rowsToCAtk) break;
-        }} else {
+            if (addedRows >= this._rowsToCAtk) break;
+          }
+        } else {
           col.rstp = row;
         }
       }
