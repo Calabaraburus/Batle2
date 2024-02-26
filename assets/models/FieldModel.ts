@@ -192,9 +192,9 @@ export class FieldModel extends Component {
     textLines.forEach((line, i) => {
       const iinv = textLines.length - i - 1;
       result[iinv] = [];
-      for (let j = 0; j < line.length; j++) {
-        result[iinv][j] = line.charAt(j);
-      }
+      //for (let j = 0; j < line.length; j++) {
+      result[iinv] = line.split("|").map(s => s.trim());//.charAt(j);
+      //}
     });
     return result;
   }

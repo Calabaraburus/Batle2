@@ -26,7 +26,7 @@ export class DataService extends Service implements IDataService {
   protected _playerFieldController: PlayerFieldController;
   protected _levelConfig: LevelConfiguration;
   protected _fieldExt: FieldControllerExtensions;
-  private _fieldController: any;
+  private _fieldController: FieldController;
 
   public get debugView() {
     return this._debug;

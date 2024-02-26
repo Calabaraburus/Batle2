@@ -14,4 +14,9 @@ export interface IObjectsCache {
   getObjectByName<T extends ICacheObject>(
     typeName: string
   ): T | null | undefined;
+
+  getObjectByPrefabName<T extends ICacheObject>(
+    prefabName: string
+  ): T | null | undefined;
+
 }

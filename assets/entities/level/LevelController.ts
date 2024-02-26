@@ -46,8 +46,8 @@ export class LevelController extends Service {
   @property(EnemyFieldController)
   enemyField: EnemyFieldController;
 
-  @property(AttackSignalController)
-  attackSignal: AttackSignalController;
+  //  @property(AttackSignalController)
+  // attackSignal: AttackSignalController;
 
   /** Game manager */
   set gameManager(manager: GameManager) {
@@ -85,7 +85,7 @@ export class LevelController extends Service {
 
     this.playerField.updateData();
     this.enemyField.updateData();
-    this.attackSignal.updateData();
+    //   this.attackSignal.updateData();
   }
 
   public resetGame() {

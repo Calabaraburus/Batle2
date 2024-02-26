@@ -23,7 +23,7 @@ export class GameConfigurationModel {
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "40";
       lvl.endLevelBonus = "twocards";
-      lvl.endLevelBonusParams = ['firewallLow:3', "meteoriteLow:3"];
+      lvl.endLevelBonusParams = ['firewallLow:3', "meteoriteLow:2"];
     });
 
     addLevel((lvl) => {
@@ -39,104 +39,103 @@ export class GameConfigurationModel {
 
     });
 
+    addLevel((lvl) => {
+      lvl.lvlName = "lvl3";
+      lvl.botHeroName = "bot3";
+      lvl.botLife = "50";
+      lvl.botCards = [{ mnemonic: "lightningLow", price: "3" }, { mnemonic: "catapult", price: "3" }];
+      lvl.playerHeroName = "rezkar";
+      lvl.playerLife = "";
+      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.endLevelBonus = "twocards";
+      lvl.endLevelBonusParams = ['berserkLow:3', 'assassinLow:3'];
+
+    });
+
+    addLevel((lvl) => {
+      lvl.lvlName = "lvl4";
+      lvl.botHeroName = "bot4";
+      lvl.botLife = "70";
+      lvl.botCards = [{ mnemonic: "hammerMiddle", price: "4" }, { mnemonic: "assassinLow", price: "3" }];
+      lvl.playerHeroName = "rezkar";
+      lvl.playerLife = "";
+      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.endLevelBonus = "twocards";
+      lvl.endLevelBonusParams = ['c_attack:4', 'push:3'];
+
+    });
+
+    addLevel((lvl) => {
+      lvl.lvlName = "lvl5";
+      lvl.botHeroName = "bot5";
+      lvl.botLife = "70";
+      lvl.botCards = [{ mnemonic: "wormLow", price: "3" }, { mnemonic: "mine", price: "3" }, { mnemonic: "shield", price: "2" }];
+      lvl.playerHeroName = "rezkar";
+      lvl.playerLife = "";
+      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.endLevelBonus = "life";
+      lvl.endLevelBonusParams = ["20"];
+    });
+
+    addLevel((lvl) => {
+      lvl.lvlName = "lvl6";
+      lvl.botHeroName = "bot6";
+      lvl.botLife = "80";
+      lvl.botCards = [{ mnemonic: "pikeLow", price: "3" }, { mnemonic: "shaman", price: "4" }, { mnemonic: "push", price: "4" }];
+      lvl.playerHeroName = "rezkar";
+      lvl.playerLife = "";
+      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.endLevelBonus = "twocards";
+      lvl.endLevelBonusParams = ['firewallMiddle:4', 'meteoriteMiddle:3'];
+    });
+
+    addLevel((lvl) => {
+      lvl.lvlName = "lvl7";
+      lvl.botHeroName = "bot7";
+      lvl.botLife = "80";
+      lvl.botCards = [{ mnemonic: "meteoriteMiddle", price: "4" }, { mnemonic: "totem", price: "4" }, { mnemonic: "maneuver", price: "3" }];
+      lvl.playerHeroName = "rezkar";
+      lvl.playerLife = "";
+      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.endLevelBonus = "twocards";
+      lvl.endLevelBonusParams = ['berserk:4', 'assassin:4'];
+    });
+
+    addLevel((lvl) => {
+      lvl.lvlName = "lvl8";
+      lvl.botHeroName = "bot8";
+      lvl.botLife = "90";
+      lvl.botCards = [{ mnemonic: "lightningLow", price: "4" }, { mnemonic: "berserkLow", price: "3" }, { mnemonic: "shield", price: "2" }];
+      lvl.playerHeroName = "rezkar";
+      lvl.playerLife = "";
+      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.endLevelBonus = "life";
+      lvl.endLevelBonusParams = ["20"];
+    });
+
+    addLevel((lvl) => {
+      lvl.lvlName = "lvl9";
+      lvl.botHeroName = "bot9";
+      lvl.botLife = "100";
+      lvl.botCards = [{ mnemonic: "firewall", price: "4" }, { mnemonic: "assassin", price: "4" }, { mnemonic: "panic", price: "3" }];
+      lvl.playerHeroName = "rezkar";
+      lvl.playerLife = "";
+      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.endLevelBonus = "twocards";
+      lvl.endLevelBonusParams = ['firewall:4', 'meteorite:4'];
+    });
+
+
+    addLevel((lvl) => {
+      lvl.lvlName = "lvl10";
+      lvl.botHeroName = "bot10";
+      lvl.botLife = "120";
+      lvl.botCards = [{ mnemonic: "worm", price: "4" }, { mnemonic: "catapult", price: "4" }, { mnemonic: "c_attack", price: "4" }];
+      lvl.playerHeroName = "rezkar";
+      lvl.playerLife = "";
+      lvl.playerCards = [{ mnemonic: "", price: "" }];
+    });
+
     return config;
   }
-
-  /*   this.configDict.set("lvl1", (config) => {
-   config.botHeroName = "bot1";
-   config.playerHeroName = "lion";
- 
-   this._lifeBonus = config.node.getComponentInChildren(
-     EndLevelLifeBonusModel
-   );
- 
-   const education = config.node.parent?.getChildByPath(
-     "LevelView/Education"
-   );
-   if (!education) return;
-   education.active = true;
- 
-   if (this._lifeBonus) {
-     this._lifeBonus.life = "10";
-     config.endLevelBonuses.push(this._lifeBonus);
-   }
- 
-   const playerHero = config.node
-     .getChildByName("HeroModels")!
-     .getChildByName("LionHero")
-     ?.getComponent(PlayerModel);
- 
-   const bonuses = config.node
-     .getChildByName("BonusModels")
-     ?.getComponentsInChildren(BonusModel);
-   const heroBonusOne = bonuses?.find((value) => {
-     return value.mnemonic == "firewallLow";
-   });
- 
-   heroBonusOne!.currentAmmountToActivate = 3;
- 
-   if (!heroBonusOne) return;
- 
-   playerHero?.bonuses.push(heroBonusOne);
- });
- 
- this.configDict.set("lvl2", (config) => {
-   this.configPlayerStd({ config, name: "bot2", isBot: true })
-   var player = this.configPlayerStd({ config, name: "lion", life: 50 })
-   this.addBonuses(config, player, ["meteoriteLow"]);
- 
-   this.setEndBonusCard(config, "catapult");
- });
- 
- 
- 
- this.configDict.set("lvl3", (config) => {
-   this.configPlayerStd({ config, name: "monkey", life: 60, isBot: true })
-   var player = this.configPlayerStd({ config, name: "lion", life: 60 })
-   this.addBonuses(config, player, ["meteoriteLow"]);
- });
- 
- this.configDict.set("lvl4", (config) => {
-   this.configPlayerStd({ config, name: "bot3", life: 60, isBot: true })
-   var player = this.configPlayerStd({ config, name: "lion", life: 60 })
-   this.addBonuses(config, player, ["meteoriteLow", "assassin"]);
- });
- 
- this.configDict.set("lvl5", (config) => {
-   var bot = this.configPlayerStd({ config, name: "bot4", life: 70, isBot: true })
-   var player = this.configPlayerStd({ config, name: "lion", life: 70 })
-   this.addBonuses(config, player, ["meteoriteMiddle", "assassin"]);
- });
- 
- this.configDict.set("lvl6", (config) => {
-   var bot = this.configPlayerStd({ config, name: "bear", isBot: true })
-   var player = this.configPlayerStd({ config, name: "lion", life: 70 })
-   this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
- });
- 
- this.configDict.set("lvl7", (config) => {
-   var bot = this.configPlayerStd({ config, name: "bot5", isBot: true })
-   var player = this.configPlayerStd({ config, name: "lion", life: 80 })
-   this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
- });
- 
- this.configDict.set("lvl8", (config) => {
-   var bot = this.configPlayerStd({ config, name: "bot6", isBot: true })
-   var player = this.configPlayerStd({ config, name: "lion", life: 80 })
-   this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
- });
- 
- this.configDict.set("lvl9", (config) => {
-   var bot = this.configPlayerStd({ config, name: "bot7", isBot: true })
-   var player = this.configPlayerStd({ config, name: "lion", life: 80 })
-   this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
- });
- 
- this.configDict.set("lvl10", (config) => {
-   var bot = this.configPlayerStd({ config, name: "panda", isBot: true })
-   var player = this.configPlayerStd({ config, name: "lion", life: 90 })
-   this.addBonuses(config, player, ["meteoriteLow", "assassin", "c_attack"]);
- });
-*/
-
 }

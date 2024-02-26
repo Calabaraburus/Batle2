@@ -41,17 +41,26 @@ export class TileController extends CacheObject {
   private _from: Vec3;
   private _to: Vec3;
   private _speed: number;
-  private _foregroundSprite: Sprite | null;
-  private _backgroundSprite: Sprite | null;
+  protected _foregroundSprite: Sprite | null;
+  protected _backgroundSprite: Sprite | null;
   private _attackPower: number;
   private _isStarted = false;
   protected dataService: DataService;
+  private _isFixed = false;
 
   public get attackPower() {
     return this._attackPower;
   }
   public set attackPower(value) {
     this._attackPower = value;
+  }
+
+  public get isFixed() {
+    return this._isFixed;
+  }
+
+  public set isFixed(value) {
+    this._isFixed = value;
   }
 
   // private _interactable = true;

@@ -21,6 +21,10 @@ export class AttackSignalController extends Service {
     assert(f != null, "FieldController not found");
     this.fieldController = f;
 
+    f.tilesMoveAnimationExecutes.on("tilesMoveAnimation", () => {
+      this.updateData();
+    }, this);
+
     const s = this.node.children;
     assert(s != null, "Nodes not found");
     this.sides = s;

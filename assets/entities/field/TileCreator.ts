@@ -45,9 +45,15 @@ export class TileCreator extends Component {
     });
 
     if (prefabs.length > 0) {
-      return this.cache?.getObjectByName<TileController>(
-        prefabs[0].prefabTypeName
-      )?.node;
+      if (prefabs[0].prefabTypeName.startsWith("p_")) {
+        return this.cache?.getObjectByPrefabName<TileController>(
+          prefabs[0].prefabTypeName.toString().substring(2)
+        )?.node;
+      } else {
+        return this.cache?.getObjectByName<TileController>(
+          prefabs[0].prefabTypeName
+        )?.node;
+      }
     } else {
       return null;
     }

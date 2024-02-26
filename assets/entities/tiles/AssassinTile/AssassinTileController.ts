@@ -36,8 +36,7 @@ const { ccclass, property } = _decorator;
 @ccclass("AssassinTileController")
 export class AssassinTileController
   extends TileController
-  implements IAttackable
-{
+  implements IAttackable {
   private _cardService: CardService;
   private _effectsService: EffectsService;
   private _state: TileState;
@@ -208,3 +207,5 @@ export class AssassinTileController
     return true;
   }
 }
+
+
