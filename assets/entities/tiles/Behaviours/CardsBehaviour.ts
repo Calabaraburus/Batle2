@@ -57,6 +57,7 @@ import { ShamanLowCardSubehaviour } from "./ShamanLowCardSubehaviour";
 import { TotemLowCardSubehaviour } from "./TotemLowCardSubehaviour";
 import { MineLowCardSubehaviour } from "./MineLowCardSubehaviour";
 import { MeteorRainCardSubehaviour } from "./MeteorRainCardSubehaviour";
+import { ChampionCardSubehaviour } from "./ChampionCardSubehaviour";
 const { ccclass } = _decorator;
 
 @ccclass("CardsBehaviour")
@@ -85,6 +86,7 @@ export class CardsBehaviour extends GameBehaviour {
     this.type = helpers.typeName(StdTileController);
     // Boss cards
     this._cardsRunDict.set("meteorRain", new MeteorRainCardSubehaviour(this));
+    this._cardsRunDict.set("champion", new ChampionCardSubehaviour(this));
 
     // Firewall cards
     this._cardsRunDict.set("firewallLow", new FirewallLowCardSubehaviour(this));

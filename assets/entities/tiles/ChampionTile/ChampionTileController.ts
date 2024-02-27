@@ -87,6 +87,10 @@ export class ChampionTileController
 
         if (!enemyTile) return;
         this._tilesToDestroy.push(enemyTile);
+        
+        if (this.playerModel == this._dataService.botModel) {
+          vectorAttack -= 1;
+        } else {vectorAttack +=1}
       }
 
       if (oponentModel || oponentModel != null) {

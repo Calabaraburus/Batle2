@@ -15,7 +15,7 @@ export class ChampionCardSubehaviour extends CardsSubBehaviour {
   protected powerTile = 1;
 
   prepare(): boolean {
-    this.parent.debug?.log("[berserk_card_sub] Start preparing.");
+    this.parent.debug?.log("[champ_card_sub] Start preparing.");
 
     const berserkCount = this.powerTile;
     let enemySide = 1;
@@ -47,7 +47,7 @@ export class ChampionCardSubehaviour extends CardsSubBehaviour {
     });
 
     if (myPlayerTiles == null) {
-      this.parent.debug?.log("[berserk_card_sub][error] myTiles is null.");
+      this.parent.debug?.log("[champ_card_sub][error] myTiles is null.");
 
       return false;
     }
@@ -64,7 +64,7 @@ export class ChampionCardSubehaviour extends CardsSubBehaviour {
     });
 
     if (myTiles == null) {
-      this.parent.debug?.log("[berserk_card_sub][error] myTiles is null.");
+      this.parent.debug?.log("[champ_card_sub][error] myTiles is null.");
 
       return false;
     }
@@ -77,15 +77,15 @@ export class ChampionCardSubehaviour extends CardsSubBehaviour {
       myTiles.splice(rndId, 1);
     }
 
-    this.parent.debug?.log("[berserk_card_sub] Prepared.");
+    this.parent.debug?.log("[champ_card_sub] Prepared.");
 
     return true;
   }
 
   run(): boolean {
-    this.parent.debug?.log("[berserk_card_sub] Starting run.");
+    this.parent.debug?.log("[champ_card_sub] Starting run.");
 
-    const model = this.parent.field?.fieldModel.getTileModel("berserk");
+    const model = this.parent.field?.fieldModel.getTileModel("champion");
 
     if (model == undefined) {
       this.parent.debug?.log(
@@ -101,7 +101,7 @@ export class ChampionCardSubehaviour extends CardsSubBehaviour {
 
       if (pModel == undefined || pModel == null) {
         this.parent.debug?.log(
-          "[berserk_card_sub][error] CurrentPlayerModel is null or undefined." +
+          "[champ_card_sub][error] CurrentPlayerModel is null or undefined." +
           " return false."
         );
         return false;
@@ -117,12 +117,12 @@ export class ChampionCardSubehaviour extends CardsSubBehaviour {
       });
     });
 
-    this.parent.debug?.log("[berserk_card_sub] End run with true.");
+    this.parent.debug?.log("[champ_card_sub] End run with true.");
     return true;
   }
 
   effect(): boolean {
-    this.parent.debug?.log("[berserk_card_sub] start effect.");
+    this.parent.debug?.log("[champ_card_sub] start effect.");
 
     const effects: CardEffect[] = [];
 
@@ -150,7 +150,7 @@ export class ChampionCardSubehaviour extends CardsSubBehaviour {
 
     animator.start();
 
-    this.parent.debug?.log("[berserk_card_sub] End with true.");
+    this.parent.debug?.log("[champ_card_sub] End with true.");
     return true;
   }
 }

@@ -3,6 +3,7 @@
     "__type__": "cc.Prefab",
     "_name": "ChampionTilePrefab",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "_native": "",
     "data": {
       "__id__": 1
@@ -72,6 +73,7 @@
     "__type__": "cc.Node",
     "_name": "Background",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "_parent": {
       "__id__": 1
     },
@@ -121,6 +123,7 @@
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "node": {
       "__id__": 2
     },
@@ -148,6 +151,7 @@
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "node": {
       "__id__": 2
     },
@@ -205,6 +209,7 @@
     "__type__": "cc.Node",
     "_name": "Foreground",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "_parent": {
       "__id__": 1
     },
@@ -254,6 +259,7 @@
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "node": {
       "__id__": 8
     },
@@ -281,6 +287,7 @@
     "__type__": "cc.Sprite",
     "_name": "",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "node": {
       "__id__": 8
     },
@@ -338,6 +345,7 @@
     "__type__": "cc.UITransform",
     "_name": "",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "node": {
       "__id__": 1
     },
@@ -365,6 +373,7 @@
     "__type__": "cc.Button",
     "_name": "",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "node": {
       "__id__": 1
     },
@@ -434,9 +443,10 @@
     "customEventData": ""
   },
   {
-    "__type__": "2ec67rdRlVGgb4XSrHdZZu8",
+    "__type__": "7b444Wc1SxA9q60GjLctIa0",
     "_name": "",
     "_objFlags": 0,
+    "__editorExtras__": {},
     "node": {
       "__id__": 1
     },
@@ -450,7 +460,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "11GDDxXJ5ObK5A2QDh6cJW"
+    "fileId": "79jVZxo1FDQYtz5Ozhi7Ju"
   },
   {
     "__type__": "cc.PrefabInfo",
