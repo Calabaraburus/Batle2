@@ -163,8 +163,8 @@ export class Bot_v2 extends Service implements IBot {
 
   private initCardActivators() {
     var field = this._dataService.field;
-    this._cardStrategiesActivators.set("meteorRain", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
-    this._cardStrategiesActivators.set("champion", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("meteorRain", cm => new PerdefinedScoreCardBotAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("champion", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
 
     this._cardStrategiesActivators.set("firewall", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("firewallLow", cm => new DefaultBotAnalizator(cm, this, field, this._playerModel));
