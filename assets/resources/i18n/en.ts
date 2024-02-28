@@ -75,6 +75,14 @@ export const languages = {
         }
     },
     cards: {
+        meteorRain: {
+            name: "Meteor Rain",
+            description: "In the celestial expanse, cracks appear, and from them descend burning fragments of cosmic origin. Their impacts explode like fiery projectiles, leaving behind whirlwinds of dust and fire. <br/><br/> Destroys 15 random enemy tiles.",
+        },
+        champion: {
+            name: "Champion",
+            description: "Beneath the king’s banner stands a legendary fighter, a warrior without measure, embodying strength and relentless force. His name is a curse to enemies and sacred to allies. <br/><br/> Replaces one random player tile with a Champion. Has 2 lives. Destroys 2 enemy tiles ahead.",
+        },
         firewall: {
             name: "Firewall (Strong)",
             description: "The air thickens, soaking up the pungent smell of sulfur, envelops the space and, in an instant, flares up with an all-consuming fire wall. <br/><br/> Burns 7 tiles in the enemy column.",
