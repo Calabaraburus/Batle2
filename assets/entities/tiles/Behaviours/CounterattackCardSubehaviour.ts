@@ -13,8 +13,8 @@ import { IAttackable, isIAttackable } from "../IAttackable";
 export class CounterattackCardSubehaviour extends CardsSubBehaviour {
   private _tilesToDestroy: TileController[];
   private _direction: number;
-  private _minSelect = 4;
-  private _maxSelect = 4;
+  private _minSelect = 3;
+  private _maxSelect = 3;
   private _rowsToCAtk = 2;
   private _selectedCols: { c: number, rstrt: number, rstp: number }[];
   private _excludeTiles: [string,string] =["mine", "mineLow"];
