@@ -29,6 +29,14 @@ export class ReadonlyMatrix2D<T> {
     return this.matrix[col * this.rows + row];
   }
 
+  getSafe(row: number, col: number): T | null {
+    if (row < 0 || col < 0 || row >= this._rows || col >= this._cols) {
+      return null;
+    }
+
+    return this.matrix[col * this.rows + row];
+  }
+
   forEach(callback: (item: T, i: number, j: number) => void) {
     for (let rowIndex = 0; rowIndex < this._rows; rowIndex++) {
       for (let colIndex = 0; colIndex < this._cols; colIndex++) {

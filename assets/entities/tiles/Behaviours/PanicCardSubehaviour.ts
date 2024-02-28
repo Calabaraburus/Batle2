@@ -36,37 +36,6 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
     this._tilesToPanic = [];
     let currentTile: TileController = this._targetTile;
 
-    /* next code change near tiles from target tile
-
-    this.parent.field?.fieldMatrix.forEachCol(
-      this._targetTile.col,
-      (tile, rowId) => {
-        if (tile.playerModel == this.parent.currentOponentModel) {
-          if (
-            this._targetTile.row + maxCountForEachSide >= rowId &&
-            this._targetTile.row - maxCountForEachSide <= rowId
-          ) {
-            this._tilesToPanic.push(tile);
-          }
-        }
-      }
-    );
-
-    this.parent.field?.fieldMatrix.forEachInRow(
-      this._targetTile.row,
-      (tile, colId) => {
-        if (tile.playerModel == this.parent.currentOponentModel) {
-          if (
-            this._targetTile.col + maxCountForEachSide >= colId &&
-            this._targetTile.col - maxCountForEachSide <= colId
-          ) {
-            this._tilesToPanic.push(tile);
-          }
-        }
-      }
-    );
-    */
-
     /* next code change tiles like worm card*/
     for (let index = 0; index < this.maxCount; index++) {
       const applicantsToDestroy: TileController[] = [];
@@ -128,7 +97,7 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
     if (pModel == undefined || pModel == null) {
       this.parent.debug?.log(
         "[panic_card_sub][error] OponentPlayerModel is null or undefined." +
-          " return false."
+        " return false."
       );
       return false;
     }
