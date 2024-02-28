@@ -5,17 +5,9 @@ import { StdTileController } from "../../entities/tiles/UsualTile/StdTileControl
 import { BotAnalizator } from "../BotAnalizator";
 import { CardAnalizator } from "../CardAnalizator";
 
-export class DefaultBotAnalizator extends CardAnalizator {
 
-  getAvailableTilesForAction(data: AnalizedData): TileController[] {
-    return this._fieldExt.getPlayerTiles(this.playerModel).filter(t => {
-      if (t instanceof StdTileController) {
-        if (!t.shieldIsActivated) {
-          return t;
-        }
-      }
-    });
-  }
+export class AllMyTilesBotAnalizator extends CardAnalizator {
+    getAvailableTilesForAction(data: AnalizedData): TileController[] {
+        return this._fieldExt.getPlayerTiles(this.botModel);
+    }
 }
-
-

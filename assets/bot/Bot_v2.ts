@@ -53,6 +53,7 @@ import { ManeuverCardAnalizator } from "./analizators/ManeuverCardAnalizator";
 import { DebugViewForBot } from "./DebugViewForBot";
 import { DEBUG } from "cc/env";
 import { ShieldBotAnalizator } from "./analizators/ShieldBotAnalizator";
+import { AllMyTilesBotAnalizator } from "./analizators/AllMyTilesBotAnalizator";
 
 const { ccclass, property } = _decorator;
 
@@ -205,7 +206,7 @@ export class Bot_v2 extends Service implements IBot {
     this._cardStrategiesActivators.set("assassinLow", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
     this._cardStrategiesActivators.set("assassin", cm => new SummonToMyArmyBotAnalizator(cm, this, field, this._playerModel));
 
-    this._cardStrategiesActivators.set("maneuver", cm => new ManeuverCardAnalizator(cm, this, field, this._playerModel));
+    this._cardStrategiesActivators.set("maneuver", cm => new AllMyTilesBotAnalizator(cm, this, field, this._playerModel));
 
     this._cardStrategiesActivators.set("shield", cm => new ShieldBotAnalizator(cm, this, field, this._playerModel));
 
