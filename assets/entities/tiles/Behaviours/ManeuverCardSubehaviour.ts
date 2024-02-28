@@ -69,6 +69,11 @@ export class ManeuverCardSubehaviour extends CardsSubBehaviour {
     this._tilesToManeuv.forEach(t => {
       if (t != this._targetTile &&
         t.playerModel == this.parent.currentPlayerModel) {
+
+        if (t instanceof StdTileController && t.shieldIsActivated) {
+          return;
+        }
+
         t.destroyTile();
         this.parent.field.createTile({
           row: t.row,
@@ -97,6 +102,10 @@ export class ManeuverCardSubehaviour extends CardsSubBehaviour {
     this._tilesToManeuv.forEach((tile) => {
 
       if (tile.playerModel == this.parent.currentOponentModel) {
+        return;
+      }
+
+      if (tile instanceof StdTileController && tile.shieldIsActivated) {
         return;
       }
 
