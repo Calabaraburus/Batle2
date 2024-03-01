@@ -1,6 +1,5 @@
 import {
   _decorator,
-  Component,
   Sprite,
   Label,
   Button,
@@ -50,6 +49,9 @@ export class CardController extends Service {
 
   @property(Label)
   lblCardAmount: Label;
+
+  @property(Node)
+  fillLineNode: Node;
 
   get model(): BonusModel {
     return this._model;
@@ -147,12 +149,13 @@ export class CardController extends Service {
     if (this._levelModel?.gameMechanicType == 1) {
       this.sprite.node.active = true;
       this.moveMask();
+      this.moveLine();
     } else {
       this.sprite.node.active = this._button.interactable;
     }
   }
 
-  moveMask() {
+  calcPos(negative = false) {
     let coef =
       1 - this.model.currentAmmountToActivate / this.model.priceToActivate;
 
@@ -162,11 +165,25 @@ export class CardController extends Service {
       coef = 1;
     }
 
-    let tpos = new Vec3(0, -this._maskHeight * coef, 0);
+    return new Vec3(0, (negative ? -1 : 1) * this._maskHeight * coef, 0);
+
+  }
+
+  moveLine() {
+    const tpos = this.calcPos(true);
+    tpos.y += this._maskHeight / 2;
+    this.fillLineNode.position = tpos;
+  }
+
+
+
+  moveMask() {
+
+    let tpos = this.calcPos(true);
 
     this.maskNode.setPosition(tpos);
 
-    tpos = new Vec3(0, this._maskHeight * coef, 0);
+    tpos = this.calcPos();
 
     this.sprite.node.setPosition(tpos);
   }
@@ -184,3 +201,5 @@ export class CardController extends Service {
       .start();
   }
 }
+
+
