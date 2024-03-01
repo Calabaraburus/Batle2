@@ -6601,6 +6601,10 @@
       {
         "__uuid__": "25c267c3-b793-40ef-a8ac-9dfda2162fcc",
         "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "7a75e35a-9268-479f-a03d-20a4fa9102b5",
+        "__expectedType__": "cc.Prefab"
       }
     ],
     "_id": "a1B23eINRJM584qBdfAM7L"
