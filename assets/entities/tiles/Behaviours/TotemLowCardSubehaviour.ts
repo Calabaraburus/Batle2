@@ -1,8 +1,11 @@
 import { TotemCardSubehaviour } from "./TotemCardSubehaviour";
 
 export class TotemLowCardSubehaviour extends TotemCardSubehaviour {
-  protected lvlTile = "totemLow";
+  protected tileModelMnem = "totemLow";
   prepare(): boolean {
+
+    this._totemCount = 2
+
     super.prepare();
     return true;
   }
