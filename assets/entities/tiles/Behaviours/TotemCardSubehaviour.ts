@@ -14,29 +14,22 @@ import { CardsSubBehaviour } from "./SubBehaviour";
 export class TotemCardSubehaviour extends CardsSubBehaviour {
   private _tilesToTransform: TileController[] = [];
   private _cache: ObjectsCache | null;
-  protected lvlTile = "totem";
+  protected tileModelMnem = "totem";
+  protected _totemCount = 3;
 
   prepare(): boolean {
     this.parent.debug?.log("[totem_card_sub] Start preparing.");
 
-    const totemCount = 3;
-    const targetTile = this.parent.target as StdTileController;
     if (this.parent.cardService == null) return false;
-
-    if (targetTile instanceof StdTileController) {
-      if (targetTile.playerModel == this.parent.cardService.getOponentModel()) {
-        return false;
-      }
-    } else {
-      return false;
-    }
 
     this._cache = ObjectsCache.instance;
     this.effectDurationValue = 0.5;
     this._tilesToTransform = [];
 
     const myTiles = this.parent.field?.fieldMatrix.filter((tile) => {
-      return tile.playerModel == this.parent.currentPlayerModel;
+      return tile instanceof StdTileController &&
+        tile.playerModel == this.parent.currentPlayerModel &&
+        !tile.shieldIsActivated;
     });
 
     if (myTiles == null) {
@@ -45,7 +38,7 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
       return false;
     }
 
-    for (let index = 0; index < totemCount; index++) {
+    for (let index = 0; index < this._totemCount; index++) {
       const rndId = randomRangeInt(0, myTiles.length);
 
       this._tilesToTransform.push(myTiles[rndId]);
@@ -61,7 +54,7 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
   run(): boolean {
     this.parent.debug?.log("[totem_card_sub] Starting run.");
 
-    const model = this.parent.field?.fieldModel.getTileModel(this.lvlTile);
+    const model = this.parent.field?.fieldModel.getTileModel(this.tileModelMnem);
 
     if (model == undefined) {
       this.parent.debug?.log(
@@ -78,7 +71,7 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
       if (pModel == undefined || pModel == null) {
         this.parent.debug?.log(
           "[totem_card_sub][error] CurrentPlayerModel is null or undefined." +
-            " return false."
+          " return false."
         );
         return false;
       }
