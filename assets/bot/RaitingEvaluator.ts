@@ -67,8 +67,8 @@ export class RaitingEvaluator {
         if (t instanceof (StdTileController) && t.shieldIsActivated) {
             return this._shieldTileWeightCoef;
         } else {
-            if (this._evaluationTileStrategies.has(t.tileModel.tileName.toLowerCase())) {
-                const ev = this._evaluationTileStrategies.get(t.tileModel.tileName.toLowerCase());
+            if (this._evaluationTileStrategies.has(t.tileModel.baseTileName.toLowerCase())) {
+                const ev = this._evaluationTileStrategies.get(t.tileModel.baseTileName.toLowerCase());
                 if (ev) {
                     return ev(t, isEnemyTile);
                 }
