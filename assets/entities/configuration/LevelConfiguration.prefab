@@ -463,6 +463,7 @@
       "__id__": 12
     },
     "tileName": "r",
+    "baseTileName": "r",
     "sprite": {
       "__uuid__": "4e356ebb-b3b4-485d-a125-09157eb54c66@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -558,6 +559,7 @@
       "__id__": 16
     },
     "tileName": "y",
+    "baseTileName": "y",
     "sprite": {
       "__uuid__": "535cb97d-9f1b-489a-9100-0f9fa31acbbc@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -687,6 +689,7 @@
       "__id__": 23
     },
     "tileName": "p",
+    "baseTileName": "p",
     "sprite": {
       "__uuid__": "44ebb638-3465-43f8-ad95-2565d90ba35c@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -816,6 +819,7 @@
       "__id__": 30
     },
     "tileName": "b",
+    "baseTileName": "b",
     "sprite": {
       "__uuid__": "de0a8e2b-c0a8-4062-9308-027537001dac@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -945,6 +949,7 @@
       "__id__": 37
     },
     "tileName": "g",
+    "baseTileName": "g",
     "sprite": {
       "__uuid__": "af69a46c-1349-4413-a6df-03c5873aa328@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -1074,6 +1079,7 @@
       "__id__": 44
     },
     "tileName": "k",
+    "baseTileName": "k",
     "sprite": {
       "__uuid__": "bcae1623-9122-460f-ae97-1935521b4c64@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -1203,6 +1209,7 @@
       "__id__": 51
     },
     "tileName": "start",
+    "baseTileName": "start",
     "sprite": null,
     "starColor": {
       "__type__": "cc.Color",
@@ -1295,6 +1302,7 @@
       "__id__": 55
     },
     "tileName": "end",
+    "baseTileName": "end",
     "sprite": null,
     "starColor": {
       "__type__": "cc.Color",
@@ -1387,6 +1395,7 @@
       "__id__": 59
     },
     "tileName": "bomb",
+    "baseTileName": "bomb",
     "sprite": null,
     "starColor": {
       "__type__": "cc.Color",
@@ -1479,6 +1488,7 @@
       "__id__": 63
     },
     "tileName": "rocket",
+    "baseTileName": "rocket",
     "sprite": null,
     "starColor": {
       "__type__": "cc.Color",
@@ -1571,6 +1581,7 @@
       "__id__": 67
     },
     "tileName": "totem",
+    "baseTileName": "totem",
     "sprite": {
       "__uuid__": "90863228-6cf7-483b-b360-0a64863d767c@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -1666,6 +1677,7 @@
       "__id__": 71
     },
     "tileName": "star",
+    "baseTileName": "star",
     "sprite": null,
     "starColor": {
       "__type__": "cc.Color",
@@ -1758,6 +1770,7 @@
       "__id__": 75
     },
     "tileName": "empty",
+    "baseTileName": "empty",
     "sprite": null,
     "starColor": {
       "__type__": "cc.Color",
@@ -1850,6 +1863,7 @@
       "__id__": 79
     },
     "tileName": "playerBackground",
+    "baseTileName": "playerBackground",
     "sprite": {
       "__uuid__": "a6d580e4-4127-408e-bb17-3d9152ff1002@4ee3a",
       "__expectedType__": "cc.SpriteFrame"
@@ -1990,6 +2004,7 @@
       "__id__": 87
     },
     "tileName": "oponentBackground",
+    "baseTileName": "oponentBackground",
     "sprite": {
       "__uuid__": "a6d580e4-4127-408e-bb17-3d9152ff1002@8fcfe",
       "__expectedType__": "cc.SpriteFrame"
@@ -2141,6 +2156,7 @@
       "__id__": 96
     },
     "tileName": "VerticalFireWallBonus",
+    "baseTileName": "VerticalFireWallBonus",
     "sprite": {
       "__uuid__": "4df66241-0f34-4a39-abfb-e2399cbd451c@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -2236,6 +2252,7 @@
       "__id__": 100
     },
     "tileName": "mine",
+    "baseTileName": "mine",
     "sprite": {
       "__uuid__": "00476cce-cf3b-4e31-b8aa-0adfb8338898@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -2331,6 +2348,7 @@
       "__id__": 104
     },
     "tileName": "catapult",
+    "baseTileName": "catapult",
     "sprite": {
       "__uuid__": "85a3fc38-607d-463d-933f-ca6cbed3539c@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -2426,6 +2444,7 @@
       "__id__": 108
     },
     "tileName": "shaman",
+    "baseTileName": "shaman",
     "sprite": {
       "__uuid__": "95b84f76-e4a8-492b-a0cb-966534ea3819@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -2521,6 +2540,7 @@
       "__id__": 112
     },
     "tileName": "berserk",
+    "baseTileName": "berserk",
     "sprite": {
       "__uuid__": "73e04c35-d9c3-43c3-82f8-67f76a7baeb0@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -2616,6 +2636,7 @@
       "__id__": 116
     },
     "tileName": "assassin",
+    "baseTileName": "assassin",
     "sprite": {
       "__uuid__": "27ce37e5-a741-4d75-bcac-2f1e142445b0@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -2711,6 +2732,7 @@
       "__id__": 120
     },
     "tileName": "assassinLow",
+    "baseTileName": "assassin",
     "sprite": {
       "__uuid__": "27ce37e5-a741-4d75-bcac-2f1e142445b0@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -2806,6 +2828,7 @@
       "__id__": 124
     },
     "tileName": "catapultLow",
+    "baseTileName": "catapult",
     "sprite": {
       "__uuid__": "85a3fc38-607d-463d-933f-ca6cbed3539c@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -2901,6 +2924,7 @@
       "__id__": 128
     },
     "tileName": "shamanLow",
+    "baseTileName": "shaman",
     "sprite": {
       "__uuid__": "95b84f76-e4a8-492b-a0cb-966534ea3819@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -2996,6 +3020,7 @@
       "__id__": 132
     },
     "tileName": "totemLow",
+    "baseTileName": "totem",
     "sprite": {
       "__uuid__": "90863228-6cf7-483b-b360-0a64863d767c@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -3091,6 +3116,7 @@
       "__id__": 136
     },
     "tileName": "mineLow",
+    "baseTileName": "mine",
     "sprite": {
       "__uuid__": "00476cce-cf3b-4e31-b8aa-0adfb8338898@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -3186,6 +3212,7 @@
       "__id__": 140
     },
     "tileName": "wall",
+    "baseTileName": "wall",
     "sprite": {
       "__uuid__": "94ddaf27-c770-47c6-b47d-979139b06313@f9941",
       "__expectedType__": "cc.SpriteFrame"
@@ -3304,6 +3331,7 @@
       "__id__": 146
     },
     "tileName": "fixedBalista",
+    "baseTileName": "fixedBalista",
     "sprite": {
       "__uuid__": "85a3fc38-607d-463d-933f-ca6cbed3539c@f9941",
       "__expectedType__": "cc.SpriteFrame"
