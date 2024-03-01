@@ -175,8 +175,6 @@ export class CardController extends Service {
     this.fillLineNode.position = tpos;
   }
 
-
-
   moveMask() {
 
     let tpos = this.calcPos(true);

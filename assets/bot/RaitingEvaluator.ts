@@ -38,7 +38,7 @@ export class RaitingEvaluator {
         this._evaluationTileStrategies.set("mine", this.safePlaceEvStrategy.bind(this));
         this._evaluationTileStrategies.set("catapult", this.safePlaceEvStrategy.bind(this));
         this._evaluationTileStrategies.set("shaman", this.safePlaceEvStrategy.bind(this));
-        this._evaluationTileStrategies.set("assasin", this.safePlaceEvStrategy.bind(this));
+        this._evaluationTileStrategies.set("assassin", this.safePlaceEvStrategy.bind(this));
 
     }
 

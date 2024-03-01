@@ -85,6 +85,7 @@ export class MineTileController extends TileController {
       });
 
       this.fieldController.moveTilesLogicaly(this._gameManager?.playerTurn);
+      this.fieldController.fixTiles();
     }
   }
 

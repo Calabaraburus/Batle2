@@ -8501,7 +8501,7 @@
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": null,
-    "_id": "36oMKWQLlAzagujm3pbMu9"
+    "_id": "fagCgbdwhFIp+bulSBqrxJ"
   },
   {
     "__type__": "cc.CompPrefabInfo",
@@ -15783,10 +15783,75 @@
     },
     "_enabled": true,
     "__prefab": null,
-    "sounds": [],
+    "sounds": [
+      {
+        "__uuid__": "7b06efe0-389e-4322-8dd6-bd2f6f728297",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "26c868ce-3ab9-4f1f-b65b-3fce256770ff",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "a91ebd48-4b87-4c3c-b4ba-eadd2ec0d1de",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "2ad95e61-3310-4dfd-a104-536766df3fb0",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "dffea37a-e8a6-411c-94b0-f43158f1c479",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "0b8881fa-5688-4e15-8f80-395b9426d9cd",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "dae0029c-ccbe-4e86-9a8e-d052d490b41e",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "7a9d3ae0-e9e8-439b-b70b-26b017275e6b",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "019182aa-246f-4828-bdfb-be85a17815df",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "a9e2a5fc-1d44-420f-848b-e14b4a8d2b46",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "ab45387c-4675-4236-afc8-ea92bf1d30e2",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "a5d3c565-d4bf-4958-b6ca-b8860f58463e",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "762f1a7e-531f-4db4-a6e0-4b9c7a584d8f",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "1df82643-35e6-4105-93db-9c122594d684",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "8971740e-55f4-49f3-9ca4-70fc301b24b3",
+        "__expectedType__": "cc.AudioClip"
+      }
+    ],
     "music": [
       {
-        "__uuid__": "a4a60577-950b-41ee-b840-76c11b151821",
+        "__uuid__": "a2cbb391-0132-408b-bd8e-8687489f7c04",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "463ef31a-4150-4b7f-9ef7-e715a08216e5",
         "__expectedType__": "cc.AudioClip"
       }
     ],
