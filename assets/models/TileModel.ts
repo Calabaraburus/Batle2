@@ -23,6 +23,9 @@ export class TileModel extends Component {
   @property({ visible: true })
   tileName = "";
 
+  @property({ visible: true })
+  baseTileName = "";
+
   @property({ type: SpriteFrame, visible: true })
   sprite: SpriteFrame;
 

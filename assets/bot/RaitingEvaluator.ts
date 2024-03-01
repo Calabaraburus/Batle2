@@ -64,8 +64,8 @@ export class RaitingEvaluator {
         if (t instanceof (StdTileController) && t.shieldIsActivated) {
             return 2;
         } else {
-            if (this._evaluationTileStrategies.has(t.tileModel.tileName)) {
-                const ev = this._evaluationTileStrategies.get(t.tileModel.tileName);
+            if (this._evaluationTileStrategies.has(t.tileModel.tileName.toLowerCase())) {
+                const ev = this._evaluationTileStrategies.get(t.tileModel.tileName.toLowerCase());
                 if (ev) {
                     return ev(t, isEnemyTile);
                 }
@@ -94,9 +94,9 @@ export class RaitingEvaluator {
             result += this.EvaluateRating(t, false);
         });
 
-        const cccbant = this.countColumnCanBeAttackNextTurn(this._playerModel);
+        // const cccbant = this.countColumnCanBeAttackNextTurn(this._playerModel);
 
-        result -= cccbant * (this._tileAttackCoef / 3)
+        // result -= cccbant * (this._tileAttackCoef / 3)
 
         enemyTiles.forEach((t) => {
             const distToPlayerBase = this._fieldExt.getVerticalDistance(t, this._playerBaseTiles[0]);
