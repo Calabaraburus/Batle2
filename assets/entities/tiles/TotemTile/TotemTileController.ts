@@ -19,6 +19,7 @@ export class TotemTileController extends TileController implements IAttackable {
   private _state: TileState;
   private _attacksCountToDestroy: number;
   private _attackedNumber: number;
+  private _audio: AudioManagerService | null = null;
 
   /** Destroy particle system */
   @property(Prefab)
@@ -62,14 +63,23 @@ export class TotemTileController extends TileController implements IAttackable {
       this._attackedNumber -= this.power;
 
       if (this._attackedNumber <= 0) {
-        this.fakeDestroy();
+        this.destroyTile();
       }
     }
   }
 
   public destroyTile() {
     this.createParticles();
+    this.playSoundEffect();
     super.destroyTile();
+  }
+
+  private playSoundEffect() {
+    if (!this._audio) {
+      this._audio = Service.getService(AudioManagerService);
+    }
+
+    this._audio?.playSoundEffect("totem_attack");
   }
 
   private createParticles() {
@@ -80,8 +90,6 @@ export class TotemTileController extends TileController implements IAttackable {
     if (ui == null) {
       return;
     }
-
-    Service.getService(AudioManagerService)?.playSoundEffect("totem_attack");
 
     ps.position = new Vec3(
       this.node.position.x + ui.contentSize.width / 2,

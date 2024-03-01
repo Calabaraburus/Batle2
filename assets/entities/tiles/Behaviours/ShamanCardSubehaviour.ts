@@ -50,12 +50,12 @@ export class ShamanCardSubehaviour extends CardsSubBehaviour {
     if (pModel == undefined || pModel == null) {
       this.parent.debug?.log(
         "[shaman_card_sub][error] CurrentPlayerModel is null or undefined." +
-          " return false."
+        " return false."
       );
       return false;
     }
 
-    targetTile.cacheDestroy();
+    targetTile.destroyTile();
 
     this.parent.field?.createTile({
       row: targetTile.row,

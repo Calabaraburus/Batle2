@@ -31,6 +31,7 @@ import { ShootEffect } from "../../effects/ShootEffect";
 import { Line } from "../../effects/Line";
 import { ShootSmokeEffect } from "../../effects/shootSmokeEffect";
 import { Service } from "../../services/Service";
+import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 const { ccclass, property } = _decorator;
 
 @ccclass("AssassinTileController")
@@ -44,6 +45,7 @@ export class AssassinTileController
   private _attackedNumber: number;
   private _cache: ObjectsCache;
   private _gameManager: GameManager;
+  private _audio: AudioManagerService | null = null;
 
   /** Destroy particle system */
   @property(Prefab)
@@ -96,14 +98,14 @@ export class AssassinTileController
           if (isIAttackable(t)) {
             (<IAttackable>t).attack(1);
           } else {
-            this.fieldController.destroyTile(t.row, t.col, (t) => {
-              return t.playerModel !== this.playerModel;
-            });
+            t.destroyTile();
           }
         });
       }
 
       this.fieldController.moveTilesLogicaly(this._gameManager?.playerTurn);
+      this.fieldController.fixTiles();
+
       this.playEffect();
     }
   }
@@ -141,10 +143,20 @@ export class AssassinTileController
     }
   }
 
+  private playSoundEffect() {
+    if (!this._audio) {
+      this._audio = Service.getService(AudioManagerService);
+    }
+
+    this._audio?.playSoundEffect("mine_attack_2");
+  }
+
   playEffect() {
     console.log("fire wall effect");
 
     if (this._tilesToDestroy == null) return;
+
+    this.playSoundEffect();
 
     this._shootEffect?.makeShoots(
       this._tilesToDestroy.map<Line>(
