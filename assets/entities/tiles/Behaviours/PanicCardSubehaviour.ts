@@ -13,16 +13,15 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
   protected powerCard = 1;
   private _targetTile: StdTileController;
   private _soundEffect: AudioManager | null;
-  private maxCount: number;
 
   prepare(): boolean {
-    const maxCountForEachSide = this.powerCard;
     this._targetTile = this.parent.target as StdTileController;
 
     if (this._targetTile instanceof StdTileController) {
       if (
         this._targetTile.playerModel ==
-        this.parent.cardService.getCurrentPlayerModel()
+        this.parent.currentPlayerModel ||
+        this._targetTile.tileModel.specialTile
       ) {
         return false;
       }
@@ -30,77 +29,31 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
       return false;
     }
 
-    this.maxCount = 6;
-    const matrix = this.parent.field?.fieldMatrix;
     this._cache = ObjectsCache.instance;
     this._tilesToPanic = [];
-    let currentTile: TileController = this._targetTile;
 
-    /* next code change tiles like worm card*/
-    for (let index = 0; index < this.maxCount; index++) {
-      const applicantsToDestroy: TileController[] = [];
+    const cords = [
+      [-1, 0],
+      [1, 0],
+      [0, -1],
+      [0, 1],
+    ];
 
-      const ids = [
-        [-1, 0],
-        [1, 0],
-        [0, -1],
-        [0, 1],
-      ];
+    cords.forEach((cord) => {
+      const x = this._targetTile.row + cord[0];
+      const y = this._targetTile.col + cord[1];
 
-      ids.forEach((i) =>
-        this.getNearTile(
-          matrix,
-          applicantsToDestroy,
-          currentTile.row + i[0],
-          currentTile.col + i[1]
-        )
-      );
-
-      if (applicantsToDestroy.length == 0) return true;
-      currentTile =
-        applicantsToDestroy[randomRangeInt(0, applicantsToDestroy.length)];
-      this._tilesToPanic.push(currentTile);
-    }
+      const tile = this.parent.field.fieldMatrix.getSafe(x, y);
+      if (tile) {
+        this._tilesToPanic.push(tile);
+      }
+    });
 
     return true;
   }
 
-  private getNearTile(
-    matrix: ReadonlyMatrix2D<TileController>,
-    applicantsToDestroy: TileController[],
-    row: number,
-    col: number
-  ) {
-    if (row < matrix.rows && col < matrix.cols && row >= 0 && col >= 0) {
-      const tile = matrix?.get(row, col);
-      if (tile.playerModel == this.parent.cardService.getOponentModel()) {
-        if (!this._tilesToPanic.some((t) => t == tile))
-          applicantsToDestroy.push(tile);
-      }
-    }
-  }
-
   run(): boolean {
     this.parent.debug?.log("[panic_card_sub] Starting run.");
-
-    const tModel = this._targetTile.tileModel;
-
-    if (tModel == undefined) {
-      this.parent.debug?.log(
-        "[panic_card_sub][error] panic model is null. return false."
-      );
-      return false;
-    }
-
-    const pModel = this.parent.cardService.getOponentModel();
-
-    if (pModel == undefined || pModel == null) {
-      this.parent.debug?.log(
-        "[panic_card_sub][error] OponentPlayerModel is null or undefined." +
-        " return false."
-      );
-      return false;
-    }
 
     this._tilesToPanic.forEach((t) => {
       if (t.tileModel != this._targetTile.tileModel) {
@@ -109,8 +62,8 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
         this.parent.field?.createTile({
           row: t.row,
           col: t.col,
-          tileModel: tModel,
-          playerModel: pModel,
+          tileModel: this._targetTile.tileModel,
+          playerModel: this._targetTile.playerModel,
           position: t.node.position,
           putOnField: true,
         });
@@ -124,6 +77,35 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
   effect(): boolean {
     this.parent.fieldViewController.moveTilesAnimate();
     this.parent.audioManager.playSoundEffect("panic");
+
+    const timeObj = { time: 0 };
+    const animator = tween(timeObj);
+    const effects: CardEffect[] = [];
+
+    this._tilesToPanic.forEach((t, i) => {
+
+      animator.call(() => {
+        const effect =
+          this._cache?.getObjectByPrefabName<CardEffect>("panicEffect");
+        if (effect == null) {
+          return;
+        }
+
+        effect.node.position = t.node.position;
+        effect.node.parent = this.parent.effectsNode;
+        effect.play();
+
+        effects.push(effect);
+      });
+    });
+
+    animator
+      .delay(0.8)
+      .call(() => effects.forEach((e) => e.stopEmmit()))
+      .delay(3)
+      .call(() => effects.forEach((e) => e.cacheDestroy()));
+
+    animator.start();
 
     return true;
   }
