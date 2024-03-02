@@ -148,7 +148,7 @@ export class AssassinTileController
       this._audio = Service.getService(AudioManagerService);
     }
 
-    this._audio?.playSoundEffect("mine_attack_2");
+    this._audio?.playSoundEffect("assasin_shoot2");
   }
 
   playEffect() {

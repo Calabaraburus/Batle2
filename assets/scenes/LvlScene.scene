@@ -15843,6 +15843,14 @@
       {
         "__uuid__": "8971740e-55f4-49f3-9ca4-70fc301b24b3",
         "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "b1dbb091-fe77-4a3b-9fe7-4d3a32726bd9",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "9234b6b5-f65a-4730-b2fd-cd53e039b0b8",
+        "__expectedType__": "cc.AudioClip"
       }
     ],
     "music": [
