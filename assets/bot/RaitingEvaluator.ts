@@ -7,7 +7,7 @@ import { StdTileController } from "../entities/tiles/UsualTile/StdTileController
 export class RaitingEvaluator {
 
     private _tileAttackCoef = 20;
-    private _potentialAttackCoef = 8;
+    private _potentialAttackCoef = 1;
     private _shieldTileWeightCoef = 2;
     private _fieldExt: FieldControllerExtensions;
     private _playerModel: PlayerModel;
@@ -97,7 +97,7 @@ export class RaitingEvaluator {
             result += this.EvaluateRating(t, false);
         });
 
-        let columnsCanAtackCount = this.countColumnCanBeAttackNextTurn(this._playerModel, this._enemyBaseTiles);
+        let columnsCanAtackCount = this.countColumnCanBeAttackNextTurn(this._enemyModel, this._enemyBaseTiles);
 
         result += columnsCanAtackCount * this._potentialAttackCoef
 
@@ -110,9 +110,9 @@ export class RaitingEvaluator {
             result -= this.EvaluateRating(t, true);
         });
 
-        columnsCanAtackCount = this.countColumnCanBeAttackNextTurn(this._enemyModel, this._playerBaseTiles);
+        columnsCanAtackCount = this.countColumnCanBeAttackNextTurn(this._playerModel, this._playerBaseTiles);
 
-        result += columnsCanAtackCount * this._potentialAttackCoef
+        result -= columnsCanAtackCount * this._potentialAttackCoef
 
         return result;
     }
@@ -131,33 +131,47 @@ export class RaitingEvaluator {
     private isColumnHasDestructableTilesOfOneType(colId: number, playerModel: PlayerModel, baseTiles: TileController[]) {
         let prevTile: TileController | null = null;
 
-        let isConnected = false;
+        let cnt = 0;
+        //let isConnected = false;
 
         for (let ri = 0; ri < this._fieldExt.field.fieldMatrix.rows; ri++) {
             const tile = this._fieldExt.field.fieldMatrix.get(ri, colId);
+
+            if (tile.tileModel == this._enemyBaseTiles[0].tileModel ||
+                tile.tileModel == this._playerBaseTiles[0].tileModel) {
+                continue;
+            }
+
             if (tile.playerModel == playerModel) {
                 if (prevTile == null) {
                     prevTile = tile;
+                    cnt = 1;
                     continue;
                 }
 
-                if (tile.tileModel != prevTile.tileModel) {
+                if (Math.abs(prevTile.row - tile.row) > 1) {
                     return false;
                 }
 
-                if (tile.row - baseTiles[colId].row == 1) {
-                    isConnected = true;
-                }
-
-                if (prevTile.row - tile.row > 1) {
+                if (prevTile.tileModel != tile.tileModel) {
                     return false;
                 }
 
+                cnt += 1
                 prevTile = tile
             }
         }
 
-        return isConnected;
+        if (cnt == 1 && prevTile) {
+            const ltile = this._fieldExt.field.fieldMatrix.getSafe(prevTile.row, prevTile.col - 1);
+            const rtile = this._fieldExt.field.fieldMatrix.getSafe(prevTile.row, prevTile.col + 1);
+
+            if (!(ltile?.tileModel == prevTile.tileModel || rtile?.tileModel == prevTile.tileModel)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 
