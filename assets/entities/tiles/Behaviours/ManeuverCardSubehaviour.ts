@@ -75,6 +75,7 @@ export class ManeuverCardSubehaviour extends CardsSubBehaviour {
         }
 
         t.destroyTile();
+
         this.parent.field.createTile({
           row: t.row,
           col: t.col,

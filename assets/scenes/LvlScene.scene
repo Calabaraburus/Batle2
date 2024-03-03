@@ -29,7 +29,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 1039
+      "__id__": 1040
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -60,7 +60,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 1043
+      "__id__": 1044
     },
     "_id": "cb37e400-fef2-4215-bc1b-19d18e11de4a"
   },
@@ -8501,7 +8501,7 @@
     "_duration": 0.1,
     "_zoomScale": 1.2,
     "_target": null,
-    "_id": "fagCgbdwhFIp+bulSBqrxJ"
+    "_id": "76UeutWbhMJ6OlRRjC6jNN"
   },
   {
     "__type__": "cc.CompPrefabInfo",
@@ -15228,9 +15228,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1033
-      },
-      {
         "__id__": 1034
       },
       {
@@ -15244,6 +15241,9 @@
       },
       {
         "__id__": 1038
+      },
+      {
+        "__id__": 1039
       }
     ],
     "_prefab": null,
@@ -15321,7 +15321,7 @@
       "__id__": 1018
     },
     "_children": [],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 1023
@@ -15419,9 +15419,6 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 1028
-      },
-      {
         "__id__": 1029
       },
       {
@@ -15432,6 +15429,9 @@
       },
       {
         "__id__": 1032
+      },
+      {
+        "__id__": 1033
       }
     ],
     "_prefab": null,
@@ -15480,6 +15480,9 @@
       },
       {
         "__id__": 1027
+      },
+      {
+        "__id__": 1028
       }
     ],
     "_prefab": null,
@@ -15498,8 +15501,8 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 0.2,
-      "y": 0.2,
+      "x": 1,
+      "y": 1,
       "z": 1
     },
     "_mobility": 0,
@@ -15524,8 +15527,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1024,
-      "height": 1024
+      "width": 200,
+      "height": 200
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -15555,7 +15558,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "2adf8c23-2b1d-4b0c-85b4-cd547159c22f@f9941",
+      "__uuid__": "2d78e2a2-8bb8-4843-9dc2-cc77e4cfd203@50700",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -15572,6 +15575,29 @@
     "_useGrayscale": false,
     "_atlas": null,
     "_id": "0dsBrhFn9BOJt2L+0yvPyV"
+  },
+  {
+    "__type__": "cc.Animation",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1025
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "playOnLoad": true,
+    "_clips": [
+      {
+        "__uuid__": "fe833cf9-0039-4da9-bf34-204b36f9f8d8",
+        "__expectedType__": "cc.AnimationClip"
+      }
+    ],
+    "_defaultClip": {
+      "__uuid__": "fe833cf9-0039-4da9-bf34-204b36f9f8d8",
+      "__expectedType__": "cc.AnimationClip"
+    },
+    "_id": "d5ehqfTxVFgY8CB6Mi98Za"
   },
   {
     "__type__": "cc.UITransform",
@@ -15885,7 +15911,7 @@
     "instance": null,
     "targetOverrides": [
       {
-        "__id__": 1040
+        "__id__": 1041
       }
     ],
     "nestedPrefabInstanceRoots": [
@@ -16008,7 +16034,7 @@
       "__id__": 87
     },
     "sourceInfo": {
-      "__id__": 1041
+      "__id__": 1042
     },
     "propertyPath": [
       "window"
@@ -16017,7 +16043,7 @@
       "__id__": 87
     },
     "targetInfo": {
-      "__id__": 1042
+      "__id__": 1043
     }
   },
   {
@@ -16035,28 +16061,28 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 1044
-    },
-    "shadows": {
       "__id__": 1045
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 1046
     },
-    "fog": {
+    "_skybox": {
       "__id__": 1047
     },
-    "octree": {
+    "fog": {
       "__id__": 1048
     },
-    "skin": {
+    "octree": {
       "__id__": 1049
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 1050
     },
-    "postSettings": {
+    "lightProbeInfo": {
       "__id__": 1051
+    },
+    "postSettings": {
+      "__id__": 1052
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false

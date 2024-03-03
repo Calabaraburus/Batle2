@@ -23,11 +23,16 @@ export class LoaderScreen extends Component {
 
   start() {
     this._opacity = this.loaderNode.getComponent(UIOpacity);
+
+    this.node.active = false;
+
     this.showTween = tween(this._opacity)
       .set({ opacity: 0 })
       .to(this.timeToShow, { opacity: 255 }, { easing: "linear" });
 
-    this.hideTween = tween(this._opacity)
+    this.hideTween = tween(this._opacity).delay(1).call(() => {
+      this.showTween.stop();
+    })
       .to(this.timeToShow, { opacity: 0 }, { easing: "linear" })
       .call(() => {
         this.node.active = false;
@@ -41,7 +46,7 @@ export class LoaderScreen extends Component {
   }
 
   hide() {
-    this.showTween.stop();
+
     this.hideTween.start();
   }
 }
