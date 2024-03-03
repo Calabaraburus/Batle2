@@ -32,6 +32,18 @@ export class SettingsLoader extends Service {
     this.loadGameConfiguration();
   }
 
+  public getParametersJson() {
+    return sys.localStorage.getItem("gameParameters");
+  }
+
+  public getGameConfigurationJson() {
+    return sys.localStorage.getItem("gameConfiguration");
+  }
+
+  public getPlayerCurrentGameStateJson() {
+    return sys.localStorage.getItem("gameState");
+  }
+
   public loadGameConfiguration() {
     const data = sys.localStorage.getItem("gameConfiguration");
 
