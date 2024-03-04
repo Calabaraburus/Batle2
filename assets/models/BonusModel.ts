@@ -45,7 +45,7 @@ export class BonusModel extends Component {
   public activateType = "-";
 
   // Bonus level
-  @property(CCString)
+  @property(CCInteger)
   public bonusLevel = 0;
 
   //** Properties for info window */
@@ -93,6 +93,7 @@ export class BonusModel extends Component {
     bonus._currentAmmountToActivate = this._currentAmmountToActivate;
     bonus.selected = this.selected;
     bonus.alreadyUsedOnTurn = this.alreadyUsedOnTurn;
+    bonus.bonusLevel = this.bonusLevel;
 
     return bonus;
   }
