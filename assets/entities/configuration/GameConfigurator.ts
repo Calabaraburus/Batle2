@@ -1,4 +1,4 @@
-import { _decorator, CCString, Component, Node } from "cc";
+import { _decorator, assert, CCString, Component, EditBox, Node } from "cc";
 import { Service } from "../services/Service";
 import { SettingsLoader } from "../services/SettingsLoader";
 import { Grid } from "../ui/GridView/Grid";
@@ -12,8 +12,17 @@ export class GameConfigurator extends Service {
     @property(Grid)
     grid: Grid;
 
+    @property(Node)
+    editNode: Node;
+
+    private editBox: EditBox;
+
     start() {
         this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
+        const t = this.editNode.getComponentInChildren(EditBox);
+        assert(t != null);
+
+        this.editBox = t;
 
         this.fillGrid();
     }
@@ -43,6 +52,13 @@ export class GameConfigurator extends Service {
     public addRow() {
         this.grid.rowCount += 1;
         this.grid.updateGrid();
+    }
+
+    public showEdit() {
+        this.editNode.active = true;
+        this.editBox.string = "Parameters:\n" + this._settingsLoader.getParametersJson();
+        this.editBox.string += "\n\nState:\n" + this._settingsLoader.getPlayerCurrentGameStateJson();
+        this.editBox.string += "\n\nGameConfiguration:\n" + this._settingsLoader.getGameConfigurationJson();
     }
 
     save() {

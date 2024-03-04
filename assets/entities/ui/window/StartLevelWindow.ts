@@ -5,7 +5,7 @@ import {
     assert,
     RichText,
     Label,
-    System, Prefab, instantiate, PageView, tween
+    System, Prefab, instantiate, PageView, tween, SpriteFrame
 } from 'cc';
 import { Service } from '../../services/Service';
 import { SettingsLoader } from '../../services/SettingsLoader';
@@ -19,6 +19,7 @@ import { t, init as i18n_init } from '../../../../extensions/i18n/assets/Languag
 import { Window } from './Window';
 import { preferencesProtocol } from '../../../../extensions/i18n/@types/editor/profile/public/interface';
 import { CardInfoPage } from './CardInfoPage';
+import { CardStrtLVLWnd } from './CardStrtLVLWnd';
 
 const { ccclass, property } = _decorator;
 
@@ -28,14 +29,14 @@ export class StartLevelWindow extends Service {
     @property(Sprite)
     HeroImage: Sprite;
 
-    @property(Sprite)
-    card1: Sprite;
+    @property(CardStrtLVLWnd)
+    card_1: CardStrtLVLWnd;
 
-    @property(Sprite)
-    card2: Sprite;
+    @property(CardStrtLVLWnd)
+    card_2: CardStrtLVLWnd;
 
-    @property(Sprite)
-    card3: Sprite;
+    @property(CardStrtLVLWnd)
+    card_3: CardStrtLVLWnd;
 
     @property(RichText)
     scenarioTextField: RichText;
@@ -52,13 +53,16 @@ export class StartLevelWindow extends Service {
     @property(Prefab)
     cardInfoPagePrefab: Prefab;
 
-    private _levelName: string;
+    @property(SpriteFrame)
+    crystalSprites: SpriteFrame[] = [];
+
+    protected _levelName: string;
     private _wndOverlay: OverlayWindow | null;
     protected _wnd: Window | null;
     protected _settings: SettingsLoader;
     protected _levelConfigModel: GameLevelCfgModel;
-    protected _levelConfig: LevelConfiguration;
-    private _cardSprites: Sprite[] = [];
+    protected _levelConfig: LevelConfiguration
+    private _cardSprites: CardStrtLVLWnd[] = [];
     private _levelSelector: LevelSelectorController;
     private _botCardModels: BonusModel[];
     private _isInit = false;
@@ -74,9 +78,9 @@ export class StartLevelWindow extends Service {
             this._levelSelector = tmpSelector;
         }
 
-        this._cardSprites.push(this.card1);
-        this._cardSprites.push(this.card2);
-        this._cardSprites.push(this.card3);
+        this._cardSprites.push(this.card_1);
+        this._cardSprites.push(this.card_2);
+        this._cardSprites.push(this.card_3);
 
         for (let index = 0; index < 3; index++) {
             this.cardInfoPagesView.addPage(instantiate(this.cardInfoPagePrefab));
@@ -119,7 +123,7 @@ export class StartLevelWindow extends Service {
 
         this.HeroImage.spriteFrame = player?.heroImage;
 
-        this._cardSprites.forEach(cs => cs.node.active = false);
+        this._cardSprites.forEach(cs => cs.card.node.active = false);
 
         this._botCardModels = []
 
@@ -128,8 +132,9 @@ export class StartLevelWindow extends Service {
 
             if (bonusModel) {
                 this._botCardModels.push(bonusModel);
-                this._cardSprites[i].spriteFrame = bonusModel.sprite;
-                this._cardSprites[i].node.active = true;
+                this._cardSprites[i].card.spriteFrame = bonusModel.sprite;
+                this._cardSprites[i].card.node.active = true;
+                this.updateLevelSprite(bonusModel, this._cardSprites[i].lvlIco);
             }
         });
     }
@@ -147,6 +152,20 @@ export class StartLevelWindow extends Service {
 
     hideWindow() {
         this._wndOverlay?.hideWindow();
+    }
+
+    updateLevelSprite(model: BonusModel, sprite: Sprite) {
+        switch (model.bonusLevel) {
+            case 0:
+                sprite.spriteFrame = null;
+                break;
+            case 1:
+                sprite.spriteFrame = this.crystalSprites[0];
+                break;
+            case 2:
+                sprite.spriteFrame = this.crystalSprites[1];
+                break;
+        }
     }
 
     showCardInfo(sender: any, cardNumber: string) {

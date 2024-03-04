@@ -55,14 +55,14 @@ export class AssassinCardSubehaviour extends CardsSubBehaviour {
     if (pModel == undefined || pModel == null) {
       this.parent.debug?.log(
         "[assassin_card_sub][error] CurrentPlayerModel is null or undefined." +
-          " return false."
+        " return false."
       );
       return false;
     }
 
     // we need to change tiles in place
-    // so there we need to completely destroy prev. tile
-    targetTile.cacheDestroy();
+    // so there we need to destroy prev. tile
+    targetTile.destroyTile();
 
     const tile = this.parent.field?.createTile({
       row: targetTile.row,

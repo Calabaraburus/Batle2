@@ -84,8 +84,8 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
       return false;
     }
 
-    this._tilesToTransform.forEach((item) => {
-      item.cacheDestroy();
+    this._tilesToTransform.forEach((tile) => {
+      tile.destroyTile();
 
       const pModel = this.parent.cardService.getCurrentPlayerModel();
 
@@ -98,11 +98,11 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
       }
 
       this.parent.field?.createTile({
-        row: item.row,
-        col: item.col,
+        row: tile.row,
+        col: tile.col,
         tileModel: model,
         playerModel: pModel,
-        position: item.node.position,
+        position: tile.node.position,
         putOnField: true,
       });
     });
@@ -116,6 +116,8 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
 
     const effects: CardEffect[] = [];
 
+    this.parent.audioManager.playSoundEffect("berserk");
+
     this._tilesToTransform.forEach((element) => {
       const effect =
         this._cache?.getObjectByPrefabName<CardEffect>("explosion2Effect");
@@ -127,8 +129,6 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
       effect.node.position = element.node.position;
       effect.node.parent = this.parent.effectsNode;
       effect.play();
-
-      this.parent.audioManager.playSoundEffect("berserk");
 
       effects.push(effect);
     });

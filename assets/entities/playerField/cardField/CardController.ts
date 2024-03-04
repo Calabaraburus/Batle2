@@ -8,6 +8,7 @@ import {
   Node,
   UITransform,
   assert,
+  SpriteFrame,
 } from "cc";
 import { BonusModel } from "../../../models/BonusModel";
 import { LevelModel } from "../../../models/LevelModel";
@@ -52,6 +53,12 @@ export class CardController extends Service {
 
   @property(Node)
   fillLineNode: Node;
+
+  @property(SpriteFrame)
+  lvlSprites: SpriteFrame[] = [];
+
+  @property(Sprite)
+  crystalSprite: Sprite;
 
   get model(): BonusModel {
     return this._model;
@@ -138,6 +145,8 @@ export class CardController extends Service {
       return;
     }
 
+    this.updateLevelSprite();
+
     this._button.interactable =
       this._model.active && !this.model.alreadyUsedOnTurn;
 
@@ -152,6 +161,20 @@ export class CardController extends Service {
       this.moveLine();
     } else {
       this.sprite.node.active = this._button.interactable;
+    }
+  }
+
+  updateLevelSprite() {
+    switch (this._model.bonusLevel) {
+      case 0:
+        this.crystalSprite.spriteFrame = null;
+        break;
+      case 1:
+        this.crystalSprite.spriteFrame = this.lvlSprites[0];
+        break;
+      case 2:
+        this.crystalSprite.spriteFrame = this.lvlSprites[1];
+        break;
     }
   }
 
@@ -174,8 +197,6 @@ export class CardController extends Service {
     tpos.y += this._maskHeight / 2;
     this.fillLineNode.position = tpos;
   }
-
-
 
   moveMask() {
 

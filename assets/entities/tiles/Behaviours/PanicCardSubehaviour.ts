@@ -59,7 +59,7 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
 
     this._tilesToPanic.forEach((t) => {
       if (t.tileModel != this._targetTile.tileModel) {
-        t.cacheDestroy();
+        t.fakeDestroy();
 
         this.parent.field?.createTile({
           row: t.row,

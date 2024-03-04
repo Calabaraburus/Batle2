@@ -3668,7 +3668,7 @@
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 5,
+    "bonusLevel": 2,
     "cardName": "FIREWALL",
     "cardDescription": "damage 5 tiles",
     "cardImage": null,
@@ -4219,7 +4219,7 @@
     },
     "unactiveSprite": null,
     "activateType": "long_range",
-    "bonusLevel": 0,
+    "bonusLevel": 1,
     "cardName": "",
     "cardDescription": "",
     "_id": ""
@@ -4309,7 +4309,7 @@
     },
     "unactiveSprite": null,
     "activateType": "long_range",
-    "bonusLevel": 0,
+    "bonusLevel": 1,
     "cardName": "",
     "cardDescription": "",
     "_id": ""
@@ -4399,7 +4399,7 @@
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 0,
+    "bonusLevel": 2,
     "cardName": "",
     "cardDescription": "",
     "_id": ""
@@ -4579,7 +4579,7 @@
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 0,
+    "bonusLevel": 1,
     "cardName": "",
     "cardDescription": "",
     "_id": ""
@@ -4762,7 +4762,7 @@
     },
     "unactiveSprite": null,
     "activateType": "long_range",
-    "bonusLevel": 0,
+    "bonusLevel": 1,
     "cardName": "",
     "cardDescription": "",
     "_id": ""
@@ -4852,7 +4852,7 @@
     },
     "unactiveSprite": null,
     "activateType": "long_range",
-    "bonusLevel": 0,
+    "bonusLevel": 1,
     "cardName": "",
     "cardDescription": "",
     "_id": ""
@@ -5032,7 +5032,7 @@
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 0,
+    "bonusLevel": 2,
     "cardName": "",
     "cardDescription": "",
     "_id": ""
@@ -5122,7 +5122,7 @@
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 0,
+    "bonusLevel": 1,
     "cardName": "",
     "cardDescription": "",
     "_id": ""
@@ -5302,7 +5302,7 @@
     },
     "unactiveSprite": null,
     "activateType": "close_range",
-    "bonusLevel": 0,
+    "bonusLevel": 2,
     "cardName": "",
     "cardDescription": "",
     "_id": ""
@@ -5670,7 +5670,7 @@
     },
     "unactiveSprite": null,
     "activateType": "long_range",
-    "bonusLevel": 0,
+    "bonusLevel": 1,
     "cardName": "",
     "cardDescription": "",
     "_id": ""
