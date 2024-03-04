@@ -21,6 +21,7 @@ import { preferencesProtocol } from '../../../../extensions/i18n/@types/editor/p
 import { CardInfoPage } from './CardInfoPage';
 import { StartLevelWindow } from './StartLevelWindow';
 import { PlayerCurrentGameState } from '../../services/PlayerCurrentGameState';
+import { GameCardCfgModel } from '../../game/GameCardCfgModel';
 
 const { ccclass, property } = _decorator;
 
@@ -33,6 +34,7 @@ export class InfoWindow extends StartLevelWindow {
     private _playerCardModels: BonusModel[];
     private _playerCardSprites: Sprite[] = [];
     private _curState: PlayerCurrentGameState;
+    //private _level: GameLevelCfgModel | undefined;
 
     public get isOpened() {
         return this._wnd ? this._wnd.isOpened : false;
@@ -42,6 +44,7 @@ export class InfoWindow extends StartLevelWindow {
         super.start();
 
         this._curState = this._settings.playerCurrentGameState;
+        //   this._level = this._settings.gameConfiguration.levels.find(l => l.lvlName == this._levelName);
 
         for (let index = 0; index < 3; index++) {
             this.cardInfoPlayerPagesView.addPage(instantiate(this.cardInfoPagePrefab));
@@ -61,7 +64,16 @@ export class InfoWindow extends StartLevelWindow {
 
         this._playerCardModels = [];
 
-        this._curState.cards.forEach((bc, i) => {
+        let cards: GameCardCfgModel[];
+
+        if (this._levelConfigModel.playerCards.length > 0) {
+            cards = this._levelConfigModel.playerCards;
+        }
+        else {
+            cards = this._curState.cards;
+        }
+
+        cards.forEach((bc, i) => {
             const bonusModel = bonuses?.find((bm) => bm.mnemonic == bc.mnemonic);
 
             if (bonusModel) {
