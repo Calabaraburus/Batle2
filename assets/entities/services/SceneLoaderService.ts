@@ -21,6 +21,7 @@ export class SceneLoaderService extends Service {
       const tmp = this.node?.getComponentInChildren(LoaderScreen);
       if (tmp == null) throw Error("LevelSelector is null");
       this.loaderScreen = tmp;
+
     }
 
   }
@@ -37,19 +38,23 @@ export class SceneLoaderService extends Service {
     sceneName = "mainGameLevel",
     configurate: (config: LevelConfiguration) => void
   ) {
-    this.loaderScreen.show();
-    director.preloadScene(sceneName, () => {
-      director.loadScene(sceneName, () => {
-        if (configurate != null) {
-          const lvlConfig = this.getComponentInChildren(LevelConfiguration);
+    this.loaderScreen.wndIsShowedEvent.off("wndIsShowed");
+    this.loaderScreen.wndIsShowedEvent.on("wndIsShowed", () => {
+      director.preloadScene(sceneName, () => {
+        director.loadScene(sceneName, () => {
+          if (configurate != null) {
+            const lvlConfig = this.getComponentInChildren(LevelConfiguration);
 
-          if (lvlConfig != null) {
-            configurate(lvlConfig);
+            if (lvlConfig != null) {
+              configurate(lvlConfig);
+            }
           }
-        }
 
-        this.loaderScreen.hide();
+          this.loaderScreen.hide();
+        });
       });
     });
+    this.loaderScreen.show();
+
   }
 }
