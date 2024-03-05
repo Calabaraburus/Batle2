@@ -4,7 +4,9 @@ const win = window as any;
 export const languages = {
     label_text: {
         music: "Музыка",
-        sound: "Звук"
+        sound: "Звук",
+        startturnmsgplayer: "Твой ход",
+        startturnmsgenemy: "Ход противника",
     },
     levels: {
         lvl1: {
