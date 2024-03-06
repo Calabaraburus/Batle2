@@ -1,4 +1,4 @@
-import { AudioSource, _decorator, director } from "cc";
+import { AudioSource, BlockInputEvents, _decorator, director, input, tween } from "cc";
 import { Service } from "./Service";
 import { LoaderScreen } from "../menu/LoaderScreen";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
@@ -21,35 +21,65 @@ export class SceneLoaderService extends Service {
       const tmp = this.node?.getComponentInChildren(LoaderScreen);
       if (tmp == null) throw Error("LevelSelector is null");
       this.loaderScreen = tmp;
+
     }
+
+    director.preloadScene("LvlScene");
 
   }
 
   loadLevel(levelName: string): void {
-    director.loadScene(levelName);
+    director.getScene()?.children.forEach(n => n.pauseSystemEvents(true));
+
+    this.loaderScreen.wndIsShowedEvent.off("wndIsShowed");
+    this.loaderScreen.wndIsShowedEvent.on("wndIsShowed", () => {
+
+      director.preloadScene(levelName, () => {
+        director.loadScene(levelName, () => {
+          this.loaderScreen.hide();
+        });
+      });
+
+    });
+
+    this.loaderScreen.show();
   }
 
   loadLevelEventData(event: Event, levelName: string): void {
-    director.loadScene(levelName);
+    this.loadLevel(levelName);
+  }
+
+  loadLevelNoScreen(event: Event, levelName: string): void {
+    director.getScene()?.children.forEach(n => n.pauseSystemEvents(true));
+
+    director.preloadScene(levelName, () => {
+      director.loadScene(levelName);
+    });
   }
 
   loadGameScene(
     sceneName = "mainGameLevel",
     configurate: (config: LevelConfiguration) => void
   ) {
-    this.loaderScreen.show();
-    director.preloadScene(sceneName, () => {
-      director.loadScene(sceneName, () => {
-        if (configurate != null) {
-          const lvlConfig = this.getComponentInChildren(LevelConfiguration);
+    director.getScene()?.children.forEach(n => n.pauseSystemEvents(true));
 
-          if (lvlConfig != null) {
-            configurate(lvlConfig);
+    this.loaderScreen.wndIsShowedEvent.off("wndIsShowed");
+    this.loaderScreen.wndIsShowedEvent.on("wndIsShowed", () => {
+      director.preloadScene(sceneName, () => {
+        director.loadScene(sceneName, (e, s) => {
+          if (configurate != null) {
+            const lvlConfig = this.getComponentInChildren(LevelConfiguration);
+
+            if (lvlConfig != null) {
+              configurate(lvlConfig);
+            }
           }
-        }
 
-        this.loaderScreen.hide();
+          this.loaderScreen.hide();
+        });
       });
     });
+    this.loaderScreen.show();
+
   }
 }

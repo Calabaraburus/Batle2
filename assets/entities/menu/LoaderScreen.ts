@@ -8,6 +8,7 @@ import {
   UIOpacity,
   Vec3,
   Node,
+  EventTarget,
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -15,8 +16,12 @@ const { ccclass, property } = _decorator;
 export class LoaderScreen extends Component {
   private _opacity: UIOpacity | null;
   private readonly timeToShow = 0.3;
-  showTween: Tween<UIOpacity | null>;
-  hideTween: Tween<UIOpacity | null>;
+  private showTween: Tween<UIOpacity | null>;
+  private hideTween: Tween<UIOpacity | null>;
+
+  public readonly wndIsShowedEvent: EventTarget = new EventTarget();
+  public readonly wndIsHidedEvent: EventTarget = new EventTarget();
+
 
   @property(Node)
   loaderNode: Node;
@@ -28,7 +33,8 @@ export class LoaderScreen extends Component {
 
     this.showTween = tween(this._opacity)
       .set({ opacity: 0 })
-      .to(this.timeToShow, { opacity: 255 }, { easing: "linear" });
+      .to(this.timeToShow, { opacity: 255 }, { easing: "linear" })
+      .call(() => this.wndIsShowedEvent.emit("wndIsShowed", this));
 
     this.hideTween = tween(this._opacity).delay(1).call(() => {
       this.showTween.stop();

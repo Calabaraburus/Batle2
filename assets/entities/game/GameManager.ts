@@ -14,6 +14,7 @@ import {
   AudioSource,
   log,
   RichText,
+  Tween,
 } from "cc";
 import type { IBot } from "../../bot/IBot";
 import { LevelController } from "../level/LevelController";
@@ -43,6 +44,7 @@ import { EffectsManager } from "./EffectsManager";
 import { EOTInvoker } from "./EOTInvoker";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { FieldModel } from "../../models/FieldModel";
+import { StartTurnMessage } from "../ui/StartTurnMessage";
 
 const { ccclass, property } = _decorator;
 
@@ -94,7 +96,7 @@ export class GameManager extends Service {
     //    .state("moveTiles")
     //    .onEnter(() => this.moveTiles())
 
-    .onTimeout(1100)
+    .onTimeout(500)
     .transitionTo("botTurn")
     .withAction(() => this.beforeBotTurn())
     .withCondition(() => this._gameState.isPlayerTurn == true && !this.isGameEnded())
@@ -123,6 +125,7 @@ export class GameManager extends Service {
   private _effectsManager: EffectsManager; //
   private _eotInvoker: EOTInvoker;
   private _levelConfiguration: LevelConfiguration;
+  private _startTurnMessage: StartTurnMessage;
 
   public get playerTurn(): boolean {
     return this._gameState.isPlayerTurn;
@@ -135,6 +138,7 @@ export class GameManager extends Service {
     this._tileService = this.getServiceOrThrow(TileService);
     this._matchStatistic = this.getServiceOrThrow(MatchStatisticService);
     this._audioManager = this.getServiceOrThrow(AudioManagerService);
+    this._startTurnMessage = this.getServiceOrThrow(StartTurnMessage);
 
     //this._menuSelector = this.getServiceOrThrow(MenuSelectorController);
     this._gameState = this.getServiceOrThrow(GameStateWritable);
@@ -180,6 +184,10 @@ export class GameManager extends Service {
     const enemyModel = this.levelController.enemyField.playerModel;
 
     return !(playerModel.life > 0 && enemyModel.life > 0);
+  }
+
+  public stop() {
+    Tween.stopAll();
   }
 
   initGame(): void {
@@ -272,6 +280,7 @@ export class GameManager extends Service {
   startPlayerTurn(): void {
     this._gameState.isPlayerTurn = true;
     this._debug?.log("Cache size:" + ObjectsCache.instance?.size);
+    this._startTurnMessage.show();
     this.unlockUi();
   }
 
@@ -280,6 +289,7 @@ export class GameManager extends Service {
   }
 
   private beforeBotTurn() {
+    // this._startTurnMessage.show(false);
     this.notifyTilesAboutStartOfTurn();
 
     this._cardService?.resetBonusesForActivePlayer();
@@ -344,6 +354,7 @@ export class GameManager extends Service {
 
   private startBotTurn() {
     this._gameState.isPlayerTurn = false;
+
     this._bot?.move();
   }
 

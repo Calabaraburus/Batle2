@@ -191,7 +191,7 @@ export class CardsBehaviour extends GameBehaviour {
   }
 
   start() {
-    this._effectsNode = this.effectsService.effectsNode;
+
   }
 
   activateCondition(): boolean {
@@ -328,6 +328,8 @@ export class CardsBehaviour extends GameBehaviour {
       audioManager,
       eotInvoker
     );
+
+    this._effectsNode = this.effectsService.effectsNode;
 
     if (dataService.field != null) {
       const fieldExt = new FieldControllerExtensions(dataService.field);

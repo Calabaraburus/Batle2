@@ -9,9 +9,11 @@ export class StartWndLabel extends Component {
 
         opacity.opacity = 0;
 
-        tween(opacity)
-            .repeatForever(tween(opacity).to(1, { opacity: 255 }).to(1, { opacity: 100 }))
-            .start();
+        this.scheduleOnce(
+            () => tween(opacity)
+                .repeatForever(tween(opacity).to(1, { opacity: 255 }).to(1, { opacity: 100 }))
+                .start()
+            , 3);
 
     }
 }

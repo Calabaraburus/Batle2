@@ -3,6 +3,8 @@ import { Service } from "../services/Service";
 import { SettingsLoader } from "../services/SettingsLoader";
 import { Grid } from "../ui/GridView/Grid";
 import { LvlConfigGridRow } from "../ui/GridView/LvlConfigGridRow";
+import { SceneLoaderService } from "../services/SceneLoaderService";
+import { load } from "../../../extensions/i18n/src/scene";
 const { ccclass, property } = _decorator;
 
 @ccclass("GameConfigurator")
@@ -60,6 +62,12 @@ export class GameConfigurator extends Service {
         this.editBox.string += "\n\nState:\n" + this._settingsLoader.getPlayerCurrentGameStateJson();
         this.editBox.string += "\n\nGameConfiguration:\n" + this._settingsLoader.getGameConfigurationJson();
     }
+
+    goToMain() {
+        const loader = this.getServiceOrThrow(SceneLoaderService);
+        loader.loadLevel("LvlScene");
+    }
+
 
     save() {
         const cfg = this._settingsLoader.gameConfiguration;
