@@ -1,4 +1,4 @@
-import { AudioSource, _decorator, director } from "cc";
+import { AudioSource, BlockInputEvents, _decorator, director, input, tween } from "cc";
 import { Service } from "./Service";
 import { LoaderScreen } from "../menu/LoaderScreen";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
@@ -27,21 +27,36 @@ export class SceneLoaderService extends Service {
   }
 
   loadLevel(levelName: string): void {
-    director.loadScene(levelName);
+    director.getScene()?.children.forEach(n => n.pauseSystemEvents(true));
+
+    this.loaderScreen.wndIsShowedEvent.off("wndIsShowed");
+    this.loaderScreen.wndIsShowedEvent.on("wndIsShowed", () => {
+
+      director.preloadScene(levelName, () => {
+        director.loadScene(levelName, () => {
+          this.loaderScreen.hide();
+        });
+      });
+
+    });
+
+    this.loaderScreen.show();
   }
 
   loadLevelEventData(event: Event, levelName: string): void {
-    director.loadScene(levelName);
+    this.loadLevel(levelName);
   }
 
   loadGameScene(
     sceneName = "mainGameLevel",
     configurate: (config: LevelConfiguration) => void
   ) {
+    director.getScene()?.children.forEach(n => n.pauseSystemEvents(true));
+
     this.loaderScreen.wndIsShowedEvent.off("wndIsShowed");
     this.loaderScreen.wndIsShowedEvent.on("wndIsShowed", () => {
       director.preloadScene(sceneName, () => {
-        director.loadScene(sceneName, () => {
+        director.loadScene(sceneName, (e, s) => {
           if (configurate != null) {
             const lvlConfig = this.getComponentInChildren(LevelConfiguration);
 

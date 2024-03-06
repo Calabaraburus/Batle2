@@ -14,6 +14,7 @@ import {
   AudioSource,
   log,
   RichText,
+  Tween,
 } from "cc";
 import type { IBot } from "../../bot/IBot";
 import { LevelController } from "../level/LevelController";
@@ -183,6 +184,10 @@ export class GameManager extends Service {
     const enemyModel = this.levelController.enemyField.playerModel;
 
     return !(playerModel.life > 0 && enemyModel.life > 0);
+  }
+
+  public stop() {
+    Tween.stopAll();
   }
 
   initGame(): void {
