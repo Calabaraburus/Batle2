@@ -24,6 +24,8 @@ export class SceneLoaderService extends Service {
 
     }
 
+    director.preloadScene("LvlScene");
+
   }
 
   loadLevel(levelName: string): void {
@@ -45,6 +47,14 @@ export class SceneLoaderService extends Service {
 
   loadLevelEventData(event: Event, levelName: string): void {
     this.loadLevel(levelName);
+  }
+
+  loadLevelNoScreen(event: Event, levelName: string): void {
+    director.getScene()?.children.forEach(n => n.pauseSystemEvents(true));
+
+    director.preloadScene(levelName, () => {
+      director.loadScene(levelName);
+    });
   }
 
   loadGameScene(
