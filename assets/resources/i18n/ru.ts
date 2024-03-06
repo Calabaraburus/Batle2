@@ -7,6 +7,7 @@ export const languages = {
         sound: "Звук",
         startturnmsgplayer: "Твой ход",
         startturnmsgenemy: "Ход противника",
+        tapanywhere: "Нажми на экран",
     },
     levels: {
         lvl1: {
