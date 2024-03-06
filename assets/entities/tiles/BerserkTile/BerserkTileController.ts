@@ -27,13 +27,13 @@ import { EffectsService } from "../../services/EffectsService";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 import { Service } from "../../services/Service";
 import { DataService } from "../../services/DataService";
+import { EffectsManager } from "../../game/EffectsManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("BerserkTileController")
 export class AssassinTileController
   extends TileController
-  implements IAttackable
-{
+  implements IAttackable {
   private _cardService: CardService;
   private _state: TileState;
   private _attacksCountToDestroy: number;
@@ -47,6 +47,7 @@ export class AssassinTileController
   _tilesToDestroy: TileController[] | undefined;
   private _dataService: DataService;
   _fieldViewController: FieldController;
+  private _effectsManager: EffectsManager;
 
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -58,12 +59,13 @@ export class AssassinTileController
     this._dataService = Service.getServiceOrThrow(DataService);
     this._gameManager = Service.getServiceOrThrow(GameManager);
     this._fieldViewController = Service.getServiceOrThrow(FieldController);
+    this._effectsManager = Service.getServiceOrThrow(EffectsManager);
     this.updateSprite();
   }
 
   turnEnds(): void {
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
-      this.playEffect();
+      this._effectsManager.PlayEffectNow(() => this.playEffect(), 0.6);
 
       this.maxCount = 1;
       this._tilesToDestroy = [];

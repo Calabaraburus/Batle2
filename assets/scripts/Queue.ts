@@ -31,4 +31,7 @@ export class Queue<T> {
         return this.length === 0;
     }
 
+    public get values() {
+        return Object.values(this.elements);
+    }
 }
