@@ -20,6 +20,7 @@ import { IAttackable, isIAttackable } from "../IAttackable";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 import { Service } from "../../services/Service";
 import { FieldController } from "../../field/FieldController";
+import { EffectsManager } from "../../game/EffectsManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("MineTileController")
@@ -32,6 +33,7 @@ export class MineTileController extends TileController {
   private _cache: ObjectsCache;
   private _gameManager: GameManager;
   private _fieldViewController: FieldController;
+  private _effectsManager: EffectsManager;
 
   start() {
     super.start();
@@ -41,6 +43,7 @@ export class MineTileController extends TileController {
     this._effectsService = Service.getServiceOrThrow(EffectsService);
     this._gameManager = Service.getServiceOrThrow(GameManager);
     this._fieldViewController = Service.getServiceOrThrow(FieldController);
+    this._effectsManager = Service.getServiceOrThrow(EffectsManager);
 
     assert(ObjectsCache.instance != null, "ObjectsCache can't be null");
 
@@ -49,7 +52,7 @@ export class MineTileController extends TileController {
 
   turnEnds(): void {
     if (this._cardService?.getOponentModel() == this.playerModel) {
-      this.playEffect();
+      this._effectsManager.PlayEffectNow(() => this.playEffect(), 0.8);
       Service.getService(AudioManagerService)?.playSoundEffect("mine_attack");
       this.destroyTile();
 

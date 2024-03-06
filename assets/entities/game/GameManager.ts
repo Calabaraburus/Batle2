@@ -96,7 +96,7 @@ export class GameManager extends Service {
     //    .state("moveTiles")
     //    .onEnter(() => this.moveTiles())
 
-    .onTimeout(500)
+    .onTimeout(50)
     .transitionTo("botTurn")
     .withAction(() => this.beforeBotTurn())
     .withCondition(() => this._gameState.isPlayerTurn == true && !this.isGameEnded())
@@ -314,15 +314,10 @@ export class GameManager extends Service {
   private beforeEndTurn() {
     const schedule = tween(this);
 
-    schedule
-      .delay(0.4)
-      .call(() => this.notifyTilesAboutEndOfTurn())
-      .delay(0.8)
-      .call(() => {
-        this._stateMachine.handle("endTurnServiceEvent");
-      });
-
-    schedule.start();
+    this.waitAnimations(() => {
+      this.notifyTilesAboutEndOfTurn();
+      this.waitAnimations(() => { this._stateMachine.handle("endTurnServiceEvent"); });
+    });
   }
 
   private endTurnStateMachine() {

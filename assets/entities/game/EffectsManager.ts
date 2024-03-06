@@ -29,6 +29,17 @@ export class EffectsManager extends Service {
         return this;
     }
 
+    PlayEffectNow(effectFunc: () => void, execTime: number): EffectsManager {
+
+        if (this._currentTime <= 0) this._currentTime = 1;
+
+        effectFunc();
+        const overalDur = this._effectsQueue.values.reduce((sum, current) => sum + current.duration, 0);;
+        if (execTime > overalDur) this.PlayEffect(() => { }, execTime - overalDur);
+
+        return this;
+    }
+
     protected update(dt: number): void {
         if (this._currentTime > 0) {
 

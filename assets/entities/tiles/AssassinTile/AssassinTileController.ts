@@ -32,6 +32,7 @@ import { Line } from "../../effects/Line";
 import { ShootSmokeEffect } from "../../effects/shootSmokeEffect";
 import { Service } from "../../services/Service";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
+import { EffectsManager } from "../../game/EffectsManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("AssassinTileController")
@@ -57,6 +58,7 @@ export class AssassinTileController
   _tilesToDestroy: TileController[] | undefined;
   private _shootEffect: ShootEffect;
   private _fieldViewController: FieldController;
+  private _effectsManager: EffectsManager;
 
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -69,6 +71,7 @@ export class AssassinTileController
     this._gameManager = Service.getServiceOrThrow(GameManager);
     this._shootEffect = Service.getServiceOrThrow(ShootEffect);
     this._fieldViewController = Service.getServiceOrThrow(FieldController);
+    this._effectsManager = Service.getServiceOrThrow(EffectsManager);
 
     assert(ObjectsCache.instance != null, "Cache can't be null");
 
@@ -106,7 +109,7 @@ export class AssassinTileController
       this.fieldController.moveTilesLogicaly(this._gameManager?.playerTurn);
       this.fieldController.fixTiles();
 
-      this.playEffect();
+      this._effectsManager.PlayEffectNow(() => this.playEffect(), 0.5);
     }
   }
 
