@@ -8,6 +8,10 @@ import { GameParameters } from "../game/GameParameters";
 import { MenuOptionsItem } from "./MenuOptionsItem";
 import { Window } from "../ui/window/Window";
 import { Service } from "../services/Service";
+import { SceneLoaderService } from "../services/SceneLoaderService";
+import { GameManager } from "../game/GameManager";
+import { LevelConfiguration } from "../configuration/LevelConfiguration";
+import { LevelSelectorController } from "../level/LevelSelectorController";
 const { ccclass, property } = _decorator;
 
 @ccclass("MenuSelectorController")
@@ -31,12 +35,21 @@ export class MenuSelectorController extends Service {
 
   settingsLoader: SettingsLoader;
   parameters: GameParameters;
+  private _sceneLoader: SceneLoaderService;
+  private _gameManager: GameManager;
+  private _levelConfig: LevelConfiguration;
+  private _levelSelector: LevelSelectorController;
 
   start(): void {
 
+    this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
+    this._gameManager = this.getServiceOrThrow(GameManager);
     this._aManager = this.getService(AudioManagerService);
+    this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
+    this._levelSelector = this.getServiceOrThrow(LevelSelectorController);
 
     assert(this._aManager != null, "Can't find AudioManagerService");
+
 
     this._aManager.playMusic("start_menu");
 
@@ -67,17 +80,13 @@ export class MenuSelectorController extends Service {
   }
 
   loadScene(sender: object, sceneName: string): void {
-    // stop start audio track
-    const currentScene = director.getScene()?.name;
-    if (currentScene == "scene_game_field") {
-      this._aManager?.stopMusic();
+    this._gameManager.stop();
+    this._sceneLoader.loadLevel(sceneName);
+  }
 
-      this._aManager?.playMusic("start_menu");
-    } else if (sceneName == "scene_game_field") {
-      this._aManager?.stopMusic();
-    }
-
-    director.loadScene(sceneName);
+  reloadMission() {
+    this._gameManager.stop();
+    this._levelSelector.loadLevel(this, this._levelConfig.levelName);
   }
 
   settingSound(sender: object, volumeStr: string) {

@@ -9,6 +9,8 @@ import {
   UITransform,
   assert,
   SpriteFrame,
+  UIOpacity,
+  CCFloat,
 } from "cc";
 import { BonusModel } from "../../../models/BonusModel";
 import { LevelModel } from "../../../models/LevelModel";
@@ -35,6 +37,7 @@ export class CardController extends Service {
   private _maskHeight = 200;
   private _levelModel: LevelModel | null;
   private _manager: WindowManager | null;
+  private _soulOpcity: UIOpacity | null;
 
   @property(Sprite)
   sprite: Sprite;
@@ -59,6 +62,12 @@ export class CardController extends Service {
 
   @property(Sprite)
   crystalSprite: Sprite;
+
+  @property(Node)
+  soulEffectNode: Node;
+
+  @property(CCFloat)
+  soulEffectSpeedCoef = 1;
 
   get model(): BonusModel {
     return this._model;
@@ -89,6 +98,8 @@ export class CardController extends Service {
     this._levelModel = this.getService(LevelModel);
     this._manager = this.getService(WindowManager);
 
+    this._soulOpcity = this.soulEffectNode.getComponent(UIOpacity);
+
     this._fromScale = this.node.scale.clone();
     this._toScale = new Vec3(
       this._fromScale.x * this._animMultiplier,
@@ -117,6 +128,16 @@ export class CardController extends Service {
     this._button?.node.on(Node.EventType.TOUCH_END, this.onTouchEnd, this);
 
     this.updateData();
+  }
+
+  protected update(dt: number): void {
+    if (this._soulOpcity && this._soulOpcity.opacity > 0) {
+      this._soulOpcity.opacity -= this.soulEffectSpeedCoef;
+    }
+  }
+
+  public PlaySoulEffect() {
+    if (this._soulOpcity) this._soulOpcity.opacity = 255;
   }
 
   onTouchStart() {
@@ -221,6 +242,8 @@ export class CardController extends Service {
       )
       .start();
   }
+
+
 }
 
 

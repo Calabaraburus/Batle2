@@ -15,6 +15,7 @@ import { LevelModel } from "../../../models/LevelModel";
 import { MatchStatisticService } from "../../services/MatchStatisticService";
 import { CardEffect } from "../../effects/CardEffect";
 import { Behaviour } from "../../behaviours/Behaviour";
+import { SoulEffect } from "../../effects/soulEffect";
 
 const { ccclass } = _decorator;
 
@@ -118,7 +119,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
         .PlayEffect(() => {
           this.effect(connectedTiles);
           this.updateTileField();
-        }, 0.3);
+        }, 1);
 
       /*      this._matchStatistic?.updateTapTileStatistic(
               tilesCount,
@@ -159,8 +160,13 @@ export class StdTileInterBehaviour extends GameBehaviour {
     const timeObj = { time: 0 };
     const animator = tween(timeObj);
     const effects: CardEffect[] = [];
-
+    const cards = this.dataService.playerFieldController.cardField.cards;
     // this.parent.audioManager.playSoundEffect("firewall");
+
+    const getCrd = (tileTags: string[]) => {
+      const c = cards.filter((c) => tileTags.includes(c.model.activateType));
+      return c.length <= 0 ? null : c[0];
+    }
 
     animator.call(() => {
       tiles.forEach((t, i) => {
@@ -175,6 +181,23 @@ export class StdTileInterBehaviour extends GameBehaviour {
         effect.play();
 
         effects.push(effect);
+
+        if (t.playerModel == this.botModel && this.currentPlayerModel == this.playerModel) {
+
+          const card = getCrd(t.tileModel.getTags())
+
+          if (card) {
+            const soulEffect =
+              this.objectsCache.getObjectByPrefabName<SoulEffect>("tileSoulEffect");
+
+            if (soulEffect) {
+              soulEffect.node.parent = this.effectsService.effectsNode;
+              soulEffect.node.position = t.node.position;
+              soulEffect?.playSoul(card.node, card.PlaySoulEffect.bind(card));
+            }
+          }
+        }
+
       });
     });
 
