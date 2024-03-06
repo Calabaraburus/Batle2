@@ -200,5 +200,10 @@ export class StartLevelWindow extends Service {
     loadLevel() {
         this._levelSelector.loadLevel(this, this._levelName);
     }
+
+    loadCustomLevel(e: any, lvlName: string) {
+        this.getService(LevelSelectorController)?.loadScene(this, lvlName);
+    }
+
 }
 
