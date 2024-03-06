@@ -143,7 +143,7 @@ export class StartLevelWindow extends Service {
         const lng = navigator.language;
         const win: any = window;
         const l = win.languages;
-        i18n_init('ru');
+        //    i18n_init('ru');
 
         this.scenarioTextField.string = t(`levels.${this._levelName}.intro`);
         this.levelNameLabel.string = t(`levels.${this._levelName}.name`);
