@@ -204,11 +204,36 @@ export class LevelSelectorController extends Service {
 
     const resultBonuses = new Map<string, GameCardCfgModel>();
 
+    // Определение типа для словаря
+    type BonusLevelDict = Record<string, number>;
+
+    const bonusLevelDict: BonusLevelDict = {
+      close_range: 0,
+      long_range: 0,
+      protect:0}
+
+    curState.cards.forEach(bc => {
+          const bonus = bonuses?.find(b => b.mnemonic == bc.mnemonic);
+          if(bonus){
+            if (bonus.bonusLevel > bonusLevelDict[bonus.activateType]){
+              bonusLevelDict[bonus.activateType] = bonus.bonusLevel;
+            }
+          }
+        });
+
+
     const addBonus = (bc: GameCardCfgModel) => {
       if (!resultBonuses.has(bc.mnemonic)) {
         const bonus = bonuses?.find(b => b.mnemonic == bc.mnemonic);
         if (bonus) {
-          resultBonuses.set(bc.mnemonic, bc);
+          bonuses?.forEach(b => {
+            if(b.baseCardMnemonic == bonus.baseCardMnemonic){
+              if(b.bonusLevel==bonusLevelDict[b.activateType]){
+                resultBonuses.set(bc.mnemonic, bc);
+              }
+            }
+          });
+          
         }
 
       }
@@ -217,10 +242,10 @@ export class LevelSelectorController extends Service {
     curState.finishedLevels.forEach(lvlName => {
       const lvl = gameCfg.levels.find(v => v.lvlName == lvlName);
       if (lvl) {
-        lvl.botCards.forEach(bc => {
+        lvl.playerCards.forEach(bc => {
           addBonus(bc);
         });
-        lvl.playerCards.forEach(bc => {
+        lvl.botCards.forEach(bc => {
           addBonus(bc);
         });
       }

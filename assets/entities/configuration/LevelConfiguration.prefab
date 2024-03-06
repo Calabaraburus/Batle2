@@ -5760,7 +5760,7 @@
     },
     "unactiveSprite": null,
     "activateType": "long_range",
-    "bonusLevel": 0,
+    "bonusLevel": 1,
     "cardName": "",
     "cardDescription": "",
     "_id": ""
@@ -9161,6 +9161,7 @@
       "__id__": 0
     },
     "fileId": "deTxFyHoRAKZEAxEpY12sc",
+    "instance": null,
     "targetOverrides": []
   }
 ]
