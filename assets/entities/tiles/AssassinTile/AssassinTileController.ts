@@ -79,7 +79,7 @@ export class AssassinTileController
     this.updateSprite();
   }
 
-  turnEnds(): void {
+  turnBegins(): void {
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       // this.maxCount = 2;
       this._tilesToDestroy = [];

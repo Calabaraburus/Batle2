@@ -4,6 +4,7 @@ import {
   Component,
   find,
   Node,
+  ParticleSystem2D,
   Sprite,
   tween,
   UIOpacity,
@@ -16,28 +17,43 @@ export class AttackSignalComponent extends Component {
   opacity: UIOpacity | null;
   // wndIsShowing = false;
   // wndIsHiding = false;
+  @property(ParticleSystem2D)
+  particles: ParticleSystem2D;
+
+  @property(UIOpacity)
+  attackEfOpacity: UIOpacity
+  private _isShowed: boolean;
 
   start() {
     this.opacity = this.node.getComponent(UIOpacity);
+    this.opacity!.opacity = 0;
+    this.particles.enabled = false;
+    this.attackEfOpacity.opacity = 0;
+  }
+
+  attack() {
+    if (this._isShowed) {
+      tween(this.attackEfOpacity)
+        .to(0.1, { opacity: 255 }, { easing: "cubicIn" })
+        .to(0.5, { opacity: 0 }, { easing: "cubicOut" }).start();
+    }
   }
 
   showWindow() {
-    // if (this.wndIsShowing) return;
-    // this.wndIsShowing = true;
-
+    this._isShowed = true;
     tween(this.opacity)
-      // .set({ color: new Color(49, 49, 49, 80) })
-      .to(0.2, { opacity: 255 }, { easing: "quadIn" })
-      // .call(() => (this.wndIsShowing = false))
+      .to(0.2, { opacity: 255 }, { easing: "quadIn" }).call(() => {
+        this.particles.enabled = true;
+      })
       .start();
   }
 
   hideWindow() {
-    // if (this.wndIsHiding) return;
-    // this.wndIsHiding = true;
+    this._isShowed = false;
     tween(this.opacity)
-      .to(0.2, { opacity: 0 }, { easing: "quadOut" })
-      // .call(() => (this.wndIsHiding = false))
+      .to(0.2, { opacity: 0 }, { easing: "quadOut" }).call(() => {
+        this.particles.enabled = false;
+      })
       .start();
   }
 }

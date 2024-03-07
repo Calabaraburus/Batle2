@@ -46,6 +46,9 @@ export class LevelController extends Service {
   @property(EnemyFieldController)
   enemyField: EnemyFieldController;
 
+  @property(AttackSignalController)
+  signalController: AttackSignalController;
+
   //  @property(AttackSignalController)
   // attackSignal: AttackSignalController;
 

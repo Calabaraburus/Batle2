@@ -47,6 +47,19 @@
          stdDeviation="11.024657"
          id="feGaussianBlur2" />
     </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter3"
+       x="-0.50744329"
+       y="-0.28484595"
+       width="2.0148866"
+       height="1.5696919">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="24.249913"
+         id="feGaussianBlur3" />
+    </filter>
   </defs>
   <g
      inkscape:label="Слой 1"
@@ -81,5 +94,24 @@
        inkscape:export-filename="soulCardEffectGlow.png"
        inkscape:export-xdpi="8.6911621"
        inkscape:export-ydpi="8.6911621" />
+    <g
+       id="g3"
+       style="filter:url(#filter3)"
+       inkscape:export-filename="..\assets\entities\textures\conforeffects.png"
+       inkscape:export-xdpi="5.0305295"
+       inkscape:export-ydpi="5.0305295">
+      <ellipse
+         style="fill:#ffffff;fill-opacity:1;stroke-width:0.529167"
+         id="path3"
+         cx="-175.13808"
+         cy="52.696415"
+         rx="57.3461"
+         ry="59.929256" />
+      <path
+         id="rect3"
+         style="fill:#ffffff;stroke-width:0.472326"
+         d="m -176.32084,-91.694558 58.52886,131.887632 -56.16334,66.778466 -58.52886,-66.778466 z"
+         sodipodi:nodetypes="ccccc" />
+    </g>
   </g>
 </svg>
