@@ -77,6 +77,18 @@ export class AttackSignalController extends Service {
     }
   }
 
+  atack(player = true) {
+    let signals: AttackSignalComponent[];
+
+    if (player) {
+      signals = this.playerSide;
+    } else {
+      signals = this.enemySide;
+    }
+
+    signals.forEach(s => s.attack());
+  }
+
   getSideComponent(colNum: number, side: Node) {
     const aSignalComponent = side
       .getChildByName(colNum.toString())

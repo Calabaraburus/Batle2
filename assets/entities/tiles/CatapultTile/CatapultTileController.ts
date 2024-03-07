@@ -76,7 +76,7 @@ export class CatapultTileController
 
   }
 
-  turnEnds(): void {
+  turnBegins(): void {
     const damageModel = this._cardService?.getCurrentPlayerModel();
 
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {

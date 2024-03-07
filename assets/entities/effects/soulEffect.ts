@@ -29,14 +29,14 @@ export class SoulEffect extends CardEffect {
         p.x += math.randomRange(-this.dispertion1, this.dispertion1);
         p.y += math.randomRange(-this.dispertion1, this.dispertion1);
 
-        const p2 = aim.getWorldPosition().clone();
+        const p2 = aim.worldPosition.clone();
 
         p2.x += math.randomRange(-this.dispertion2, this.dispertion2);
         p2.y += math.randomRange(-this.dispertion2, this.dispertion2);
 
         this.play();
         this._starOpacity.opacity = 255;
-        this._starOpacity.node.setRotationFromEuler(new Vec3(math.randomRange(0, 360), 0, 0));
+        this._starOpacity.node.setRotationFromEuler(new Vec3(0, 0, math.randomRange(0, 360)));
 
         tween(this.node)
             .to(0.3, { worldPosition: p }, { easing: "cubicOut" })

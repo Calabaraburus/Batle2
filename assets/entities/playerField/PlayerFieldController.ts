@@ -3,6 +3,8 @@ import { PlayerModel } from "../../models/PlayerModel";
 import { CardController } from "./cardField/CardController";
 import { CardFieldController } from "./cardField/CardFieldController";
 import { LoadLine } from "../ui/loadLine/LoadLine";
+import { LoseLifeEffect } from "./loseLifeEffect/loseLifeEffect";
+import { loseLifeLabel } from "./loseLifeEffect/loseLifeLabel";
 const { ccclass, property } = _decorator;
 
 @ccclass("PlayerFieldController")
@@ -25,6 +27,9 @@ export class PlayerFieldController extends Component {
 
   @property(Sprite)
   playerImage: Sprite;
+
+  @property(LoseLifeEffect)
+  loseLifeEffect: LoseLifeEffect;
 
   private playerLife: number;
 
@@ -66,6 +71,11 @@ export class PlayerFieldController extends Component {
     if (this.playerModel == null) return;
     this.playerImage.spriteFrame = this.playerModel.heroImage;
     this.playerLifeLine.Max = this.playerModel.lifeMax;
+
+    if (this.playerLifeLine.Value > this.playerModel.life) {
+      this.loseLifeEffect.playEffect(this.playerModel.life - this.playerLifeLine.Value);
+    }
+
     this.playerLifeLine.Value = this.playerModel.life;
     this.cardField.bonuses = this.playerModel.bonuses;
     this.cardField.updateData();

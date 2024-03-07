@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, debug, log, Label, Sprite } from "cc";
 import { PlayerModel } from "../../models/PlayerModel";
 import { LoadLine } from "../ui/loadLine/LoadLine";
+import { LoseLifeEffect } from "../playerField/loseLifeEffect/loseLifeEffect";
 const { ccclass, property } = _decorator;
 
 @ccclass("EnemyFieldController")
@@ -18,6 +19,9 @@ export class EnemyFieldController extends Component {
   @property(Sprite)
   playerImage: Sprite;
 
+  @property(LoseLifeEffect)
+  loseLifeEffect: LoseLifeEffect;
+
   private playerLife: number;
 
   public get PlayerLife(): number {
@@ -27,6 +31,7 @@ export class EnemyFieldController extends Component {
   public set PlayerLife(value: number) {
     this.playerLife = value;
     this.playerLifeLine.Value = value;
+
   }
 
   public get PlayerMaxLife(): number {
@@ -42,6 +47,9 @@ export class EnemyFieldController extends Component {
 
     this.playerImage.spriteFrame = this.playerModel.heroImage;
     this.playerLifeLine.Max = this.playerModel.lifeMax;
+    if (this.playerLifeLine.Value > this.playerModel.life) {
+      this.loseLifeEffect.playEffect(this.playerModel.life - this.playerLifeLine.Value);
+    }
     this.playerLifeLine.Value = this.playerModel.life;
   }
 }

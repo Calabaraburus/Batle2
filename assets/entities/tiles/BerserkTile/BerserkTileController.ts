@@ -63,7 +63,7 @@ export class AssassinTileController
     this.updateSprite();
   }
 
-  turnEnds(): void {
+  turnBegins(): void {
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       this._effectsManager.PlayEffectNow(() => this.playEffect(), 0.6);
 

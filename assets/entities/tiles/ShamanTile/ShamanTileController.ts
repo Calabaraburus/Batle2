@@ -54,7 +54,7 @@ export class ShamanTileController
     this._cache = ObjectsCache.instance;
   }
 
-  turnEnds(): void {
+  turnBegins(): void {
     const playerModel = this._cardService?.getOponentModel();
 
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
