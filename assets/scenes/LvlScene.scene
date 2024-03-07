@@ -15149,18 +15149,45 @@
     "_parent": {
       "__id__": 1
     },
-    "_children": [],
+    "_children": [
+      {
+        "__id__": 1020
+      },
+      {
+        "__id__": 1023
+      }
+    ],
     "_active": true,
     "_components": [
       {
-        "__id__": 1017
+        "__id__": 1033
+      },
+      {
+        "__id__": 1034
+      },
+      {
+        "__id__": 1035
+      },
+      {
+        "__id__": 1036
+      },
+      {
+        "__id__": 1037
+      },
+      {
+        "__id__": 1038
       }
     ],
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
+<<<<<<<<< Temporary merge branch 1
       "x": 0,
       "y": 0,
+=========
+      "x": 540,
+      "y": 1199.9999999999998,
+>>>>>>>>> Temporary merge branch 2
       "z": 0
     },
     "_lrot": {
@@ -15184,52 +15211,67 @@
       "y": 0,
       "z": 0
     },
-    "_id": "b3jazvwbBMGKxGbw45MqP0"
+    "_id": "e1G/FmDAtK2LQJIcZVw7u3"
   },
   {
-    "__type__": "1cee7TSpeVBj4/2v3TJDZJU",
-    "_name": "",
+    "__type__": "cc.Node",
     "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 1016
+    "_parent": {
+      "__id__": 1019
     },
-    "_enabled": true,
-    "__prefab": null,
-    "mapConstroller": {
-      "__id__": 970
+    "_prefab": {
+      "__id__": 1021
     },
-    "_id": "b5IM1i6khBMoB6DLtEj7x4"
+    "__editorExtras__": {}
   },
   {
     "__type__": "cc.PrefabInfo",
-    "root": null,
-    "asset": null,
-    "fileId": "713d70da-e944-4361-8d63-5fb217fd7910",
-    "instance": null,
-    "targetOverrides": [
+    "root": {
+      "__id__": 1020
+    },
+    "asset": {
+      "__uuid__": "3e82f930-ec8d-43fa-8b3c-ffae3076282c",
+      "__expectedType__": "cc.Prefab"
+    },
+    "fileId": "deTxFyHoRAKZEAxEpY12sc",
+    "instance": {
+      "__id__": 1022
+    },
+    "targetOverrides": [],
+    "nestedPrefabInstanceRoots": null
+  },
+  {
+    "__type__": "cc.PrefabInstance",
+    "fileId": "ac3Sn8HTZOXLJqPO+yvGhg",
+    "prefabRootNode": null,
+    "mountedChildren": [],
+    "mountedComponents": [],
+    "propertyOverrides": [],
+    "removedComponents": []
+  },
+  {
+    "__type__": "cc.Node",
+    "_name": "LoadScreen",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "_parent": {
+      "__id__": 1019
+    },
+    "_children": [
       {
-        "__id__": 1019
+        "__id__": 1024
       }
     ],
-    "nestedPrefabInstanceRoots": [
+    "_active": true,
+    "_components": [
       {
-        "__id__": 35
+        "__id__": 1028
       },
       {
-        "__id__": 37
+        "__id__": 1029
       },
       {
-        "__id__": 65
-      },
-      {
-        "__id__": 110
-      },
-      {
-        "__id__": 141
-      },
-      {
-        "__id__": 169
+        "__id__": 1030
       },
       {
         "__id__": 197
