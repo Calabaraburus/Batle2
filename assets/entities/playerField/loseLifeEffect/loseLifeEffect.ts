@@ -11,6 +11,7 @@ export class LoseLifeEffect extends Service {
     @property(CCFloat)
     effectSpeed: number = 4;
     private _effectsManager: EffectsManager;
+    private _lvlViewNode: Node;
 
     protected start(): void {
         const t = this.node.getComponent(UIOpacity);
@@ -20,16 +21,21 @@ export class LoseLifeEffect extends Service {
 
         this._opacity = t;
         this._opacity.opacity = 0;
+
+        const tlvlViewNode = director.getScene()?.getChildByName("LevelView");
+        if (tlvlViewNode) {
+            this._lvlViewNode = tlvlViewNode;
+        }
     }
 
     playEffect(life: number) {
         if (ObjectsCache.instance) {
-            this._effectsManager.PlayEffectNow(() => { }, 0.8);
+            this._effectsManager.PlayEffectNow(() => { }, 1.2);
 
-            const label = ObjectsCache.instance.getObject(loseLifeLabel);
+            const label = ObjectsCache.instance.getObjectByName<loseLifeLabel>("loseLifeLabel");
             if (label) {
                 label.node.parent = null;
-                label.node.parent = director.getScene()?.getChildByName("LevelView")!;
+                label.node.parent = this._lvlViewNode;
             }
             const pos = this.node.worldPosition.clone();
             pos.x += math.randomRange(-50, 50);
