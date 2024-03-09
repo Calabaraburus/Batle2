@@ -20,7 +20,7 @@ export class MapController extends Component {
     }
 
     setCurrent(lvlObj: LevelMapObjectsController) {
-        this.marker.position = lvlObj.levelButtonNode.position.clone();
+        this.marker.worldPosition = lvlObj.levelButtonNode.worldPosition.clone();
     }
 
     getLvlObject(key: string) {
