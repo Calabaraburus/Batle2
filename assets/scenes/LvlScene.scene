@@ -5635,7 +5635,7 @@
     },
     "component": "",
     "_componentId": "158eekRNhVEZ4lx7WxxRQlr",
-    "handler": "loadLevel",
+    "handler": "showWindow",
     "customEventData": "lvl10"
   },
   {

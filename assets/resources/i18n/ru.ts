@@ -8,6 +8,9 @@ export const languages = {
         startturnmsgplayer: "Твой ход",
         startturnmsgenemy: "Ход противника",
         tapanywhere: "Нажми на экран",
+        reward: "Награда",
+        selectreward: "Выбери награду",
+        description: "Описание"
     },
     levels: {
         lvl1: {
