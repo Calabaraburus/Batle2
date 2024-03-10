@@ -87,24 +87,28 @@ export class StartLevelWindow extends Service {
         }
     }
 
-    showWindow(sender: any, lvlName: string) {
+    showWindow(sender: any, lvlName: string = "") {
         if (this._isInit == false) {
             this._isInit = true;
             this.start();
             this._wnd?.start();
         }
 
-        this._levelName = lvlName;
+
         this._wndOverlay?.showWindow();
-        const tcfg = this._settings.gameConfiguration.levels.find(lvl => lvl.lvlName == lvlName);
-        assert(tcfg != null);
 
-        this._levelConfigModel = tcfg;
+        if (lvlName != "") {
+            this._levelName = lvlName;
+            const tcfg = this._settings.gameConfiguration.levels.find(lvl => lvl.lvlName == lvlName);
+            assert(tcfg != null);
 
-        this.fillImageData();
-        this.fillStrings();
+            this._levelConfigModel = tcfg;
 
-        this._wnd?.showContentGroup("default");
+            this.fillImageData();
+            this.fillStrings();
+
+            this._wnd?.showContentGroup("default");
+        }
     }
 
     fillImageData() {
@@ -191,6 +195,24 @@ export class StartLevelWindow extends Service {
         tween(this).delay(0.1).call(() => {
             this.cardInfoPagesView.setCurrentPageIndex(Number(cardNumber) - 1);
         }).start();
+    }
+
+    showCardInfoByModel(sender: any, cardModel: BonusModel) {
+
+        this.cardInfoPagesView.removeAllPages();
+
+        const page = instantiate(this.cardInfoPagePrefab)
+        const cardPage = page.getComponent(CardInfoPage);
+
+        if (cardPage) {
+            cardPage.node.active = true;
+            cardPage.setInfo(cardModel);
+
+            this.cardInfoPagesView.addPage(page);
+        }
+
+        this._wnd?.showContentGroup("card");
+
     }
 
     hideCardInfo() {

@@ -1,6 +1,7 @@
 import {
   _decorator,
   assert,
+  Button,
   Color,
   Label,
   Material,
@@ -8,6 +9,7 @@ import {
   Node,
   Quat,
   Sprite,
+  SpriteFrame,
   Tween
 } from "cc";
 import { BonusModel } from "../../models/BonusModel";
@@ -23,6 +25,7 @@ import { Window } from "../ui/window/Window";
 import { EndLevelBonusModel } from "../configuration/EndLevelBonusModel";
 import { SceneLoaderService } from "../services/SceneLoaderService";
 import { config } from "chai";
+import { InfoWindow } from "../ui/window/InfoWindow";
 
 const { ccclass, property } = _decorator;
 
@@ -43,11 +46,17 @@ export class FinalWindow extends Service {
   @property(Node)
   rewardGroup: Node;
 
+  @property(Node)
+  nextBtnNode: Node;
+
   @property(Material)
   materialForDisables: Material = new Material();
 
   @property(Material)
   defaultMaterial = new Material();
+
+  @property(SpriteFrame)
+  crystalSprites: SpriteFrame[] = [];
 
   //@property(Color)
   colorForDisables: math.Color = Color.GRAY;
@@ -80,12 +89,14 @@ export class FinalWindow extends Service {
   private _overlayWnd: OverlayWindow | null;
   private _wnd: Window | null;
   private _sceneLoader: SceneLoaderService;
+  private _infoWnd: InfoWindow;
 
   start() {
     this._config = this.getServiceOrThrow(LevelConfiguration);
     this._overlayWnd = this.getComponent(OverlayWindow);
     this._wnd = this.getComponent(Window);
     this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
+    this._infoWnd = this.getServiceOrThrow(InfoWindow);
 
     this._cardFlagSelector = "empty";
 
@@ -249,13 +260,18 @@ export class FinalWindow extends Service {
       .getChildByName("CardPlace")
       ?.getComponent(Sprite);
 
+    const crystalSprite = this.cardUp
+      .getChildByName("crystal")
+      ?.getComponent(Sprite);
+
     const bonusModelUp = this._config?.getBonus(bonus.cardMnemonic);
 
     if (!cardImage) return;
     if (!bonusModelUp) return;
+    if (!crystalSprite) return;
     this.cardUp.active = true;
     cardImage.spriteFrame = bonusModelUp.sprite;
-
+    this.updateLevelSprite(bonusModelUp, crystalSprite);
   }
 
   initCardSelector(bonus: EndLevelCardSelectorBonusModel) {
@@ -274,7 +290,19 @@ export class FinalWindow extends Service {
     assert(this._cardImageOne != null);
     assert(this._cardImageTwo != null);
 
-    if (!bonusModelSelectorOne || !bonusModelSelectorTwo) return;
+    const crystalSprite1 = this._cardImageOne.node
+      .getChildByName("crystal")
+      ?.getComponent(Sprite);
+
+    const crystalSprite2 = this._cardImageTwo.node
+      .getChildByName("crystal")
+      ?.getComponent(Sprite);
+
+    assert(crystalSprite1 != null);
+    assert(crystalSprite2 != null);
+
+    this.updateLevelSprite(bonusModelSelectorOne, crystalSprite1);
+    this.updateLevelSprite(bonusModelSelectorTwo, crystalSprite2);
 
     this.cardChoice.active = true;
     this._cardImageOne.spriteFrame = bonusModelSelectorOne.sprite;
@@ -306,10 +334,41 @@ export class FinalWindow extends Service {
 
       enableCard(s);
       enableCard(otherS, false);
+
+      this.nextBtnNode.active = true;
     };
+
+    c1Node.off(Node.EventType.TOUCH_START);
+    c2Node.off(Node.EventType.TOUCH_START);
 
     c1Node.on(Node.EventType.TOUCH_START, () => selectCard(this._cardImageOne), this)
     c2Node.on(Node.EventType.TOUCH_START, () => selectCard(this._cardImageTwo), this)
+
+    const b1Node = this.getInfoButton(c1Node).node;
+    const b2Node = this.getInfoButton(c2Node).node;
+
+    b1Node.off(Node.EventType.TOUCH_START);
+    b2Node.off(Node.EventType.TOUCH_START);
+
+    b1Node.on(Node.EventType.TOUCH_START,
+      () => {
+        this._infoWnd.showWindow(null);
+        this._infoWnd.showBonusInfo(bonusModelSelectorOne);
+      });
+
+    b2Node.on(Node.EventType.TOUCH_START,
+      () => {
+        this._infoWnd.showWindow(null);
+        this._infoWnd.showBonusInfo(bonusModelSelectorTwo);
+      });
+
+    this.nextBtnNode.active = false;
+  }
+
+  getInfoButton(target: Node) {
+    const result = target.getComponentInChildren(Button);
+    assert(result != null);
+    return result;
   }
 
   closeFinalWindow() {
@@ -328,5 +387,19 @@ export class FinalWindow extends Service {
     }
 
     this._sceneLoader.loadLevel("LvlScene");
+  }
+
+  updateLevelSprite(model: BonusModel, sprite: Sprite) {
+    switch (model.bonusLevel) {
+      case 0:
+        sprite.spriteFrame = null;
+        break;
+      case 1:
+        sprite.spriteFrame = this.crystalSprites[0];
+        break;
+      case 2:
+        sprite.spriteFrame = this.crystalSprites[1];
+        break;
+    }
   }
 }

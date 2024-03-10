@@ -27,14 +27,14 @@ const { ccclass, property } = _decorator;
 
 @ccclass('InfoWindow')
 export class InfoWindow extends StartLevelWindow {
+    private _playerCardModels: BonusModel[];
+    private _curState: PlayerCurrentGameState;
 
     @property(PageView)
     cardInfoPlayerPagesView: PageView;
 
-    private _playerCardModels: BonusModel[];
-    private _playerCardSprites: Sprite[] = [];
-    private _curState: PlayerCurrentGameState;
-    //private _level: GameLevelCfgModel | undefined;
+    @property(PageView)
+    bonusInfoPagesView: PageView
 
     public get isOpened() {
         return this._wnd ? this._wnd.isOpened : false;
@@ -120,5 +120,23 @@ export class InfoWindow extends StartLevelWindow {
         tween(this).delay(0.1).call(() => {
             this.cardInfoPlayerPagesView.setCurrentPageIndex(Number(cardNumber) - 1);
         }).start();
+    }
+
+    showBonusInfo(cardModel: BonusModel) {
+
+        this.bonusInfoPagesView.removeAllPages();
+
+        const page = instantiate(this.cardInfoPagePrefab);
+        const cardPage = page.getComponent(CardInfoPage);
+
+        if (cardPage) {
+            cardPage.node.active = true;
+            cardPage.setInfo(cardModel);
+
+            this.bonusInfoPagesView.addPage(page);
+        }
+
+        this._wnd?.showContentGroup("bonus");
+
     }
 }
