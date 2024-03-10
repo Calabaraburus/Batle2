@@ -82,6 +82,9 @@ export class LvlConfigGridRow extends Component {
         this._BotCardPriceEditBox_002,
         this._BotCardPriceEditBox_003]
 
+        botCNames.forEach(cn => { if (cn) cn.string = ""; });
+        botPrices.forEach(p => { if (p) p.string = ""; });
+
         this._lvlCfg.botCards.forEach((v, i) => {
             botCNames[i]!.string = v.mnemonic;
             botPrices[i]!.string = v.price;
@@ -97,6 +100,9 @@ export class LvlConfigGridRow extends Component {
         const playerPrices = [this._PlayerCardPriceEditBox_001,
         this._PlayerCardPriceEditBox_002,
         this._PlayerCardPriceEditBox_003]
+
+        playerCNames.forEach(cn => { if (cn) cn.string = ""; });
+        playerPrices.forEach(p => { if (p) p.string = ""; });
 
         this._lvlCfg.playerCards.forEach((v, i) => {
             playerCNames[i]!.string = v.mnemonic;
