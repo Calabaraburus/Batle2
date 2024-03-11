@@ -70,7 +70,7 @@ export const languages = {
         lvl_arena: {
             num: "...",
             name: "Arena",
-            intro: "Fight random fighters with different abilities in the arena.",
+            intro: "Fight random fighters with different abilities in the arena. Progress through the story to unlock new arena cards.",
             ending: "",
         }
     },
@@ -125,7 +125,7 @@ export const languages = {
         },
         meteorite: {
             name: "Meteorite (Strong)",
-            description: "The sky cracks, when a fiery meteorite breaks into the atmosphere, leaving behind a sparkling trail and anticipation of inevitable disaster. <br/><br/> Destroys 9 enemy tiles.",
+            description: "The sky cracks, when a fiery meteorite breaks into the atmosphere, leaving behind a sparkling trail and anticipation of inevitable disaster. <br/><br/> Destroys 9 enemy tiles, forming a cross.",
         },
         meteoriteLow: {
             name: "Meteorite (Weak)",
@@ -133,7 +133,7 @@ export const languages = {
         },
         meteoriteMiddle: {
             name: "Meteorite (Average)",
-            description: "The sky cracks, when a fiery meteorite breaks into the atmosphere, leaving behind a sparkling trail and anticipation of inevitable disaster. <br/><br/> Destroys 5 enemy tiles.",
+            description: "The sky cracks, when a fiery meteorite breaks into the atmosphere, leaving behind a sparkling trail and anticipation of inevitable disaster. <br/><br/> Destroys 5 enemy tiles, forming a cross.",
         },
         recruit: {
             name: "",
