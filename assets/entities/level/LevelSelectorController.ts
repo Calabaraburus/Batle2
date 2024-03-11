@@ -259,6 +259,7 @@ export class LevelSelectorController extends Service {
       this.addBonuses(config, playerModel, bonuses);
     } else {
       playerModel.bonusesMetaData.length = 0;
+      playerModel?.updateData();
     }
   }
 
