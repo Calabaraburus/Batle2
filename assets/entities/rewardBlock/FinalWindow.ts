@@ -151,7 +151,7 @@ export class FinalWindow extends Service {
 
           let bonusIsUpdated = false;
           // try to update bonus
-          bonusIsUpdated = this.tryToUpdateBonus(sBonus);
+          bonusIsUpdated = this.tryToUpdateBonus(sBonus, this._selectedBonus.price);
 
           if (!bonusIsUpdated) {
             this.addBonusToCurrentState(this._selectedBonus.name, this._selectedBonus.price);
@@ -169,7 +169,7 @@ export class FinalWindow extends Service {
     return !this._state.levelExists(this._config.levelName);
   }
 
-  private tryToUpdateBonus(sBonus: BonusModel) {
+  private tryToUpdateBonus(sBonus: BonusModel, price: string) {
     if (!this.canUpdateCurStateData()) {
       return false;
     }
@@ -178,8 +178,9 @@ export class FinalWindow extends Service {
 
     this._state.cards.forEach(c => {
       const b = this._config?.getBonus(c.mnemonic);
-      if (b != null && b.baseCardMnemonic == sBonus.baseCardMnemonic) {
+      if (b != null && b.activateType == sBonus.activateType) {
         c.mnemonic = sBonus.mnemonic;
+        c.price = price;
         bonusIsUpdated = true;
       }
     });

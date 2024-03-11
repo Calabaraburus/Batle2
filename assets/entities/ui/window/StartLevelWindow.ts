@@ -192,9 +192,8 @@ export class StartLevelWindow extends Service {
 
         this._wnd?.showContentGroup("card");
 
-        tween(this).delay(0.1).call(() => {
-            this.cardInfoPagesView.setCurrentPageIndex(Number(cardNumber) - 1);
-        }).start();
+        this.cardInfoPagesView.setCurrentPageIndex(Number(cardNumber) - 1);
+        this.cardInfoPagesView.scrollToPage(Number(cardNumber) - 1, 0.0001);
     }
 
     showCardInfoByModel(sender: any, cardModel: BonusModel) {
