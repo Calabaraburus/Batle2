@@ -30,7 +30,7 @@ export class LoseLifeEffect extends Service {
 
     playEffect(life: number) {
         if (ObjectsCache.instance) {
-            this._effectsManager.PlayEffectNow(() => { }, 1.2);
+            this._effectsManager.PlayEffectNow(() => { }, 1);
 
             const label = ObjectsCache.instance.getObjectByName<loseLifeLabel>("loseLifeLabel");
             if (label) {

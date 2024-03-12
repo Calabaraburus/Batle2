@@ -297,36 +297,40 @@ export class GameManager extends Service {
   }
 
   private beforeBotTurn() {
-    this.notifyTilesAboutStartOfTurn();
-    this.showEndLevelWindowIfNeeded();
-
     this.waitAnimations(() => {
-      this._cardService?.resetBonusesForActivePlayer();
+      this.notifyTilesAboutStartOfTurn();
+      this.showEndLevelWindowIfNeeded();
 
-      this._cardService?.updateBonusesActiveState();
+      this.waitAnimations(() => {
+        this._cardService?.resetBonusesForActivePlayer();
 
-      this.levelController.updateData();
+        this._cardService?.updateBonusesActiveState();
 
-      if (!this.isGameEnded()) this._stateMachine.handle("endBeforeTurn");
+        this.levelController.updateData();
 
+        if (!this.isGameEnded()) this._stateMachine.handle("endBeforeTurn");
+
+      });
     });
   }
 
   private beforePlayerTurn() {
-    this.notifyTilesAboutStartOfTurn();
-    this.showEndLevelWindowIfNeeded();
-
     this.waitAnimations(() => {
-      this._cardService?.resetBonusesForActivePlayer();
+      this.notifyTilesAboutStartOfTurn();
+      this.showEndLevelWindowIfNeeded();
 
-      this._cardService?.updateBonusesActiveState();
+      this.waitAnimations(() => {
+        this._cardService?.resetBonusesForActivePlayer();
 
-      this._tileService?.prepareForNewTurn();
+        this._cardService?.updateBonusesActiveState();
 
-      this.levelController.updateData();
+        this._tileService?.prepareForNewTurn();
 
-      if (!this.isGameEnded()) this._stateMachine.handle("endBeforeTurn");
+        this.levelController.updateData();
 
+        if (!this.isGameEnded()) this._stateMachine.handle("endBeforeTurn");
+
+      });
     });
   }
 
