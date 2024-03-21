@@ -149,6 +149,13 @@ export class LevelSelectorController extends Service {
 
     });
 
+    // lvl_lion_boss
+    specAlgs.set("lvl10", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+
+      std_init(config, lvl, "map_lion");
+
+    });
+
     // arena
     specAlgs.set("lvl_arena", (config) => {
 
