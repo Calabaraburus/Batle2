@@ -70,8 +70,8 @@ export class AssassinTileController
     this._effectsService = Service.getServiceOrThrow(EffectsService);
     this._gameManager = Service.getServiceOrThrow(GameManager);
     this._shootEffect = Service.getServiceOrThrow(ShootEffect);
-    this._fieldViewController = Service.getServiceOrThrow(FieldController);
     this._effectsManager = Service.getServiceOrThrow(EffectsManager);
+    this._fieldViewController = Service.getServiceOrThrow(FieldController);
 
     assert(ObjectsCache.instance != null, "Cache can't be null");
 
@@ -101,7 +101,8 @@ export class AssassinTileController
           if (isIAttackable(t)) {
             (<IAttackable>t).attack(1);
           } else {
-            t.destroyTile();
+            t.fakeDestroy();
+            t.node.active = false;
           }
         });
       }
