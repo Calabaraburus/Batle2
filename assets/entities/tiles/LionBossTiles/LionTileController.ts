@@ -54,6 +54,7 @@ export class LionTileController
 
     private power = 3;
     private _fieldViewController: FieldController;
+    private _audioService: AudioManagerService;
 
     start(): void {
 
@@ -99,6 +100,7 @@ export class LionTileController
         this._shootEffect = Service.getServiceOrThrow(ShootEffect);
         this._effectsManager = Service.getServiceOrThrow(EffectsManager);
         this._fieldViewController = Service.getServiceOrThrow(FieldController);
+        this._audioService = Service.getServiceOrThrow(AudioManagerService);
 
         assert(ObjectsCache.instance != null, "Cache can't be null");
 
@@ -142,9 +144,12 @@ export class LionTileController
 
         tween(animHelper)
             .set({ position: startPos, scale: sizeOrig })
+            .call(() => this._audioService.playSoundEffect("roar1"))
+            .delay(0.3)
             .to(0.3, { position: midPos, scale: sizeMid }, { easing: "cubicOut" })
             .to(0.3, { position: endPos, scale: sizeOrig }, { easing: "cubicIn" })
             .call(() => {
+                this._audioService.playSoundEffect("lexplosion1");
                 this.destroyTiles(aim);
                 this.crushEffect(endPos.clone().add(new Vec3(50, 50)));
             })
@@ -152,6 +157,7 @@ export class LionTileController
             .to(0.3, { position: midPos2, scale: sizeMid }, { easing: "cubicOut" })
             .to(0.3, { position: endPos2, scale: sizeOrig }, { easing: "cubicIn" })
             .call(() => {
+                this._audioService.playSoundEffect("lexplosion1");
                 const dTiles = this.destroyTiles(aim2);
                 this.crushEffect(endPos2.clone().add(new Vec3(50, 50)));
                 dTiles.forEach((dt, i) => {
