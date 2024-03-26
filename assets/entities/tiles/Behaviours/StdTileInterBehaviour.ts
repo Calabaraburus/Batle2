@@ -116,10 +116,9 @@ export class StdTileInterBehaviour extends GameBehaviour {
       this.eotInvoker.endTurn();
 
       this.effectsManager
-        .PlayEffect(() => {
+        .PlayEffectNow(() => {
           this.effect(connectedTiles);
-          this.updateTileField();
-        }, 1);
+        }, 0.5).PlayEffect(() => this.updateTileField(), 0.5);
 
       /*      this._matchStatistic?.updateTapTileStatistic(
               tilesCount,
@@ -175,6 +174,8 @@ export class StdTileInterBehaviour extends GameBehaviour {
         if (effect == null) {
           return;
         }
+
+        t.node.active = false;
 
         effect.node.position = t.node.position;
         effect.node.parent = this.effectsService.effectsNode;

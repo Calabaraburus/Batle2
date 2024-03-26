@@ -220,7 +220,7 @@ export class CardsBehaviour extends GameBehaviour {
             this.cancel();
           } else {
             this.effectsManager
-              .PlayEffect(() => subBehave.effect(), subBehave.effectDuration)
+              .PlayEffectNow(() => subBehave.effect(), subBehave.effectDuration)
               .PlayEffect(() => this.afterEffect(), 0.4);
 
             this.finalize();

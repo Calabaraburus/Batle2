@@ -143,7 +143,7 @@ export class LevelSelectorController extends Service {
     const field_maps = this.field_maps;
 
     // lvl_walls
-    specAlgs.set("lvl_walls", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+    specAlgs.set("lvl_8", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
 
       std_init(config, lvl, "map_walls");
 
