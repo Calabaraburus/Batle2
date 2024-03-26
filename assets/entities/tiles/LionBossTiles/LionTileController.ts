@@ -7,7 +7,9 @@ import {
     assert,
     UITransform,
     Vec3,
-    randomRangeInt
+    randomRangeInt,
+    randomRange,
+    random
 } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
@@ -35,7 +37,7 @@ export class LionTileController
     extends TileController
     implements IAttackable {
 
-    private _mainTile = false;
+    private _isMainTile = false;
     private _logicId = 0;
 
     //static modelMnemToSpriteId: Record<string, number> = { "l1": 0, "l2": 1, "l3": 2, "l4": 3 };
@@ -66,7 +68,7 @@ export class LionTileController
         }
 
         if (LionTileController._lionTiles.length == 0) {
-            this._mainTile = true;
+            this._isMainTile = true;
             LionTileController._lionTiles = [];
             LionTileController._groupNode = new Node();
             LionTileController._groupNode.parent = this.node.parent;
@@ -109,8 +111,13 @@ export class LionTileController
 
     private initTurnLogic() {
         this._turnLogicList.push(() => this._effectsManager.PlayEffect(() => this.jumpLogic(), 2));
-        //   this._turnLogicList.push(() =>{});
-        //   this._turnLogicList.push(() => {});
+        this._turnLogicList.push(() => { });
+        this._turnLogicList.push(() => this._effectsManager.PlayEffect(() => {
+            const r = random();
+            r < 0.8 ? this.fireAttackLogic() : this.jumpLogic();
+        }, 2)
+        );
+        this._turnLogicList.push(() => { });
     }
 
     jumpLogic() {
@@ -150,7 +157,7 @@ export class LionTileController
             .to(0.3, { position: endPos, scale: sizeOrig }, { easing: "cubicIn" })
             .call(() => {
                 this._audioService.playSoundEffect("lexplosion1");
-                this.destroyTiles(aim);
+                this.destroy4Tiles(aim);
                 this.crushEffect(endPos.clone().add(new Vec3(50, 50)));
             })
             .delay(0.3)
@@ -158,7 +165,7 @@ export class LionTileController
             .to(0.3, { position: endPos2, scale: sizeOrig }, { easing: "cubicIn" })
             .call(() => {
                 this._audioService.playSoundEffect("lexplosion1");
-                const dTiles = this.destroyTiles(aim2);
+                const dTiles = this.destroy4Tiles(aim2);
                 this.crushEffect(endPos2.clone().add(new Vec3(50, 50)));
                 dTiles.forEach((dt, i) => {
                     const dt2 = LionTileController._lionTiles[i];
@@ -171,6 +178,124 @@ export class LionTileController
                 this._fieldViewController.moveTilesAnimate();
             })
             .start();
+    }
+
+    fireAttackLogic() {
+
+        if (this._groupNode == null) return;
+        const p = this._groupNode.parent;
+        this._groupNode.parent = null;
+        this._groupNode.parent = p;
+
+        const animHelper = new LionAnimationHelper(this._groupNode);
+
+        let excludeArr: TileController[] = [];
+        excludeArr = excludeArr.concat(LionTileController._lionTiles);
+        const aim = this.selectAimForFireAttack()
+
+        excludeArr = excludeArr.concat(this.getAimTiles(aim));
+        const aim2 = this.selectAim(false, ...excludeArr);
+
+        if (aim2 == null) return;
+
+
+        const mainTile = LionTileController._lionTiles[0];
+        const startPos = animHelper.position.clone();
+        const endPos = aim.node.position.clone();
+        const endPos2 = aim2.node.position.clone();
+        const midPos = startPos.clone().add(endPos.clone().subtract(startPos).multiplyScalar(0.5));
+        const midPos2 = endPos.clone().add(endPos2.clone().subtract(endPos).multiplyScalar(0.5));
+
+        const sizeOrig = this._groupNode.scale.clone();
+        const sizeMid = sizeOrig.clone().multiplyScalar(1.5);
+        const lionTiles = LionTileController._lionTiles.map(t => <TileController>t);
+
+        const tilesToDestroy = this.fieldController.fieldMatrix.filter(t => (t.col == mainTile.col || t.col == mainTile.col + 1) &&
+            !t.tileModel.serviceTile && !lionTiles.includes(t) && t.row < mainTile.row);
+
+        tween(animHelper)
+            .set({ position: startPos, scale: sizeOrig })
+            .call(() => this._audioService.playSoundEffect("roar1"))
+            .delay(0.3)
+            .call(() => {
+                this._audioService.playSoundEffect("firewall");
+                const effecttiles: TileController[] = [];
+                effecttiles.push(...lionTiles);
+                effecttiles.push(...tilesToDestroy);
+
+                this.fireEffect(effecttiles);
+            })
+            .to(0.5, { position: endPos })
+            .call(() => {
+                tilesToDestroy.forEach(t => t.fakeDestroy());
+                this.getAimTiles(aim).forEach(t => t.node.active = false);
+            })
+            .delay(0.3)
+            .to(0.3, { position: midPos2, scale: sizeMid }, { easing: "cubicOut" })
+            .to(0.3, { position: endPos2, scale: sizeOrig }, { easing: "cubicIn" })
+            .call(() => {
+                this._audioService.playSoundEffect("lexplosion1");
+                const dTiles = this.destroy4Tiles(aim2);
+                this.crushEffect(endPos2.clone().add(new Vec3(50, 50)));
+                dTiles.forEach((dt, i) => {
+                    const dt2 = LionTileController._lionTiles[i];
+                    if (dt != dt2) this.fieldController.exchangeTiles(dt, dt2);
+                });
+
+                this.fieldController.moveTilesLogicaly(this._gameManager?.playerTurn);
+                this.fieldController.fixTiles();
+
+                this._fieldViewController.moveTilesAnimate();
+            })
+            .start();
+    }
+
+    fireEffect(tiles: TileController[]) {
+        const effects: CardEffect[] = [];
+        const animator = tween(this);
+        const lionTiles = LionTileController._lionTiles.map(t => <TileController>t);
+        tiles.sort((t1, t2) => t2.row - t1.row);
+        const addEffect = (t: TileController) => {
+            const effect = this._cache?.getObjectByPrefabName<CardEffect>("firewallBlueEffect");
+            if (!effect) return null;
+            effect.node.position = t.node.position;
+            effect.node.parent = this._effectsService.effectsNode;
+            effect.stopEmmit();
+            effects.push(effect);
+            return effect;
+        }
+
+        for (let i = 0; i < tiles.length - 4; i += 2) {
+            const t1 = tiles[i];
+            const t2 = tiles[i + 1];
+
+            const f1 = addEffect(t1);
+            const f2 = addEffect(t2);
+
+            animator.call(() => {
+                f1?.play();
+                f2?.play();
+            }).delay(0.05);
+        }
+
+        for (let i = 0; i < effects.length; i += 2) {
+            const t1 = tiles[i];
+            const t2 = tiles[i + 1];
+            const f1 = effects[i];
+            const f2 = effects[i + 1];
+
+            animator.call(() => {
+                if (!lionTiles.includes(t1)) t1.node.active = false;
+                if (!lionTiles.includes(t1)) t2.node.active = false;
+                f1?.stopEmmit();
+                f2?.stopEmmit();
+            }).delay(0.05);
+        }
+
+        animator
+            .delay(1)
+            .call(() => effects.forEach(e => e.cacheDestroy())).start();
+
     }
 
     crushEffect(pos: Vec3) {
@@ -197,7 +322,7 @@ export class LionTileController
 
     }
 
-    destroyTiles(aim: TileController) {
+    destroy4Tiles(aim: TileController) {
         const res = this.getAimTiles(aim);
 
         res.forEach(tile => {
@@ -233,6 +358,11 @@ export class LionTileController
         return false;
     }
 
+    selectAimForFireAttack() {
+        const t = LionTileController._lionTiles[0];
+        return this.fieldController.fieldMatrix.get(1, t.col);
+    }
+
     selectAim(selectEnemy = true, ...exclude: TileController[]) {
         const tiles = this.fieldController.fieldMatrix
             .filter(t => (t.playerModel != null)
@@ -265,7 +395,7 @@ export class LionTileController
     }
 
     attack(power: number): void {
-        if (this._mainTile) {
+        if (this._isMainTile) {
             if (this.playerModel) this.playerModel.life -= this.power;
             this.dataService.levelController.updateData();
         } else {
@@ -274,7 +404,7 @@ export class LionTileController
     }
 
     turnBegins(): void {
-        if (!this._mainTile) return;
+        if (!this._isMainTile) return;
         if (this._cardService?.getCurrentPlayerModel() == this.playerModel) return;
 
         this.invokeTurnLogic();
