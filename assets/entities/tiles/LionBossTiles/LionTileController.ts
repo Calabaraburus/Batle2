@@ -25,6 +25,8 @@ import { GameManager } from "../../game/GameManager";
 import { ShootEffect } from "../../effects/ShootEffect";
 import { FieldController } from "../../field/FieldController";
 import { EffectsManager } from "../../game/EffectsManager";
+import { CardEffect } from "../../effects/CardEffect";
+import { NodeEventEmitter } from "electron";
 
 const { ccclass, property } = _decorator;
 
@@ -57,14 +59,6 @@ export class LionTileController
 
         this.isFixed = true;
 
-        if (LionTileController._groupNode == null) {
-            LionTileController._groupNode = new Node();
-            LionTileController._groupNode.parent = this.node.parent;
-            //    LionTileController._groupNode.position = this.node.position;
-        }
-
-        this._groupNode = LionTileController._groupNode;
-
         if (LionTileController._lionTiles.length >= 4) {
             LionTileController._lionTiles = [];
             if (this._groupNode) this._groupNode.children.length = 0;
@@ -73,10 +67,15 @@ export class LionTileController
         if (LionTileController._lionTiles.length == 0) {
             this._mainTile = true;
             LionTileController._lionTiles = [];
+            LionTileController._groupNode = new Node();
+            LionTileController._groupNode.parent = this.node.parent;
             this.initTurnLogic();
 
             this.initServices();
         }
+
+        this._groupNode = LionTileController._groupNode;
+
         LionTileController._lionTiles.push(this);
         this.node.parent = this._groupNode;
 
@@ -107,7 +106,7 @@ export class LionTileController
     }
 
     private initTurnLogic() {
-        this._turnLogicList.push(() => this._effectsManager.PlayEffectNow(() => this.jumpLogic(), 3));
+        this._turnLogicList.push(() => this._effectsManager.PlayEffect(() => this.jumpLogic(), 2));
         //   this._turnLogicList.push(() =>{});
         //   this._turnLogicList.push(() => {});
     }
@@ -120,8 +119,18 @@ export class LionTileController
         this._groupNode.parent = p;
 
         const animHelper = new LionAnimationHelper(this._groupNode);
-        const aim = this.selectAim();
-        const aim2 = this.selectAim(false);
+
+        let excludeArr: TileController[] = [];
+        excludeArr = excludeArr.concat(LionTileController._lionTiles);
+        const aim = this.selectAim(true, ...excludeArr);
+
+        if (aim == null) return;
+
+        excludeArr = excludeArr.concat(this.getAimTiles(aim));
+        const aim2 = this.selectAim(false, ...excludeArr);
+
+        if (aim2 == null) return;
+
         const startPos = animHelper.position.clone();
         const endPos = aim.node.position.clone();
         const endPos2 = aim2.node.position.clone();
@@ -137,13 +146,14 @@ export class LionTileController
             .to(0.3, { position: endPos, scale: sizeOrig }, { easing: "cubicIn" })
             .call(() => {
                 this.destroyTiles(aim);
+                this.crushEffect(endPos.clone().add(new Vec3(50, 50)));
             })
             .delay(0.3)
             .to(0.3, { position: midPos2, scale: sizeMid }, { easing: "cubicOut" })
             .to(0.3, { position: endPos2, scale: sizeOrig }, { easing: "cubicIn" })
             .call(() => {
                 const dTiles = this.destroyTiles(aim2);
-
+                this.crushEffect(endPos2.clone().add(new Vec3(50, 50)));
                 dTiles.forEach((dt, i) => {
                     const dt2 = LionTileController._lionTiles[i];
                     if (dt != dt2) this.fieldController.exchangeTiles(dt, dt2);
@@ -151,15 +161,50 @@ export class LionTileController
 
                 this.fieldController.moveTilesLogicaly(this._gameManager?.playerTurn);
                 this.fieldController.fixTiles();
-                //this.fieldController.flush();
 
                 this._fieldViewController.moveTilesAnimate();
-
             })
             .start();
     }
 
+    crushEffect(pos: Vec3) {
+        const effects: CardEffect[] = [];
+
+        for (let i = 0; i < 4; i++) {
+            const effect = this._cache?.getObjectByPrefabName<CardEffect>("TilesCrushEffectForLion");
+            if (!effect) continue;
+
+            effect.node.setRotationFromEuler(new Vec3(0, 0, 90 * i));
+            effect.node.parent = this._effectsService.effectsNode;
+            effect.node.position = pos;
+            effects.push(effect);
+
+            effect.play();
+
+        }
+
+        tween(this).delay(2).call(() => {
+            effects.forEach(e => {
+                e.cacheDestroy();
+            })
+        });
+
+    }
+
     destroyTiles(aim: TileController) {
+        const res = this.getAimTiles(aim);
+
+        res.forEach(tile => {
+            if (!this.isLionTile(tile)) {
+                tile.fakeDestroy();
+                tile.node.active = false;
+            }
+        });
+
+        return res;
+    }
+
+    getAimTiles(aim: TileController) {
         const idsVec = [[0, 0], [0, 1], [1, 0], [1, 1]];
         const res: TileController[] = [];
         idsVec.forEach(id => {
@@ -167,15 +212,22 @@ export class LionTileController
             const col = aim.col + id[1];
 
             const tile = this.fieldController.fieldMatrix.get(row, col);
-            tile.fakeDestroy();
-            tile.node.active = false;
+
             res.push(tile);
         });
 
         return res;
     }
 
-    selectAim(selectEnemy = true) {
+    isLionTile(tile: TileController) {
+        for (const lTile of LionTileController._lionTiles) {
+            if (tile == lTile) return true;
+        }
+
+        return false;
+    }
+
+    selectAim(selectEnemy = true, ...exclude: TileController[]) {
         const tiles = this.fieldController.fieldMatrix
             .filter(t => (t.playerModel != null)
                 &&
@@ -185,9 +237,11 @@ export class LionTileController
                 &&
                 (t.row > 0 && t.row < this.fieldController.fieldMatrix.rows - 2)
                 &&
-                (t.col > 0 && t.col < this.fieldController.fieldMatrix.cols - 1));
+                (t.col > 0 && t.col < this.fieldController.fieldMatrix.cols - 1)
+                &&
+                !this.getAimTiles(t).some(t => exclude.includes(t)));
 
-        return tiles[randomRangeInt(0, tiles.length)];
+        return tiles.length <= 0 ? null : tiles[randomRangeInt(0, tiles.length)];
     }
 
     public setModel(tileModel: TileModel) {
