@@ -46,6 +46,7 @@ export class CatapultTileController
   private _dataService: DataService;
   private _aimForEffect: Node;
   private _effectsManager: EffectsManager;
+  private _audioService: AudioManagerService;
 
   start(): void {
     super.start();
@@ -58,7 +59,7 @@ export class CatapultTileController
     this._cardService = Service.getServiceOrThrow(CardService);
     this._effectsService = Service.getServiceOrThrow(EffectsService);
     this._effectsManager = Service.getServiceOrThrow(EffectsManager);
-
+    this._audioService = Service.getServiceOrThrow(AudioManagerService);
 
     assert(ObjectsCache.instance != null, "Cache can't be null");
     this._cache = ObjectsCache.instance;
@@ -84,9 +85,8 @@ export class CatapultTileController
 
         this._effectsManager.PlayEffectNow(() => this.playEffect(), 1.2);
 
-        Service.getServiceOrThrow(AudioManagerService).playSoundEffect(
-          "catapult_attack"
-        );
+        this._audioService.playSoundEffect("catapult_attack");
+
         damageModel.life = damageModel.life - this.damageLife;
       }
     }

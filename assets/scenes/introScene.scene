@@ -1204,6 +1204,14 @@
       {
         "__uuid__": "9234b6b5-f65a-4730-b2fd-cd53e039b0b8",
         "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "4c8f155c-555f-438c-9cc3-f96a7903d2e8",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "2e887d7a-5307-47c2-92b7-77bc7f8b7020",
+        "__expectedType__": "cc.AudioClip"
       }
     ],
     "music": [
