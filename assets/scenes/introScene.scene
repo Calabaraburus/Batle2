@@ -1236,6 +1236,26 @@
       {
         "__uuid__": "333f19f3-0868-4038-acaa-34496c676448",
         "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "8b40fd86-c1ca-4c3f-a4f0-f5d8efa4c275",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "b5d88c4d-c1b1-4d13-b083-57a5a174c042",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "8a999679-1033-474f-baca-5f43ae400aaf",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "0888ff41-9787-4b2f-8e8f-85aff7ac6dd2",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "835a4907-b289-4ca8-aae5-16b793dc41e2",
+        "__expectedType__": "cc.AudioClip"
       }
     ],
     "music": [
