@@ -304,7 +304,7 @@ export class TileController extends CacheObject {
     this.tileActivateEvent.emit("TileController", this);
   }
 
-  move(from: Vec3, to: Vec3) {
+  move(from: Vec3, to: Vec3, afterMove: () => void) {
     this._from = from;
     this._to = to;
     this._speed = 0;
@@ -316,6 +316,7 @@ export class TileController extends CacheObject {
         .call(() => {
           this._needMove = false;
           if (this._button != null) this._button.interactable = true;
+          afterMove();
         })
         .start();
 

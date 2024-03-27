@@ -15,6 +15,7 @@ import {
   CCString,
   CCBoolean,
   assert,
+  random,
 } from "cc";
 import { TileController } from "../tiles/TileController";
 import { TileModel } from "../../models/TileModel";
@@ -32,6 +33,8 @@ import { Service } from "../services/Service";
 import { DataService } from "../services/DataService";
 import { ICloneable } from "../../scripts/ICloneable";
 import { FieldLogicalController } from "./FieldLogicalController";
+import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
+import { Queue } from "../../scripts/Queue";
 const { ccclass, property } = _decorator;
 
 @ccclass("FieldController")
@@ -45,6 +48,7 @@ export class FieldController extends Service {
   private _tileCreator: TileCreator | null;
   private _dataService: DataService | null;
   private _logicFieldController: ITileFieldController;
+  private _audioManager: AudioManagerService
 
   public readonly tileClickedEvent: EventTarget = new EventTarget();
   public readonly tileActivatedEvent: EventTarget = new EventTarget();
@@ -94,6 +98,8 @@ export class FieldController extends Service {
     this._dataService = this.getServiceOrThrow(DataService);
     this._tileCreator = this.getServiceOrThrow(TileCreator);
     this._fieldModel = this.getServiceOrThrow(FieldModel);
+    this._audioManager = this.getServiceOrThrow(AudioManagerService);
+
     this._logicFieldController = new FieldLogicalController(
       this._fieldModel,
       this.tilesArea,
@@ -223,10 +229,26 @@ export class FieldController extends Service {
 
   /** Animate tiles moving to real position */
   public moveTilesAnimate() {
+
+    const soundQueue = new Queue<string>();
+
+    soundQueue.enqueue("tileSound");
+    soundQueue.enqueue("tileSound2");
+    soundQueue.enqueue("tileSound3");
+
+    const ft = true;
+
     this._logicFieldController.fieldMatrix.forEach((t) => {
       t.move(
         t.node.position,
-        this._logicFieldController.calculateTilePosition(t.row, t.col)
+        this._logicFieldController.calculateTilePosition(t.row, t.col),
+        () => {
+          if (soundQueue.isEmpty) return;
+
+          if (ft || random() < 0.5) {
+            this._audioManager.playSoundEffect(soundQueue.dequeue());
+          }
+        }
       );
     });
 

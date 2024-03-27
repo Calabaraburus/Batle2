@@ -1212,6 +1212,30 @@
       {
         "__uuid__": "2e887d7a-5307-47c2-92b7-77bc7f8b7020",
         "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "011c6196-a522-44c2-9ea7-b0a17b4a29d5",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "be9771e5-447e-4c0a-b36f-be9b1466a876",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "caa17385-32e0-43f0-a311-708d14a5331c",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "be979b02-1fb0-4769-bf02-a413a4ba543b",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "f1d25a94-67ba-4adf-96da-4f4d3acb025f",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "333f19f3-0868-4038-acaa-34496c676448",
+        "__expectedType__": "cc.AudioClip"
       }
     ],
     "music": [
