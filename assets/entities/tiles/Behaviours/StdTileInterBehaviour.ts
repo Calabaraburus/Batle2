@@ -33,6 +33,8 @@ export class StdTileInterBehaviour extends GameBehaviour {
   // this._matchStatistic = this.getService(MatchStatisticService);
   //}
   private _doNotUpdateMana = false;
+  private _tileCrashSoundNames = ["tilesCrash", "tilesCrash2"];
+  private _tileCrashSoundNo = 0;
 
   public get doNotUpdateMana(): boolean {
     return this._doNotUpdateMana;
@@ -41,6 +43,8 @@ export class StdTileInterBehaviour extends GameBehaviour {
   public set doNotUpdateMana(value: boolean) {
     this._doNotUpdateMana = value;
   }
+
+
 
   constructor() {
     super();
@@ -174,6 +178,12 @@ export class StdTileInterBehaviour extends GameBehaviour {
         if (effect == null) {
           return;
         }
+
+        this.audioManager.playSoundEffect(this._tileCrashSoundNames[this._tileCrashSoundNo]);
+
+        this._tileCrashSoundNo = (this._tileCrashSoundNo >= this._tileCrashSoundNames.length) ?
+          0 : this._tileCrashSoundNo + 1;
+
 
         t.node.active = false;
 

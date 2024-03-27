@@ -408,7 +408,7 @@ export class FieldLogicalController
   }
 
   private moveTile(tile: TileController, position: Vec3) {
-    tile.move(tile.node.position, position);
+    tile.move(tile.node.position, position, () => { });
   }
 
   public getStartTile(roteId: number): TileController | null {
