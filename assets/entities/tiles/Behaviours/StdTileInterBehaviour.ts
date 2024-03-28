@@ -178,15 +178,14 @@ export class StdTileInterBehaviour extends GameBehaviour {
       this._tileCrashSoundNo = (this._tileCrashSoundNo >= this._tileCrashSoundNames.length - 1) ?
         0 : this._tileCrashSoundNo + 1;
 
+      let soulSoundIsPLayed = false;
+
       tiles.forEach((t, i) => {
         const effect =
           this.objectsCache.getObjectByPrefabName<CardEffect>("TilesCrushEffect");
         if (effect == null) {
           return;
         }
-
-
-
 
         t.node.active = false;
 
@@ -205,12 +204,16 @@ export class StdTileInterBehaviour extends GameBehaviour {
               this.objectsCache.getObjectByPrefabName<SoulEffect>("tileSoulEffect");
 
             if (soulEffect) {
+
+              if (!soulSoundIsPLayed) {
+                this.audioManager.playSoundEffect("soulSound");
+                soulSoundIsPLayed = true;
+              }
+
               soulEffect.node.parent = this.effectsService.effectsNode;
               soulEffect.node.position = t.node.position;
               soulEffect?.playSoul(card.node, () => {
                 card.PlaySoulEffect();
-                const sId = randomRangeInt(0, this._soulSoundNames.length);
-                this.audioManager.playSoundEffect(this._soulSoundNames[sId]);
               });
             }
           }

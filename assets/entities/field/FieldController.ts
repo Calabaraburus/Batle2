@@ -16,6 +16,7 @@ import {
   CCBoolean,
   assert,
   random,
+  tween,
 } from "cc";
 import { TileController } from "../tiles/TileController";
 import { TileModel } from "../../models/TileModel";
@@ -230,25 +231,26 @@ export class FieldController extends Service {
   /** Animate tiles moving to real position */
   public moveTilesAnimate() {
 
-    const soundQueue = new Queue<string>();
 
-    soundQueue.enqueue("tileSound");
-    soundQueue.enqueue("tileSound2");
-    soundQueue.enqueue("tileSound3");
-
-    const ft = true;
+    const soundNames = ["tileSound", "tileSound2", "tileSound3"];
+    let ft = true;
 
     this._logicFieldController.fieldMatrix.forEach((t) => {
-      t.move(
-        t.node.position,
-        this._logicFieldController.calculateTilePosition(t.row, t.col),
-        () => {
-          if (soundQueue.isEmpty) return;
 
-          if (ft || random() < 0.5) {
-            this._audioManager.playSoundEffect(soundQueue.dequeue());
-          }
-        }
+      const fromPos = t.node.position;
+      const toPos = this._logicFieldController.calculateTilePosition(t.row, t.col);
+
+      if (ft && !fromPos.equals(toPos)) {
+        tween(this).delay(t.Speed - 0.1).call(() => {
+          this._audioManager.playSoundEffect(soundNames[randomRangeInt(0, soundNames.length)]);
+        }).start();
+
+        ft = false;
+      }
+
+      t.move(
+        fromPos,
+        toPos
       );
     });
 

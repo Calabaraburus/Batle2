@@ -4910,6 +4910,7 @@
     "_enabled": true,
     "__prefab": null,
     "effectSpeed": 4,
+    "soundEffectName": "hitSound1",
     "_id": "c7bV6ofUxMZpzYuaALZs9m"
   },
   {
@@ -7087,6 +7088,7 @@
     "_enabled": true,
     "__prefab": null,
     "effectSpeed": 4,
+    "soundEffectName": "hitSound2",
     "_id": "d6GpfWrvREJp0IFPSbo9Ua"
   },
   {
