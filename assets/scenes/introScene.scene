@@ -1268,6 +1268,10 @@
       {
         "__uuid__": "d68a1167-9d65-4a74-9035-941c345a36c0",
         "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "d0353878-e0c0-4526-bbcf-de5d7cd65cc1",
+        "__expectedType__": "cc.AudioClip"
       }
     ],
     "music": [
