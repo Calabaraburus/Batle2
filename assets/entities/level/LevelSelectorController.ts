@@ -32,6 +32,7 @@ import { GameLevelCfgModel } from "../game/GameLevelCfgModel";
 import { PlayerCurrentGameState } from "../services/PlayerCurrentGameState";
 import { GameCardCfgModel } from "../game/GameCardCfgModel";
 import { FieldModel } from "../../models/FieldModel";
+import { Tutorial1Logic } from "../tutor/Tutorial1Logic";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
@@ -142,8 +143,18 @@ export class LevelSelectorController extends Service {
 
     const field_maps = this.field_maps;
 
+    // tutor1
+    specAlgs.set("lvl1", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+
+      std_init(config, lvl, "map_tutor1");
+      const t1 = this.getServiceOrThrow(Tutorial1Logic);
+      t1.node.active = true;
+
+
+    });
+
     // lvl_walls
-    specAlgs.set("lvl_8", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+    specAlgs.set("lvl8", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
 
       std_init(config, lvl, "map_walls");
 

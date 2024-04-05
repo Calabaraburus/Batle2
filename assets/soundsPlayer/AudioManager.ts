@@ -46,6 +46,8 @@ export class AudioManager {
 
       //@en add AudioSource componrnt to play audios.
       this._audioSource = audioMgr.addComponent(AudioSource);
+      this._audioSource.loop = true;
+
       this._soundSource = audioMgr.addComponent(AudioSource);
     } else {
       const ast = audioMgr.getComponents(AudioSource);
@@ -63,6 +65,10 @@ export class AudioManager {
 
   public get soundSource() {
     return this._soundSource;
+  }
+
+  public get isMusicPlaying(): boolean {
+    return this._audioSource.playing;
   }
 
   /**
