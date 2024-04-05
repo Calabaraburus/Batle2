@@ -1276,14 +1276,35 @@
     ],
     "music": [
       {
-        "__uuid__": "a2cbb391-0132-408b-bd8e-8687489f7c04",
+        "__uuid__": "3909959f-d9ea-43e2-8460-86fcaf469997",
         "__expectedType__": "cc.AudioClip"
       },
       {
-        "__uuid__": "463ef31a-4150-4b7f-9ef7-e715a08216e5",
+        "__uuid__": "293c6523-cb76-4207-98fd-66f4649ba4ad",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "6b1284ed-74ba-4500-93c3-6768f88d3fc4",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "8713bbe6-b315-4644-b979-cada9f093b7d",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "fd39e726-9cce-4b49-b4a2-4c9934f47d21",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "07ed5591-dce9-4dec-8b77-5ba8260a2bfb",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "eb050af4-278d-4c3f-830d-7c108a397bc9",
         "__expectedType__": "cc.AudioClip"
       }
     ],
+    "mainTheme": "music6",
     "_id": "48WLYrrVVIdqSUnhs/w4pj"
   },
   {
@@ -1506,6 +1527,7 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "startTime": 3,
     "_id": "4d3990/kJBJa4Ah6eivDWJ"
   },
   {

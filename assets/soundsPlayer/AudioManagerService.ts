@@ -1,4 +1,4 @@
-import { _decorator, AudioClip, Component, Node } from "cc";
+import { _decorator, AudioClip, CCString, Component, Node } from "cc";
 import { Service } from "../entities/services/Service";
 import { AudioManager } from "./AudioManager";
 const { ccclass, property } = _decorator;
@@ -10,6 +10,13 @@ export class AudioManagerService extends Service {
 
   @property(AudioClip)
   music: AudioClip[] = [];
+
+  @property(CCString)
+  mainTheme: string;
+
+  start() {
+    this.playMusic(this.mainTheme);
+  }
 
   playSoundEffect(soundName: string) {
     const sound = this.getTargetSound(soundName);
