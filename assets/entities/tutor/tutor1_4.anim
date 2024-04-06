@@ -143,7 +143,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": -967.0380249023438,
+        "value": 804.411011,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -276,7 +276,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 500,
+        "value": 380,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -317,7 +317,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": 100,
+        "value": 500,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -500,7 +500,7 @@
         "__type__": "cc.RealKeyframeValue",
         "interpolationMode": 0,
         "tangentWeightMode": 0,
-        "value": -779.6909790039062,
+        "value": 455.100006,
         "rightTangent": 0,
         "rightTangentWeight": 1,
         "leftTangent": 0,
@@ -728,12 +728,12 @@
   {
     "__type__": "cc.ObjectCurve",
     "_times": [
-      0,
+      0.15,
       0.16666666666666666,
       0.31666666666666665
     ],
     "_values": [
-      "tutor_text.yourlife",
+      "tutor_text.enemyhero",
       "tutor_text.yourarmy",
       "tutor_text.yourarmy"
     ]
