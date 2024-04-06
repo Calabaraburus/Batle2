@@ -148,8 +148,20 @@ export class LevelSelectorController extends Service {
 
       std_init(config, lvl, "map_tutor1");
       const t1 = this.getServiceOrThrow(Tutorial1Logic);
+      t1.currentTutorialGraphId = 0;
+      t1.setupGraph();
       t1.node.active = true;
 
+    });
+
+    // tutor2
+    specAlgs.set("lvl1", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+
+      std_init(config, lvl, "map_6");
+      const t1 = this.getServiceOrThrow(Tutorial1Logic);
+      t1.currentTutorialGraphId = 1;
+      t1.setupGraph();
+      t1.node.active = true;
 
     });
 
