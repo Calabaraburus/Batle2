@@ -1,4 +1,10 @@
-import { _decorator, animation, Animation, AnimationComponent, Button, CCBoolean, Component, Label, Node, Widget } from 'cc';
+import {
+    _decorator,
+    animation,
+    Button,
+    CCBoolean,
+    CCInteger
+} from 'cc';
 import { Service } from '../services/Service';
 import { stat } from 'original-fs';
 import { GameManager } from '../game/GameManager';
@@ -15,6 +21,11 @@ export class Tutorial1Logic extends Service {
     @property(Button)
     btn: Button;
 
+    @property(animation.AnimationController)
+    animators: animation.AnimationController[] = [];
+
+    @property(CCInteger)
+    currentTutorialGraphId = 0;
 
     @property(CCBoolean)
     public get blockButton() {
@@ -44,11 +55,24 @@ export class Tutorial1Logic extends Service {
     }
 
     start() {
-        this._animator = this.getComponent(animation.AnimationController);
+        //this._animator = this.getComponent(animation.AnimationController);
         this._gameManager = this.getService(GameManager);
         const field = this.getService(FieldController);
-
         field?.tileClickedEvent.on("FieldController", this.tileClicked, this);
+        //  if (this._animator) {
+        //this._animator = this.animators[this.currentTutorialGraphId];
+
+        //this._animator.enabled = true;
+        //   this._animator.
+        //}
+    }
+
+    public setupGraph() {
+        this._animator = this.node.addComponent(animation.AnimationController);
+        if (this._animator) {
+            this._animator.graph = this.animators[this.currentTutorialGraphId].graph;
+            this._animator.__preload();
+        }
     }
 
     tileClicked() {

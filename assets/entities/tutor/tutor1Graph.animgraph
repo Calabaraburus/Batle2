@@ -24,7 +24,7 @@
     "_stateMachine": {
       "__id__": 2
     },
-    "name": "",
+    "name": "tutorial1",
     "weight": 1,
     "mask": null,
     "additive": false,
