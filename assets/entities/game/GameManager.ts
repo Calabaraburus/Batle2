@@ -59,6 +59,7 @@ export class GameManager extends Service {
   private _tileService: TileService | null;
   private _matchStatistic: MatchStatisticService | null;
   private _audioManager: AudioManagerService;
+  private _needToSkipBotTurn: boolean = false;
 
   private _bot: IBot | null;
 
@@ -67,6 +68,10 @@ export class GameManager extends Service {
 
   @property({ type: BehaviourSelector })
   behaviourSeletor: BehaviourSelector;
+
+  public get needToSkipBotTurn() {
+    return this._needToSkipBotTurn;
+  }
 
   private readonly _stateMachineConfig = Finity.configure()
     .initialState("initGame")
@@ -80,8 +85,7 @@ export class GameManager extends Service {
 
     .on("endTurnEvent")
     .transitionTo("beforeEndTurn")
-    .withCondition(() => this.canEndTurn())
-    .transitionTo("playerTurn")
+    .withCondition(() => this.canEndTurn() && !this._needToSkipBotTurn)
 
     .state("beforeEndTurn")
     .onEnter(() => this.beforeEndTurn())
@@ -383,6 +387,10 @@ export class GameManager extends Service {
       this.levelController.showWinView(true);
       //   this._menuSelector?.openSectionMenu(this, "RewardBlock");
     }
+  }
+
+  public skipBotTurn(skip = true) {
+    this._needToSkipBotTurn = skip;
   }
 
   private startBotTurn() {
