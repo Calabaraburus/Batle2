@@ -10,6 +10,8 @@ import { stat } from 'original-fs';
 import { GameManager } from '../game/GameManager';
 import { FieldController } from '../field/FieldController';
 import { LocalizedLabel } from '../../../extensions/i18n/assets/LocalizedLabel';
+import { PlayerFieldController } from '../playerField/PlayerFieldController';
+import { CardFieldController } from '../playerField/cardField/CardFieldController';
 const { ccclass, property } = _decorator;
 
 @ccclass('Tutorial1Logic')
@@ -17,6 +19,8 @@ export class Tutorial1Logic extends Service {
     private _animator: animation.AnimationController | null;
     private _gameManager: GameManager | null;
     private _endTutor = false;
+    private _cardField: CardFieldController;
+    private _field: FieldController | null;
 
     @property(Button)
     btn: Button;
@@ -26,6 +30,7 @@ export class Tutorial1Logic extends Service {
 
     @property(CCInteger)
     currentTutorialGraphId = 0;
+
 
     @property(CCBoolean)
     public get blockButton() {
@@ -57,8 +62,21 @@ export class Tutorial1Logic extends Service {
     start() {
         //this._animator = this.getComponent(animation.AnimationController);
         this._gameManager = this.getService(GameManager);
-        const field = this.getService(FieldController);
-        field?.tileClickedEvent.on("FieldController", this.tileClicked, this);
+        this._field = this.getService(FieldController);
+        this._field?.tileClickedEvent.on("FieldController", this.tileClicked, this);
+        const playerField = this.getService(PlayerFieldController);
+        if (playerField) {
+            this._cardField = playerField.cardField;
+            this._cardField.node.on("selectedCardChanged", this.cardSelect, this)
+
+            this._cardField.bonuses.forEach(b => {
+                b.currentAmmountToActivate = b.priceToActivate;
+                b.active = true;
+            }
+            );
+            this._cardField.updateData();
+        }
+
         //  if (this._animator) {
         //this._animator = this.animators[this.currentTutorialGraphId];
 
@@ -67,8 +85,12 @@ export class Tutorial1Logic extends Service {
         //}
     }
 
+    cardSelect() {
+        this.next();
+    }
+
     public setupGraph() {
-        this._animator = this.node.addComponent(animation.AnimationController);
+        this._animator = this.getComponent(animation.AnimationController);
         if (this._animator) {
             this._animator.graph = this.animators[this.currentTutorialGraphId].graph;
             this._animator.__preload();
@@ -83,11 +105,17 @@ export class Tutorial1Logic extends Service {
         if (!this._animator) return;
 
         if (this._endTutor) {
+            this.removeSubscriptions();
             this.skipBotTurn = false;
             this.node.active = false;
         } else {
             this._animator.setValue("next", true);
         }
+    }
+
+    removeSubscriptions() {
+        this._field?.tileClickedEvent.off("FieldController", this.tileClicked, this);
+        this._cardField.node.off("selectedCardChanged", this.cardSelect, this);
     }
 
 }
