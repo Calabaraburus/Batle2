@@ -107,3 +107,4 @@ export class SettingsLoader extends Service {
     sys.localStorage.setItem("gameState", JSON.stringify(this._playerCurrentState));
   }
 }
+

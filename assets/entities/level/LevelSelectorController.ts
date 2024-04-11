@@ -33,6 +33,7 @@ import { PlayerCurrentGameState } from "../services/PlayerCurrentGameState";
 import { GameCardCfgModel } from "../game/GameCardCfgModel";
 import { FieldModel } from "../../models/FieldModel";
 import { Tutorial1Logic } from "../tutor/Tutorial1Logic";
+import { AudioConfigurator } from "../services/AudioConfigurator";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
@@ -43,6 +44,7 @@ export class LevelSelectorController extends Service {
   private _settingsLoader: SettingsLoader;
 
   field_maps = new Map<string, TextAsset>();
+  private _audoConfig: AudioConfigurator;
 
   start() {
     //    resources.preloadDir("filed_maps");
@@ -57,6 +59,7 @@ export class LevelSelectorController extends Service {
 
     this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
     this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
+    this._audoConfig = this.getServiceOrThrow(AudioConfigurator);
     this._settingsLoader.loadGameConfiguration();
     this.fillConfigurations();
 
@@ -93,7 +96,14 @@ export class LevelSelectorController extends Service {
       }
     };
 
+    const configurateAudio = () => {
+      this._audoConfig.applyList(this._audoConfig.levelMusicList);
+    }
+
     const std_init = (config: LevelConfiguration, lvl: GameLevelCfgModel, mapName = "map6") => {
+
+      configurateAudio();
+
       setMap(config, mapName);
 
       config.levelName = lvl.lvlName;
@@ -181,6 +191,8 @@ export class LevelSelectorController extends Service {
 
     // arena
     specAlgs.set("lvl_arena", (config) => {
+
+      configurateAudio();
 
       setMap(config, "map6");
 
