@@ -10,7 +10,8 @@ export const languages = {
         tapanywhere: "Нажми на экран",
         reward: "Награда",
         selectreward: "Выбери награду",
-        description: "Описание"
+        description: "Описание",
+        exit: "Выход"
     },
     tutor_text: {
         tutorial: "Обучение",
