@@ -46,7 +46,6 @@ export class AudioManager {
 
       //@en add AudioSource componrnt to play audios.
       this._audioSource = audioMgr.addComponent(AudioSource);
-      this._audioSource.loop = true;
 
       this._soundSource = audioMgr.addComponent(AudioSource);
     } else {
@@ -105,9 +104,6 @@ export class AudioManager {
     if (sound instanceof AudioClip) {
       this._audioSource.clip = sound;
 
-      if (sound.name == "start_menu") {
-        this._audioSource.loop = true;
-      }
       this._audioSource.play();
       this.audioSource.volume = this._volumeMusic;
     } else {
