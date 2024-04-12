@@ -45,8 +45,6 @@ export class StdTileInterBehaviour extends GameBehaviour {
     this._doNotUpdateMana = value;
   }
 
-
-
   constructor() {
     super();
     this.type = helpers.typeName(StdTileController);
@@ -103,9 +101,12 @@ export class StdTileInterBehaviour extends GameBehaviour {
 
     let tilesCount = 0;
 
+    const tilesToDestroy: StdTileController[] = [];
+
     connectedTiles.forEach((item) => {
       if (item instanceof StdTileController) {
         if (!item.shieldIsActivated) {
+          tilesToDestroy.push(item);
           this.BeforeDestroy(item);
           this.DestroyTile(item);
 
@@ -122,7 +123,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
 
       this.effectsManager
         .PlayEffectNow(() => {
-          this.effect(connectedTiles);
+          this.effect(tilesToDestroy);
         }, 0.5).PlayEffect(() => this.updateTileField(), 0.5);
 
       /*      this._matchStatistic?.updateTapTileStatistic(
@@ -270,7 +271,6 @@ export class StdTileInterBehaviour extends GameBehaviour {
       this.fieldViewController.moveTilesAnimate();
     }
   }
-
 
   manaUpdate(tilesCount: number, tileType: TileModel): void {
     if (this._doNotUpdateMana) {
