@@ -7,8 +7,4 @@ export class PikeLowCardSubehaviour extends PikeCardSubehaviour {
     [0, 0],
     [0, 0],
   ];
-  prepare(): boolean {
-    super.prepare();
-    return true;
-  }
 }
