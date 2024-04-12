@@ -158,7 +158,6 @@ export class GameManager extends Service {
 
     this._bot = this.getServiceOrThrow(Bot_v2);
     this._debug = this._dataService?.debugView;
-    this.levelController.gameManager = this;
 
     const model = this._levelConfiguration.getComponentInChildren(LevelModel);
     assert(model != null);
