@@ -371,7 +371,7 @@ export class LionTileController
                     (t.playerModel != this.playerModel) :
                     (t.playerModel == this.playerModel))
                 &&
-                (t.row > 0 && t.row < this.fieldController.fieldMatrix.rows - 2)
+                (t.row > 1 && t.row < this.fieldController.fieldMatrix.rows - 2)
                 &&
                 (t.col > 0 && t.col < this.fieldController.fieldMatrix.cols - 1)
                 &&
