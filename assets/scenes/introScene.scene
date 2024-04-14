@@ -1317,6 +1317,18 @@
       {
         "__uuid__": "d0353878-e0c0-4526-bbcf-de5d7cd65cc1",
         "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "f395681c-39c5-4c6e-b7e3-b486d5b40460",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "64a6f193-f429-4181-9c39-a35448aee1fd",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "0758d36e-1930-4785-9d0e-d94626e19d30",
+        "__expectedType__": "cc.AudioClip"
       }
     ],
     "music": [
