@@ -100,6 +100,7 @@ export class StartLevelWindow extends Service {
         if (lvlName != "") {
             this._levelName = lvlName;
             const tcfg = this._settings.gameConfiguration.levels.find(lvl => lvl.lvlName == lvlName);
+
             assert(tcfg != null);
 
             this._levelConfigModel = tcfg;
@@ -147,9 +148,14 @@ export class StartLevelWindow extends Service {
         const lng = navigator.language;
         const win: any = window;
         const l = win.languages;
-        //    i18n_init('ru');
 
         this.scenarioTextField.string = t(`levels.${this._levelName}.intro`);
+
+        if (this._settings.playerCurrentGameState.levelExists(this._levelName)) {
+            this.scenarioTextField.string += "<br/>-<br/>";
+            this.scenarioTextField.string += t(`levels.${this._levelName}.ending`);
+        }
+
         this.levelNameLabel.string = t(`levels.${this._levelName}.name`);
         this.levelNumberLabel.string = t(`levels.${this._levelName}.num`);
     }

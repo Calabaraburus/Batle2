@@ -28,9 +28,7 @@ export class MapLevel extends Service {
 
     initMap() {
         this.mapConstroller.activateAll(false);
-        // this.mapConstroller.activateLvlObjectByKey('lvl1');
-        // const lvlobj = this.mapConstroller.getLvlObject('lvl2');
-        // if (lvlobj) lvlobj.levelButtonNode.active = true;
+
         const fl = this._playerState.finishedLevels;
 
         fl.forEach(lvl => this.activateLvl(lvl));
@@ -47,7 +45,6 @@ export class MapLevel extends Service {
     }
 
     activateLvl(lvlName: string) {
-        //        const lvl = this.mapConstroller.getLvlObject(lvlName);
         this.mapConstroller.activateLvlObjectByKey(lvlName);
     }
 
