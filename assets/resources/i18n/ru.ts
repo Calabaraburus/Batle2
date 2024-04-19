@@ -9,9 +9,12 @@ export const languages = {
         startturnmsgenemy: "Ход противника",
         tapanywhere: "Нажми на экран",
         reward: "Награда",
-        selectreward: "Выбери награду",
+        selectreward: "Сделай выбор",
         description: "Описание",
-        exit: "Выход"
+        exit: "Выход",
+        replay: "Переиграть",
+        win: "Победа",
+        lose: "Поражение"
     },
     tutor_text: {
         tutorial: "Обучение",
