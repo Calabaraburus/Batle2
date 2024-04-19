@@ -94,7 +94,7 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
 
     const cache = ObjectsCache.instance;
 
-    this.parent.audioManager.playSoundEffect("motivate");
+    this.parent.audioManager.playSoundEffect("push");
 
     const matrix = this.parent.field.fieldMatrix;
 
