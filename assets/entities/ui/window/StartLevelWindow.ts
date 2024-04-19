@@ -145,10 +145,6 @@ export class StartLevelWindow extends Service {
     }
 
     fillStrings() {
-        const lng = navigator.language;
-        const win: any = window;
-        const l = win.languages;
-
         this.scenarioTextField.string = t(`levels.${this._levelName}.intro`);
 
         if (this._settings.playerCurrentGameState.levelExists(this._levelName)) {

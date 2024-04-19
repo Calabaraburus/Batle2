@@ -8,6 +8,7 @@ import {
   math,
   Node,
   Quat,
+  RichText,
   Sprite,
   SpriteFrame,
   Tween
@@ -26,6 +27,7 @@ import { EndLevelBonusModel } from "../configuration/EndLevelBonusModel";
 import { SceneLoaderService } from "../services/SceneLoaderService";
 import { config } from "chai";
 import { InfoWindow } from "../ui/window/InfoWindow";
+import { t } from "../../../extensions/i18n/assets/LanguageData";
 
 const { ccclass, property } = _decorator;
 
@@ -57,6 +59,9 @@ export class FinalWindow extends Service {
 
   @property(SpriteFrame)
   crystalSprites: SpriteFrame[] = [];
+
+  @property(RichText)
+  finalText: RichText;
 
   //@property(Color)
   colorForDisables: math.Color = Color.GRAY;
@@ -162,7 +167,13 @@ export class FinalWindow extends Service {
 
     this.initBonuses();
 
+    this.setScenarioTxt();
+
     this._isInit = true;
+  }
+
+  setScenarioTxt() {
+    this.finalText.string = t(`levels.${this._config.levelName}.ending`);
   }
 
   canUpdateCurStateData() {
