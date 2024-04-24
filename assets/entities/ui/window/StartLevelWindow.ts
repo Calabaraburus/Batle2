@@ -38,8 +38,8 @@ export class StartLevelWindow extends Service {
     @property(CardStrtLVLWnd)
     card_3: CardStrtLVLWnd;
 
-    @property(RichText)
-    scenarioTextField: RichText;
+    @property(Label)
+    scenarioTxt: Label;
 
     @property(Label)
     levelNumberLabel: Label;
@@ -145,11 +145,11 @@ export class StartLevelWindow extends Service {
     }
 
     fillStrings() {
-        this.scenarioTextField.string = t(`levels.${this._levelName}.intro`);
+        this.scenarioTxt.string = t(`levels.${this._levelName}.intro`);
 
         if (this._settings.playerCurrentGameState.levelExists(this._levelName)) {
-            this.scenarioTextField.string += "<br/>-<br/>";
-            this.scenarioTextField.string += t(`levels.${this._levelName}.ending`);
+            this.scenarioTxt.string += "\n-\n";
+            this.scenarioTxt.string += t(`levels.${this._levelName}.ending`);
         }
 
         this.levelNameLabel.string = t(`levels.${this._levelName}.name`);

@@ -83,15 +83,12 @@
   },
   "splash-setting": {
     "background": {
-      "color": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      }
+      "type": "color"
     },
     "logo": {
-      "type": "default"
-    }
+      "type": "custom",
+      "image": "project://settings/logo.png"
+    },
+    "displayRatio": 2
   }
 }

@@ -60,8 +60,8 @@ export class FinalWindow extends Service {
   @property(SpriteFrame)
   crystalSprites: SpriteFrame[] = [];
 
-  @property(RichText)
-  finalText: RichText;
+  @property(Label)
+  finalText: Label;
 
   //@property(Color)
   colorForDisables: math.Color = Color.GRAY;

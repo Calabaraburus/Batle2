@@ -1,6 +1,6 @@
 import { Service } from '../../services/Service';
 import { BonusModel } from '../../../models/BonusModel';
-import { Sprite, _decorator, Node, assert, RichText, Label, System, SpriteFrame } from 'cc';
+import { Sprite, _decorator, Node, assert, RichText, Label, System, SpriteFrame, LabelAtlas } from 'cc';
 import { t } from '../../../../extensions/i18n/assets/LanguageData';
 
 const { ccclass, property } = _decorator;
@@ -15,8 +15,8 @@ export class CardInfoPage extends Service {
     @property(Label)
     cardName: Label;
 
-    @property(RichText)
-    cardDescription: RichText;
+    @property(Label)
+    cardDescription: Label;
 
     @property(SpriteFrame)
     lvlSprites: SpriteFrame[] = [];
