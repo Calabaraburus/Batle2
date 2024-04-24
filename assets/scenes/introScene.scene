@@ -1135,11 +1135,7 @@
         "__expectedType__": "cc.AudioClip"
       },
       {
-        "__uuid__": "8713bbe6-b315-4644-b979-cada9f093b7d",
-        "__expectedType__": "cc.AudioClip"
-      },
-      {
-        "__uuid__": "fd39e726-9cce-4b49-b4a2-4c9934f47d21",
+        "__uuid__": "008672bc-145d-4a71-8586-43ad9b441f6b",
         "__expectedType__": "cc.AudioClip"
       },
       {
@@ -1147,7 +1143,7 @@
         "__expectedType__": "cc.AudioClip"
       },
       {
-        "__uuid__": "eb050af4-278d-4c3f-830d-7c108a397bc9",
+        "__uuid__": "62532c68-3e8c-400a-af9e-d7ae8494b4ab",
         "__expectedType__": "cc.AudioClip"
       }
     ],
@@ -1193,7 +1189,7 @@
       "music3"
     ],
     "mapMusicList": [
-      "music6"
+      "music_map2"
     ],
     "_id": "d9xZyrcSxLto4eFiOVm918"
   },
