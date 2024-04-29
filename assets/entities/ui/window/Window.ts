@@ -39,7 +39,7 @@ export class Window extends Service {
 
         this.origPos = this.node.position.clone();
         this.fillGroupArr();
-        this.showContentGroup("default");
+        //this.showContentGroup("default");
 
         this._tweenObj = new targetWndTweenObj(this);
     }

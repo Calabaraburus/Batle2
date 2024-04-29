@@ -87,24 +87,29 @@ export class StartLevelWindow extends Service {
         }
     }
 
-    showWindow(sender: any, lvlName: string) {
+    showWindow(sender: any, lvlName: string = "") {
         if (this._isInit == false) {
             this._isInit = true;
             this.start();
             this._wnd?.start();
         }
 
-        this._levelName = lvlName;
+
         this._wndOverlay?.showWindow();
-        const tcfg = this._settings.gameConfiguration.levels.find(lvl => lvl.lvlName == lvlName);
-        assert(tcfg != null);
 
-        this._levelConfigModel = tcfg;
+        if (lvlName != "") {
+            this._levelName = lvlName;
+            const tcfg = this._settings.gameConfiguration.levels.find(lvl => lvl.lvlName == lvlName);
 
-        this.fillImageData();
-        this.fillStrings();
+            assert(tcfg != null);
 
-        this._wnd?.showContentGroup("default");
+            this._levelConfigModel = tcfg;
+
+            this.fillImageData();
+            this.fillStrings();
+
+            this._wnd?.showContentGroup("default");
+        }
     }
 
     fillImageData() {
@@ -140,12 +145,13 @@ export class StartLevelWindow extends Service {
     }
 
     fillStrings() {
-        const lng = navigator.language;
-        const win: any = window;
-        const l = win.languages;
-        i18n_init('ru');
-
         this.scenarioTextField.string = t(`levels.${this._levelName}.intro`);
+
+        if (this._settings.playerCurrentGameState.levelExists(this._levelName)) {
+            this.scenarioTextField.string += "<br/>-<br/>";
+            this.scenarioTextField.string += t(`levels.${this._levelName}.ending`);
+        }
+
         this.levelNameLabel.string = t(`levels.${this._levelName}.name`);
         this.levelNumberLabel.string = t(`levels.${this._levelName}.num`);
     }
@@ -188,9 +194,26 @@ export class StartLevelWindow extends Service {
 
         this._wnd?.showContentGroup("card");
 
-        tween(this).delay(0.1).call(() => {
-            this.cardInfoPagesView.setCurrentPageIndex(Number(cardNumber) - 1);
-        }).start();
+        this.cardInfoPagesView.setCurrentPageIndex(Number(cardNumber) - 1);
+        this.cardInfoPagesView.scrollToPage(Number(cardNumber) - 1, 0.0001);
+    }
+
+    showCardInfoByModel(sender: any, cardModel: BonusModel) {
+
+        this.cardInfoPagesView.removeAllPages();
+
+        const page = instantiate(this.cardInfoPagePrefab)
+        const cardPage = page.getComponent(CardInfoPage);
+
+        if (cardPage) {
+            cardPage.node.active = true;
+            cardPage.setInfo(cardModel);
+
+            this.cardInfoPagesView.addPage(page);
+        }
+
+        this._wnd?.showContentGroup("card");
+
     }
 
     hideCardInfo() {

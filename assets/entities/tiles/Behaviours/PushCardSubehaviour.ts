@@ -7,6 +7,7 @@ import { StdTileController } from "../UsualTile/StdTileController";
 import { CardsSubBehaviour } from "./SubBehaviour";
 import { AnimationEffect } from "../../effects/AnimationEffect";
 import { ReadonlyMatrix2D } from "../../field/ReadonlyMatrix2D";
+import { IAttackable, isIAttackable } from "../IAttackable";
 
 export class PushCardSubehaviour extends CardsSubBehaviour {
   private _cache: ObjectsCache;
@@ -47,7 +48,12 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
   run(): boolean {
     if (!this._tilesToDestroy) return false;
     this._tilesToDestroy.forEach((tile) => {
-      tile.fakeDestroy();
+
+      if (isIAttackable(tile)) {
+        (<IAttackable>tile).attack(1);
+      } else {
+        tile.fakeDestroy();
+      }
     });
 
     return true;

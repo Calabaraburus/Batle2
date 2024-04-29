@@ -27,13 +27,13 @@ import { EffectsService } from "../../services/EffectsService";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 import { Service } from "../../services/Service";
 import { DataService } from "../../services/DataService";
+import { EffectsManager } from "../../game/EffectsManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("BerserkTileController")
 export class AssassinTileController
   extends TileController
-  implements IAttackable
-{
+  implements IAttackable {
   private _cardService: CardService;
   private _state: TileState;
   private _attacksCountToDestroy: number;
@@ -44,9 +44,11 @@ export class AssassinTileController
   @property(Prefab)
   destroyPartycles: Prefab;
   maxCount: number;
-  _tilesToDestroy: TileController[] | undefined;
+  //_tilesToDestroy: TileController[] | undefined;
   private _dataService: DataService;
   _fieldViewController: FieldController;
+  private _effectsManager: EffectsManager;
+  private _audio: AudioManagerService;
 
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -58,53 +60,61 @@ export class AssassinTileController
     this._dataService = Service.getServiceOrThrow(DataService);
     this._gameManager = Service.getServiceOrThrow(GameManager);
     this._fieldViewController = Service.getServiceOrThrow(FieldController);
+    this._effectsManager = Service.getServiceOrThrow(EffectsManager);
+    this._audio = Service.getServiceOrThrow(AudioManagerService);
     this.updateSprite();
   }
 
-  turnEnds(): void {
+  turnBegins(): void {
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
-      this.playEffect();
+
 
       this.maxCount = 1;
-      this._tilesToDestroy = [];
 
-      const oponentModel = this._cardService?.getCurrentPlayerModel();
       const matrix = this.fieldController.fieldMatrix;
       let vectorAttack = 1;
 
       if (this.playerModel == this._dataService.botModel) {
         vectorAttack = -1;
       }
-      const enemyTile = matrix.get(this.row + vectorAttack, this.col);
+      const aimTile = matrix.get(this.row + vectorAttack, this.col);
 
-      if (enemyTile.playerModel == oponentModel) {
-        Service.getServiceOrThrow(AudioManagerService).playSoundEffect(
-          "berserk_attack"
-        );
+      if (!aimTile) {
+        return;
       }
 
-      for (let index = 0; index < this.maxCount; index++) {
-        // if (this.playerModel == this._cardService?._dataService?.botModel) {
-        //   vectorAttack = -1;
-        // }
+      this._effectsManager.PlayEffectNow(() => this.playEffect(aimTile), 0.6);
 
-        if (!enemyTile) return;
-        this._tilesToDestroy.push(enemyTile);
+      const oponentModel = this._cardService.getOponentModel();
+
+      if (aimTile.playerModel == oponentModel) {
+        this.exchangeTile(aimTile);
+      } else {
+        this.destroyAimTile(aimTile);
       }
 
-      if (oponentModel || oponentModel != null) {
-        this._tilesToDestroy.forEach((t) => {
-          if (isIAttackable(t)) {
-            (<IAttackable>t).attack(1);
-          } else {
-            this.fieldController.destroyTile(t.row, t.col, (t) => {
-              return t.playerModel !== this.playerModel;
-            });
-          }
-        });
-      }
       this.fieldController.moveTilesLogicaly(this._gameManager.playerTurn);
     }
+  }
+
+  destroyAimTile(aimTile: TileController) {
+    const tilesToDestroy: TileController[] = [];
+
+    tilesToDestroy.push(aimTile);
+
+    tilesToDestroy.forEach((t) => {
+      if (isIAttackable(t)) {
+        (<IAttackable>t).attack(1);
+      } else {
+        this.fieldController.destroyTile(t.row, t.col, (t) => {
+          return t.playerModel !== this.playerModel;
+        });
+      }
+    });
+  }
+
+  exchangeTile(aimTile: TileController) {
+    this.fieldController.exchangeTiles(aimTile, this);
   }
 
   public get state(): TileState {
@@ -138,39 +148,22 @@ export class AssassinTileController
     }
   }
 
-  playEffect() {
+  playEffect(aimTile: TileController) {
     console.log("berserk effect");
 
     const timeObj = { time: 0 };
     const animator = tween(timeObj);
-    const effects: CardEffect[] = [];
-    // this._tilesToDestroy?.forEach((t, i) => {
-    //   const time = 0.1;
-    //   animator.delay(i == 0 ? 0 : time).call(() => {
-    // const effect =
-    //   this._cache?.getObjectByPrefabName<CardEffect>("firewallEffect");
-    // if (effect == null) {
-    //   return;
-    // }
 
-    // effect.node.position = t.node.position;
-    // effect.node.parent =
-    //   this._effectsService != null
-    //     ? this._effectsService?.effectsNode
-    //     : null;
-    // effect.play();
-
-    // effects.push(effect);
-    //   });
-    // });
+    const oponentModel = this._cardService.getOponentModel();
+    if (aimTile.playerModel == oponentModel) {
+      this._audio.playSoundEffect(
+        "berserk_attack"
+      );
+    }
 
     animator
       .delay(0.2)
       .call(() => this._fieldViewController.moveTilesAnimate());
-    // .delay(0.5)
-    // .call(() => effects.forEach((e) => e.stopEmmit()))
-    // .delay(5)
-    // .call(() => effects.forEach((e) => e.cacheDestroy()));
 
     animator.start();
     return true;

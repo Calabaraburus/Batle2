@@ -1,15 +1,33 @@
-import { _decorator, AudioClip, Component, Node } from "cc";
+import { _decorator, AudioClip, CCString, Component, Node } from "cc";
 import { Service } from "../entities/services/Service";
 import { AudioManager } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("AudioManagerService")
 export class AudioManagerService extends Service {
+  private _currentMusicList: string[] = [];
+  private _currentMusicId: number = 0;
+
   @property(AudioClip)
   sounds: AudioClip[] = [];
 
   @property(AudioClip)
   music: AudioClip[] = [];
+
+  get currentMusicList() {
+    return this._currentMusicList;
+  }
+
+  set currentMusicList(value: string[]) {
+    this._currentMusicList = value;
+    this._currentMusicId = 0;
+    this.stopMusic();
+    this.playMusic(this._currentMusicList[this._currentMusicId]);
+  }
+
+
+  start() {
+  }
 
   playSoundEffect(soundName: string) {
     const sound = this.getTargetSound(soundName);
@@ -49,6 +67,18 @@ export class AudioManagerService extends Service {
     if (audioType == "sound") {
       AudioManager.instance.soundSource.volume = volume;
       AudioManager.instance._volumeSound = volume;
+    }
+  }
+
+  protected update(dt: number): void {
+    if (!AudioManager.instance.isMusicPlaying) {
+      this.playMusic(this.currentMusicList[this._currentMusicId]);
+
+      this._currentMusicId++;
+      if (this._currentMusicId >= this.currentMusicList.length) {
+        this._currentMusicId = 0;
+      }
+
     }
   }
 }

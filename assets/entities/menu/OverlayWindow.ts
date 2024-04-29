@@ -14,15 +14,21 @@ export class OverlayWindow extends Service {
   @property(Window)
   window: Window | null = null;
 
+  wasActivatedBefore = false;
+
   showWindow() {
     if (!this.overlay) return;
     if (!this.window) return;
 
-    this.overlay.active = true;
+    if (this.overlay.active) {
+      this.wasActivatedBefore = true;
+    } else {
+      this.overlay.active = true;
 
-    tween(this.overlay.getComponent(UIOpacity))
-      .to(0.2, { opacity: 200 }, { easing: "linear" })
-      .start();
+      tween(this.overlay.getComponent(UIOpacity))
+        .to(0.2, { opacity: 200 }, { easing: "linear" })
+        .start();
+    }
 
     this.window.showWindow();
   }
@@ -33,14 +39,16 @@ export class OverlayWindow extends Service {
 
     this.window.hideWindow();
 
-    tween(this.overlay.getComponent(UIOpacity))
-      .to(0.4, { opacity: 0 }, { easing: "linear" })
-      .call(() => {
-        if (this.overlay) {
-          this.overlay.active = false;
-        }
-      })
-      .start();
+    if (!this.wasActivatedBefore) {
+      tween(this.overlay.getComponent(UIOpacity))
+        .to(0.4, { opacity: 0 }, { easing: "linear" })
+        .call(() => {
+          if (this.overlay) {
+            this.overlay.active = false;
+          }
+        })
+        .start();
+    }
   }
 
   closeButton() {

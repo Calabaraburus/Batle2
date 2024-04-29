@@ -157,11 +157,11 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
     startPos.y = fieldTransform.height * fieldTransform.anchorY;
 
     spareEffect.node.parent = null;
-    spareEffect.node.parent = this._targetTile.node.parent;
+    spareEffect.node.parent = this.parent.effectsNode;
     spareEffect.node.position = startPos;
     spareEffect.play();
 
-    this.parent.audioManager.playSoundEffect("pike");
+    this.parent.audioManager.playSoundEffect("hummer_1");
 
     const animator = tween(spareEffect.node);
 

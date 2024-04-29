@@ -17,13 +17,13 @@ import { HealingEffect } from "../../effects/HealingEffect";
 import { EffectsService } from "../../services/EffectsService";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 import { Service } from "../../services/Service";
+import { EffectsManager } from "../../game/EffectsManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("ShamanTileController")
 export class ShamanTileController
   extends TileController
-  implements IAttackable
-{
+  implements IAttackable {
   private _cardService: CardService | null;
   private _curSprite: Sprite | null;
   private _state: TileState;
@@ -40,6 +40,7 @@ export class ShamanTileController
   healLife = 5;
 
   private _effectsService: EffectsService | null;
+  private _effectsManager: EffectsManager;
 
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -49,16 +50,17 @@ export class ShamanTileController
     super.start();
     this._cardService = Service.getService(CardService);
     this._effectsService = Service.getService(EffectsService);
+    this._effectsManager = Service.getServiceOrThrow(EffectsManager);
     this._cache = ObjectsCache.instance;
   }
 
-  turnEnds(): void {
+  turnBegins(): void {
     const playerModel = this._cardService?.getOponentModel();
 
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       if (playerModel || playerModel != null) {
         if (playerModel.life < playerModel.lifeMax) {
-          this.playEffect();
+          this._effectsManager.PlayEffectNow(() => this.playEffect(), 1);
           Service.getService(AudioManagerService)?.playSoundEffect(
             "shaman_attack"
           );

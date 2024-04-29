@@ -1,4 +1,4 @@
-import { _decorator, assert, director, Node } from "cc";
+import { _decorator, assert, director, math, Node } from "cc";
 import { MainMenu } from "./MainMenu";
 import { LoaderScreen } from "./LoaderScreen";
 import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
@@ -26,6 +26,12 @@ export class MenuSelectorController extends Service {
 
   @property(Node)
   musicCross: Node;
+
+  @property(Node)
+  soundCross2: Node;
+
+  @property(Node)
+  musicCross2: Node;
 
   @property(Node)
   soundBtns: Node[] = [];
@@ -60,6 +66,9 @@ export class MenuSelectorController extends Service {
     this.settingsLoader = tService;
 
     this.parameters = this.settingsLoader.gameParameters;
+
+    this.musicCross2.active = false;
+    this.soundCross2.active = false;
 
     this.settingSound(this, this.parameters.soundLevel.toString());
     this.settingMusic(this, this.parameters.musicLevel.toString());
@@ -98,7 +107,7 @@ export class MenuSelectorController extends Service {
     this.parameters.soundLevel = volume;
     this.settingsLoader.saveParameters();
 
-    this.setCross(this.soundBtns, this.soundCross, volume);
+    this.setCross(this.soundBtns, this.soundCross, this.soundCross2, volume);
   }
 
   settingMusic(sender: object, volumeStr: string) {
@@ -108,21 +117,25 @@ export class MenuSelectorController extends Service {
     this.parameters.musicLevel = volume;
     this.settingsLoader.saveParameters();
 
-    this.setCross(this.musicBtns, this.musicCross, volume);
+    this.setCross(this.musicBtns, this.musicCross, this.musicCross2, volume);
   }
 
-  setCross(btns: Node[], cross: Node, volume: number) {
+  setCross(btns: Node[], cross: Node, cross2: Node, volume: number) {
     const btn = this.getButtonByVolume(btns, volume);
     cross.position = btn.position.clone();
+
+    if (volume == 0) {
+      cross.active = false;
+      cross2.active = true;
+    } else {
+      cross.active = true;
+      cross2.active = false;
+    }
+
   }
 
   getButtonByVolume(btns: Node[], volume: number) {
-    if (volume == 0) {
-      return btns[0];
-    } else if (volume == 1) {
-      return btns[2];
-    } else {
-      return btns[1];
-    }
+    const id = Math.round(volume * (btns.length - 1));
+    return btns[id];
   }
 }

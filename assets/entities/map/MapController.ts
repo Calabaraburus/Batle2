@@ -1,4 +1,4 @@
-import { _decorator, assert, Component, gfx, Node } from 'cc';
+import { _decorator, assert, Component, gfx, Node, ScrollView, UITransform, Vec2 } from 'cc';
 import { LevelMapObjectsController } from './LevelMapObjectsController';
 import { MapGraphics } from './MapGraphics';
 const { ccclass, property, executeInEditMode } = _decorator;
@@ -13,14 +13,26 @@ export class MapController extends Component {
 
     private _levelObjects = new Map<string, LevelMapObjectsController>();
     private _graphics: MapGraphics | null | undefined;
+    private _scrollView: ScrollView;
 
     start(): void {
         this.fillLvlObjects(this.content);
         this._graphics = this.content.getChildByName('graphics')?.getComponent(MapGraphics);
+        const tComp = this.getComponent(ScrollView);
+
+        assert(tComp != null);
+
+        this._scrollView = tComp;
     }
 
     setCurrent(lvlObj: LevelMapObjectsController) {
-        this.marker.position = lvlObj.levelButtonNode.position.clone();
+        this.marker.worldPosition = lvlObj.levelButtonNode.worldPosition.clone();
+        const transform = this._scrollView.content?.getComponent(UITransform);
+
+        if (transform) {
+            this._scrollView.scrollTo(new Vec2(this.marker.position.x / transform.contentSize.x,
+                this.marker.position.y / transform.contentSize.y));
+        }
     }
 
     getLvlObject(key: string) {

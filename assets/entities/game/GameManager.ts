@@ -59,6 +59,7 @@ export class GameManager extends Service {
   private _tileService: TileService | null;
   private _matchStatistic: MatchStatisticService | null;
   private _audioManager: AudioManagerService;
+  private _needToSkipBotTurn: boolean = false;
 
   private _bot: IBot | null;
 
@@ -67,6 +68,10 @@ export class GameManager extends Service {
 
   @property({ type: BehaviourSelector })
   behaviourSeletor: BehaviourSelector;
+
+  public get needToSkipBotTurn() {
+    return this._needToSkipBotTurn;
+  }
 
   private readonly _stateMachineConfig = Finity.configure()
     .initialState("initGame")
@@ -80,8 +85,7 @@ export class GameManager extends Service {
 
     .on("endTurnEvent")
     .transitionTo("beforeEndTurn")
-    .withCondition(() => this.canEndTurn())
-    .transitionTo("playerTurn")
+    .withCondition(() => this.canEndTurn() && !this._needToSkipBotTurn)
 
     .state("beforeEndTurn")
     .onEnter(() => this.beforeEndTurn())
@@ -96,13 +100,21 @@ export class GameManager extends Service {
     //    .state("moveTiles")
     //    .onEnter(() => this.moveTiles())
 
-    .onTimeout(500)
-    .transitionTo("botTurn")
-    .withAction(() => this.beforeBotTurn())
+    .onTimeout(50)
+    .transitionTo("beforeBotTurn")
     .withCondition(() => this._gameState.isPlayerTurn == true && !this.isGameEnded())
-    .transitionTo("playerTurn")
-    .withAction(() => this.beforePlayerTurn())
+    .transitionTo("beforePlayerTurn")
     .withCondition(() => this._gameState.isPlayerTurn == false && !this.isGameEnded())
+
+    .state("beforeBotTurn")
+    .onEnter(() => this.beforeBotTurn())
+    .on("endBeforeTurn")
+    .transitionTo("botTurn")
+
+    .state("beforePlayerTurn")
+    .onEnter(() => this.beforePlayerTurn())
+    .on("endBeforeTurn")
+    .transitionTo("playerTurn")
 
     .state("botTurn")
     .onEnter(() => this.startBotTurn())
@@ -146,7 +158,6 @@ export class GameManager extends Service {
 
     this._bot = this.getServiceOrThrow(Bot_v2);
     this._debug = this._dataService?.debugView;
-    this.levelController.gameManager = this;
 
     const model = this._levelConfiguration.getComponentInChildren(LevelModel);
     assert(model != null);
@@ -289,55 +300,82 @@ export class GameManager extends Service {
   }
 
   private beforeBotTurn() {
-    // this._startTurnMessage.show(false);
-    this.notifyTilesAboutStartOfTurn();
+    this.waitAnimations(() => {
+      this.notifyTilesAboutStartOfTurn();
+      this.showEndLevelWindowIfNeeded();
 
-    this._cardService?.resetBonusesForActivePlayer();
+      this.waitAnimations(() => {
+        this._cardService?.resetBonusesForActivePlayer();
 
-    this._cardService?.updateBonusesActiveState();
+        this._cardService?.updateBonusesActiveState();
 
-    this.levelController.updateData();
+        this.levelController.updateData();
+
+        if (!this.isGameEnded()) this._stateMachine.handle("endBeforeTurn");
+
+      });
+    });
   }
 
   private beforePlayerTurn() {
-    this.notifyTilesAboutStartOfTurn();
+    this.waitAnimations(() => {
+      this.notifyTilesAboutStartOfTurn();
+      this.showEndLevelWindowIfNeeded();
 
-    this._cardService?.resetBonusesForActivePlayer();
+      this.waitAnimations(() => {
+        this._cardService?.resetBonusesForActivePlayer();
 
-    this._cardService?.updateBonusesActiveState();
+        this._cardService?.updateBonusesActiveState();
 
-    this._tileService?.prepareForNewTurn();
+        this._tileService?.prepareForNewTurn();
 
-    this.levelController.updateData();
+        this.levelController.updateData();
+
+        if (!this.isGameEnded()) this._stateMachine.handle("endBeforeTurn");
+
+      });
+    });
   }
 
   private beforeEndTurn() {
     const schedule = tween(this);
 
-    schedule
-      .delay(0.4)
-      .call(() => this.notifyTilesAboutEndOfTurn())
-      .delay(0.8)
-      .call(() => {
-        this._stateMachine.handle("endTurnServiceEvent");
-      });
-
-    schedule.start();
+    this.waitAnimations(() => {
+      this.notifyTilesAboutEndOfTurn();
+      this.waitAnimations(() => { this._stateMachine.handle("endTurnServiceEvent"); });
+    });
   }
 
   private endTurnStateMachine() {
-    const playerModel = this.levelController.playerField.playerModel;
-    const enemyModel = this.levelController.enemyField.playerModel;
+
 
     this._field.analizeTiles();
     this._field.fixTiles();
     this._field.moveTilesAnimate();
 
+    this.updatePlayersLifeData();
+    this.showEndLevelWindowIfNeeded();
+  }
+
+  updatePlayersLifeData() {
+    const playerModel = this.levelController.playerField.playerModel;
+    const enemyModel = this.levelController.enemyField.playerModel;
+
     if (this._gameState.isPlayerTurn) {
       enemyModel.life -= this.countAttackingTiles("end") * playerModel.power;
+      this.levelController.signalController.atack(false);
     } else {
       playerModel.life -= this.countAttackingTiles("start") * enemyModel.power;
+      this.levelController.signalController.atack(true);
     }
+
+
+    this.levelController.updateData();
+  }
+
+  showEndLevelWindowIfNeeded() {
+    const playerModel = this.levelController.playerField.playerModel;
+    const enemyModel = this.levelController.enemyField.playerModel;
 
     if (playerModel.life <= 0) {
       this._matchStatistic?.loadStatistic("lose");
@@ -348,8 +386,10 @@ export class GameManager extends Service {
       this.levelController.showWinView(true);
       //   this._menuSelector?.openSectionMenu(this, "RewardBlock");
     }
+  }
 
-    this.levelController.updateData();
+  public skipBotTurn(skip = true) {
+    this._needToSkipBotTurn = skip;
   }
 
   private startBotTurn() {
