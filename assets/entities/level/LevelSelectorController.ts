@@ -32,6 +32,8 @@ import { GameLevelCfgModel } from "../game/GameLevelCfgModel";
 import { PlayerCurrentGameState } from "../services/PlayerCurrentGameState";
 import { GameCardCfgModel } from "../game/GameCardCfgModel";
 import { FieldModel } from "../../models/FieldModel";
+import { Tutorial1Logic } from "../tutor/Tutorial1Logic";
+import { AudioConfigurator } from "../services/AudioConfigurator";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
@@ -42,6 +44,7 @@ export class LevelSelectorController extends Service {
   private _settingsLoader: SettingsLoader;
 
   field_maps = new Map<string, TextAsset>();
+  private _audoConfig: AudioConfigurator;
 
   start() {
     //    resources.preloadDir("filed_maps");
@@ -56,6 +59,7 @@ export class LevelSelectorController extends Service {
 
     this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
     this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
+    this._audoConfig = this.getServiceOrThrow(AudioConfigurator);
     this._settingsLoader.loadGameConfiguration();
     this.fillConfigurations();
 
@@ -92,7 +96,14 @@ export class LevelSelectorController extends Service {
       }
     };
 
+    const configurateAudio = () => {
+      this._audoConfig.applyList(this._audoConfig.levelMusicList);
+    }
+
     const std_init = (config: LevelConfiguration, lvl: GameLevelCfgModel, mapName = "map6") => {
+
+      configurateAudio();
+
       setMap(config, mapName);
 
       config.levelName = lvl.lvlName;
@@ -142,15 +153,46 @@ export class LevelSelectorController extends Service {
 
     const field_maps = this.field_maps;
 
+    // tutor1
+    specAlgs.set("lvl1", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+
+      std_init(config, lvl, "map_tutor1");
+      const t1 = this.getServiceOrThrow(Tutorial1Logic);
+      t1.currentTutorialGraphId = 0;
+      t1.setupGraph();
+      t1.node.active = true;
+
+    });
+
+    // tutor2
+    specAlgs.set("lvl2", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+
+      std_init(config, lvl, "map6");
+      const t1 = this.getServiceOrThrow(Tutorial1Logic);
+      t1.currentTutorialGraphId = 1;
+      t1.setupGraph();
+      t1.node.active = true;
+
+    });
+
     // lvl_walls
-    specAlgs.set("lvl_walls", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+    specAlgs.set("lvl8", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
 
       std_init(config, lvl, "map_walls");
 
     });
 
+    // lvl_lion_boss
+    specAlgs.set("lvl10", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+
+      std_init(config, lvl, "map_lion");
+
+    });
+
     // arena
     specAlgs.set("lvl_arena", (config) => {
+
+      configurateAudio();
 
       setMap(config, "map6");
 
@@ -259,6 +301,7 @@ export class LevelSelectorController extends Service {
       this.addBonuses(config, playerModel, bonuses);
     } else {
       playerModel.bonusesMetaData.length = 0;
+      playerModel?.updateData();
     }
   }
 

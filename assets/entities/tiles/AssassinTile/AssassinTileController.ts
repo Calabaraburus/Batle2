@@ -32,6 +32,7 @@ import { Line } from "../../effects/Line";
 import { ShootSmokeEffect } from "../../effects/shootSmokeEffect";
 import { Service } from "../../services/Service";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
+import { EffectsManager } from "../../game/EffectsManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("AssassinTileController")
@@ -57,6 +58,7 @@ export class AssassinTileController
   _tilesToDestroy: TileController[] | undefined;
   private _shootEffect: ShootEffect;
   private _fieldViewController: FieldController;
+  private _effectsManager: EffectsManager;
 
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -68,6 +70,7 @@ export class AssassinTileController
     this._effectsService = Service.getServiceOrThrow(EffectsService);
     this._gameManager = Service.getServiceOrThrow(GameManager);
     this._shootEffect = Service.getServiceOrThrow(ShootEffect);
+    this._effectsManager = Service.getServiceOrThrow(EffectsManager);
     this._fieldViewController = Service.getServiceOrThrow(FieldController);
 
     assert(ObjectsCache.instance != null, "Cache can't be null");
@@ -76,7 +79,7 @@ export class AssassinTileController
     this.updateSprite();
   }
 
-  turnEnds(): void {
+  turnBegins(): void {
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       // this.maxCount = 2;
       this._tilesToDestroy = [];
@@ -98,7 +101,8 @@ export class AssassinTileController
           if (isIAttackable(t)) {
             (<IAttackable>t).attack(1);
           } else {
-            t.destroyTile();
+            t.fakeDestroy();
+            t.node.active = false;
           }
         });
       }
@@ -106,7 +110,7 @@ export class AssassinTileController
       this.fieldController.moveTilesLogicaly(this._gameManager?.playerTurn);
       this.fieldController.fixTiles();
 
-      this.playEffect();
+      this._effectsManager.PlayEffectNow(() => this.playEffect(), 0.5);
     }
   }
 

@@ -25,6 +25,7 @@ import { LevelView } from "../../level/LevelView";
 import { PlayerModel } from "../../../models/PlayerModel";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 import { Service } from "../../services/Service";
+import { EffectsManager } from "../../game/EffectsManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("CatapultTileController")
@@ -44,6 +45,8 @@ export class CatapultTileController
   private _cache: ObjectsCache;
   private _dataService: DataService;
   private _aimForEffect: Node;
+  private _effectsManager: EffectsManager;
+  private _audioService: AudioManagerService;
 
   start(): void {
     super.start();
@@ -55,6 +58,8 @@ export class CatapultTileController
   prepare() {
     this._cardService = Service.getServiceOrThrow(CardService);
     this._effectsService = Service.getServiceOrThrow(EffectsService);
+    this._effectsManager = Service.getServiceOrThrow(EffectsManager);
+    this._audioService = Service.getServiceOrThrow(AudioManagerService);
 
     assert(ObjectsCache.instance != null, "Cache can't be null");
     this._cache = ObjectsCache.instance;
@@ -72,15 +77,16 @@ export class CatapultTileController
 
   }
 
-  turnEnds(): void {
+  turnBegins(): void {
     const damageModel = this._cardService?.getCurrentPlayerModel();
 
     if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
       if (damageModel || damageModel != null) {
-        this.playEffect();
-        Service.getServiceOrThrow(AudioManagerService).playSoundEffect(
-          "catapult_attack"
-        );
+
+        this._effectsManager.PlayEffectNow(() => this.playEffect(), 1.2);
+
+        this._audioService.playSoundEffect("catapult_attack");
+
         damageModel.life = damageModel.life - this.damageLife;
       }
     }

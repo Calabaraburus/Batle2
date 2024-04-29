@@ -3,6 +3,7 @@ import { Service } from '../services/Service';
 import { SettingsLoader } from '../services/SettingsLoader';
 import { MapController } from './MapController';
 import { PlayerCurrentGameState } from '../services/PlayerCurrentGameState';
+import { AudioConfigurator } from '../services/AudioConfigurator';
 const { ccclass, property, executeInEditMode } = _decorator;
 
 @ccclass('MapLevel')
@@ -13,21 +14,21 @@ export class MapLevel extends Service {
     @property(MapController)
     mapConstroller: MapController;
     private _playerState: PlayerCurrentGameState;
+    private _audioConfig: AudioConfigurator;
 
     start(): void {
         this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
         this._settingsLoader.loadPlayerCurrentGameState();
+        this._audioConfig = this.getServiceOrThrow(AudioConfigurator);
         this._playerState = this._settingsLoader.playerCurrentGameState;
         // this._settingsLoader.removePlayerCurrentGameState();
-
+        this._audioConfig.applyList(this._audioConfig.mapMusicList);
         this.initMap();
     }
 
     initMap() {
         this.mapConstroller.activateAll(false);
-        // this.mapConstroller.activateLvlObjectByKey('lvl1');
-        // const lvlobj = this.mapConstroller.getLvlObject('lvl2');
-        // if (lvlobj) lvlobj.levelButtonNode.active = true;
+
         const fl = this._playerState.finishedLevels;
 
         fl.forEach(lvl => this.activateLvl(lvl));
@@ -44,7 +45,6 @@ export class MapLevel extends Service {
     }
 
     activateLvl(lvlName: string) {
-        //        const lvl = this.mapConstroller.getLvlObject(lvlName);
         this.mapConstroller.activateLvlObjectByKey(lvlName);
     }
 

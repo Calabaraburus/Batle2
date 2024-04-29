@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { director, _decorator, tween } from "cc";
+import { director, _decorator, tween, randomRangeInt } from "cc";
 import { interfaces } from "inversify";
 import { TileModel } from "../../../models/TileModel";
 import { helpers } from "../../../scripts/helpers";
@@ -33,6 +33,9 @@ export class StdTileInterBehaviour extends GameBehaviour {
   // this._matchStatistic = this.getService(MatchStatisticService);
   //}
   private _doNotUpdateMana = false;
+  private _tileCrashSoundNames = ["tilesCrash", "tilesCrash2"];
+  private _soulSoundNames = ["soulEnd", "soulEnd2", "soulEnd3", "soulEnd4"];
+  private _tileCrashSoundNo = 0;
 
   public get doNotUpdateMana(): boolean {
     return this._doNotUpdateMana;
@@ -98,9 +101,12 @@ export class StdTileInterBehaviour extends GameBehaviour {
 
     let tilesCount = 0;
 
+    const tilesToDestroy: StdTileController[] = [];
+
     connectedTiles.forEach((item) => {
       if (item instanceof StdTileController) {
         if (!item.shieldIsActivated) {
+          tilesToDestroy.push(item);
           this.BeforeDestroy(item);
           this.DestroyTile(item);
 
@@ -116,10 +122,9 @@ export class StdTileInterBehaviour extends GameBehaviour {
       this.eotInvoker.endTurn();
 
       this.effectsManager
-        .PlayEffect(() => {
-          this.effect(connectedTiles);
-          this.updateTileField();
-        }, 1);
+        .PlayEffectNow(() => {
+          this.effect(tilesToDestroy);
+        }, 0.5).PlayEffect(() => this.updateTileField(), 0.5);
 
       /*      this._matchStatistic?.updateTapTileStatistic(
               tilesCount,
@@ -163,18 +168,27 @@ export class StdTileInterBehaviour extends GameBehaviour {
     const cards = this.dataService.playerFieldController.cardField.cards;
     // this.parent.audioManager.playSoundEffect("firewall");
 
-    const getCrd = (tileTags: string[]) => {
+    const getCard = (tileTags: string[]) => {
       const c = cards.filter((c) => tileTags.includes(c.model.activateType));
       return c.length <= 0 ? null : c[0];
     }
 
     animator.call(() => {
+
+      this.audioManager.playSoundEffect(this._tileCrashSoundNames[this._tileCrashSoundNo]);
+      this._tileCrashSoundNo = (this._tileCrashSoundNo >= this._tileCrashSoundNames.length - 1) ?
+        0 : this._tileCrashSoundNo + 1;
+
+      let soulSoundIsPLayed = false;
+
       tiles.forEach((t, i) => {
         const effect =
           this.objectsCache.getObjectByPrefabName<CardEffect>("TilesCrushEffect");
         if (effect == null) {
           return;
         }
+
+        t.node.active = false;
 
         effect.node.position = t.node.position;
         effect.node.parent = this.effectsService.effectsNode;
@@ -184,16 +198,24 @@ export class StdTileInterBehaviour extends GameBehaviour {
 
         if (t.playerModel == this.botModel && this.currentPlayerModel == this.playerModel) {
 
-          const card = getCrd(t.tileModel.getTags())
+          const card = getCard(t.tileModel.getTags())
 
           if (card) {
             const soulEffect =
               this.objectsCache.getObjectByPrefabName<SoulEffect>("tileSoulEffect");
 
             if (soulEffect) {
+
+              if (!soulSoundIsPLayed) {
+                this.audioManager.playSoundEffect("soulSound");
+                soulSoundIsPLayed = true;
+              }
+
               soulEffect.node.parent = this.effectsService.effectsNode;
               soulEffect.node.position = t.node.position;
-              soulEffect?.playSoul(card.node, card.PlaySoulEffect.bind(card));
+              soulEffect?.playSoul(card.node, () => {
+                card.PlaySoulEffect();
+              });
             }
           }
         }
@@ -249,7 +271,6 @@ export class StdTileInterBehaviour extends GameBehaviour {
       this.fieldViewController.moveTilesAnimate();
     }
   }
-
 
   manaUpdate(tilesCount: number, tileType: TileModel): void {
     if (this._doNotUpdateMana) {

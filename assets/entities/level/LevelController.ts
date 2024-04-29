@@ -4,12 +4,11 @@
 //
 //  Author:Natalchishin Taras
 
-import { Component, director, Game, Node, _decorator } from "cc";
+import { director, _decorator } from "cc";
 import { BonusModel } from "../../models/BonusModel";
 import { LevelModel } from "../../models/LevelModel";
 import { EnemyFieldController } from "../enemyField/EnemyFieldController";
 import { FieldController } from "../field/FieldController";
-import { GameManager } from "../game/GameManager";
 import { PlayerFieldController } from "../playerField/PlayerFieldController";
 import type { ILevelView } from "./ILevelView";
 import { LevelView } from "./LevelView";
@@ -21,8 +20,6 @@ const { ccclass, property } = _decorator;
 /** Controls level view. */
 @ccclass("LevelController")
 export class LevelController extends Service {
-  private _turnsCount: number;
-  private _gameManager: GameManager;
 
   /** Level view */
   @property({ type: LevelView })
@@ -46,13 +43,8 @@ export class LevelController extends Service {
   @property(EnemyFieldController)
   enemyField: EnemyFieldController;
 
-  //  @property(AttackSignalController)
-  // attackSignal: AttackSignalController;
-
-  /** Game manager */
-  set gameManager(manager: GameManager) {
-    this._gameManager = manager;
-  }
+  @property(AttackSignalController)
+  signalController: AttackSignalController;
 
   start() {
     this.model = this.getServiceOrThrow(LevelModel);
@@ -75,8 +67,6 @@ export class LevelController extends Service {
   }
 
   public updateData() {
-    this._turnsCount = this.model.turnsCount;
-
     this.playerField.playerModel = this.levelConfiguration.playerModel;
     this.enemyField.playerModel = this.levelConfiguration.botModel;
     this.view.AimPoints = this.model.aimPoints;

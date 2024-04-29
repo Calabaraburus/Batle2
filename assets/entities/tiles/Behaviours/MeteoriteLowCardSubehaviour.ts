@@ -2,8 +2,4 @@ import { MeteoriteCardSubehaviour } from "./MeteoriteCardSubehaviour";
 
 export class MeteoriteLowCardSubehaviour extends MeteoriteCardSubehaviour {
   powerCard = 0;
-  prepare(): boolean {
-    super.prepare();
-    return true;
-  }
 }

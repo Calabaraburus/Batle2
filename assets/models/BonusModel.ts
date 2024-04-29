@@ -38,7 +38,7 @@ export class BonusModel extends Component {
   public unactiveSprite: SpriteFrame;
 
   @property({ type: CCBoolean })
-  public active: boolean;
+  public active = false;
 
   //** Tiles of what type need to destroy to activate bonus */
   @property(CCString)
