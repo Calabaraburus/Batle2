@@ -90,6 +90,7 @@ export class Bot_v2 extends Service implements IBot {
   private _gameManager: GameManager;
   private _effectsManager: EffectsManager;
   private _stdTileBehave: StdTileInterBehaviour;
+  private _queue: Queue<() => void>;
 
   public get dataService() {
     return this._dataService;
@@ -283,14 +284,14 @@ export class Bot_v2 extends Service implements IBot {
       this._playerModel);
 
 
-    const queue = new Queue<() => void>();
+    this._queue = new Queue<() => void>();
 
     console.log(`[Bot] Analizers size: ${this._cardAnalizators.size}`);
 
     if (this._cardAnalizators.size > 0) {
 
       this._cardAnalizators.forEach(c => {
-        queue.enqueue(() => {
+        this._queue.enqueue(() => {
 
           console.log(`[Bot] Try to activate Card ${c.cardModel.mnemonic}`);
           const analizator = this._cardAnalizators.get(c.cardModel.mnemonic);
@@ -307,7 +308,7 @@ export class Bot_v2 extends Service implements IBot {
 
                 console.log(`[Bot] Activate card on tile {${result.row},${result.col}}`);
 
-                this.pressTileRC(result.row, result.col);
+                this.pressTileRC(result.row, result.col)
 
                 console.log(`[Bot] Card have been activated`);
 
@@ -324,7 +325,7 @@ export class Bot_v2 extends Service implements IBot {
       });
     }
 
-    queue.enqueue(() => {
+    this._queue.enqueue(() => {
 
       console.log(`[Bot] Try to find best tile to tap`);
 
@@ -345,28 +346,27 @@ export class Bot_v2 extends Service implements IBot {
       //      this.debugTile(tile);
       console.log(`[Bot] Activate tile {${result.row},${result.col}}`);
 
-      this.pressTileRC(result.row, result.col);
-
+      this.pressTileRC(result.row, result.col)
       // clonedField.reset();
     });
-
-    const conv = tween(this);
-
-    const waiter = tween(this).call(() => {
-      if (!this._effectsManager.effectIsRunning) {
-        if (queue.length <= 0) {
-          conv.stop();
-        } else {
-          const action = queue.dequeue();
-          action();
-        }
-      }
-    }).delay(0.2);
-
-    conv.repeatForever(waiter);
-
-    conv.start();
-
+    /*
+        const conv = tween(this);
+    
+        const waiter = tween(this).call(() => {
+          if (!this._effectsManager.effectIsRunning) {
+            if (queue.length <= 0) {
+              conv.stop();
+            } else {
+              const action = queue.dequeue();
+              action();
+            }
+          }
+        }).delay(0.3);
+    
+        conv.repeatForever(waiter);
+    
+        conv.start();
+    */
   }
 
   cloneField() {
@@ -618,6 +618,17 @@ export class Bot_v2 extends Service implements IBot {
   pressTileSelectedByIndexes(field: ITileFieldController, row: number, col: number) {
     const tile = field.fieldMatrix.get(row, col);
     tile?.clicked();
+  }
+
+  protected update(dt: number): void {
+    if (this._queue == null) return;
+
+    if (!this._effectsManager.effectIsRunning) {
+      if (this._queue.length > 0) {
+        const action = this._queue.dequeue();
+        action();
+      }
+    }
   }
 
   private analize(): boolean {
