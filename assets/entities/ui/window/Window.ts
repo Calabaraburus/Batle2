@@ -84,6 +84,12 @@ export class Window extends Service {
         });
 
     }
+
+    public showContentGroupExternal(ev: any, groupName: string) {
+
+        this.showContentGroup(groupName);
+
+    }
 }
 
 class targetWndTweenObj {

@@ -42,14 +42,14 @@ export class MenuSelectorController extends Service {
   settingsLoader: SettingsLoader;
   parameters: GameParameters;
   private _sceneLoader: SceneLoaderService;
-  private _gameManager: GameManager;
+  private _gameManager: GameManager | null;
   private _levelConfig: LevelConfiguration;
   private _levelSelector: LevelSelectorController;
 
   start(): void {
 
     this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
-    this._gameManager = this.getServiceOrThrow(GameManager);
+    this._gameManager = this.getService(GameManager);
     this._aManager = this.getService(AudioManagerService);
     this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
     this._levelSelector = this.getServiceOrThrow(LevelSelectorController);
@@ -89,12 +89,12 @@ export class MenuSelectorController extends Service {
   }
 
   loadScene(sender: object, sceneName: string): void {
-    this._gameManager.stop();
+    this._gameManager?.stop();
     this._sceneLoader.loadLevel(sceneName);
   }
 
   reloadMission() {
-    this._gameManager.stop();
+    this._gameManager?.stop();
     this._levelSelector.loadLevel(this, this._levelConfig.levelName);
   }
 
