@@ -26,6 +26,11 @@ export class MapLevel extends Service {
         this.initMap();
     }
 
+    updateMap() {
+        this._playerState = this._settingsLoader.playerCurrentGameState;
+        this.initMap();
+    }
+
     initMap() {
         this.mapConstroller.activateAll(false);
 

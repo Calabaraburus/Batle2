@@ -229,4 +229,3 @@ export class StartLevelWindow extends Service {
     }
 
 }
-
