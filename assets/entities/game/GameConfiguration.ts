@@ -23,6 +23,7 @@ export class GameConfigurationModel {
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "40";
       lvl.endLevelBonus = "onecard";
+      lvl.playerCards = [];
       lvl.endLevelBonusParams = ['firewallLow:3'];
     });
 
@@ -30,10 +31,10 @@ export class GameConfigurationModel {
       lvl.lvlName = "lvl2";
       lvl.botHeroName = "bot2";
       lvl.botLife = "20";
-      lvl.botCards = [{ mnemonic: "firewallLow", price: "3" }];
+      lvl.botCards = [{ mnemonic: "meteoriteLow", price: "3" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
-      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.playerCards = [];
       lvl.endLevelBonus = "twocards";
       lvl.endLevelBonusParams = ['berserkLow:3', 'assassinLow:3'];
     });
@@ -45,7 +46,7 @@ export class GameConfigurationModel {
       lvl.botCards = [{ mnemonic: "lightningMiddle", price: "4" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
-      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.playerCards = [];
       lvl.endLevelBonus = "life";
       lvl.endLevelBonusParams = ["20"];
     });
@@ -57,7 +58,7 @@ export class GameConfigurationModel {
       lvl.botCards = [{ mnemonic: "hammerMiddle", price: "4" }, { mnemonic: "mine", price: "3" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
-      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.playerCards = [];
       lvl.endLevelBonus = "twocards";
       lvl.endLevelBonusParams = ['c_attack:4', 'push:3'];
 
@@ -70,7 +71,7 @@ export class GameConfigurationModel {
       lvl.botCards = [{ mnemonic: "wormMiddle", price: "4" }, { mnemonic: "totemLow", price: "3" }, { mnemonic: "push", price: "3" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
-      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.playerCards = [];
       lvl.endLevelBonus = "life";
       lvl.endLevelBonusParams = ["20"];
     });
@@ -82,7 +83,7 @@ export class GameConfigurationModel {
       lvl.botCards = [{ mnemonic: "pikeLow", price: "3" }, { mnemonic: "shaman", price: "4" }, { mnemonic: "push", price: "4" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
-      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.playerCards = [];
       lvl.endLevelBonus = "twocards";
       lvl.endLevelBonusParams = ['firewallMiddle:4', 'meteoriteMiddle:3'];
     });
@@ -94,7 +95,7 @@ export class GameConfigurationModel {
       lvl.botCards = [{ mnemonic: "meteoriteMiddle", price: "4" }, { mnemonic: "totem", price: "4" }, { mnemonic: "maneuver", price: "3" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
-      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.playerCards = [];
       lvl.endLevelBonus = "twocards";
       lvl.endLevelBonusParams = ['berserk:4', 'assassin:4'];
     });
@@ -106,7 +107,7 @@ export class GameConfigurationModel {
       lvl.botCards = [{ mnemonic: "lightningLow", price: "4" }, { mnemonic: "berserkLow", price: "3" }, { mnemonic: "shield", price: "2" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
-      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.playerCards = [];
       lvl.endLevelBonus = "life";
       lvl.endLevelBonusParams = ["20"];
     });
@@ -118,7 +119,7 @@ export class GameConfigurationModel {
       lvl.botCards = [{ mnemonic: "firewall", price: "4" }, { mnemonic: "assassin", price: "4" }, { mnemonic: "panic", price: "3" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
-      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.playerCards = [];
       lvl.endLevelBonus = "twocards";
       lvl.endLevelBonusParams = ['firewall:4', 'meteorite:4'];
     });
@@ -131,7 +132,7 @@ export class GameConfigurationModel {
       lvl.botCards = [{ mnemonic: "worm", price: "4" }, { mnemonic: "catapult", price: "4" }, { mnemonic: "c_attack", price: "4" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
-      lvl.playerCards = [{ mnemonic: "", price: "" }];
+      lvl.playerCards = [];
     });
 
     return config;
