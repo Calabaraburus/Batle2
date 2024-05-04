@@ -386,7 +386,9 @@ export class FinalWindow extends Service {
   closeFinalWindow() {
     if (this.canUpdateCurStateData()) {
       this.closeBonusEvents();
+
       this._state.addLevel(this._config.levelName);
+
       if (this._state.life == null) {
         const cfgLvl = this._settingsLoader.gameConfiguration.levels.find(l => l.lvlName == this._config.levelName);
 

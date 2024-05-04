@@ -31,7 +31,7 @@ export class GameConfigurationModel {
       lvl.lvlName = "lvl2";
       lvl.botHeroName = "bot2";
       lvl.botLife = "20";
-      lvl.botCards = [{ mnemonic: "meteoriteLow", price: "3" }];
+      lvl.botCards = [{ mnemonic: "meteoriteLow", price: "2" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
       lvl.playerCards = [];
@@ -132,6 +132,16 @@ export class GameConfigurationModel {
       lvl.botCards = [{ mnemonic: "worm", price: "4" }, { mnemonic: "catapult", price: "4" }, { mnemonic: "c_attack", price: "4" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
+      lvl.playerCards = [];
+    });
+
+    addLevel((lvl) => {
+      lvl.lvlName = "lvl_arena";
+      lvl.botHeroName = "arenaBot";
+      lvl.botLife = "100";
+      lvl.botCards = [];
+      lvl.playerHeroName = "arenaPlayer";
+      lvl.playerLife = "100";
       lvl.playerCards = [];
     });
 
