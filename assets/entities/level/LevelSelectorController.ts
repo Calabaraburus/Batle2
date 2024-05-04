@@ -190,36 +190,47 @@ export class LevelSelectorController extends Service {
     });
 
     // arena
-    specAlgs.set("lvl_arena", (config) => {
+    specAlgs.set("lvl_arena", (config, lvl: GameLevelCfgModel) => {
 
       configurateAudio();
 
       setMap(config, "map6");
 
+      config.levelName = lvl.lvlName;
+
       const cardCfgs = this.getAvailableBonusesForArena(config, settingsLoader);
 
-      const lvl = settingsLoader.gameConfiguration.levels.find(l => l.lvlName == "lvl_arena");
+      //const lvl = settingsLoader.gameConfiguration.levels.find(l => l.lvlName == "lvl_arena");
 
-      assert(lvl != null);
+      //assert(lvl != null);
 
-      const playerHero = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) })
-      const botHero = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true })
+      const playerHero = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) });
+      const botHero = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true });
 
       if (!playerHero) return;
       if (!botHero) return;
 
-      const groupedBonuses = this.groupBonuses(config, cardCfgs);
+      const bonuses = config.node
+        .getChildByName("BonusModels")
+        ?.getComponentsInChildren(BonusModel);
 
-      let bonusList = this.selectBonuses(groupedBonuses).map(c => ({ name: c.mnemonic, price: Number(c.price) }));
+      assert(bonuses != null);
+
+      const groupedBonuses = this.groupBonuses(bonuses, cardCfgs);
+
+      const selectedBnses = this.selectBonuses(groupedBonuses);
+
+      let bonusList = this.bonusesToList(selectedBnses)
+        .map(c => ({ name: c.mnemonic, price: Number(c.price) }));
 
       this.addBonuses(config, botHero, bonusList);
 
-      bonusList = this.selectBonuses(groupedBonuses).map(c => ({ name: c.mnemonic, price: Number(c.price) }));
+      this.filterBonuses(groupedBonuses, selectedBnses);
+
+      bonusList = this.bonusesToList(this.selectBonuses(groupedBonuses))
+        .map(c => ({ name: c.mnemonic, price: Number(c.price) }));
 
       this.addBonuses(config, playerHero, bonusList);
-
-      // this.fillPlayerWithBonuses(playerHero, groupedBonuses);
-      // this.fillPlayerWithBonuses(botHero, groupedBonuses);
 
       config.updateData();
     });
@@ -409,42 +420,67 @@ export class LevelSelectorController extends Service {
     return word[0].toUpperCase() + word.substring(1);
   }
 
-  selectBonuses(groupedBonuses: { close_range: GameCardCfgModel[], long_range: GameCardCfgModel[], protect: GameCardCfgModel[] }) {
+  bonusesToList(bonusGroup: { close_range: BonusGroupType | null, long_range: BonusGroupType | null, protect: BonusGroupType | null }) {
     const result = [];
+    if (bonusGroup.close_range) result.push(bonusGroup.close_range.cardCfg);
+    if (bonusGroup.long_range) result.push(bonusGroup.long_range.cardCfg);
+    if (bonusGroup.protect) result.push(bonusGroup.protect.cardCfg);
+
+    return result
+  }
+
+  selectBonuses(groupedBonuses: BonusGroups) {
+    const result: { close_range: BonusGroupType | null, long_range: BonusGroupType | null, protect: BonusGroupType | null } =
+      { close_range: null, long_range: null, protect: null };
 
     let ar = groupedBonuses.close_range;
-    result.push(ar[randomRangeInt(0, ar.length)]);
+    result.close_range = ar[randomRangeInt(0, ar.length)];
 
     ar = groupedBonuses.long_range;
-    result.push(ar[randomRangeInt(0, ar.length)]);
+    result.long_range = ar[randomRangeInt(0, ar.length)];
 
     ar = groupedBonuses.protect;
-    result.push(ar[randomRangeInt(0, ar.length)]);
+    result.protect = ar[randomRangeInt(0, ar.length)];
 
     return result;
   }
 
-  groupBonuses(config: LevelConfiguration, cards: GameCardCfgModel[]): { close_range: GameCardCfgModel[], long_range: GameCardCfgModel[], protect: GameCardCfgModel[] } {
-    const bonuses = config.node
-      .getChildByName("BonusModels")
-      ?.getComponentsInChildren(BonusModel);
+  filterBonuses(groupedBonuses: BonusGroups,
+    filter: { close_range: BonusGroupType | null, long_range: BonusGroupType | null, protect: BonusGroupType | null }) {
 
-    const result: { close_range: GameCardCfgModel[], long_range: GameCardCfgModel[], protect: GameCardCfgModel[] } = { close_range: [], long_range: [], protect: [] };
+    groupedBonuses.close_range = this.filterBonusesByType(groupedBonuses.close_range, filter.close_range);
+    groupedBonuses.long_range = this.filterBonusesByType(groupedBonuses.long_range, filter.long_range);
+    groupedBonuses.protect = this.filterBonusesByType(groupedBonuses.protect, filter.protect);
+  }
+
+  filterBonusesByType(bonusTypeLst: BonusGroupType[], filt: BonusGroupType | null) {
+    if (filt == null) return [];
+
+    return bonusTypeLst.filter(b => b.baseModel.bonusLevel == filt?.baseModel.bonusLevel);
+  }
+
+  getBonus(bonuses: BonusModel[], mnemonic: string) {
+    return bonuses?.find(b => b.mnemonic == mnemonic);
+  }
+
+  groupBonuses(bonuses: BonusModel[], cards: GameCardCfgModel[]): BonusGroups {
+
+    const result: BonusGroups = new BonusGroups();
 
     cards.forEach((card) => {
 
-      const bonus = bonuses?.find(b => b.mnemonic == card.mnemonic);
+      const bonus = this.getBonus(bonuses, card.mnemonic);
 
       if (bonus) {
         switch (bonus.activateType) {
           case "close_range":
-            result.close_range.push(card);
+            result.close_range.push({ cardCfg: card, baseModel: bonus });
             break;
           case "long_range":
-            result.long_range.push(card);
+            result.long_range.push({ cardCfg: card, baseModel: bonus });
             break;
           case "protect":
-            result.protect.push(card);
+            result.protect.push({ cardCfg: card, baseModel: bonus });
             break;
         }
       }
@@ -453,4 +489,15 @@ export class LevelSelectorController extends Service {
     return result;
   }
 
+}
+
+class BonusGroups {
+  close_range: BonusGroupType[] = [];
+  long_range: BonusGroupType[] = [];
+  protect: BonusGroupType[] = [];
+}
+
+class BonusGroupType {
+  cardCfg: GameCardCfgModel;
+  baseModel: BonusModel;
 }

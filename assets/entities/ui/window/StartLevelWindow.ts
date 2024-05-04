@@ -20,6 +20,7 @@ import { Window } from './Window';
 import { preferencesProtocol } from '../../../../extensions/i18n/@types/editor/profile/public/interface';
 import { CardInfoPage } from './CardInfoPage';
 import { CardStrtLVLWnd } from './CardStrtLVLWnd';
+import { GameManager } from '../../game/GameManager';
 
 const { ccclass, property } = _decorator;
 
@@ -66,12 +67,16 @@ export class StartLevelWindow extends Service {
     private _levelSelector: LevelSelectorController;
     private _botCardModels: BonusModel[];
     private _isInit = false;
+    protected _gameManager: GameManager | null;
 
     start(): void {
         this._settings = this.getServiceOrThrow(SettingsLoader);
         this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
         this._wndOverlay = this.getComponent(OverlayWindow);
         this._wnd = this.getComponent(Window);
+
+        this._gameManager = this.getService(GameManager);
+
         const tmpSelector = this.getService(LevelSelectorController);
 
         if (tmpSelector) {
@@ -132,16 +137,28 @@ export class StartLevelWindow extends Service {
 
         this._botCardModels = []
 
-        this._levelConfigModel.botCards.forEach((bc, i) => {
-            const bonusModel = bonuses?.find((bm) => bm.mnemonic == bc.mnemonic);
+        const pushBonus = (model: BonusModel, index: number) => {
+            this._botCardModels.push(model);
+            this._cardSprites[index].card.spriteFrame = model.sprite;
+            this._cardSprites[index].card.node.active = true;
+            this.updateLevelSprite(model, this._cardSprites[index].lvlIco);
+        };
 
-            if (bonusModel) {
-                this._botCardModels.push(bonusModel);
-                this._cardSprites[i].card.spriteFrame = bonusModel.sprite;
-                this._cardSprites[i].card.node.active = true;
-                this.updateLevelSprite(bonusModel, this._cardSprites[i].lvlIco);
-            }
-        });
+        if (this._gameManager) {
+            const config = this.getServiceOrThrow(LevelConfiguration);
+            config.botModel.bonuses.forEach((model, i) => {
+                pushBonus(model, i);
+            });
+
+        } else {
+            this._levelConfigModel.botCards.forEach((bc, i) => {
+                const bonusModel = bonuses?.find((bm) => bm.mnemonic == bc.mnemonic);
+
+                if (bonusModel) {
+                    pushBonus(bonusModel, i);
+                }
+            });
+        }
     }
 
     fillStrings() {

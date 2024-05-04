@@ -37,9 +37,10 @@ export class MapLevel extends Service {
         const fl = this._playerState.finishedLevels;
 
         fl.forEach(lvl => this.activateLvl(lvl));
-        const nextLvlId = fl.length > 0 ?
-            Number(fl[fl.length - 1].replace('lvl', '')) + 1 :
-            1;
+
+        const lids = fl.map(lvl => Number(lvl.replace('lvl', ''))).filter(id => !Number.isNaN(id));
+
+        const nextLvlId = lids.length > 0 ? Math.max(...lids) + 1 : 1;
 
         const nextLvl = this.mapConstroller.getLvlObject(`lvl${nextLvlId}`);
 
