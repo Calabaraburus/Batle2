@@ -200,10 +200,6 @@ export class LevelSelectorController extends Service {
 
       const cardCfgs = this.getAvailableBonusesForArena(config, settingsLoader);
 
-      //const lvl = settingsLoader.gameConfiguration.levels.find(l => l.lvlName == "lvl_arena");
-
-      //assert(lvl != null);
-
       const playerHero = this.configPlayerStd({ config, name: lvl.playerHeroName, life: Number(lvl.playerLife) });
       const botHero = this.configPlayerStd({ config, name: lvl.botHeroName, life: Number(lvl.botLife), isBot: true });
 
@@ -258,12 +254,14 @@ export class LevelSelectorController extends Service {
     const resultBonuses = new Map<string, GameCardCfgModel>();
 
     const addBonus = (bc: GameCardCfgModel) => {
-      if (!resultBonuses.has(bc.mnemonic)) {
-        const bonus = bonuses?.find(b => b.mnemonic == bc.mnemonic);
-        if (bonus) {
-          resultBonuses.set(bc.mnemonic, bc);
-        }
-
+      const bonus = bonuses?.find(b => b.mnemonic == bc.mnemonic);
+      if (bonus) {
+        const bonusSameBase = bonuses?.filter(b => b.baseCardMnemonic == bonus.baseCardMnemonic && b.bonusLevel <= bonus.bonusLevel);
+        bonusSameBase?.forEach(b => {
+          if (!resultBonuses.has(b.mnemonic)) {
+            resultBonuses.set(bc.mnemonic, bc);
+          }
+        });
       }
     }
 
@@ -273,9 +271,11 @@ export class LevelSelectorController extends Service {
         lvl.botCards.forEach(bc => {
           addBonus(bc);
         });
-        lvl.playerCards.forEach(bc => {
-          addBonus(bc);
-        });
+        if (lvl.endLevelBonus == 'onecard' || lvl.endLevelBonus == 'twocards') {
+          lvl.endLevelBonusParams.forEach(p => {
+            addBonus({ mnemonic: p.split(":")[0], price: p.split(":")[1] });
+          })
+        }
       }
     });
 
