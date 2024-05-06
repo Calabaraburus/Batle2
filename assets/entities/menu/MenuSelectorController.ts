@@ -90,6 +90,7 @@ export class MenuSelectorController extends Service {
 
   loadScene(sender: object, sceneName: string): void {
     this._gameManager?.stop();
+
     this._sceneLoader.loadLevel(sceneName);
   }
 
