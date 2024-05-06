@@ -62,6 +62,7 @@ export class GameManager extends Service {
   private _needToSkipBotTurn: boolean = false;
 
   private _bot: IBot | null;
+  private _isStarted = false;
 
   @property({ type: LevelController })
   levelController: LevelController;
@@ -73,58 +74,116 @@ export class GameManager extends Service {
     return this._needToSkipBotTurn;
   }
 
+  public get isStarted() {
+    return this._isStarted;
+  }
+
   private readonly _stateMachineConfig = Finity.configure()
+
+    // initial state #######################################
+
     .initialState("initGame")
     .onEnter(() => this.initGame())
+    .on("end")
+    .transitionTo("endGame")
 
     .on("gameStartEvent")
     .transitionTo("playerTurn")
 
+    //-------------------------------------------------------
+
+    // player turn state ####################################
+
     .state("playerTurn")
     .onEnter(() => this.startPlayerTurn())
+
+    .on("end")
+    .transitionTo("endGame")
 
     .on("endTurnEvent")
     .transitionTo("beforeEndTurn")
     .withCondition(() => this.canEndTurn() && !this._needToSkipBotTurn)
 
+    //-------------------------------------------------------
+
+    // before end turn state ################################
+
     .state("beforeEndTurn")
     .onEnter(() => this.beforeEndTurn())
+
+    .on("end")
+    .transitionTo("endGame")
+
     .on("endTurnServiceEvent")
     .transitionTo("endTurn")
+
+    //-------------------------------------------------------
+
+    // end turn state #######################################
+
     .state("endTurn")
     .onEnter(() => this.endTurnStateMachine())
 
-    //    .onTimeout(0)
-    //    .transitionTo("moveTiles")
-
-    //    .state("moveTiles")
-    //    .onEnter(() => this.moveTiles())
+    .on("end")
+    .transitionTo("endGame")
 
     .onTimeout(50)
     .transitionTo("beforeBotTurn")
     .withCondition(() => this._gameState.isPlayerTurn == true && !this.isGameEnded())
+
     .transitionTo("beforePlayerTurn")
     .withCondition(() => this._gameState.isPlayerTurn == false && !this.isGameEnded())
 
+    //-------------------------------------------------------
+
+    // before bot turn state ################################
+
     .state("beforeBotTurn")
     .onEnter(() => this.beforeBotTurn())
+
+    .on("end")
+    .transitionTo("endGame")
+
     .on("endBeforeTurn")
     .transitionTo("botTurn")
 
+    //-------------------------------------------------------
+
+    // before player turn state #############################
+
     .state("beforePlayerTurn")
     .onEnter(() => this.beforePlayerTurn())
+
+    .on("end")
+    .transitionTo("endGame")
+
     .on("endBeforeTurn")
     .transitionTo("playerTurn")
+
+    //-------------------------------------------------------
+
+    // bot turn state #######################################
 
     .state("botTurn")
     .onEnter(() => this.startBotTurn())
 
+    .on("end")
+    .transitionTo("endGame")
+
     .on("endTurnEvent")
     .transitionTo("beforeEndTurn")
 
+    //-------------------------------------------------------
+
+    // end game state #######################################
+
+    .state("endGame")
+    .onEnter(() => { this._isStarted = false; })
+
+    //-------------------------------------------------------
+
     .global()
     .onStateEnter((state) => {
-      //console.log(`Entering state '${state}'`);
       this._debug?.log(`Entering state '${state}'`);
     })
     .onStateExit((state) => {
@@ -199,6 +258,7 @@ export class GameManager extends Service {
 
   public stop() {
     Tween.stopAll();
+    this._stateMachine.handle("end");
   }
 
   initGame(): void {
@@ -221,6 +281,8 @@ export class GameManager extends Service {
 
     // start statistic counter
     this._matchStatistic?.startTileStatistic();
+
+    this._isStarted = true;
   }
 
   private tileClicked(sender: unknown, tile: TileController): void {

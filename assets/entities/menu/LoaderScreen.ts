@@ -9,6 +9,7 @@ import {
   Vec3,
   Node,
   EventTarget,
+  Label,
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -25,6 +26,9 @@ export class LoaderScreen extends Component {
 
   @property(Node)
   loaderNode: Node;
+
+  @property(Label)
+  errorTxt: Label;
 
   start() {
     this._opacity = this.loaderNode.getComponent(UIOpacity);

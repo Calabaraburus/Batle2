@@ -25,5 +25,3 @@ export class MainMenuWindow extends Service {
         this._map.updateMap();
     }
 }
-
-
