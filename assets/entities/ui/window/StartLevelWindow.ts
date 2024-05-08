@@ -57,6 +57,15 @@ export class StartLevelWindow extends Service {
     @property(SpriteFrame)
     crystalSprites: SpriteFrame[] = [];
 
+    @property(Label)
+    scrollNameLabel: Label;
+
+    @property(Label)
+    scrollTextLabel: Label;
+
+    @property(Sprite)
+    scrollImageLabel: Sprite;
+
     protected _levelName: string;
     private _wndOverlay: OverlayWindow | null;
     protected _wnd: Window | null;
@@ -92,7 +101,7 @@ export class StartLevelWindow extends Service {
         }
     }
 
-    showWindow(sender: any, lvlName: string = "") {
+    showWindow(sender: any, path: string = "") {
         if (this._isInit == false) {
             this._isInit = true;
             this.start();
@@ -102,9 +111,11 @@ export class StartLevelWindow extends Service {
 
         this._wndOverlay?.showWindow();
 
-        if (lvlName != "") {
-            this._levelName = lvlName;
-            const tcfg = this._settings.gameConfiguration.levels.find(lvl => lvl.lvlName == lvlName);
+        const openers = new Map<string, (name: string) => void>();
+
+        openers.set("lvl", (name: string) => {
+            this._levelName = name;
+            const tcfg = this._settings.gameConfiguration.levels.find(lvl => lvl.lvlName == name);
 
             assert(tcfg != null);
 
@@ -114,6 +125,27 @@ export class StartLevelWindow extends Service {
             this.fillStrings();
 
             this._wnd?.showContentGroup("default");
+        });
+
+        openers.set("scroll", (name: string) => {
+            this.fillScrollStrings(name);
+            this._wnd?.showContentGroup("scroll");
+        });
+
+        if (path != "") {
+
+            const key = path.split(":")[0];
+            const val = path.split(":")[1];
+
+
+            if (key.toLowerCase().includes("scroll")) {
+                const opener = openers.get("scroll");
+                if (opener) opener(val);
+            } else {
+                const opener = openers.get("lvl");
+                if (opener) opener(val);
+            }
+
         }
     }
 
@@ -159,6 +191,12 @@ export class StartLevelWindow extends Service {
                 }
             });
         }
+    }
+
+    fillScrollStrings(name: string) {
+        this.scrollNameLabel.string = t(`scrolls.${name}.name`);
+
+        this.scrollTextLabel.string = t(`scrolls.${name}.text`);
     }
 
     fillStrings() {
