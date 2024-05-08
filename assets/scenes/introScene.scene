@@ -404,7 +404,7 @@
     },
     "component": "",
     "_componentId": "dde2aJby/xCDb6v8mBShhE4",
-    "handler": "loadLevelNoScreen",
+    "handler": "loadLevelEventData",
     "customEventData": "LvlScene"
   },
   {
@@ -1735,7 +1735,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 712.664,
+      "y": 766.012,
       "z": 0
     },
     "_lrot": {

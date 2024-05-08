@@ -51,7 +51,7 @@ export class MapController extends Component {
     }
 
     activateLvlObject(lvlObj: LevelMapObjectsController, activate = true) {
-        lvlObj.levelButtonNode.active = activate;
+        if (lvlObj.levelButtonNode) lvlObj.levelButtonNode.active = activate;
         lvlObj.editionalObjects.forEach(o => o.active = activate);
         this._graphics?.Refresh();
     }
