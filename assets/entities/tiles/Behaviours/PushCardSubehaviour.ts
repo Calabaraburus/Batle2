@@ -63,7 +63,7 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
     this.parent.debug?.log("[push_card_sub] Start effect.");
     const curPlayer = this.parent.cardService.getCurrentPlayerModel();
 
-    this.parent.audioManager.playSoundEffect("motivate");
+    this.parent.audioManager.playSoundEffect("push");
 
     this._matrix.forEach((tile) => {
       if (tile.playerModel != curPlayer) return;

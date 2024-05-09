@@ -28,7 +28,7 @@ export class MineCardSubehaviour extends CardsSubBehaviour {
     if (targetTile.tileModel.specialTile) return false;
 
     this._cache = ObjectsCache.instance;
-    this.effectDurationValue = 0.4;
+    this.effectDurationValue = 0.7;
 
     return true;
   }

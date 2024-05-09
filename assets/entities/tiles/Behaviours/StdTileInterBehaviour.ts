@@ -16,6 +16,7 @@ import { MatchStatisticService } from "../../services/MatchStatisticService";
 import { CardEffect } from "../../effects/CardEffect";
 import { Behaviour } from "../../behaviours/Behaviour";
 import { SoulEffect } from "../../effects/soulEffect";
+import { EffectsManagerForBot } from "../../../bot/EffectsManagerForBot";
 
 const { ccclass } = _decorator;
 
@@ -36,6 +37,8 @@ export class StdTileInterBehaviour extends GameBehaviour {
   private _tileCrashSoundNames = ["tilesCrash", "tilesCrash2"];
   private _soulSoundNames = ["soulEnd", "soulEnd2", "soulEnd3", "soulEnd4"];
   private _tileCrashSoundNo = 0;
+
+  private readonly MaxStars = 6;
 
   public get doNotUpdateMana(): boolean {
     return this._doNotUpdateMana;
@@ -121,21 +124,16 @@ export class StdTileInterBehaviour extends GameBehaviour {
       this.manaUpdate(tilesCount, connectedTiles[0].tileModel);
       this.eotInvoker.endTurn();
 
-      this.effectsManager
-        .PlayEffectNow(() => {
-          this.effect(tilesToDestroy);
-        }, 0.5).PlayEffect(() => this.updateTileField(), 0.5);
-
-      /*      this._matchStatistic?.updateTapTileStatistic(
-              tilesCount,
-              connectedTiles[0].tileModel
-            );*/
+      if (!(this.effectsManager instanceof EffectsManagerForBot)) {
+        this.effectsManager
+          .PlayEffectNow(() => {
+            this.effect(tilesToDestroy);
+          }, 0.5).PlayEffect(() => this.updateTileField(), 0.5);
+      }
     }
 
     this.debug?.log(`[behaviour][tilesBehaviour] update tile field`);
 
-
-    // this.gameManager?.changeGameState("endTurnEvent");
     this._inProcess = false;
   }
 
@@ -182,13 +180,13 @@ export class StdTileInterBehaviour extends GameBehaviour {
       let soulSoundIsPLayed = false;
 
       tiles.forEach((t, i) => {
+
         const effect =
           this.objectsCache.getObjectByPrefabName<CardEffect>("TilesCrushEffect");
+
         if (effect == null) {
           return;
         }
-
-        t.node.active = false;
 
         effect.node.position = t.node.position;
         effect.node.parent = this.effectsService.effectsNode;
@@ -196,11 +194,13 @@ export class StdTileInterBehaviour extends GameBehaviour {
 
         effects.push(effect);
 
+        t.node.active = false;
+
         if (t.playerModel == this.botModel && this.currentPlayerModel == this.playerModel) {
 
           const card = getCard(t.tileModel.getTags())
 
-          if (card) {
+          if (card && i <= this.MaxStars) {
             const soulEffect =
               this.objectsCache.getObjectByPrefabName<SoulEffect>("tileSoulEffect");
 

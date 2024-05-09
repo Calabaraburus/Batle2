@@ -33,7 +33,7 @@ export class EffectsManager extends Service {
 
         if (this._currentTime <= 0) this._currentTime = 1;
 
-        effectFunc();
+        setTimeout(() => effectFunc(), 0);
         const overalDur = this._effectsQueue.values.reduce((sum, current) => sum + current.duration, 0);;
         if (execTime > overalDur) this.PlayEffect(() => { }, execTime - overalDur);
 
@@ -60,7 +60,7 @@ export class EffectsManager extends Service {
 
             if (effect.timeToStart >= this._currentTime && !effect.isPlayed) {
                 effect.isPlayed = true;
-                effect.effectFunc();
+                setTimeout(() => effect.effectFunc(), 0);
             }
 
             this._currentTime += dt;

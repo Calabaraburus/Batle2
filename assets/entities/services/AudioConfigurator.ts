@@ -23,7 +23,7 @@ export class AudioConfigurator extends Service {
         this._audio.changeVolume(this._settingsLoader.gameParameters.musicLevel, "music");
         this._audio.changeVolume(this._settingsLoader.gameParameters.soundLevel, "sound");
 
-        this.applyList(this.mapMusicList);
+        this.applyList(["music_intro"]);
     }
 
     applyList(list: string[]) {
