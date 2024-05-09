@@ -20,6 +20,7 @@ import { Window } from './Window';
 import { preferencesProtocol } from '../../../../extensions/i18n/@types/editor/profile/public/interface';
 import { CardInfoPage } from './CardInfoPage';
 import { CardStrtLVLWnd } from './CardStrtLVLWnd';
+import { GameManager } from '../../game/GameManager';
 
 const { ccclass, property } = _decorator;
 
@@ -38,8 +39,8 @@ export class StartLevelWindow extends Service {
     @property(CardStrtLVLWnd)
     card_3: CardStrtLVLWnd;
 
-    @property(RichText)
-    scenarioTextField: RichText;
+    @property(Label)
+    scenarioTxt: Label;
 
     @property(Label)
     levelNumberLabel: Label;
@@ -56,6 +57,15 @@ export class StartLevelWindow extends Service {
     @property(SpriteFrame)
     crystalSprites: SpriteFrame[] = [];
 
+    @property(Label)
+    scrollNameLabel: Label;
+
+    @property(Label)
+    scrollTextLabel: Label;
+
+    @property(Sprite)
+    scrollImageLabel: Sprite;
+
     protected _levelName: string;
     private _wndOverlay: OverlayWindow | null;
     protected _wnd: Window | null;
@@ -66,12 +76,16 @@ export class StartLevelWindow extends Service {
     private _levelSelector: LevelSelectorController;
     private _botCardModels: BonusModel[];
     private _isInit = false;
+    protected _gameManager: GameManager | null;
 
     start(): void {
         this._settings = this.getServiceOrThrow(SettingsLoader);
         this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
         this._wndOverlay = this.getComponent(OverlayWindow);
         this._wnd = this.getComponent(Window);
+
+        this._gameManager = this.getService(GameManager);
+
         const tmpSelector = this.getService(LevelSelectorController);
 
         if (tmpSelector) {
@@ -87,7 +101,7 @@ export class StartLevelWindow extends Service {
         }
     }
 
-    showWindow(sender: any, lvlName: string = "") {
+    showWindow(sender: any, path: string = "") {
         if (this._isInit == false) {
             this._isInit = true;
             this.start();
@@ -97,9 +111,11 @@ export class StartLevelWindow extends Service {
 
         this._wndOverlay?.showWindow();
 
-        if (lvlName != "") {
-            this._levelName = lvlName;
-            const tcfg = this._settings.gameConfiguration.levels.find(lvl => lvl.lvlName == lvlName);
+        const openers = new Map<string, (name: string) => void>();
+
+        openers.set("lvl", (name: string) => {
+            this._levelName = name;
+            const tcfg = this._settings.gameConfiguration.levels.find(lvl => lvl.lvlName == name);
 
             assert(tcfg != null);
 
@@ -109,6 +125,27 @@ export class StartLevelWindow extends Service {
             this.fillStrings();
 
             this._wnd?.showContentGroup("default");
+        });
+
+        openers.set("scroll", (name: string) => {
+            this.fillScrollStrings(name);
+            this._wnd?.showContentGroup("scroll");
+        });
+
+        if (path != "") {
+
+            const key = path.split(":")[0];
+            const val = path.split(":")[1];
+
+
+            if (key.toLowerCase().includes("scroll")) {
+                const opener = openers.get("scroll");
+                if (opener) opener(val);
+            } else {
+                const opener = openers.get("lvl");
+                if (opener) opener(val);
+            }
+
         }
     }
 
@@ -132,24 +169,42 @@ export class StartLevelWindow extends Service {
 
         this._botCardModels = []
 
-        this._levelConfigModel.botCards.forEach((bc, i) => {
-            const bonusModel = bonuses?.find((bm) => bm.mnemonic == bc.mnemonic);
+        const pushBonus = (model: BonusModel, index: number) => {
+            this._botCardModels.push(model);
+            this._cardSprites[index].card.spriteFrame = model.sprite;
+            this._cardSprites[index].card.node.active = true;
+            this.updateLevelSprite(model, this._cardSprites[index].lvlIco);
+        };
 
-            if (bonusModel) {
-                this._botCardModels.push(bonusModel);
-                this._cardSprites[i].card.spriteFrame = bonusModel.sprite;
-                this._cardSprites[i].card.node.active = true;
-                this.updateLevelSprite(bonusModel, this._cardSprites[i].lvlIco);
-            }
-        });
+        if (this._gameManager) {
+            const config = this.getServiceOrThrow(LevelConfiguration);
+            config.botModel.bonuses.forEach((model, i) => {
+                pushBonus(model, i);
+            });
+
+        } else {
+            this._levelConfigModel.botCards.forEach((bc, i) => {
+                const bonusModel = bonuses?.find((bm) => bm.mnemonic == bc.mnemonic);
+
+                if (bonusModel) {
+                    pushBonus(bonusModel, i);
+                }
+            });
+        }
+    }
+
+    fillScrollStrings(name: string) {
+        this.scrollNameLabel.string = t(`scrolls.${name}.name`);
+
+        this.scrollTextLabel.string = t(`scrolls.${name}.text`);
     }
 
     fillStrings() {
-        this.scenarioTextField.string = t(`levels.${this._levelName}.intro`);
+        this.scenarioTxt.string = t(`levels.${this._levelName}.intro`);
 
         if (this._settings.playerCurrentGameState.levelExists(this._levelName)) {
-            this.scenarioTextField.string += "<br/>-<br/>";
-            this.scenarioTextField.string += t(`levels.${this._levelName}.ending`);
+            this.scenarioTxt.string += "\n-\n";
+            this.scenarioTxt.string += t(`levels.${this._levelName}.ending`);
         }
 
         this.levelNameLabel.string = t(`levels.${this._levelName}.name`);
@@ -229,4 +284,3 @@ export class StartLevelWindow extends Service {
     }
 
 }
-

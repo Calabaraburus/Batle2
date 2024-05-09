@@ -12,21 +12,34 @@ export class CardEffect extends CacheObject {
   }
 
   play() {
-    this.systems.forEach((s) => {
-      s.play();
-    });
+    try {
+      this.systems.forEach((s) => {
+        if (s) s.play();
+      });
+    } catch (error) {
+
+    }
+
   }
 
   stop() {
-    this.systems.forEach((s) => {
-      s.stop();
-    });
+    try {
+      this.systems.forEach((s) => {
+        if (s) s.stop();
+      });
+    } catch (error) {
+
+    }
   }
 
   stopEmmit() {
-    this.systems.forEach((s) => {
-      s.stopEmitting();
-    });
+    try {
+      this.systems.forEach((s) => {
+        if (s) s.stopEmitting();
+      });
+    } catch (error) {
+
+    }
   }
 
   cacheDestroy() {

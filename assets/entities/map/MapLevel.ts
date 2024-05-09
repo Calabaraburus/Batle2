@@ -26,15 +26,21 @@ export class MapLevel extends Service {
         this.initMap();
     }
 
+    updateMap() {
+        this._playerState = this._settingsLoader.playerCurrentGameState;
+        this.initMap();
+    }
+
     initMap() {
         this.mapConstroller.activateAll(false);
 
         const fl = this._playerState.finishedLevels;
 
         fl.forEach(lvl => this.activateLvl(lvl));
-        const nextLvlId = fl.length > 0 ?
-            Number(fl[fl.length - 1].replace('lvl', '')) + 1 :
-            1;
+
+        const lids = fl.map(lvl => Number(lvl.replace('lvl', ''))).filter(id => !Number.isNaN(id));
+
+        const nextLvlId = lids.length > 0 ? Math.max(...lids) + 1 : 1;
 
         const nextLvl = this.mapConstroller.getLvlObject(`lvl${nextLvlId}`);
 

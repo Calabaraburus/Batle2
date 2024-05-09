@@ -31,10 +31,14 @@ export class CacheObject extends Component implements ICacheObject {
   }
 
   public cacheDestroy(): void {
-    if (this.node.active) {
-      this.node.active = false;
-    }
+    try {
+      if (this.node.active) {
+        this.node.active = false;
+      }
 
-    this._bag.destroyObject(this);
+      this._bag.destroyObject(this);
+    } catch (error) {
+
+    }
   }
 }

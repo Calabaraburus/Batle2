@@ -73,16 +73,20 @@ export class InfoWindow extends StartLevelWindow {
             cards = this._curState.cards;
         }
 
-        cards.forEach((bc, i) => {
-            const bonusModel = bonuses?.find((bm) => bm.mnemonic == bc.mnemonic);
+        if (this._gameManager) {
+            const config = this.getServiceOrThrow(LevelConfiguration);
+            config.playerModel.bonuses.forEach((model, i) => {
+                this._playerCardModels.push(model);
+            });
+        } else {
+            cards.forEach((bc, i) => {
+                const bonusModel = bonuses?.find((bm) => bm.mnemonic == bc.mnemonic);
 
-            if (bonusModel) {
-                this._playerCardModels.push(bonusModel);
-                //   this._playerCardSprites[i].spriteFrame = bonusModel.sprite;
-                //  this._playerCardSprites[i].node.active = true;
-            }
-        });
-
+                if (bonusModel) {
+                    this._playerCardModels.push(bonusModel);
+                }
+            });
+        }
     }
 
     showPlayerCardInfoByModel(cardModel: BonusModel) {

@@ -41,6 +41,7 @@ export class ShamanTileController
 
   private _effectsService: EffectsService | null;
   private _effectsManager: EffectsManager;
+  private _audio: AudioManagerService;
 
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
@@ -51,6 +52,8 @@ export class ShamanTileController
     this._cardService = Service.getService(CardService);
     this._effectsService = Service.getService(EffectsService);
     this._effectsManager = Service.getServiceOrThrow(EffectsManager);
+    this._audio = Service.getServiceOrThrow(AudioManagerService);
+
     this._cache = ObjectsCache.instance;
   }
 
@@ -131,6 +134,10 @@ export class ShamanTileController
       const transform = effect.node.parent?.getComponent(UITransform);
 
       effect.play();
+
+      this._audio.playSoundEffect(
+        "healingEffect"
+      );
 
       const animator = tween(effect.node);
 

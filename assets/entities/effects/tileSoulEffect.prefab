@@ -258,7 +258,7 @@
       "__id__": 67
     },
     "_prewarm": false,
-    "_capacity": 200,
+    "_capacity": 100,
     "_simulationSpace": 0,
     "_id": ""
   },
@@ -1016,6 +1016,8 @@
       "__id__": 0
     },
     "fileId": "f6xlxEl6tAVZZNsAw8vfi6",
+    "instance": null,
+    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {

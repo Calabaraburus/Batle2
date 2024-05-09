@@ -80,5 +80,15 @@
         }
       }
     }
+  },
+  "splash-setting": {
+    "background": {
+      "type": "color"
+    },
+    "logo": {
+      "type": "custom",
+      "image": "project://settings/logo.png"
+    },
+    "displayRatio": 2
   }
 }
