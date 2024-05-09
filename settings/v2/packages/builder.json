@@ -83,7 +83,8 @@
   },
   "splash-setting": {
     "background": {
-      "type": "color"
+      "type": "color",
+      "image": "project://settings/transform.png"
     },
     "logo": {
       "type": "custom",
