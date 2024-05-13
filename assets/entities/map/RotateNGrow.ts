@@ -1,5 +1,4 @@
 import { _decorator, CCFloat, Component, Node, Quat, tween, Vec3 } from 'cc';
-import { init } from '../../../extensions/i18n/assets/LanguageData';
 const { ccclass, property } = _decorator;
 
 @ccclass('RotateNGrow')
