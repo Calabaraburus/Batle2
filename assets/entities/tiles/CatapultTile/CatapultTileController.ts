@@ -26,6 +26,7 @@ import { PlayerModel } from "../../../models/PlayerModel";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 import { Service } from "../../services/Service";
 import { EffectsManager } from "../../game/EffectsManager";
+import { LifeIndicator_v2 } from "../LifeIndicator_v2";
 const { ccclass, property } = _decorator;
 
 @ccclass("CatapultTileController")
@@ -47,6 +48,7 @@ export class CatapultTileController
   private _aimForEffect: Node;
   private _effectsManager: EffectsManager;
   private _audioService: AudioManagerService;
+  private _lifeIndicator: LifeIndicator_v2 | null;
 
   start(): void {
     super.start();
@@ -60,6 +62,8 @@ export class CatapultTileController
     this._effectsService = Service.getServiceOrThrow(EffectsService);
     this._effectsManager = Service.getServiceOrThrow(EffectsManager);
     this._audioService = Service.getServiceOrThrow(AudioManagerService);
+    this._lifeIndicator = this.getComponentInChildren(LifeIndicator_v2);
+    this.setLife();
 
     assert(ObjectsCache.instance != null, "Cache can't be null");
     this._cache = ObjectsCache.instance;
@@ -98,13 +102,19 @@ export class CatapultTileController
 
   public setModel(tileModel: TileModel) {
     super.setModel(tileModel);
-    this._attackedNumber = this.life;
+
+    this.setLife();
   }
 
   public cacheCreate(): void {
     super.cacheCreate();
 
+    this.setLife();
+  }
+
+  setLife() {
     this._attackedNumber = this.life;
+    if (this._lifeIndicator) this._lifeIndicator.activeLifes = this.life;
   }
 
   /** Attack this enemy with power.
@@ -113,6 +123,9 @@ export class CatapultTileController
   public attack(power = 1) {
     if (this._attackedNumber > 0) {
       this._attackedNumber -= power;
+
+      if (this._lifeIndicator)
+        this._lifeIndicator.activeLifes = this._attackedNumber;
 
       if (this._attackedNumber <= 0) {
         this.destroyTile();

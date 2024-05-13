@@ -6,7 +6,6 @@
 
 import {
   _decorator,
-  Component,
   log,
   EventTarget,
   Button,

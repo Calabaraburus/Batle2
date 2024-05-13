@@ -109,7 +109,6 @@ export class StartLevelWindow extends Service {
             this._wnd?.start();
         }
 
-
         this._wndOverlay?.showWindow();
 
         const openers = new Map<string, (name: string) => void>();
