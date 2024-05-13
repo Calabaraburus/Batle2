@@ -4,13 +4,15 @@
 //
 //  Author:Natalchishin Taras
 
-import { _decorator, Sprite, Vec3, instantiate, Prefab, UITransform } from "cc";
+import { _decorator, Sprite, Vec3, instantiate, Prefab, UITransform, assert } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
 import { IAttackable } from "../IAttackable";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 import { Service } from "../../services/Service";
+import { LifeIndicator } from "../LifeIndicator";
+import { LifeIndicator_v2 } from "../LifeIndicator_v2";
 const { ccclass, property } = _decorator;
 
 @ccclass("TotemTileController")
@@ -20,6 +22,7 @@ export class TotemTileController extends TileController implements IAttackable {
   private _attacksCountToDestroy: number;
   private _attackedNumber: number;
   private _audio: AudioManagerService | null = null;
+  private _lifeIndicator: LifeIndicator_v2 | null
 
   /** Destroy particle system */
   @property(Prefab)
@@ -28,6 +31,9 @@ export class TotemTileController extends TileController implements IAttackable {
   @property(Number)
   power = 2;
 
+  @property(Number)
+  lifeAmount = 1;
+
   get attacksCountToDestroy() {
     return this._attacksCountToDestroy;
   }
@@ -35,6 +41,10 @@ export class TotemTileController extends TileController implements IAttackable {
   start() {
     super.start();
     this.updateSprite();
+
+    this._lifeIndicator = this.getComponentInChildren(LifeIndicator_v2);
+
+    this.setLife();
   }
 
   public get state(): TileState {
@@ -44,14 +54,21 @@ export class TotemTileController extends TileController implements IAttackable {
   public setModel(tileModel: TileModel) {
     super.setModel(tileModel);
 
-    this._attacksCountToDestroy = 2;
-
-    this._attackedNumber = this.attacksCountToDestroy;
+    this.setLife();
   }
 
   public cacheCreate(): void {
     super.cacheCreate();
 
+    this.setLife();
+  }
+
+  setLife() {
+    if (this._lifeIndicator) {
+      this._lifeIndicator.activeLifes = this.lifeAmount;
+    }
+
+    this._attacksCountToDestroy = this.lifeAmount;
     this._attackedNumber = this.attacksCountToDestroy;
   }
 
@@ -61,6 +78,9 @@ export class TotemTileController extends TileController implements IAttackable {
   public attack() {
     if (this._attackedNumber > 0) {
       this._attackedNumber -= this.power;
+
+      if (this._lifeIndicator)
+        this._lifeIndicator.activeLifes = this._attackedNumber;
 
       if (this._attackedNumber <= 0) {
         this.destroyTile();
