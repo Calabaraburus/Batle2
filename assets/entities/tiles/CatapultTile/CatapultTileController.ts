@@ -114,7 +114,10 @@ export class CatapultTileController
 
   setLife() {
     this._attackedNumber = this.life;
-    if (this._lifeIndicator) this._lifeIndicator.activeLifes = this.life;
+    if (this._lifeIndicator) {
+      this._lifeIndicator.activeLifes = this.life;
+      this._lifeIndicator.maxLifes = this.life;
+    }
   }
 
   /** Attack this enemy with power.

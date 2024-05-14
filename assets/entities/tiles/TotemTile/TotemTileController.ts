@@ -66,6 +66,7 @@ export class TotemTileController extends TileController implements IAttackable {
   setLife() {
     if (this._lifeIndicator) {
       this._lifeIndicator.activeLifes = this.lifeAmount;
+      this._lifeIndicator.maxLifes = this.lifeAmount;
     }
 
     this._attacksCountToDestroy = this.lifeAmount;
