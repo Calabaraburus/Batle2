@@ -127,6 +127,3 @@ export class LifeIndicator extends Component {
         });
     }
 }
-
-
-

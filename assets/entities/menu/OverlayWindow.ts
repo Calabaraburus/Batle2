@@ -23,6 +23,7 @@ export class OverlayWindow extends Service {
     if (this.overlay.active) {
       this.wasActivatedBefore = true;
     } else {
+      this.wasActivatedBefore = false;
       this.overlay.active = true;
 
       tween(this.overlay.getComponent(UIOpacity))
