@@ -3,11 +3,6 @@ import {
     __private,
     Component,
     CCInteger,
-    SpriteFrame,
-    Node,
-    Sprite,
-    UITransform,
-    Size,
     Label
 } from "cc";
 
@@ -17,6 +12,7 @@ const { ccclass, property, executeInEditMode } = _decorator;
 @executeInEditMode(true)
 export class LifeIndicator_v2 extends Component {
     private _activeLifes: number;
+    private _maxLifes: number;
 
     @property(Label)
     label: Label;
@@ -29,6 +25,16 @@ export class LifeIndicator_v2 extends Component {
     set activeLifes(value: number) {
         this._activeLifes = value;
         this.label.string = value.toString();
+    }
+
+    @property(CCInteger)
+    get maxLifes() {
+        return this._maxLifes;
+    }
+
+    set maxLifes(value: number) {
+        this._maxLifes = value;
+        this.node.active = value > 1;
     }
 
     start(): void {
