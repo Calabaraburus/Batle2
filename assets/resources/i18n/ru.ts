@@ -5,6 +5,11 @@ export const languages = {
     label_text: {
         gamename: "ЗЕМЛЯ ЗВЕРЕЙ",
         autorsname: "Авторы",
+        audioname: "Звуки\\Музыка",
+        autorstxt: "Идея, дизайн, программирование, анимации, эффекты и др.\n\nНатальчишин Тарас\nНатальчишин Артём",
+        audiotxt: "MattRuthSound\nMateusz_Chenc\ndermotte\nJoelAudio\nmarb7e\nlsprice\nMrOwn1\nSDLx\nThalamus_Lab\niainmccurdy\nInspectorJ\nbendodge\nzimbot\nCGEffex\nsteveygos93\nBenboncan\nERH\ndatasoundsample\nsandyrb\nhykenfreak\ntwisterman\nEminYILDIRIM\nhumanoide9000\nAshot Danielyan\nWilliam_King\nStudioKolomna\nGioeleFazzeri\nLesfm",
+        editorcaption: "Игровой движок",
+        editortxt: "Cocos Creator",
         music: "Музыка",
         sound: "Звук",
         startturnmsgplayer: "Твой ход",
