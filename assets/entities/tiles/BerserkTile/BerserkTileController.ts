@@ -94,6 +94,7 @@ export class AssassinTileController
       }
 
       this.fieldController.moveTilesLogicaly(this._gameManager.playerTurn);
+      this.fieldController.fixTiles();
     }
   }
 
@@ -106,9 +107,11 @@ export class AssassinTileController
       if (isIAttackable(t)) {
         (<IAttackable>t).attack(1);
       } else {
-        this.fieldController.destroyTile(t.row, t.col, (t) => {
-          return t.playerModel !== this.playerModel;
-        });
+
+        if (t.playerModel != this.playerModel) {
+          t.fakeDestroy();
+          t.node.active = false;
+        }
       }
     });
   }

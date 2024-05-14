@@ -11,6 +11,7 @@ export class Window extends Service {
     private _tweenObj: targetWndTweenObj;
     private _speed: number = 0.3;
     private _isOpened: boolean = false;
+    private _wasInit: boolean = false;
 
     public get isOpened() {
         return this._isOpened;
@@ -39,9 +40,10 @@ export class Window extends Service {
 
         this.origPos = this.node.position.clone();
         this.fillGroupArr();
-        //this.showContentGroup("default");
 
         this._tweenObj = new targetWndTweenObj(this);
+
+        this._wasInit = true;
     }
 
     private fillGroupArr() {
@@ -58,6 +60,9 @@ export class Window extends Service {
     }
 
     public showWindow() {
+
+        if (!this._wasInit) this.start();
+
         this.node.active = true;
         this._isOpened = true;
 
