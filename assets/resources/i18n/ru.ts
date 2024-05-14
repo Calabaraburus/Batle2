@@ -3,6 +3,8 @@ const win = window as any;
 
 export const languages = {
     label_text: {
+        gamename: "ЗЕМЛЯ ЗВЕРЕЙ",
+        autorsname: "Авторы",
         music: "Музыка",
         sound: "Звук",
         startturnmsgplayer: "Твой ход",
