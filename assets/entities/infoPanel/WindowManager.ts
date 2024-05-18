@@ -18,7 +18,7 @@ export class WindowManager extends Service {
     const config = this.getService(LevelConfiguration);
 
     if (wnd && config) {
-      wnd.showWindow(this, config.levelName);
+      wnd.showWindow(this, "lvl:" + config.levelName);
     }
   }
 
@@ -29,7 +29,7 @@ export class WindowManager extends Service {
     if (!cardModel) return;
 
     if (wnd && config) {
-      wnd.showWindow(this, config.levelName);
+      wnd.showWindow(this, "lvl:" + config.levelName);
       wnd.showPlayerCardInfoByModel(cardModel);
     }
   }

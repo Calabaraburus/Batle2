@@ -1274,6 +1274,14 @@
       {
         "__uuid__": "508b23ff-d49d-443e-8546-4f1859ccae5d",
         "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "7c4461a5-4845-4ff5-8741-4ba4eb3a7680",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "ed3dcb16-1f8b-4891-bf1e-14e73795ab76",
+        "__expectedType__": "cc.AudioClip"
       }
     ],
     "music": [
@@ -1299,6 +1307,10 @@
       },
       {
         "__uuid__": "62532c68-3e8c-400a-af9e-d7ae8494b4ab",
+        "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "6c712c90-7691-4ae9-9220-c968191f7825",
         "__expectedType__": "cc.AudioClip"
       }
     ],
@@ -1345,6 +1357,9 @@
     ],
     "mapMusicList": [
       "music_map2"
+    ],
+    "endGameMusicList": [
+      "win_lose_back"
     ],
     "_id": "d9xZyrcSxLto4eFiOVm918"
   },

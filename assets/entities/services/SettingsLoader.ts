@@ -98,6 +98,8 @@ export class SettingsLoader extends Service {
 
     if (data != null) {
       Object.assign(this._playerCurrentState, JSON.parse(data));
+    } else {
+      this._playerCurrentState = PlayerCurrentGameState.getDefault();
     }
 
     return this._playerCurrentState;

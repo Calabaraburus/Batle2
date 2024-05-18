@@ -36,7 +36,8 @@ export class SoulEffect extends CardEffect {
 
         this.play();
         this._starOpacity.opacity = 255;
-        this._starOpacity.node.setRotationFromEuler(new Vec3(0, 0, math.randomRange(0, 360)));
+        this._starOpacity.node.setRotationFromEuler(
+            new Vec3(0, 0, math.randomRange(0, 360)));
 
         tween(this.node)
             .to(0.3, { worldPosition: p }, { easing: "cubicOut" })

@@ -61,6 +61,9 @@ export class BonusModel extends Component {
   @property({ type: SpriteFrame })
   cardImageForExample: SpriteFrame;
 
+  @property({ type: CCInteger })
+  maxCards: number = 3;
+
   //** Current amount that already destroied */
   private _currentAmmountToActivate = 0;
 
@@ -72,6 +75,10 @@ export class BonusModel extends Component {
     if (value < 0) value = 0;
 
     this._currentAmmountToActivate = value;
+
+    if ((value / this.priceToActivate) > this.maxCards) {
+      this._currentAmmountToActivate = this.maxCards * this.priceToActivate;
+    }
   }
 
   selected = false;

@@ -5,10 +5,30 @@ export class PlayerCurrentGameState {
     life: number;
     cards: GameCardCfgModel[] = [];
     finishedLevels: string[] = [];
+    events: string[] = [];
     currentLvl: string;
+
+    static getDefault() {
+        const state = new PlayerCurrentGameState();
+
+        state.events = ['intro', 'arena', 'ending'];
+
+        return state;
+    }
 
     public levelExists(lvlName: string) {
         return this.finishedLevels.findIndex(l => l == lvlName) >= 0;
+    }
+
+    public eventExists(eventName: string) {
+        return this.events.findIndex(l => l == eventName) >= 0;
+    }
+
+    public removeEvent(eventName: string) {
+        const index = this.events.indexOf(eventName, 0);
+        if (index > -1) {
+            this.events.splice(index, 1);
+        }
     }
 
     public addLevel(lvlName: string) {
@@ -16,12 +36,6 @@ export class PlayerCurrentGameState {
             this.finishedLevels.push(lvlName);
         }
     }
-
-
-
-    //public AddOrUpdateBonus(bonusName: string) {
-
-    //}
 }
 
 export class CardUpdater {

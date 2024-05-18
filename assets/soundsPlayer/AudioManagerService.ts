@@ -7,6 +7,7 @@ const { ccclass, property } = _decorator;
 export class AudioManagerService extends Service {
   private _currentMusicList: string[] = [];
   private _currentMusicId: number = 0;
+  private _musicStoped = true;
 
   @property(AudioClip)
   sounds: AudioClip[] = [];
@@ -39,12 +40,14 @@ export class AudioManagerService extends Service {
     const music = this.getTargetMusic(audioName);
     if (!music) return;
     AudioManager.instance.play(music);
+    this._musicStoped = false;
   }
 
   stopMusic() {
     // const music = this.getTargetMusic(audioName);
     // if (!music) return;
     AudioManager.instance.stop();
+    this._musicStoped = true;
   }
 
   getTargetSound(soundName: string) {
@@ -71,7 +74,7 @@ export class AudioManagerService extends Service {
   }
 
   protected update(dt: number): void {
-    if (!AudioManager.instance.isMusicPlaying) {
+    if (!AudioManager.instance.isMusicPlaying && !this._musicStoped) {
       this.playMusic(this.currentMusicList[this._currentMusicId]);
 
       this._currentMusicId++;
