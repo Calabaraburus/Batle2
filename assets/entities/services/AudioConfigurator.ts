@@ -10,11 +10,16 @@ export class AudioConfigurator extends Service {
     private _settingsLoader: SettingsLoader;
     private _audio: AudioManagerService;
 
+    public get audioManager() { return this._audio; }
+
     @property(CCString)
     levelMusicList: string[] = [];
 
     @property(CCString)
     mapMusicList: string[] = [];
+
+    @property(CCString)
+    endGameMusicList: string[] = [];
 
     start(): void {
         this._settingsLoader = this.getServiceOrThrow(SettingsLoader);

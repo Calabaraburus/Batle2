@@ -11,6 +11,7 @@ import {
   RichText,
   Sprite,
   SpriteFrame,
+  tween,
   Tween
 } from "cc";
 import { BonusModel } from "../../models/BonusModel";
@@ -28,6 +29,7 @@ import { SceneLoaderService } from "../services/SceneLoaderService";
 import { config } from "chai";
 import { InfoWindow } from "../ui/window/InfoWindow";
 import { t } from "../../../extensions/i18n/assets/LanguageData";
+import { AudioConfigurator } from "../services/AudioConfigurator";
 
 const { ccclass, property } = _decorator;
 
@@ -95,6 +97,7 @@ export class FinalWindow extends Service {
   private _wnd: Window | null;
   private _sceneLoader: SceneLoaderService;
   private _infoWnd: InfoWindow;
+  private _audio: AudioConfigurator;
 
   start() {
     this._config = this.getServiceOrThrow(LevelConfiguration);
@@ -102,7 +105,7 @@ export class FinalWindow extends Service {
     this._wnd = this.getComponent(Window);
     this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
     this._infoWnd = this.getServiceOrThrow(InfoWindow);
-
+    this._audio = this.getServiceOrThrow(AudioConfigurator);
     this._cardFlagSelector = "empty";
 
     const tService = this.getService(SettingsLoader);
@@ -244,7 +247,15 @@ export class FinalWindow extends Service {
 
     this._overlayWnd?.showWindow();
 
+    this._audio.audioManager.stopMusic();
+
     if (win) {
+      tween(this).delay(3).call(() => {
+        this._audio.applyList(this._audio.endGameMusicList);
+      }).start();
+
+      this._audio.audioManager.playSoundEffect("victory");
+
       if (this._config!.endLevelBonuses.length > 0 &&
         this.canUpdateCurStateData()) {
         this._wnd?.showContentGroup('reward');
@@ -253,6 +264,10 @@ export class FinalWindow extends Service {
       }
     } else {
       this._wnd?.showContentGroup('lose');
+      tween(this).delay(9).call(() => {
+        this._audio.applyList(this._audio.endGameMusicList);
+      }).start();
+      this._audio.audioManager.playSoundEffect("defeated");
     }
   }
 

@@ -1,4 +1,4 @@
-import { _decorator, Button, Component, EventHandheld, EventHandler, Node } from 'cc';
+import { _decorator, Button, EventHandheld, EventHandler, Node } from 'cc';
 import { Service } from '../services/Service';
 import { AudioManagerService } from '../../soundsPlayer/AudioManagerService';
 const { ccclass, property } = _decorator;
@@ -34,5 +34,3 @@ export class AudioableButton extends Service {
         }
     }
 }
-
-

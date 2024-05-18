@@ -5,7 +5,8 @@ import {
     assert,
     RichText,
     Label,
-    System, Prefab, instantiate, PageView, tween, SpriteFrame
+    System, Prefab, instantiate, PageView, tween, SpriteFrame,
+    resources
 } from 'cc';
 import { Service } from '../../services/Service';
 import { SettingsLoader } from '../../services/SettingsLoader';
@@ -108,7 +109,6 @@ export class StartLevelWindow extends Service {
             this._wnd?.start();
         }
 
-
         this._wndOverlay?.showWindow();
 
         const openers = new Map<string, (name: string) => void>();
@@ -128,7 +128,7 @@ export class StartLevelWindow extends Service {
         });
 
         openers.set("scroll", (name: string) => {
-            this.fillScrollStrings(name);
+            this.fillScrollData(name);
             this._wnd?.showContentGroup("scroll");
         });
 
@@ -193,10 +193,14 @@ export class StartLevelWindow extends Service {
         }
     }
 
-    fillScrollStrings(name: string) {
+    fillScrollData(name: string) {
         this.scrollNameLabel.string = t(`scrolls.${name}.name`);
 
         this.scrollTextLabel.string = t(`scrolls.${name}.text`);
+
+        resources.load(`images/${t(`scrolls.${name}.image`)}/spriteFrame`, SpriteFrame, (err, spriteFrame) => {
+            this.scrollImageLabel.spriteFrame = spriteFrame;
+        });
     }
 
     fillStrings() {
