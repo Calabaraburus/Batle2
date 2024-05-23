@@ -196,6 +196,7 @@ export class LevelSelectorController extends Service {
 
       setMap(config, "map6");
 
+      config.endLevelBonuses.length = 0;
       config.levelName = lvl.lvlName;
 
       const cardCfgs = this.getAvailableBonusesForArena(config, settingsLoader);
