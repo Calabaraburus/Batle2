@@ -94,7 +94,7 @@ export class MineTileController extends TileController {
 
   private destroyOtherTile(row: number, col: number) {
     this.fieldController.destroyTile(row, col, (t) => {
-      return t.playerModel !== this.playerModel && !t.tileModel.specialTile;
+      return t.playerModel !== this.playerModel && !t.tileModel.serviceTile;
     });
   }
 

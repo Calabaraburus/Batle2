@@ -77,7 +77,8 @@ export class HammerCardSubehaviour extends CardsSubBehaviour {
         if (!tileToDestroy) return;
         if (this.parent.cardService == null) return;
         if (
-          tileToDestroy.playerModel == this.parent.currentOponentModel
+          tileToDestroy.playerModel == this.parent.currentOponentModel &&
+          !tile.tileModel.serviceTile
         ) {
           this._tilesToDestroy.push(tileToDestroy);
         }

@@ -1,4 +1,4 @@
-import { _decorator, director } from "cc";
+import { _decorator, assetManager, director } from "cc";
 import { Service } from "./Service";
 import { LoaderScreen } from "../menu/LoaderScreen";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
@@ -15,6 +15,13 @@ export class SceneLoaderService extends Service {
   private _tasksQueue: Queue<() => void> = new Queue<() => void>();
 
   start() {
+    const am = assetManager;
+    am.assets.forEach(a => {
+      const p = a.nativeUrl;
+
+      console.log();
+
+    });
 
     if (this.persThisNode) {
       director.addPersistRootNode(this.node);

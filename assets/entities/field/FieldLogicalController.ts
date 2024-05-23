@@ -16,6 +16,7 @@ import {
   CCBoolean,
   Rect,
   PlaceMethod,
+  log,
 } from "cc";
 import { TileController } from "../tiles/TileController";
 import { TileModel } from "../../models/TileModel";
@@ -39,6 +40,7 @@ const { ccclass, property } = _decorator;
 
 export class FieldLogicalController
   implements ITileFieldController, ICloneable, IVirtualisable {
+
   /**
    * Logic field (e.g. tiles matrix)
    */
@@ -345,6 +347,13 @@ export class FieldLogicalController
       t.row = tileRowId;
       this._field.set(t.row, t.col, t);
     });
+
+    this._field.forEach((item, i, j) => {
+
+      if (item == null || this._field.get(i, j) != this._field.get(item.row, item.col)) {
+        log();
+      }
+    });
   }
 
   // getCurOrNextNotFixed(fwd: boolean, row: number, col: number, endRow: number) {
@@ -524,7 +533,10 @@ export class FieldLogicalController
 
     this._isVirtual = true;
 
-    this._field.forEach((t) => {
+    this._field.forEach((t, i, j) => {
+      if (t == null) {
+        log();
+      }
       this.virtualizeTile(t, virtualize);
     });
   }
@@ -560,6 +572,10 @@ export class FieldLogicalController
         playerModel: item.playerModel,
         putOnField: true,
       });
+
+      if (cTile == null || clone._field.get(i, j) == null) {
+        log();
+      }
 
       if (cTile instanceof StdTileController) {
         if (item instanceof StdTileController) {

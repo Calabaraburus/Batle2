@@ -65,7 +65,8 @@ export class MeteoriteCardSubehaviour extends CardsSubBehaviour {
       this._targetTile.row,
       (tile, colId) => {
         if (
-          tile.playerModel == this.parent.currentOponentModel
+          tile.playerModel == this.parent.currentOponentModel &&
+          !tile.tileModel.serviceTile
         ) {
           if (
             this._targetTile.col + maxCountForEachSide >= colId &&

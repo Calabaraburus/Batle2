@@ -35,7 +35,10 @@ export class FirewallCardSubehaviour extends CardsSubBehaviour {
     this._tilesToDestroy = [];
 
     this.parent.field.fieldMatrix.forEachCol(targetTile.col, (tile, rowId) => {
-      if (tile.playerModel == this.parent.cardService.getOponentModel()) {
+      if (
+        tile.playerModel == this.parent.cardService.getOponentModel() &&
+        !tile.tileModel.serviceTile
+      ) {
         if (
           targetTile.row + this.maxCountForEachSide >= rowId &&
           targetTile.row - this.maxCountForEachSide <= rowId

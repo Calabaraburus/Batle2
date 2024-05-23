@@ -56,7 +56,7 @@ export class CounterattackCardSubehaviour extends CardsSubBehaviour {
         this._direction > 0 ? row <= targetRow : row >= targetRow;
         row += this._direction) {
         const tile = matrix.get(row, col.c);
-        if (tile.playerModel == this.parent.currentOponentModel) {
+        if (tile.playerModel == this.parent.currentOponentModel && !tile.tileModel.serviceTile) {
           if (!this._excludeTiles.includes(tile.tileModel.tileName)) {
             this._tilesToDestroy.push(tile);
             addedRows++;
