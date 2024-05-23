@@ -3,6 +3,7 @@ import { Service } from "./Service";
 import { LoaderScreen } from "../menu/LoaderScreen";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { Queue } from "../../scripts/Queue";
+import { DEBUG } from "cc/env";
 const { ccclass, property } = _decorator;
 
 @ccclass("SceneLoaderService")
@@ -15,13 +16,15 @@ export class SceneLoaderService extends Service {
   private _tasksQueue: Queue<() => void> = new Queue<() => void>();
 
   start() {
-    const am = assetManager;
-    am.assets.forEach(a => {
-      const p = a.nativeUrl;
+    if (DEBUG) {
+      const am = assetManager;
+      am.assets.forEach(a => {
+        const p = a.nativeUrl;
 
-      console.log();
+        console.log();
 
-    });
+      });
+    }
 
     if (this.persThisNode) {
       director.addPersistRootNode(this.node);
