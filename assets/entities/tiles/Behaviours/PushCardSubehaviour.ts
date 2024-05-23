@@ -33,7 +33,8 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
     this._tilesToDestroy = [];
 
     this._matrix.forEachInRow(targetRow, (tile, colId) => {
-      if (tile.playerModel == this.parent.cardService.getOponentModel()) {
+      if (tile.playerModel == this.parent.cardService.getOponentModel() &&
+        !tile.tileModel.serviceTile) {
         this._tilesToDestroy?.push(tile);
       }
     });

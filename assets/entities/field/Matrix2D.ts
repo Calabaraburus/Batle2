@@ -4,6 +4,7 @@
 //
 // Calabaraburus (c) 2023
 
+import { log } from "cc";
 import { ReadonlyMatrix2D } from "./ReadonlyMatrix2D";
 
 export class Matrix2D<T> extends ReadonlyMatrix2D<T> {
@@ -12,6 +13,10 @@ export class Matrix2D<T> extends ReadonlyMatrix2D<T> {
   }
 
   set(row: number, col: number, value: T) {
+    if (value == null) {
+      log();
+    }
+
     this.matrix[col * this.rows + row] = value;
   }
 

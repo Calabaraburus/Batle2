@@ -108,7 +108,7 @@ export class AssassinTileController
         (<IAttackable>t).attack(1);
       } else {
 
-        if (t.playerModel != this.playerModel) {
+        if (t.playerModel != this.playerModel && !t.tileModel.serviceTile) {
           t.fakeDestroy();
           t.node.active = false;
         }

@@ -66,7 +66,9 @@ export class WormCardSubehaviour extends CardsSubBehaviour {
       if (applicantsToDestroy.length == 0) return true;
       currentTile =
         applicantsToDestroy[randomRangeInt(0, applicantsToDestroy.length)];
-      this._tilesToDestroy.push(currentTile);
+      if (!currentTile.tileModel.serviceTile) {
+        this._tilesToDestroy.push(currentTile);
+      }
     }
 
     return true;
