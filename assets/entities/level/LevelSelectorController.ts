@@ -65,17 +65,8 @@ export class LevelSelectorController extends Service {
 
   }
 
-  loadLevel(sender: object, levelName: string): void {
-    if (this._sceneLoader == null) throw Error("SceneLoader is null");
-    const cfgAction = this.configDict.get(levelName);
-
-    if (cfgAction == null)
-      throw Error("No configuration for " + levelName + " level");
-    this._sceneLoader.loadGameScene("scene_game_field", cfgAction);
-  }
-
-  loadScene(sender: object, sceneName: string): void {
-    this._sceneLoader.loadLevel(sceneName);
+  public getCfgByLvlName(levelName: string) {
+    return this.configDict.get(levelName);
   }
 
   fillConfigurations() {
@@ -502,3 +493,4 @@ class BonusGroupType {
   cardCfg: GameCardCfgModel;
   baseModel: BonusModel;
 }
+

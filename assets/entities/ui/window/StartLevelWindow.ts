@@ -22,6 +22,7 @@ import { preferencesProtocol } from '../../../../extensions/i18n/@types/editor/p
 import { CardInfoPage } from './CardInfoPage';
 import { CardStrtLVLWnd } from './CardStrtLVLWnd';
 import { GameManager } from '../../game/GameManager';
+import { InGameLevelLoaderService } from '../../level/InGameLevelLoaderService';
 
 const { ccclass, property } = _decorator;
 
@@ -78,6 +79,7 @@ export class StartLevelWindow extends Service {
     private _botCardModels: BonusModel[];
     private _isInit = false;
     protected _gameManager: GameManager | null;
+    private _inGameLoader: InGameLevelLoaderService | null;
 
     start(): void {
         this._settings = this.getServiceOrThrow(SettingsLoader);
@@ -86,6 +88,7 @@ export class StartLevelWindow extends Service {
         this._wnd = this.getComponent(Window);
 
         this._gameManager = this.getService(GameManager);
+        this._inGameLoader = this.getService(InGameLevelLoaderService);
 
         const tmpSelector = this.getService(LevelSelectorController);
 
@@ -280,11 +283,11 @@ export class StartLevelWindow extends Service {
     }
 
     loadLevel() {
-        this._levelSelector.loadLevel(this, this._levelName);
+        this._inGameLoader?.loadLevel(this, this._levelName);
     }
 
     loadCustomLevel(e: any, lvlName: string) {
-        this.getService(LevelSelectorController)?.loadScene(this, lvlName);
+        this._inGameLoader?.loadScene(this, lvlName);
     }
 
 }
