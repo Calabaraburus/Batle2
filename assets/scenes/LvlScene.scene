@@ -26,7 +26,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 1999
+      "__id__": 2000
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -57,7 +57,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 2035
+      "__id__": 2036
     },
     "_id": "cb37e400-fef2-4215-bc1b-19d18e11de4a"
   },
@@ -22329,7 +22329,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "TitelsWindow",
+    "_name": "TitlesWindow",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -39499,6 +39499,9 @@
     "_components": [
       {
         "__id__": 1998
+      },
+      {
+        "__id__": 1999
       }
     ],
     "_prefab": null,
@@ -39547,6 +39550,18 @@
     "_id": "b5IM1i6khBMoB6DLtEj7x4"
   },
   {
+    "__type__": "b8642ntj9ZHJLe0QZIPZbBU",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1997
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "_id": "5bNvHomvdKEaUYZEdSLmIj"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": null,
     "asset": null,
@@ -39554,40 +39569,40 @@
     "instance": null,
     "targetOverrides": [
       {
-        "__id__": 2000
+        "__id__": 2001
       },
       {
-        "__id__": 2003
+        "__id__": 2004
       },
       {
-        "__id__": 2006
+        "__id__": 2007
       },
       {
-        "__id__": 2009
+        "__id__": 2010
       },
       {
-        "__id__": 2012
+        "__id__": 2013
       },
       {
-        "__id__": 2015
+        "__id__": 2016
       },
       {
-        "__id__": 2018
+        "__id__": 2019
       },
       {
-        "__id__": 2021
+        "__id__": 2022
       },
       {
-        "__id__": 2024
+        "__id__": 2025
       },
       {
-        "__id__": 2027
+        "__id__": 2028
       },
       {
-        "__id__": 2030
+        "__id__": 2031
       },
       {
-        "__id__": 2033
+        "__id__": 2034
       }
     ],
     "nestedPrefabInstanceRoots": [
@@ -39731,7 +39746,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 2001
+      "__id__": 2002
     },
     "propertyPath": [
       "window"
@@ -39740,7 +39755,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 2002
+      "__id__": 2003
     }
   },
   {
@@ -39761,7 +39776,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 2004
+      "__id__": 2005
     },
     "propertyPath": [
       "HeroImage"
@@ -39770,7 +39785,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 2005
+      "__id__": 2006
     }
   },
   {
@@ -39791,7 +39806,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 2007
+      "__id__": 2008
     },
     "propertyPath": [
       "card_1",
@@ -39801,7 +39816,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 2008
+      "__id__": 2009
     }
   },
   {
@@ -39822,7 +39837,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 2010
+      "__id__": 2011
     },
     "propertyPath": [
       "card_1",
@@ -39832,7 +39847,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 2011
+      "__id__": 2012
     }
   },
   {
@@ -39853,7 +39868,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 2013
+      "__id__": 2014
     },
     "propertyPath": [
       "card_2",
@@ -39863,7 +39878,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 2014
+      "__id__": 2015
     }
   },
   {
@@ -39884,7 +39899,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 2016
+      "__id__": 2017
     },
     "propertyPath": [
       "card_2",
@@ -39894,7 +39909,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 2017
+      "__id__": 2018
     }
   },
   {
@@ -39915,7 +39930,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 2019
+      "__id__": 2020
     },
     "propertyPath": [
       "card_3",
@@ -39925,7 +39940,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 2020
+      "__id__": 2021
     }
   },
   {
@@ -39946,7 +39961,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 2022
+      "__id__": 2023
     },
     "propertyPath": [
       "card_3",
@@ -39956,7 +39971,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 2023
+      "__id__": 2024
     }
   },
   {
@@ -39977,7 +39992,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 2025
+      "__id__": 2026
     },
     "propertyPath": [
       "levelNumberLabel"
@@ -39986,7 +40001,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 2026
+      "__id__": 2027
     }
   },
   {
@@ -40007,7 +40022,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 2028
+      "__id__": 2029
     },
     "propertyPath": [
       "levelNameLabel"
@@ -40016,7 +40031,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 2029
+      "__id__": 2030
     }
   },
   {
@@ -40037,7 +40052,7 @@
       "__id__": 66
     },
     "sourceInfo": {
-      "__id__": 2031
+      "__id__": 2032
     },
     "propertyPath": [
       "cardInfoPagesView"
@@ -40046,7 +40061,7 @@
       "__id__": 66
     },
     "targetInfo": {
-      "__id__": 2032
+      "__id__": 2033
     }
   },
   {
@@ -40074,7 +40089,7 @@
       "__id__": 1240
     },
     "targetInfo": {
-      "__id__": 2034
+      "__id__": 2035
     }
   },
   {
@@ -40086,28 +40101,28 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 2036
-    },
-    "shadows": {
       "__id__": 2037
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 2038
     },
-    "fog": {
+    "_skybox": {
       "__id__": 2039
     },
-    "octree": {
+    "fog": {
       "__id__": 2040
     },
-    "skin": {
+    "octree": {
       "__id__": 2041
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 2042
     },
-    "postSettings": {
+    "lightProbeInfo": {
       "__id__": 2043
+    },
+    "postSettings": {
+      "__id__": 2044
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false

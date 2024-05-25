@@ -129,10 +129,22 @@ export class GameManager extends Service {
 
     .onTimeout(50)
     .transitionTo("beforeBotTurn")
-    .withCondition(() => this._gameState.isPlayerTurn == true && !this.isGameEnded())
+    .withCondition(() => {
+      try {
+        return this._gameState.isPlayerTurn == true && !this.isGameEnded();
+      } catch (error) {
+        return false;
+      }
+    })
 
     .transitionTo("beforePlayerTurn")
-    .withCondition(() => this._gameState.isPlayerTurn == false && !this.isGameEnded())
+    .withCondition(() => {
+      try {
+        return this._gameState.isPlayerTurn == false && !this.isGameEnded();
+      } catch (error) {
+        return false;
+      }
+    })
 
     //-------------------------------------------------------
 
@@ -258,7 +270,7 @@ export class GameManager extends Service {
 
   public stop() {
     Tween.stopAll();
-    this._stateMachine.handle("end");
+    if (this._isStarted) this._stateMachine.handle("end");
   }
 
   initGame(): void {
@@ -297,13 +309,6 @@ export class GameManager extends Service {
       }
       //   this.moveTiles();
     });
-  }
-
-  private moveTiles() {
-    this._field.moveTilesLogicaly(!this._gameState.isPlayerTurn);
-    this._field.fixTiles();
-    this._field.Flush();
-    this._field.moveTilesAnimate();
   }
 
   private waitAnimations(action: () => void) {
