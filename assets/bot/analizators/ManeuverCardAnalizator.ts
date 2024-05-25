@@ -12,7 +12,7 @@ export class ManeuverCardAnalizator extends CardAnalizator {
     getAvailableTilesForAction(data: AnalizedData): TileController[] {
 
 
-        const myCt = data.connectedTiles.filter(ct => ct.playerModel == this.botModel);
+        const myCt = data.connectedTiles.filter(ct => ct.playerModel == this.botModel && !ct.tileModel.serviceTile);
 
         if (myCt.length <= 0) {
             return [];
