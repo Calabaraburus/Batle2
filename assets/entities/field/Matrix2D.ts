@@ -7,6 +7,7 @@
 import { log } from "cc";
 import { ReadonlyMatrix2D } from "./ReadonlyMatrix2D";
 import { DEBUG } from "cc/env";
+import { IN_DEBUG } from "../../globals/globals";
 
 export class Matrix2D<T> extends ReadonlyMatrix2D<T> {
   constructor(rows: number, cols: number) {
@@ -14,7 +15,7 @@ export class Matrix2D<T> extends ReadonlyMatrix2D<T> {
   }
 
   set(row: number, col: number, value: T) {
-    if (DEBUG) {
+    if (IN_DEBUG()) {
       if (value == null) {
         log();
       }

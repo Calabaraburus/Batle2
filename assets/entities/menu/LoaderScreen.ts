@@ -19,16 +19,19 @@ export class LoaderScreen extends Component {
   private readonly timeToShow = 0.3;
   private showTween: Tween<UIOpacity | null>;
   private hideTween: Tween<UIOpacity | null>;
-
+  private _isShowed = false;
   public readonly wndIsShowedEvent: EventTarget = new EventTarget();
   public readonly wndIsHidedEvent: EventTarget = new EventTarget();
-
 
   @property(Node)
   loaderNode: Node;
 
   @property(Label)
   errorTxt: Label;
+
+  public get isShowed() {
+    return this._isShowed;
+  }
 
   start() {
     this._opacity = this.loaderNode.getComponent(UIOpacity);
@@ -38,7 +41,10 @@ export class LoaderScreen extends Component {
     this.showTween = tween(this._opacity)
       .set({ opacity: 0 })
       .to(this.timeToShow, { opacity: 255 }, { easing: "linear" })
-      .call(() => this.wndIsShowedEvent.emit("wndIsShowed", this));
+      .call(() => {
+        this._isShowed = true;
+        this.wndIsShowedEvent.emit("wndIsShowed", this);
+      });
 
     this.hideTween = tween(this._opacity).delay(1).call(() => {
       this.showTween.stop();
@@ -46,6 +52,7 @@ export class LoaderScreen extends Component {
       .to(this.timeToShow, { opacity: 0 }, { easing: "linear" })
       .call(() => {
         this.node.active = false;
+        this._isShowed = false
       });
   }
 

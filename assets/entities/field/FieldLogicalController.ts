@@ -37,6 +37,7 @@ import { IDataService } from "../services/IDataService";
 import { IVirtualisable } from "../../scripts/IVirtualisable";
 import { StdTileController } from "../tiles/UsualTile/StdTileController";
 import { DEBUG } from "cc/env";
+import { IN_DEBUG } from "../../globals/globals";
 const { ccclass, property } = _decorator;
 
 export class FieldLogicalController
@@ -349,7 +350,7 @@ export class FieldLogicalController
       this._field.set(t.row, t.col, t);
     });
 
-    if (DEBUG) {
+    if (IN_DEBUG()) {
       this._field.forEach((item, i, j) => {
 
         if (item == null || this._field.get(i, j) != this._field.get(item.row, item.col)) {
@@ -537,7 +538,7 @@ export class FieldLogicalController
     this._isVirtual = true;
 
     this._field.forEach((t, i, j) => {
-      if (DEBUG) {
+      if (IN_DEBUG()) {
         if (t == null) {
           log();
         }
@@ -578,7 +579,7 @@ export class FieldLogicalController
         putOnField: true,
       });
 
-      if (DEBUG) {
+      if (IN_DEBUG()) {
         if (cTile == null || clone._field.get(i, j) == null) {
           log();
         }
