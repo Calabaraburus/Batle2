@@ -33,6 +33,8 @@ export class InGameLevelLoaderService extends Service {
 
 
     loadLevel(sender: object, levelName: string): void {
+        this._sceneLoader.showLoaderScreen();
+
         this.runTask(
             () => {
                 if (this._sceneLoader == null) throw Error("SceneLoader is null");
@@ -46,6 +48,8 @@ export class InGameLevelLoaderService extends Service {
     }
 
     loadScene(sender: object, sceneName: string): void {
+        this._sceneLoader.showLoaderScreen();
+
         this.runTask(
             () => {
                 this._sceneLoader.loadLevel(sceneName);

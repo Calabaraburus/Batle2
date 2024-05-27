@@ -45,6 +45,7 @@ import { EOTInvoker } from "./EOTInvoker";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { FieldModel } from "../../models/FieldModel";
 import { StartTurnMessage } from "../ui/StartTurnMessage";
+import { IN_DEBUG } from "../../globals/globals";
 
 const { ccclass, property } = _decorator;
 
@@ -300,7 +301,7 @@ export class GameManager extends Service {
   private tileClicked(sender: unknown, tile: TileController): void {
     this.lockUi();
 
-    console.log("[GameManager] Tile clicked");
+    if (IN_DEBUG()) console.log("[GameManager] Tile clicked");
     this.behaviourSeletor.run(tile);
 
     this.waitAnimations(() => {

@@ -35,11 +35,7 @@ export class FieldAnalyzer {
     const tileGroup = new Set<TileController>();
 
     this._field.fieldMatrix.forEach((tile) => {
-      if (
-        tile.tileModel.tileName == "start" ||
-        tile.tileModel.tileName == "empty" ||
-        tile.tileModel.tileName == "end"
-      ) {
+      if (tile.tileModel.serviceTile) {
         return;
       }
 
