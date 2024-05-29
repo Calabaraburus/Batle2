@@ -61,7 +61,7 @@ export class GameManager extends Service {
   private _matchStatistic: MatchStatisticService | null;
   private _audioManager: AudioManagerService;
   private _needToSkipBotTurn: boolean = false;
-
+  private _clickIsProcceeding = false;
   private _bot: IBot | null;
   private _isStarted = false;
 
@@ -299,12 +299,15 @@ export class GameManager extends Service {
   }
 
   private tileClicked(sender: unknown, tile: TileController): void {
+    //if (this._clickIsProcceeding) return;
+    //this._clickIsProcceeding = true;
     this.lockUi();
 
     if (IN_DEBUG()) console.log("[GameManager] Tile clicked");
     this.behaviourSeletor.run(tile);
 
     this.waitAnimations(() => {
+      //  this._clickIsProcceeding = false;
       if (this._stateMachine.getCurrentState() == "playerTurn") {
         this.unlockUi();
       }
@@ -319,6 +322,23 @@ export class GameManager extends Service {
       tween(this)
         .call(() => {
           if (!this._effectsManager.effectIsRunning) {
+            action();
+            waiter.stop();
+          }
+        })
+        .delay(0.2)
+    );
+
+    waiter.start();
+  }
+
+  private waitClickProcceeds(action: () => void) {
+    const waiter = tween(this);
+
+    waiter.repeatForever(
+      tween(this)
+        .call(() => {
+          if (!this._clickIsProcceeding) {
             action();
             waiter.stop();
           }

@@ -131,7 +131,7 @@ export class CatapultTileController
         this._lifeIndicator.activeLifes = this._attackedNumber;
 
       if (this._attackedNumber <= 0) {
-        this.destroyTile();
+        this.fakeDestroy();
       }
     }
   }

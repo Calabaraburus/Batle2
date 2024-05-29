@@ -561,7 +561,25 @@ export class Bot_v2 extends Service implements IBot {
 
       if (IN_DEBUG()) console.log(`[Bot] cTile ${cTile == null}`);
 
+      if (IN_DEBUG()) {
+        fieldExt.field.fieldMatrix.forEach((item, i, j) => {
+
+          if (item != null && fieldExt.field.fieldMatrix.get(i, j) != fieldExt.field.fieldMatrix.get(item.row, item.col)) {
+            log();
+          }
+        });
+      }
+
       this._behaviourSelector.run(cTile);
+
+      if (IN_DEBUG()) {
+        fieldExt.field.fieldMatrix.forEach((item, i, j) => {
+
+          if (item != null && fieldExt.field.fieldMatrix.get(i, j) != fieldExt.field.fieldMatrix.get(item.row, item.col)) {
+            log();
+          }
+        });
+      }
 
       if (IN_DEBUG()) console.log(`[Bot] bs after run`);
 

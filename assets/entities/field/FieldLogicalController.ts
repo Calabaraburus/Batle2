@@ -182,10 +182,6 @@ export class FieldLogicalController
 
     if (tile == null) return null;
 
-    if (!this._isVirtual) {
-      tile.active = true;
-    }
-
     const tileController = tile.getComponent(TileController);
 
     if (tileController != null) {
@@ -202,6 +198,10 @@ export class FieldLogicalController
       tileController.setModel(tileModel);
 
       this.virtualizeTile(tileController, this._isVirtual);
+
+      if (!this._isVirtual) {
+        tile.active = true;
+      }
 
       if (putOnField) {
         this._field.set(row, col, tileController);
@@ -257,6 +257,18 @@ export class FieldLogicalController
       return;
     }
 
+
+
+    if (IN_DEBUG()) {
+      this._field.forEach((item, i, j) => {
+
+        if (item != null && this._field.get(i, j) != this._field.get(item.row, item.col)) {
+          log();
+        }
+      });
+    }
+
+
     const findTiles = (destroied: boolean): TileController[] => {
       const res: TileController[] = [];
 
@@ -287,6 +299,18 @@ export class FieldLogicalController
     if (destroiedTiles.length == 0) {
       return;
     }
+
+
+
+    if (IN_DEBUG()) {
+      this._field.forEach((item, i, j) => {
+
+        if (item != null && this._field.get(i, j) != this._field.get(item.row, item.col)) {
+          log();
+        }
+      });
+    }
+
 
     const pathTiles: TileController[] | null[] = [];
 
@@ -328,6 +352,15 @@ export class FieldLogicalController
       }
 
       pathTiles[fwd ? index : destroiedTiles.length - index - 1] = tile;
+    }
+
+    if (IN_DEBUG()) {
+      this._field.forEach((item, i, j) => {
+
+        if (item != null && this._field.get(i, j) != this._field.get(item.row, item.col)) {
+          log();
+        }
+      });
     }
 
     let tileRowId = fwd ? tStartTile.row : tStartTile.row;
@@ -378,7 +411,6 @@ export class FieldLogicalController
     this._tilesToDestroy.push(tile);
   }
 
-
   /** Apply current state of field, destroies all fake destroied tiles. */
   public flush(): void {
     this.finalyDestroyTiles();
@@ -409,14 +441,14 @@ export class FieldLogicalController
           (tile.tileModel.serviceTile && destroyServiceTile) ||
           !tile.tileModel.serviceTile
         ) {
-          tile.destroyTile();
+          tile.fakeDestroy();
         }
       }
     }
   }
 
   private finalyDestroyTiles() {
-    this._tilesToDestroy.forEach((tile) => tile.destroyTile());
+    this._tilesToDestroy.forEach((tile) => tile.cacheDestroy());
     this._tilesToDestroy.length = 0;
   }
 
@@ -507,6 +539,8 @@ export class FieldLogicalController
       // this._tilesToDestroy.push(tile);
     });
 
+    this._field.clear();
+
     // this.generateTiles();
     // this.EndTurn(true);
   }
@@ -583,6 +617,14 @@ export class FieldLogicalController
         if (cTile == null || clone._field.get(i, j) == null) {
           log();
         }
+
+        if (this._field.get(i, j) != this._field.get(item.row, item.col)) {
+          log();
+        }
+
+        if (clone._field.get(i, j) != clone._field.get(item.row, item.col)) {
+          log();
+        }
       }
 
       if (cTile instanceof StdTileController) {
@@ -599,7 +641,21 @@ export class FieldLogicalController
       // clone._field.set(item.row, item.col, cTile);
       //}
     });
+    if (IN_DEBUG()) {
+      clone._field.forEach((item, i, j) => {
 
+        if (item == null || clone._field.get(i, j) != clone._field.get(item.row, item.col)) {
+          log();
+        }
+      });
+
+      this._field.forEach((item, i, j) => {
+
+        if (item == null || this._field.get(i, j) != this._field.get(item.row, item.col)) {
+          log();
+        }
+      });
+    }
     return clone;
   }
 }

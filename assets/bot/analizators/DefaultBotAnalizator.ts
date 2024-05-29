@@ -10,7 +10,7 @@ export class DefaultBotAnalizator extends CardAnalizator {
   getAvailableTilesForAction(data: AnalizedData): TileController[] {
     return this._fieldExt.getPlayerTiles(this.playerModel).filter(t => {
       if (t instanceof StdTileController) {
-        if (!t.shieldIsActivated && !t.tileModel.serviceTile) {
+        if (!t.shieldIsActivated) {
           return t;
         }
       }

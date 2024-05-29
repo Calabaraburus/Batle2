@@ -22,7 +22,7 @@ export class ManeuverCardAnalizator extends CardAnalizator {
 
         const botTiles = Array.from(myCt[0].connectedTiles.values()).filter(t => {
             if (t instanceof StdTileController) {
-                if (!t.shieldIsActivated) {
+                if (!t.shieldIsActivated && !t.tileModel.serviceTile) {
                     return t;
                 }
             }
