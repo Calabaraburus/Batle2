@@ -9,12 +9,12 @@ import { Matrix2D } from "./Matrix2D";
 export class ReadonlyMatrix2D<T> {
   protected matrix: T[];
 
-  private _rows: number;
+  protected _rows: number;
   get rows(): number {
     return this._rows;
   }
 
-  private _cols: number;
+  protected _cols: number;
   get cols(): number {
     return this._cols;
   }

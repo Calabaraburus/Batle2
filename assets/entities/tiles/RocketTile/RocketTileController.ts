@@ -34,7 +34,7 @@ export class RocketTileController extends TileController {
   }
 
   public destroyTile() {
-    super.destroyTile();
+    super.fakeDestroy();
     this.RocketVNode.active = false;
     this.RocketHNode.active = false;
   }

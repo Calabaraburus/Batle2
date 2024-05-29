@@ -23,6 +23,12 @@ export class Matrix2D<T> extends ReadonlyMatrix2D<T> {
     this.matrix[col * this.rows + row] = value;
   }
 
+  clear() {
+    this.matrix.length = 0;
+    this._cols = 0;
+    this._rows = 0;
+  }
+
   toReadonly(): ReadonlyMatrix2D<T> {
     return new ReadonlyMatrix2D<T>(this.rows, this.cols, this.matrix);
   }
