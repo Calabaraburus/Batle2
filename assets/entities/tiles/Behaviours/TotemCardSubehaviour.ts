@@ -64,7 +64,7 @@ export class TotemCardSubehaviour extends CardsSubBehaviour {
     }
 
     this._tilesToTransform.forEach((item) => {
-      item.destroyTile();
+      item.fakeDestroy();
 
       const pModel = this.parent.cardService.getCurrentPlayerModel();
 

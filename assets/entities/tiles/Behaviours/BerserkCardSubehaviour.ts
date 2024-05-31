@@ -85,7 +85,7 @@ export class BerserkCardSubehaviour extends CardsSubBehaviour {
     }
 
     this._tilesToTransform.forEach((tile) => {
-      tile.destroyTile();
+      tile.fakeDestroy();
 
       const pModel = this.parent.cardService.getCurrentPlayerModel();
 

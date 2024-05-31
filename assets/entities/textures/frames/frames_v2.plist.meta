@@ -704,13 +704,13 @@
       "id": "3cac5",
       "name": "frame_0015_Слой-19",
       "userData": {
-        "trimType": "auto",
+        "trimType": "custom",
         "trimThreshold": 1,
         "rotated": false,
         "offsetX": 0,
         "offsetY": 0,
         "trimX": 0,
-        "trimY": 0,
+        "trimY": 1,
         "width": 122,
         "height": 16,
         "rawWidth": 122,
@@ -1216,9 +1216,15 @@
         "offsetX": 0,
         "offsetY": 0,
         "trimX": 1423,
+<<<<<<< HEAD
         "trimY": 57,
         "width": 102,
         "height": 89,
+=======
+        "trimY": 64,
+        "width": 102,
+        "height": 83,
+>>>>>>> 16ff47790749748630d561931031469d9f128af5
         "rawWidth": 102,
         "rawHeight": 89,
         "borderTop": 0,

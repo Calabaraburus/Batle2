@@ -1,4 +1,4 @@
-import { Component, EventTarget, _decorator } from "cc";
+import { Component, EventTarget, _decorator, log } from "cc";
 import { ICacheObject } from "./ICacheObject";
 import { CacheBag, ObjectsCache } from "./ObjectsCache";
 const { ccclass, property } = _decorator;
@@ -7,6 +7,9 @@ const { ccclass, property } = _decorator;
 export class CacheObject extends Component implements ICacheObject {
   public readonly destroyEvent: EventTarget = new EventTarget();
   private _bag: CacheBag;
+  private _inCache = false;
+
+  public get inCache() { return this._inCache; }
 
   public setCacheBag(cacheBag: CacheBag) {
     this._bag = cacheBag;
@@ -27,16 +30,23 @@ export class CacheObject extends Component implements ICacheObject {
   }
 
   cacheCreate(): void {
+    this._inCache = false;
     if (!this._virtual) this.node.active = true;
   }
 
   public cacheDestroy(): void {
+
+    if (this.inCache) {
+      return;
+    }
+
     try {
       if (this.node.active) {
         this.node.active = false;
       }
 
       this._bag.destroyObject(this);
+      this._inCache = true;
     } catch (error) {
 
     }

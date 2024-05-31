@@ -45,6 +45,7 @@ import { EOTInvoker } from "./EOTInvoker";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { FieldModel } from "../../models/FieldModel";
 import { StartTurnMessage } from "../ui/StartTurnMessage";
+import { IN_DEBUG } from "../../globals/globals";
 
 const { ccclass, property } = _decorator;
 
@@ -60,7 +61,7 @@ export class GameManager extends Service {
   private _matchStatistic: MatchStatisticService | null;
   private _audioManager: AudioManagerService;
   private _needToSkipBotTurn: boolean = false;
-
+  private _clickIsProcceeding = false;
   private _bot: IBot | null;
   private _isStarted = false;
 
@@ -129,10 +130,22 @@ export class GameManager extends Service {
 
     .onTimeout(50)
     .transitionTo("beforeBotTurn")
-    .withCondition(() => this._gameState.isPlayerTurn == true && !this.isGameEnded())
+    .withCondition(() => {
+      try {
+        return this._gameState.isPlayerTurn == true && !this.isGameEnded();
+      } catch (error) {
+        return false;
+      }
+    })
 
     .transitionTo("beforePlayerTurn")
-    .withCondition(() => this._gameState.isPlayerTurn == false && !this.isGameEnded())
+    .withCondition(() => {
+      try {
+        return this._gameState.isPlayerTurn == false && !this.isGameEnded();
+      } catch (error) {
+        return false;
+      }
+    })
 
     //-------------------------------------------------------
 
@@ -258,7 +271,7 @@ export class GameManager extends Service {
 
   public stop() {
     Tween.stopAll();
-    this._stateMachine.handle("end");
+    if (this._isStarted) this._stateMachine.handle("end");
   }
 
   initGame(): void {
@@ -286,24 +299,20 @@ export class GameManager extends Service {
   }
 
   private tileClicked(sender: unknown, tile: TileController): void {
+    //if (this._clickIsProcceeding) return;
+    //this._clickIsProcceeding = true;
     this.lockUi();
 
-    console.log("[GameManager] Tile clicked");
+    if (IN_DEBUG()) console.log("[GameManager] Tile clicked");
     this.behaviourSeletor.run(tile);
 
     this.waitAnimations(() => {
+      //  this._clickIsProcceeding = false;
       if (this._stateMachine.getCurrentState() == "playerTurn") {
         this.unlockUi();
       }
       //   this.moveTiles();
     });
-  }
-
-  private moveTiles() {
-    this._field.moveTilesLogicaly(!this._gameState.isPlayerTurn);
-    this._field.fixTiles();
-    this._field.Flush();
-    this._field.moveTilesAnimate();
   }
 
   private waitAnimations(action: () => void) {
@@ -313,6 +322,23 @@ export class GameManager extends Service {
       tween(this)
         .call(() => {
           if (!this._effectsManager.effectIsRunning) {
+            action();
+            waiter.stop();
+          }
+        })
+        .delay(0.2)
+    );
+
+    waiter.start();
+  }
+
+  private waitClickProcceeds(action: () => void) {
+    const waiter = tween(this);
+
+    waiter.repeatForever(
+      tween(this)
+        .call(() => {
+          if (!this._clickIsProcceeding) {
             action();
             waiter.stop();
           }

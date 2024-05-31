@@ -84,15 +84,15 @@ export class TotemTileController extends TileController implements IAttackable {
         this._lifeIndicator.activeLifes = this._attackedNumber;
 
       if (this._attackedNumber <= 0) {
-        this.destroyTile();
+        this.fakeDestroy();
       }
     }
   }
 
-  public destroyTile() {
+  public fakeDestroy() {
     this.createParticles();
     this.playSoundEffect();
-    super.destroyTile();
+    super.fakeDestroy();
   }
 
   private playSoundEffect() {

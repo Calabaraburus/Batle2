@@ -15,7 +15,4 @@ export class LevelSelectorView extends Component implements ILevelSelectorView {
   @property({ type: LevelSelectorController })
   controller: LevelSelectorController;
 
-  public loadLevel(sender: object, levelName: string): void {
-    // this.controller.loadLevel(levelName);
-  }
 }

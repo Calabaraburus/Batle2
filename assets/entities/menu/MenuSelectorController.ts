@@ -12,6 +12,7 @@ import { SceneLoaderService } from "../services/SceneLoaderService";
 import { GameManager } from "../game/GameManager";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { LevelSelectorController } from "../level/LevelSelectorController";
+import { InGameLevelLoaderService } from "../level/InGameLevelLoaderService";
 const { ccclass, property } = _decorator;
 
 @ccclass("MenuSelectorController")
@@ -41,14 +42,15 @@ export class MenuSelectorController extends Service {
 
   settingsLoader: SettingsLoader;
   parameters: GameParameters;
-  private _sceneLoader: SceneLoaderService;
   private _gameManager: GameManager | null;
   private _levelConfig: LevelConfiguration;
   private _levelSelector: LevelSelectorController;
+  private _inGameLoader: InGameLevelLoaderService | null;
 
   start(): void {
 
-    this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
+    //this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
+    this._inGameLoader = this.getService(InGameLevelLoaderService);
     this._gameManager = this.getService(GameManager);
     this._aManager = this.getService(AudioManagerService);
     this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
@@ -89,14 +91,11 @@ export class MenuSelectorController extends Service {
   }
 
   loadScene(sender: object, sceneName: string): void {
-    this._gameManager?.stop();
-
-    this._sceneLoader.loadLevel(sceneName);
+    this._inGameLoader?.loadScene(this, sceneName);
   }
 
   reloadMission() {
-    this._gameManager?.stop();
-    this._levelSelector.loadLevel(this, this._levelConfig.levelName);
+    this._inGameLoader?.loadLevel(this, this._levelConfig.levelName);
   }
 
   settingSound(sender: object, volumeStr: string) {
@@ -132,7 +131,6 @@ export class MenuSelectorController extends Service {
       cross.active = true;
       cross2.active = false;
     }
-
   }
 
   getButtonByVolume(btns: Node[], volume: number) {
