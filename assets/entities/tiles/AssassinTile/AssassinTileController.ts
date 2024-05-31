@@ -87,7 +87,7 @@ export class AssassinTileController
       const oponentModel = this._cardService?.getCurrentPlayerModel();
 
       const oponentTiles = this.fieldController.fieldMatrix.filter((tile) => {
-        return tile.playerModel == oponentModel;
+        return tile.playerModel == oponentModel && !tile.tileModel.serviceTile;
       });
 
       for (let index = 0; index < this.maxCount; index++) {
@@ -142,7 +142,7 @@ export class AssassinTileController
       this._attackedNumber -= power;
 
       if (this._attackedNumber <= 0) {
-        this.destroyTile();
+        this.fakeDestroy();
       }
     }
   }

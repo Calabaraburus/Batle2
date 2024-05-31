@@ -211,7 +211,7 @@ export class FieldControllerExtensions {
 
   public getPlayerTiles(playerModel: PlayerModel): TileController[] {
     return this.getTiles(
-      (t) => t.playerModel == playerModel
+      (t) => t.playerModel == playerModel && !t.tileModel.serviceTile
     );
   }
 

@@ -50,7 +50,7 @@ export class LightningCardSubehaviour extends CardsSubBehaviour {
     const oponentModel = this._cardsService.getOponentModel();
 
     const oponentTiles = this._field.fieldMatrix.filter((tile) => {
-      return tile.playerModel == oponentModel;
+      return tile.playerModel == oponentModel && !tile.tileModel.serviceTile;
     });
 
     for (let index = 0; index < this.maxCount; index++) {

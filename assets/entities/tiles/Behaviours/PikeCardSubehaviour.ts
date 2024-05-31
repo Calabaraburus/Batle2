@@ -114,7 +114,8 @@ export class PikeCardSubehaviour extends CardsSubBehaviour {
       if (tile == tileToDestroy) return;
       if (!tileToDestroy) return;
       if (
-        tileToDestroy.playerModel == this.parent.cardService.getOponentModel()
+        tileToDestroy.playerModel == this.parent.cardService.getOponentModel() &&
+        !tileToDestroy.tileModel.serviceTile
       ) {
         this._tilesToDestroy.push(tileToDestroy);
       }

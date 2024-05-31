@@ -30,6 +30,7 @@ import { config } from "chai";
 import { InfoWindow } from "../ui/window/InfoWindow";
 import { t } from "../../../extensions/i18n/assets/LanguageData";
 import { AudioConfigurator } from "../services/AudioConfigurator";
+import { InGameLevelLoaderService } from "../level/InGameLevelLoaderService";
 
 const { ccclass, property } = _decorator;
 
@@ -95,15 +96,15 @@ export class FinalWindow extends Service {
 
   private _overlayWnd: OverlayWindow | null;
   private _wnd: Window | null;
-  private _sceneLoader: SceneLoaderService;
   private _infoWnd: InfoWindow;
   private _audio: AudioConfigurator;
+  private _inGameLoader: InGameLevelLoaderService | null;
 
   start() {
     this._config = this.getServiceOrThrow(LevelConfiguration);
     this._overlayWnd = this.getComponent(OverlayWindow);
     this._wnd = this.getComponent(Window);
-    this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
+    this._inGameLoader = this.getService(InGameLevelLoaderService);
     this._infoWnd = this.getServiceOrThrow(InfoWindow);
     this._audio = this.getServiceOrThrow(AudioConfigurator);
     this._cardFlagSelector = "empty";
@@ -415,7 +416,7 @@ export class FinalWindow extends Service {
       this._settingsLoader.saveGameState();
     }
 
-    this._sceneLoader.loadLevel("LvlScene");
+    this._inGameLoader?.loadScene(this, "LvlScene");
   }
 
   updateLevelSprite(model: BonusModel, sprite: Sprite) {

@@ -62,7 +62,7 @@ export class AssassinCardSubehaviour extends CardsSubBehaviour {
 
     // we need to change tiles in place
     // so there we need to destroy prev. tile
-    targetTile.destroyTile();
+    targetTile.fakeDestroy();
 
     const tile = this.parent.field?.createTile({
       row: targetTile.row,

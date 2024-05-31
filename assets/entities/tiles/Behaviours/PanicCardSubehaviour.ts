@@ -46,7 +46,8 @@ export class PanicCardSubehaviour extends CardsSubBehaviour {
       const tile = this.parent.field.fieldMatrix.getSafe(x, y);
       if (tile instanceof StdTileController &&
         !tile.shieldIsActivated &&
-        tile.playerModel == this._targetTile.playerModel) {
+        tile.playerModel == this._targetTile.playerModel &&
+        !tile.tileModel.serviceTile) {
         this._tilesToPanic.push(tile);
       }
     });

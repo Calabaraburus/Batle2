@@ -26,8 +26,8 @@ export class StarTileController extends TileController {
     this.starSprite.color = model.starColor;
   }
 
-  public destroyTile() {
-    super.destroyTile();
+  public fakeDestroy() {
+    super.fakeDestroy();
     this.starSprite.spriteFrame = null;
   }
 }

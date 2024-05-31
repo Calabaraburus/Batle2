@@ -54,6 +54,7 @@ import { DebugViewForBot } from "./DebugViewForBot";
 import { DEBUG } from "cc/env";
 import { ShieldBotAnalizator } from "./analizators/ShieldBotAnalizator";
 import { AllMyTilesBotAnalizator } from "./analizators/AllMyTilesBotAnalizator";
+import { IN_DEBUG } from "../globals/globals";
 
 const { ccclass, property } = _decorator;
 
@@ -255,22 +256,23 @@ export class Bot_v2 extends Service implements IBot {
 
     let clonedField = this.cloneField();
 
-    console.log("[Bot] Start to analize move");
+    if (IN_DEBUG()) {
+      console.log("[Bot] Start to analize move");
 
-    console.log(`[Bot] internalDataService ${this._internalDataService == null}`);
-    console.log(`[Bot] internalDataService ${this._internalDataService.debugView == null}`);
-    console.log(`[Bot] internalDataService ${this._internalDataService.botModel == null}`);
-    console.log(`[Bot] internalDataService ${this._internalDataService.playerModel == null}`);
-    console.log(`[Bot] internalDataService ${this._internalDataService.enemyFieldController == null}`);
-    console.log(`[Bot] internalDataService ${this._internalDataService.playerFieldController == null}`);
-    console.log(`[Bot] internalCardService ${this._internalCardService == null}`);
-    console.log(`[Bot] internalCardService ${this._internalCardService.levelModel == null}`);
-    console.log(`[Bot] internalCardService ${this._internalCardService.dataService == null}`);
-    console.log(`[Bot] behaviourSelector ${this._behaviourSelector == null}`);
+      console.log(`[Bot] internalDataService ${this._internalDataService == null}`);
+      console.log(`[Bot] internalDataService ${this._internalDataService.debugView == null}`);
+      console.log(`[Bot] internalDataService ${this._internalDataService.botModel == null}`);
+      console.log(`[Bot] internalDataService ${this._internalDataService.playerModel == null}`);
+      console.log(`[Bot] internalDataService ${this._internalDataService.enemyFieldController == null}`);
+      console.log(`[Bot] internalDataService ${this._internalDataService.playerFieldController == null}`);
+      console.log(`[Bot] internalCardService ${this._internalCardService == null}`);
+      console.log(`[Bot] internalCardService ${this._internalCardService.levelModel == null}`);
+      console.log(`[Bot] internalCardService ${this._internalCardService.dataService == null}`);
+      console.log(`[Bot] behaviourSelector ${this._behaviourSelector == null}`);
 
-    console.log(`[Bot] _cardsBehaviour ${this._cardsBehaviour == null}`);
-    console.log(`[Bot] _stdTileBehave ${this._stdTileBehave == null}`);
-
+      console.log(`[Bot] _cardsBehaviour ${this._cardsBehaviour == null}`);
+      console.log(`[Bot] _stdTileBehave ${this._stdTileBehave == null}`);
+    }
     //console.log(JSON.stringify(this._internalCardService));
 
     const results: RatingResult[] = [];
@@ -286,18 +288,18 @@ export class Bot_v2 extends Service implements IBot {
 
     this._queue = new Queue<() => void>();
 
-    console.log(`[Bot] Analizers size: ${this._cardAnalizators.size}`);
+    if (IN_DEBUG()) console.log(`[Bot] Analizers size: ${this._cardAnalizators.size}`);
 
     if (this._cardAnalizators.size > 0) {
 
       this._cardAnalizators.forEach(c => {
         this._queue.enqueue(() => {
 
-          console.log(`[Bot] Try to activate Card ${c.cardModel.mnemonic}`);
+          if (IN_DEBUG()) console.log(`[Bot] Try to activate Card ${c.cardModel.mnemonic}`);
           const analizator = this._cardAnalizators.get(c.cardModel.mnemonic);
 
           if (analizator != null && analizator.canActivateCard()) {
-            console.log(`[Bot] Run analizator`);
+            if (IN_DEBUG()) console.log(`[Bot] Run analizator`);
 
             try {
               const result = this.getTileForCardActivation(clonedField, analizator);
@@ -306,18 +308,18 @@ export class Bot_v2 extends Service implements IBot {
 
                 // this.debugTile(tile);
 
-                console.log(`[Bot] Activate card on tile {${result.row},${result.col}}`);
+                if (IN_DEBUG()) console.log(`[Bot] Activate card on tile {${result.row},${result.col}}`);
 
                 this.pressTileRC(result.row, result.col)
 
-                console.log(`[Bot] Card have been activated`);
+                if (IN_DEBUG()) console.log(`[Bot] Card have been activated`);
 
               } else {
                 // this.debugTile(tile);
               }
 
             } catch (error) {
-              console.log(`[Bot][Error] ${error}`);
+              if (IN_DEBUG()) console.log(`[Bot][Error] ${error}`);
             }
 
           }
@@ -327,7 +329,7 @@ export class Bot_v2 extends Service implements IBot {
 
     this._queue.enqueue(() => {
 
-      console.log(`[Bot] Try to find best tile to tap`);
+      if (IN_DEBUG()) console.log(`[Bot] Try to find best tile to tap`);
 
       clonedField.reset();
 
@@ -340,11 +342,11 @@ export class Bot_v2 extends Service implements IBot {
 
       results.sort((r1, r2) => -(r1.rating - r2.rating));
 
-      console.log(`[Bot] ratings ${results.map(r => r.rating).join("|")}`);
+      if (IN_DEBUG()) console.log(`[Bot] ratings ${results.map(r => r.rating).join("|")}`);
 
       const result = results[0];
       //      this.debugTile(tile);
-      console.log(`[Bot] Activate tile {${result.row},${result.col}}`);
+      if (IN_DEBUG()) console.log(`[Bot] Activate tile {${result.row},${result.col}}`);
 
       this.pressTileRC(result.row, result.col)
       // clonedField.reset();
@@ -390,15 +392,17 @@ export class Bot_v2 extends Service implements IBot {
   }
 
   debugTile(tile: TileController | null, preStr = "[Bot][TileDebug]") {
-    if (tile == null) {
-      console.log(`${preStr} Tile is null`);
+    if (IN_DEBUG()) {
+      if (tile == null) {
+        console.log(`${preStr} Tile is null`);
 
-    } else {
-      console.log(`${preStr} pos: {${tile.row},${tile.col}}`);
-      console.log(`${preStr} model: ${tile.tileModel.tileName}`);
-      console.log(`${preStr} playerModel: ${tile.playerModel == null ?
-        '-' :
-        tile.playerModel.playerName}`);
+      } else {
+        console.log(`${preStr} pos: {${tile.row},${tile.col}}`);
+        console.log(`${preStr} model: ${tile.tileModel.tileName}`);
+        console.log(`${preStr} playerModel: ${tile.playerModel == null ?
+          '-' :
+          tile.playerModel.playerName}`);
+      }
     }
   }
 
@@ -446,14 +450,14 @@ export class Bot_v2 extends Service implements IBot {
 
     tiles.forEach(t => {
 
-      if (DEBUG) console.log(`[Bot] tile: ${t == null ? 'null' : `{${t.row};${t.col}}`}`);
+      if (IN_DEBUG()) console.log(`[Bot] tile: ${t == null ? 'null' : `{${t.row};${t.col}}`}`);
 
       if (isICloneable(field)) {
-        if (DEBUG) console.log("[Bot] try to clone field");
+        if (IN_DEBUG()) console.log("[Bot] try to clone field");
 
         const clonedFieldForTiles = field.clone() as ITileFieldController;
 
-        if (DEBUG) console.log("[Bot] cloned");
+        if (IN_DEBUG()) console.log("[Bot] cloned");
 
         fieldExt.setField(clonedFieldForTiles);
 
@@ -506,7 +510,7 @@ export class Bot_v2 extends Service implements IBot {
 
         res.rating = this.getTileRating(fieldExt, null);
 
-        if (DEBUG) {
+        if (IN_DEBUG()) {
           console.log(`[Bot][TileDebug] pos: {${res.row},${res.col}}`);
           console.log(`[Bot][TileDebug] rating: {${res.rating}}`);
         }
@@ -535,31 +539,49 @@ export class Bot_v2 extends Service implements IBot {
     fieldExt: FieldControllerExtensions,
     tile: TileController | null): number {
 
-    if (DEBUG) console.log(`[Bot] getTileRating2`);
+    if (IN_DEBUG()) console.log(`[Bot] getTileRating2`);
 
     this._internalDataService.field = fieldExt.field;
     this._internalDataService.fieldAnalizer = new FieldAnalyzer(fieldExt.field);
 
-    if (DEBUG) console.log(`[Bot] this._internalDataService.field ${this._internalDataService.field == null}`);
-    if (DEBUG) console.log(`[Bot] this._internalDataService.fieldAnalizer ${this._internalDataService.fieldAnalizer == null}`);
+    if (IN_DEBUG()) console.log(`[Bot] this._internalDataService.field ${this._internalDataService.field == null}`);
+    if (IN_DEBUG()) console.log(`[Bot] this._internalDataService.fieldAnalizer ${this._internalDataService.fieldAnalizer == null}`);
 
     this.debugTile(tile);
 
     if (tile != null) {
 
-      if (DEBUG) console.log(`[Bot] bs before run`);
+      if (IN_DEBUG()) console.log(`[Bot] bs before run`);
 
-      if (DEBUG) console.log(`[Bot] fieldExt.field ${fieldExt.field == null}`);
-      if (DEBUG) console.log(`[Bot] fieldExt.field.fieldMatrix ${fieldExt.field.fieldMatrix == null}`);
+      if (IN_DEBUG()) console.log(`[Bot] fieldExt.field ${fieldExt.field == null}`);
+      if (IN_DEBUG()) console.log(`[Bot] fieldExt.field.fieldMatrix ${fieldExt.field.fieldMatrix == null}`);
 
 
       const cTile = fieldExt.field.fieldMatrix.get(tile.row, tile.col)
 
-      if (DEBUG) console.log(`[Bot] cTile ${cTile == null}`);
+      if (IN_DEBUG()) console.log(`[Bot] cTile ${cTile == null}`);
+
+      if (IN_DEBUG()) {
+        fieldExt.field.fieldMatrix.forEach((item, i, j) => {
+
+          if (item != null && fieldExt.field.fieldMatrix.get(i, j) != fieldExt.field.fieldMatrix.get(item.row, item.col)) {
+            log();
+          }
+        });
+      }
 
       this._behaviourSelector.run(cTile);
 
-      if (DEBUG) console.log(`[Bot] bs after run`);
+      if (IN_DEBUG()) {
+        fieldExt.field.fieldMatrix.forEach((item, i, j) => {
+
+          if (item != null && fieldExt.field.fieldMatrix.get(i, j) != fieldExt.field.fieldMatrix.get(item.row, item.col)) {
+            log();
+          }
+        });
+      }
+
+      if (IN_DEBUG()) console.log(`[Bot] bs after run`);
 
       this.updateField(fieldExt.field);
     }

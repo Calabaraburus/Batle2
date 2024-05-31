@@ -55,7 +55,7 @@ export class ShamanCardSubehaviour extends CardsSubBehaviour {
       return false;
     }
 
-    targetTile.destroyTile();
+    targetTile.fakeDestroy();
 
     this.parent.field?.createTile({
       row: targetTile.row,

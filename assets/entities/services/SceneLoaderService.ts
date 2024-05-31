@@ -1,8 +1,10 @@
-import { _decorator, director } from "cc";
+import { _decorator, assetManager, director } from "cc";
 import { Service } from "./Service";
 import { LoaderScreen } from "../menu/LoaderScreen";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { Queue } from "../../scripts/Queue";
+import { DEBUG } from "cc/env";
+import { IN_DEBUG } from "../../globals/globals";
 const { ccclass, property } = _decorator;
 
 @ccclass("SceneLoaderService")
@@ -15,6 +17,15 @@ export class SceneLoaderService extends Service {
   private _tasksQueue: Queue<() => void> = new Queue<() => void>();
 
   start() {
+    if (IN_DEBUG()) {
+      const am = assetManager;
+      am.assets.forEach(a => {
+        const p = a.nativeUrl;
+
+        console.log();
+
+      });
+    }
 
     if (this.persThisNode) {
       director.addPersistRootNode(this.node);
@@ -26,28 +37,40 @@ export class SceneLoaderService extends Service {
 
     director.preloadScene("LvlScene");
     director.preloadScene("scene_game_field");
+  }
 
+  showLoaderScreen() {
+    this.loaderScreen.show();
   }
 
   loadLevel(levelName: string): void {
-
-    this.loaderScreen.wndIsShowedEvent.off("wndIsShowed");
-    this.loaderScreen.wndIsShowedEvent.on("wndIsShowed", () => {
-
-      this._tasksQueue.enqueue(() => {
-        director.loadScene(levelName, (e) => {
-          if (e) this.loaderScreen.errorTxt.string = e.message;
-          this.loaderScreen.hide();
-        });
+    this.runTaskForScreen(() => {
+      director.loadScene(levelName, (e) => {
+        if (e) this.loaderScreen.errorTxt.string = e.message;
+        this.loaderScreen.hide();
       });
-
     });
-
-    this.loaderScreen.show();
   }
 
   loadLevelEventData(event: Event, levelName: string): void {
     this.loadLevel(levelName);
+  }
+
+  runTaskForScreen(task: () => void) {
+    if (this.loaderScreen.isShowed) {
+      this._tasksQueue.enqueue(() => {
+        task();
+      });
+    } else {
+      this.loaderScreen.wndIsShowedEvent.off("wndIsShowed");
+      this.loaderScreen.wndIsShowedEvent.on("wndIsShowed", () => {
+        this._tasksQueue.enqueue(() => {
+          task();
+        });
+      });
+
+      this.loaderScreen.show();
+    }
   }
 
   loadLevelNoScreen(event: Event, levelName: string): void {
@@ -62,30 +85,21 @@ export class SceneLoaderService extends Service {
     sceneName = "mainGameLevel",
     configurate: (config: LevelConfiguration) => void
   ) {
+    this.runTaskForScreen(() => {
+      director.loadScene(sceneName, (e, s) => {
+        if (e) this.loaderScreen.errorTxt.string = e.message;
 
-    this.loaderScreen.wndIsShowedEvent.off("wndIsShowed");
-    this.loaderScreen.wndIsShowedEvent.on("wndIsShowed", () => {
+        if (configurate != null) {
+          const lvlConfig = this.getComponentInChildren(LevelConfiguration);
 
-      this._tasksQueue.enqueue(() => {
-        director.loadScene(sceneName, (e, s) => {
-          if (e) this.loaderScreen.errorTxt.string = e.message;
-
-          if (configurate != null) {
-            const lvlConfig = this.getComponentInChildren(LevelConfiguration);
-
-            if (lvlConfig != null) {
-              configurate(lvlConfig);
-            }
+          if (lvlConfig != null) {
+            configurate(lvlConfig);
           }
+        }
 
-          this.loaderScreen.hide();
-        });
+        this.loaderScreen.hide();
       });
-
     });
-
-    this.loaderScreen.show();
-
   }
 
   protected update(dt: number): void {

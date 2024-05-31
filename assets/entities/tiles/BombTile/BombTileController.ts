@@ -17,7 +17,7 @@ export class BombTileController extends TileController {
   fireDistance = 2;
 
   destroyTile() {
-    super.destroyTile();
+    super.fakeDestroy();
     this.bombSpriteNode.active = false;
   }
 }

@@ -36,6 +36,7 @@ import { ICloneable } from "../../scripts/ICloneable";
 import { FieldLogicalController } from "./FieldLogicalController";
 import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
 import { Queue } from "../../scripts/Queue";
+import { IN_DEBUG } from "../../globals/globals";
 const { ccclass, property } = _decorator;
 
 @ccclass("FieldController")
@@ -168,7 +169,7 @@ export class FieldController extends Service {
    * @param tile tile controller of clicked tile
    */
   private tileClicked(tile: TileController): void {
-    console.log("[tile] clicked. Name: " + tile.tileModel.tileName);
+    if (IN_DEBUG()) console.log("[tile] clicked. Name: " + tile.tileModel.tileName);
     this.tileClickedEvent.emit("FieldController", this, tile);
   }
 

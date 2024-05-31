@@ -10,16 +10,17 @@ import {
   instantiate,
   Node,
   __private,
-  Prefab,
   js,
 } from "cc";
 import { CacheObject } from "./CacheObject";
 import { ICacheObject } from "./ICacheObject";
 import { IObjectsCache } from "./IObjectsCache";
+import { Queue } from "../scripts/Queue";
+import { CacheProtoItem } from "./CacheProtoItem";
 const { ccclass, property } = _decorator;
 
 /**
- * This class is need to build tiles of different types (prefabs)
+ * This class is need to create game objects and reuse them after destruction
  */
 @ccclass("ObjectsCache")
 export class ObjectsCache extends Component implements IObjectsCache {
@@ -32,13 +33,13 @@ export class ObjectsCache extends Component implements IObjectsCache {
 
   private _objectBags: Map<string, CacheBag> = new Map<string, CacheBag>();
 
-  @property(Prefab)
-  prefabs: Prefab[] = [];
+  @property(CacheProtoItem)
+  prototypes: CacheProtoItem[] = [];
 
   public get size() {
     let result = 0;
 
-    this._objectBags.forEach(b => { result += b.bagDestroied.size + b.bagNotDestroied.size });
+    this._objectBags.forEach(b => { result += b.bagDestroied.length + b.bagNotDestroied.size });
 
     return result;
   }
@@ -51,8 +52,8 @@ export class ObjectsCache extends Component implements IObjectsCache {
     if (this._nodes == null) {
       this._nodes = [];
 
-      this.prefabs.forEach((p) => {
-        const instance = instantiate(p);
+      this.prototypes.forEach((p) => {
+        const instance = instantiate(p.prefab);
         if (this._nodes != null) {
           this._nodes.push(instance);
         }
@@ -80,7 +81,7 @@ export class ObjectsCache extends Component implements IObjectsCache {
           n.components.find((c) => js.getClassName(c) == typeName) !== undefined
         ) {
           bag = new CacheBag();
-          bag.prefab = this.prefabs[i];
+          bag.prototype = this.prototypes[i];
           this._objectBags.set(typeName, bag);
           return;
         }
@@ -101,10 +102,10 @@ export class ObjectsCache extends Component implements IObjectsCache {
     if (this._objectBags.has("p_" + prefabName)) {
       bag = this._objectBags.get("p_" + prefabName);
     } else {
-      this.prefabs?.forEach((p, i) => {
-        if (p.name == prefabName) {
+      this.prototypes?.forEach((p, i) => {
+        if (p.prefab.name == prefabName) {
           bag = new CacheBag();
-          bag.prefab = p;
+          bag.prototype = p;
           this._objectBags.set("p_" + prefabName, bag);
           return;
         }
@@ -118,18 +119,22 @@ export class ObjectsCache extends Component implements IObjectsCache {
 }
 
 export class CacheBag {
-  public prefab: Prefab;
+  public prototype: CacheProtoItem;
   public bagNotDestroied: Set<CacheObject> = new Set<CacheObject>();
-  public bagDestroied: Set<CacheObject> = new Set<CacheObject>();
+  public bagDestroied: Queue<CacheObject> = new Queue<CacheObject>();
 
   public destroyObject(obj: CacheObject) {
     this.bagNotDestroied.delete(obj);
-    this.bagDestroied.add(obj);
+    this.bagDestroied.enqueue(obj);
+  }
+
+  public size(): number {
+    return this.bagNotDestroied.size + this.bagDestroied.length;
   }
 
   public get(): CacheObject | null | undefined {
-    if (this.bagDestroied.size == 0) {
-      const obj = instantiate(this.prefab);
+    if (this.bagDestroied.isEmpty || this.size() < this.prototype.minCount) {
+      const obj = instantiate(this.prototype.prefab);
       const result = obj.getComponent(CacheObject);
 
       if (result == null) {
@@ -141,8 +146,7 @@ export class CacheBag {
 
       return result;
     } else {
-      const result = this.bagDestroied.values().next().value;
-      this.bagDestroied.delete(result);
+      const result = this.bagDestroied.dequeue();
       this.bagNotDestroied.add(result);
       return result;
     }

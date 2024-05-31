@@ -75,7 +75,7 @@ export class RecruitEnemyCardSubehaviour extends CardsSubBehaviour {
         return false;
       }
 
-      tile.destroyTile();
+      tile.fakeDestroy();
 
       this.parent.field?.createTile({
         row: tile.row,
