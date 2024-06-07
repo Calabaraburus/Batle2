@@ -6,10 +6,12 @@ export const languages = {
         gamename: "ЗЕМЛЯ ЗВЕРЕЙ",
         autorsname: "Авторы",
         audioname: "Звуки\\Музыка",
-        autorstxt: "Идея, дизайн, программирование, анимации, эффекты и др.\n\nНатальчишин Тарас\nНатальчишин Артём",
+        autorstxt: "Идея, дизайн, программирование, анимации, эффекты и др.\n\nА. и Т. Натальчишины",
         audiotxt: "MattRuthSound\nMateusz_Chenc\ndermotte\nJoelAudio\nmarb7e\nlsprice\nMrOwn1\nSDLx\nThalamus_Lab\niainmccurdy\nInspectorJ\nbendodge\nzimbot\nCGEffex\nsteveygos93\nBenboncan\nERH\ndatasoundsample\nsandyrb\nhykenfreak\ntwisterman\nEminYILDIRIM\nhumanoide9000\nAshot Danielyan\nWilliam_King\nStudioKolomna\nGioeleFazzeri\nLesfm",
         editorcaption: "Игровой движок",
         editortxt: "Cocos Creator",
+        mapgeneratorcaption: "Генратор карты",
+        mapgeneratortxt: "Perilous shores (watabou)",
         music: "Музыка",
         sound: "Звук",
         startturnmsgplayer: "Твой ход",
@@ -22,13 +24,15 @@ export const languages = {
         replay: "Переиграть",
         win: "Победа",
         lose: "Поражение",
+        continue: "Продолжить",
+        start: "Старт",
         settings: "Настройки",
         about: "Об игре",
         back: "Назад",
         reset: "Сброс игры",
         resetCheckCaption: "Вы хотите сбросить игру?",
         resetFinal: "Данные игры сброшены!",
-        resetCheckCaution: "Сброс игры приведёт к потере всего прогресса игры. Игру придётся проходить заново. Если вы действительно хотите произвести сброс, нажмите кнопку 'Сброс игры'!"
+        resetCheckCaution: "Сброс игры приведёт к потере всего прогресса. Игру придётся проходить заново. Если вы действительно хотите произвести сброс, нажмите кнопку 'Сброс игры'!"
 
     },
     tutor_text: {

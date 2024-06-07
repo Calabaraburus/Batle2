@@ -23,7 +23,7 @@ export interface ITileFieldController {
     col: number,
     creteria: (tc: TileController) => boolean,
     destroyServiceTile?: boolean
-  ): void;
+  ): TileController | null;
   generateTiles(): void;
   createTile({
     row,

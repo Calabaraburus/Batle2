@@ -429,6 +429,7 @@ export class FieldLogicalController
     creteria: (tc: TileController) => boolean = () => true,
     destroyServiceTile = false
   ) {
+    var result = null;
     if (
       row >= 0 &&
       row < this.fieldMatrix.rows &&
@@ -442,9 +443,12 @@ export class FieldLogicalController
           !tile.tileModel.serviceTile
         ) {
           tile.fakeDestroy();
+          result = tile;
         }
       }
     }
+
+    return result;
   }
 
   private finalyDestroyTiles() {
