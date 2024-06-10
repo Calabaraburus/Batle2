@@ -23091,7 +23091,7 @@
     "propertyPath": [
       "_active"
     ],
-    "value": false
+    "value": true
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -25728,7 +25728,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 173.685,
+      "y": 326.747,
       "z": 0
     },
     "_lrot": {
@@ -25824,8 +25824,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 803.927,
-      "height": 347.37
+      "width": 854.5,
+      "height": 695.491
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -25898,7 +25898,7 @@
     "node": {
       "__id__": 1300
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": null,
     "_alignFlags": 45,
     "_target": null,
