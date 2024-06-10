@@ -143,6 +143,7 @@ export class AssassinTileController
 
       if (this._attackedNumber <= 0) {
         this.fakeDestroy();
+        this.node.active = false;
       }
     }
   }
