@@ -25,10 +25,8 @@ export class MapLine extends Component implements MapGraphicsObject {
     @property(CCFloat)
     dashDistance: number = 20;
 
-    //    @property(Color)
+    @property(Color)
     color: Color = new Color("7f1919ff");
-
-
 
     start() {
         this.graphics.addObject(this);

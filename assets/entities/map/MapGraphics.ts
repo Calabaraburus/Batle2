@@ -4,6 +4,7 @@ const { ccclass, property, executeInEditMode } = _decorator;
 
 
 @ccclass('MapGraphics')
+@executeInEditMode(true)
 export class MapGraphics extends Graphics {
 
     private _refresh = true;

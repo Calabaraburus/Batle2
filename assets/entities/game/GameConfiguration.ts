@@ -55,7 +55,7 @@ export class GameConfigurationModel {
       lvl.lvlName = "lvl4";
       lvl.botHeroName = "bot4";
       lvl.botLife = "40";
-      lvl.botCards = [{ mnemonic: "hammerMiddle", price: "4" }, { mnemonic: "totemLow", price: "3" }];
+      lvl.botCards = [{ mnemonic: "hammerMiddle", price: "4" }, { mnemonic: "totem", price: "4" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
       lvl.playerCards = [];
@@ -96,27 +96,27 @@ export class GameConfigurationModel {
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
       lvl.playerCards = [];
-      lvl.endLevelBonus = "twocards";
-      lvl.endLevelBonusParams = ['berserk:4', 'assassin:4'];
+      lvl.endLevelBonus = "life";
+      lvl.endLevelBonusParams = ["30"];
     });
 
     addLevel((lvl) => {
       lvl.lvlName = "lvl8";
       lvl.botHeroName = "bot8";
       lvl.botLife = "90";
-      lvl.botCards = [{ mnemonic: "lightningLow", price: "4" }, { mnemonic: "berserkLow", price: "3" }, { mnemonic: "shield", price: "2" }];
+      lvl.botCards = [{ mnemonic: "lightningMiddle", price: "4" }, { mnemonic: "shield", price: "2" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
       lvl.playerCards = [];
-      lvl.endLevelBonus = "life";
-      lvl.endLevelBonusParams = ["20"];
+      lvl.endLevelBonus = "twocards";
+      lvl.endLevelBonusParams = ['berserk:4', 'assassin:4'];
     });
 
     addLevel((lvl) => {
       lvl.lvlName = "lvl9";
       lvl.botHeroName = "bot9";
-      lvl.botLife = "90";
-      lvl.botCards = [{ mnemonic: "lightning", price: "4" }, { mnemonic: "catapult", price: "4" }, { mnemonic: "push", price: "4" }];
+      lvl.botLife = "115";
+      lvl.botCards = [{ mnemonic: "hammer", price: "4" }, { mnemonic: "catapult", price: "4" }, { mnemonic: "push", price: "4" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
       lvl.playerCards = [];
@@ -129,7 +129,7 @@ export class GameConfigurationModel {
       lvl.lvlName = "lvl10";
       lvl.botHeroName = "bot10";
       lvl.botLife = "120";
-      lvl.botCards = [{ mnemonic: "worm", price: "4" }, { mnemonic: "berserk", price: "4" }, { mnemonic: "c_attack", price: "4" }];
+      lvl.botCards = [{ mnemonic: "wormMiddle", price: "4" }, { mnemonic: "assassin", price: "4" }, { mnemonic: "panic", price: "4" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
       lvl.playerCards = [];
