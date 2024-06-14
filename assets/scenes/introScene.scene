@@ -1381,6 +1381,10 @@
       {
         "__uuid__": "d42613ca-28f9-4890-8244-1eb766ba1600",
         "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "05bebb47-a6d1-455f-bc53-0fa04b7ab812",
+        "__expectedType__": "cc.AudioClip"
       }
     ],
     "_id": "48WLYrrVVIdqSUnhs/w4pj"
@@ -1425,7 +1429,8 @@
       "music3"
     ],
     "mapMusicList": [
-      "music_map2"
+      "music_map2",
+      "music_map3"
     ],
     "endGameMusicList": [
       "win_lose_back"
