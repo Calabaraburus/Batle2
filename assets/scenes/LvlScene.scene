@@ -24008,7 +24008,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -583.033,
+      "y": -588.046,
       "z": 0
     },
     "_lrot": {
@@ -25180,7 +25180,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 893.421,
-      "height": 1130.4
+      "height": 1210.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -25209,7 +25209,7 @@
       "b": 221,
       "a": 255
     },
-    "_string": "MattRuthSound\nMateusz_Chenc\ndermotte\nJoelAudio\nmarb7e\nlsprice\nMrOwn1\nSDLx\nThalamus_Lab\niainmccurdy\nInspectorJ\nbendodge\nzimbot\nCGEffex\nsteveygos93\nBenboncan\nERH\ndatasoundsample\nsandyrb\nhykenfreak\ntwisterman\nEminYILDIRIM\nhumanoide9000\nAshot Danielyan\nWilliam_King\nStudioKolomna\nGioeleFazzeri\nLesfm",
+    "_string": "MattRuthSound\nMateusz_Chenc\ndermotte\nJoelAudio\nmarb7e\nlsprice\nMrOwn1\nSDLx\nThalamus_Lab\niainmccurdy\nInspectorJ\nbendodge\nzimbot\nCGEffex\nsteveygos93\nBenboncan\nERH\ndatasoundsample\nsandyrb\nhykenfreak\ntwisterman\nEminYILDIRIM\nhumanoide9000\nAshot Danielyan\nWilliam_King\nStudioKolomna\nGioeleFazzeri\nLesfm\nVitalii Korol\nSergePavkinMusic",
     "_horizontalAlign": 1,
     "_verticalAlign": 0,
     "_actualFontSize": 40,
@@ -25302,7 +25302,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -893.164,
+      "y": -958.993,
       "z": 0
     },
     "_lrot": {
@@ -25463,7 +25463,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -973.838,
+      "y": -1039.667,
       "z": 0
     },
     "_lrot": {
@@ -25624,7 +25624,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -1111.073,
+      "y": -1176.902,
       "z": 0
     },
     "_lrot": {
@@ -25785,7 +25785,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -1391.184,
+      "y": -1457.013,
       "z": 0
     },
     "_lrot": {
@@ -25940,7 +25940,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": -1275.847,
+      "y": -1341.676,
       "z": 0
     },
     "_lrot": {
