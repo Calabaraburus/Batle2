@@ -4,7 +4,7 @@
 //
 //  Author:Natalchishin Taras
 
-import { director, _decorator } from "cc";
+import { director, _decorator, Node } from "cc";
 import { BonusModel } from "../../models/BonusModel";
 import { LevelModel } from "../../models/LevelModel";
 import { EnemyFieldController } from "../enemyField/EnemyFieldController";
@@ -15,6 +15,7 @@ import { LevelView } from "./LevelView";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { AttackSignalController } from "../attackSignal/AttackSignalController";
 import { Service } from "../services/Service";
+import { SettingsLoader } from "../services/SettingsLoader";
 const { ccclass, property } = _decorator;
 
 /** Controls level view. */
@@ -46,10 +47,17 @@ export class LevelController extends Service {
   @property(AttackSignalController)
   signalController: AttackSignalController;
 
+  @property(Node)
+  serviceBtn: Node;
+
   start() {
     this.model = this.getServiceOrThrow(LevelModel);
     this.levelConfiguration = this.getServiceOrThrow(LevelConfiguration);
     this.view.setController(this);
+
+    const settingsLoader = this.getServiceOrThrow(SettingsLoader);
+
+    this.serviceBtn.active = settingsLoader.gameParameters.editMode;
 
     this.updateData();
   }
