@@ -129,7 +129,7 @@ export class GameConfigurationModel {
       lvl.lvlName = "lvl10";
       lvl.botHeroName = "bot10";
       lvl.botLife = "120";
-      lvl.botCards = [{ mnemonic: "wormMiddle", price: "4" }, { mnemonic: "assassin", price: "4" }, { mnemonic: "panic", price: "4" }];
+      lvl.botCards = [{ mnemonic: "assassin", price: "4" }, { mnemonic: "panic", price: "4" }];
       lvl.playerHeroName = "rezkar";
       lvl.playerLife = "";
       lvl.playerCards = [];
