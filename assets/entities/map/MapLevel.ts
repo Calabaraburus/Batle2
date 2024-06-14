@@ -5,17 +5,21 @@ import { MapController } from './MapController';
 import { PlayerCurrentGameState } from '../services/PlayerCurrentGameState';
 import { AudioConfigurator } from '../services/AudioConfigurator';
 import { StartLevelWindow } from '../ui/window/StartLevelWindow';
+import { GameParameters } from '../game/GameParameters';
 const { ccclass, property, executeInEditMode } = _decorator;
 
 @ccclass('MapLevel')
 export class MapLevel extends Service {
     private _settingsLoader: SettingsLoader;
-
-    @property(MapController)
-    mapConstroller: MapController;
     private _playerState: PlayerCurrentGameState;
     private _audioConfig: AudioConfigurator;
     private _strtWnd: StartLevelWindow;
+
+    @property(MapController)
+    mapConstroller: MapController;
+
+    @property(Node)
+    configBtn: Node;
 
     start(): void {
         this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
@@ -28,6 +32,9 @@ export class MapLevel extends Service {
 
     updateMap() {
         this._playerState = this._settingsLoader.playerCurrentGameState;
+
+        this.configBtn.active = this._settingsLoader.gameParameters.editMode;
+
         this.initMap();
         this.execEvents();
     }
@@ -79,6 +86,29 @@ export class MapLevel extends Service {
 
     activateLvl(lvlName: string) {
         this.mapConstroller.activateLvlObjectByKey(lvlName);
+    }
+
+    _countToEditMode = 0;
+    tryToActivateEditMode() {
+        this._countToEditMode += 1;
+
+        if (this._countToEditMode >= 7) {
+            this._countToEditMode = 0;
+
+            if (this._settingsLoader.gameParameters.editMode == undefined) {
+                var oldpars = this._settingsLoader.gameParameters;
+                this._settingsLoader.removeGameParameters();
+                this._settingsLoader.gameParameters.musicLevel = oldpars.musicLevel;
+                this._settingsLoader.gameParameters.soundLevel = oldpars.soundLevel;
+                this._settingsLoader.gameParameters.editMode = true;
+                //this._settingsLoader.saveParameters();
+            } else {
+                this._settingsLoader.gameParameters.editMode = !this._settingsLoader.gameParameters.editMode;
+            }
+
+            this._settingsLoader.saveParameters();
+            this.updateMap();
+        }
     }
 
 }
