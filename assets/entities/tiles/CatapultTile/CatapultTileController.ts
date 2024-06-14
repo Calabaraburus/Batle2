@@ -49,6 +49,7 @@ export class CatapultTileController
   private _effectsManager: EffectsManager;
   private _audioService: AudioManagerService;
   private _lifeIndicator: LifeIndicator_v2 | null;
+  private _audio: AudioManagerService;
 
   start(): void {
     super.start();
@@ -63,6 +64,8 @@ export class CatapultTileController
     this._effectsManager = Service.getServiceOrThrow(EffectsManager);
     this._audioService = Service.getServiceOrThrow(AudioManagerService);
     this._lifeIndicator = this.getComponentInChildren(LifeIndicator_v2);
+    this._audio = Service.getServiceOrThrow(AudioManagerService);
+
     this.setLife();
 
     assert(ObjectsCache.instance != null, "Cache can't be null");
@@ -168,6 +171,10 @@ export class CatapultTileController
       const transform = effect.node.parent?.getComponent(UITransform);
 
       effect.play();
+
+      this._audio.playSoundEffect(
+        "catapult_attack"
+      );
 
       const animator = tween(effect.node);
 
