@@ -1,4 +1,4 @@
-import { _decorator, assert, director, math, Node } from "cc";
+import { _decorator, assert, CCFloat, director, math, Node } from "cc";
 import { MainMenu } from "./MainMenu";
 import { LoaderScreen } from "./LoaderScreen";
 import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
@@ -40,6 +40,9 @@ export class MenuSelectorController extends Service {
   @property(Node)
   musicBtns: Node[] = [];
 
+  @property(CCFloat)
+  volumeList: number[] = [0, 0.2, 0.57, 1];
+
   settingsLoader: SettingsLoader;
   parameters: GameParameters;
   private _gameManager: GameManager | null;
@@ -72,8 +75,19 @@ export class MenuSelectorController extends Service {
     this.musicCross2.active = false;
     this.soundCross2.active = false;
 
-    this.settingSound(this, this.parameters.soundLevel.toString());
-    this.settingMusic(this, this.parameters.musicLevel.toString());
+    this.settingSound(this, this.getvolumeIdByVal(this.parameters.soundLevel).toString());
+    this.settingMusic(this, this.getvolumeIdByVal(this.parameters.musicLevel).toString());
+  }
+
+  getvolumeIdByVal(volume: number) {
+    for (let i = 0; i < this.volumeList.length; i++) {
+      const value = this.volumeList[i];
+      if (value == volume) {
+        return i;
+      }
+    }
+
+    return 0;
   }
 
   onLoad(): void {
@@ -98,43 +112,40 @@ export class MenuSelectorController extends Service {
     this._inGameLoader?.loadLevel(this, this._levelConfig.levelName);
   }
 
-  settingSound(sender: object, volumeStr: string) {
-
-    const volume = parseFloat(volumeStr);
+  settingSound(sender: object, volumeIdStr: string) {
+    const volumeId = parseInt(volumeIdStr);
+    const volume = this.volumeList[volumeId];
 
     this._aManager?.changeVolume(volume, "sound");
 
     this.parameters.soundLevel = volume;
     this.settingsLoader.saveParameters();
 
-    this.setCross(this.soundBtns, this.soundCross, this.soundCross2, volume);
+    this.setCross(this.soundBtns, this.soundCross, this.soundCross2, volumeId);
   }
 
-  settingMusic(sender: object, volumeStr: string) {
-    const volume = parseFloat(volumeStr);
+  settingMusic(sender: object, volumeIdStr: string) {
+    const volumeId = parseInt(volumeIdStr);
+    const volume = this.volumeList[volumeId];
+
     this._aManager?.changeVolume(volume, "music");
 
     this.parameters.musicLevel = volume;
     this.settingsLoader.saveParameters();
 
-    this.setCross(this.musicBtns, this.musicCross, this.musicCross2, volume);
+    this.setCross(this.musicBtns, this.musicCross, this.musicCross2, volumeId);
   }
 
-  setCross(btns: Node[], cross: Node, cross2: Node, volume: number) {
-    const btn = this.getButtonByVolume(btns, volume);
+  setCross(btns: Node[], cross: Node, cross2: Node, volumeId: number) {
+    const btn = btns[volumeId];
     cross.position = btn.position.clone();
 
-    if (volume == 0) {
+    if (volumeId == 0) {
       cross.active = false;
       cross2.active = true;
     } else {
       cross.active = true;
       cross2.active = false;
     }
-  }
-
-  getButtonByVolume(btns: Node[], volume: number) {
-    const id = Math.round(volume * (btns.length - 1));
-    return btns[id];
   }
 }

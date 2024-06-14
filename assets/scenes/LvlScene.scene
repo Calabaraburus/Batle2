@@ -30252,7 +30252,7 @@
         "__id__": 1851
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 1899
@@ -31218,7 +31218,7 @@
       "0",
       "customEventData"
     ],
-    "value": "0.25"
+    "value": "1"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -31637,7 +31637,7 @@
       "0",
       "customEventData"
     ],
-    "value": "0.5"
+    "value": "2"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -32056,7 +32056,7 @@
       "0",
       "customEventData"
     ],
-    "value": "1"
+    "value": "3"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -33572,7 +33572,7 @@
       "0",
       "customEventData"
     ],
-    "value": "0.25"
+    "value": "1"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -33991,7 +33991,7 @@
       "0",
       "customEventData"
     ],
-    "value": "0.5"
+    "value": "2"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -34410,7 +34410,7 @@
       "0",
       "customEventData"
     ],
-    "value": "1"
+    "value": "3"
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -40245,6 +40245,12 @@
       {
         "__id__": 1792
       }
+    ],
+    "volumeList": [
+      0,
+      0.15,
+      0.57,
+      1
     ],
     "_id": "da4XiQ9T5JpbUlUMrfEjnI"
   },
