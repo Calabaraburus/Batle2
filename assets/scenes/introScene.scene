@@ -1351,6 +1351,10 @@
       {
         "__uuid__": "2fa3dd8b-650c-45fd-89f6-b5e804277d98",
         "__expectedType__": "cc.AudioClip"
+      },
+      {
+        "__uuid__": "bb8cd69f-c0e9-4861-bbb2-6a4c50476822",
+        "__expectedType__": "cc.AudioClip"
       }
     ],
     "music": [
