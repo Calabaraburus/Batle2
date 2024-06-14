@@ -1430,7 +1430,8 @@
     ],
     "mapMusicList": [
       "music_map2",
-      "music_map3"
+      "music_map3",
+      "music6"
     ],
     "endGameMusicList": [
       "win_lose_back"
