@@ -40,7 +40,7 @@ export class MapLevel extends Service {
             this._settingsLoader.saveGameState();
         }
 
-        if (this._playerState.eventExists('ending') && this.isGameFinished()) {
+        if (this._playerState.eventExists('ending') && this._playerState.isGameFinished()) {
             this._strtWnd.showWindow(null, "scroll:ending");
             this._playerState.removeEvent('ending');
 
@@ -48,18 +48,7 @@ export class MapLevel extends Service {
         }
     }
 
-    isGameFinished() {
-        return this.getLastLvlId() == 10;
-    }
 
-    getLastLvlId() {
-        const fl = this._playerState.finishedLevels;
-        const lids = fl.map(lvl => Number(lvl.replace('lvl', ''))).filter(id => !Number.isNaN(id));
-
-        const maxLvlId = Math.max(...lids);
-
-        return maxLvlId;
-    }
 
     initMap() {
         this.mapConstroller.activateAll(false);
