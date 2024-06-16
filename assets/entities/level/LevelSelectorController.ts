@@ -242,16 +242,19 @@ export class LevelSelectorController extends Service {
 
     const gameCfg = settingsLoader.gameConfiguration;
     const curState = settingsLoader.playerCurrentGameState;
+    const gameIsFinished = settingsLoader.playerCurrentGameState.isGameFinished();
 
     const resultBonuses = new Map<string, GameCardCfgModel>();
 
     const addBonus = (bc: GameCardCfgModel) => {
       const bonus = bonuses?.find(b => b.mnemonic == bc.mnemonic);
       if (bonus) {
-        const bonusSameBase = bonuses?.filter(b => b.baseCardMnemonic == bonus.baseCardMnemonic && b.bonusLevel <= bonus.bonusLevel);
+        const bonusSameBase = bonuses?.filter(b =>
+          b.baseCardMnemonic == bonus.baseCardMnemonic &&
+          (b.bonusLevel <= bonus.bonusLevel || gameIsFinished));
         bonusSameBase?.forEach(b => {
           if (!resultBonuses.has(b.mnemonic)) {
-            resultBonuses.set(bc.mnemonic, bc);
+            resultBonuses.set(b.mnemonic, { mnemonic: b.mnemonic, price: b.priceToActivate.toString() });
           }
         });
       }
@@ -425,14 +428,19 @@ export class LevelSelectorController extends Service {
     const result: { close_range: BonusGroupType | null, long_range: BonusGroupType | null, protect: BonusGroupType | null } =
       { close_range: null, long_range: null, protect: null };
 
+    const rnd = (len: number) => {
+      [0, 0, 0, 0].forEach(() => randomRangeInt(0, len));
+      return randomRangeInt(0, len);
+    }
+
     let ar = groupedBonuses.close_range;
-    result.close_range = ar[randomRangeInt(0, ar.length)];
+    result.close_range = ar[rnd(ar.length)];
 
     ar = groupedBonuses.long_range;
-    result.long_range = ar[randomRangeInt(0, ar.length)];
+    result.long_range = ar[rnd(ar.length)];
 
     ar = groupedBonuses.protect;
-    result.protect = ar[randomRangeInt(0, ar.length)];
+    result.protect = ar[rnd(ar.length)];
 
     return result;
   }

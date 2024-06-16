@@ -62,6 +62,7 @@ export class WallTileController extends TileController implements IAttackable {
 
         if (this._lifeOp <= 0) {
             this.fakeDestroy();
+            this.node.active = false;
         }
     }
 

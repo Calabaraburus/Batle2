@@ -85,6 +85,11 @@ export class SettingsLoader extends Service {
     this.loadPlayerCurrentGameState()
   }
 
+  public removeGameParameters() {
+    sys.localStorage.removeItem("gameParameters");
+    this.loadParameters()
+  }
+
   public saveParameters() {
     sys.localStorage.setItem(
       "gameParameters",

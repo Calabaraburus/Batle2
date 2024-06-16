@@ -115,8 +115,7 @@ export class LionTileController
         this._turnLogicList.push(() => this._effectsManager.PlayEffect(() => {
             const r = random();
             r < 0.8 ? this.fireAttackLogic() : this.jumpLogic();
-        }, 2)
-        );
+        }, 2));
         this._turnLogicList.push(() => { });
     }
 
@@ -198,7 +197,6 @@ export class LionTileController
 
         if (aim2 == null) return;
 
-
         const mainTile = LionTileController._lionTiles[0];
         const startPos = animHelper.position.clone();
         const endPos = aim.node.position.clone();
@@ -227,8 +225,12 @@ export class LionTileController
             })
             .to(0.5, { position: endPos })
             .call(() => {
-                tilesToDestroy.forEach(t => t.fakeDestroy());
-                this.getAimTiles(aim).forEach(t => t.node.active = false);
+                tilesToDestroy.forEach(t => {
+                    t.fakeDestroy();
+                });
+                this.getAimTiles(aim).forEach(t => {
+                    if (!lionTiles.includes(t)) t.node.active = false;
+                });
             })
             .delay(0.3)
             .to(0.3, { position: midPos2, scale: sizeMid }, { easing: "cubicOut" })

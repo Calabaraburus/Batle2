@@ -5,17 +5,21 @@ import { MapController } from './MapController';
 import { PlayerCurrentGameState } from '../services/PlayerCurrentGameState';
 import { AudioConfigurator } from '../services/AudioConfigurator';
 import { StartLevelWindow } from '../ui/window/StartLevelWindow';
+import { GameParameters } from '../game/GameParameters';
 const { ccclass, property, executeInEditMode } = _decorator;
 
 @ccclass('MapLevel')
 export class MapLevel extends Service {
     private _settingsLoader: SettingsLoader;
-
-    @property(MapController)
-    mapConstroller: MapController;
     private _playerState: PlayerCurrentGameState;
     private _audioConfig: AudioConfigurator;
     private _strtWnd: StartLevelWindow;
+
+    @property(MapController)
+    mapConstroller: MapController;
+
+    @property(Node)
+    configBtn: Node;
 
     start(): void {
         this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
@@ -28,6 +32,9 @@ export class MapLevel extends Service {
 
     updateMap() {
         this._playerState = this._settingsLoader.playerCurrentGameState;
+
+        this.configBtn.active = this._settingsLoader.gameParameters.editMode;
+
         this.initMap();
         this.execEvents();
     }
@@ -40,7 +47,7 @@ export class MapLevel extends Service {
             this._settingsLoader.saveGameState();
         }
 
-        if (this._playerState.eventExists('ending') && this.isGameFinished()) {
+        if (this._playerState.eventExists('ending') && this._playerState.isGameFinished()) {
             this._strtWnd.showWindow(null, "scroll:ending");
             this._playerState.removeEvent('ending');
 
@@ -48,18 +55,7 @@ export class MapLevel extends Service {
         }
     }
 
-    isGameFinished() {
-        return this.getLastLvlId() == 10;
-    }
 
-    getLastLvlId() {
-        const fl = this._playerState.finishedLevels;
-        const lids = fl.map(lvl => Number(lvl.replace('lvl', ''))).filter(id => !Number.isNaN(id));
-
-        const maxLvlId = Math.max(...lids);
-
-        return maxLvlId;
-    }
 
     initMap() {
         this.mapConstroller.activateAll(false);
@@ -90,6 +86,29 @@ export class MapLevel extends Service {
 
     activateLvl(lvlName: string) {
         this.mapConstroller.activateLvlObjectByKey(lvlName);
+    }
+
+    _countToEditMode = 0;
+    tryToActivateEditMode() {
+        this._countToEditMode += 1;
+
+        if (this._countToEditMode >= 7) {
+            this._countToEditMode = 0;
+
+            if (this._settingsLoader.gameParameters.editMode == undefined) {
+                var oldpars = this._settingsLoader.gameParameters;
+                this._settingsLoader.removeGameParameters();
+                this._settingsLoader.gameParameters.musicLevel = oldpars.musicLevel;
+                this._settingsLoader.gameParameters.soundLevel = oldpars.soundLevel;
+                this._settingsLoader.gameParameters.editMode = true;
+                //this._settingsLoader.saveParameters();
+            } else {
+                this._settingsLoader.gameParameters.editMode = !this._settingsLoader.gameParameters.editMode;
+            }
+
+            this._settingsLoader.saveParameters();
+            this.updateMap();
+        }
     }
 
 }
