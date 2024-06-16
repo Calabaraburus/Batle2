@@ -595,7 +595,7 @@
     "Speed": 0.3,
     "Acceleration": 3000,
     "damageLife": 3,
-    "life": 3,
+    "life": 2,
     "_id": ""
   },
   {

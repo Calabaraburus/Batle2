@@ -36,6 +36,19 @@ export class PlayerCurrentGameState {
             this.finishedLevels.push(lvlName);
         }
     }
+
+    public isGameFinished() {
+        return this.getLastLvlId() == 10;
+    }
+
+    public getLastLvlId() {
+        const fl = this.finishedLevels;
+        const lids = fl.map(lvl => Number(lvl.replace('lvl', ''))).filter(id => !Number.isNaN(id));
+
+        const maxLvlId = Math.max(...lids);
+
+        return maxLvlId;
+    }
 }
 
 export class CardUpdater {

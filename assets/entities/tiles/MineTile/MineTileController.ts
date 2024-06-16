@@ -55,6 +55,7 @@ export class MineTileController extends TileController {
       this._effectsManager.PlayEffectNow(() => this.playEffect(), 0.8);
       Service.getService(AudioManagerService)?.playSoundEffect("mine_attack");
       this.fakeDestroy();
+      this.node.active = false;
 
       let coordTiles: number[][];
 
@@ -93,10 +94,13 @@ export class MineTileController extends TileController {
   }
 
   private destroyOtherTile(row: number, col: number) {
+
     // destroyTile won't destroy spectiles without setting destroyServiceTile to true
-    this.fieldController.destroyTile(row, col, (t) => {
+    var tile = this.fieldController.destroyTile(row, col, (t) => {
       return t.playerModel !== this.playerModel;
     });
+
+    if (tile) tile.node.active = false;
   }
 
   playEffect() {
