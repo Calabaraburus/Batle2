@@ -101,7 +101,6 @@ export class MapLevel extends Service {
                 this._settingsLoader.gameParameters.musicLevel = oldpars.musicLevel;
                 this._settingsLoader.gameParameters.soundLevel = oldpars.soundLevel;
                 this._settingsLoader.gameParameters.editMode = true;
-                //this._settingsLoader.saveParameters();
             } else {
                 this._settingsLoader.gameParameters.editMode = !this._settingsLoader.gameParameters.editMode;
             }
