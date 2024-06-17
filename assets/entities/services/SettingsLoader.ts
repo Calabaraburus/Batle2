@@ -63,6 +63,15 @@ export class SettingsLoader extends Service {
       this._gameParameters = new GameParameters();
     } else {
       this._gameParameters = JSON.parse(data);
+
+      if (this._gameParameters.language == undefined) {
+        var tmp = this._gameParameters;
+        this._gameParameters = new GameParameters();
+        this._gameParameters.editMode = tmp.editMode;
+        this._gameParameters.musicLevel = tmp.musicLevel;
+        this._gameParameters.soundLevel = tmp.soundLevel;
+      }
+
     }
 
     return this._gameParameters;
