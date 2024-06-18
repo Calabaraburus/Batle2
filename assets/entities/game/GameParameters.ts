@@ -1,6 +1,6 @@
 export class GameParameters {
-  public soundLevel = 3;
-  public musicLevel = 2;
+  public soundLevel = 1;
+  public musicLevel = 0.57;
   public editMode = false;
   public language = "-";
 }
