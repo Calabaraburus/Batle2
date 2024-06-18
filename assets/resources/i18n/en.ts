@@ -50,7 +50,7 @@ export const languages = {
         gameaim: "Objective of the game:\nDefeat the enemy by\nreducing their life to zero",
         gamehow: "How?\nYou need to bring your\nsoldiers to the enemy hero,\ndestroying adjacent tiles\nof the opponent vertically\nand horizontally",
         tap: "Tap on the tiles\nto destroy the enemy squad",
-        crystalon: "The crystal signals an attack.\nAt the end of the turn, the hero will take damage.\n\nThe more crystals lit,\nthe more damage dealt",
+        crystalon: "The crystal signals an attack.At the end of the turn, the hero will take damage.\n\nThe more crystals lit,\nthe more damage dealt",
         totem: "Destroy a group of tiles\nnext to the totem.\nThis way, you can destroy\nother special tiles too",
         endtutor: "Defeat the opponent!",
         thisisyourcard: "Choose a magic card",

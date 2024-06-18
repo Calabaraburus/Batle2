@@ -36664,7 +36664,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 339.63995361328125,
+      "width": 947.7059536132813,
       "height": 126
     },
     "_anchorPoint": {
@@ -36701,7 +36701,7 @@
     "_fontSize": 70,
     "_fontFamily": "Arial",
     "_lineHeight": 100,
-    "_overflow": 0,
+    "_overflow": 3,
     "_enableWrapText": true,
     "_font": {
       "__uuid__": "3d12b94e-ae8b-4518-babe-6189772af199",
@@ -37212,11 +37212,11 @@
     "_enabled": true,
     "__prefab": null,
     "_graph": {
-      "__uuid__": "bacffd2f-b3c1-4fa0-b428-564732654921",
+      "__uuid__": "51d6fc42-9554-49ec-a00b-9310b1e82ff3",
       "__expectedType__": "cc.animation.AnimationGraph"
     },
     "graph": {
-      "__uuid__": "bacffd2f-b3c1-4fa0-b428-564732654921",
+      "__uuid__": "51d6fc42-9554-49ec-a00b-9310b1e82ff3",
       "__expectedType__": "cc.animation.AnimationGraph"
     },
     "_id": "38jZUhtlhO2YFKeQialqQ6"
