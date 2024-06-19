@@ -62,82 +62,94 @@ export const languages = {
         intro: {
             name: "Introduction",
             image: "rezkarIntro",
-            text: "Fritris is a world inhabited by beastmen. On different continents, among seas and high mountains, they go about their business, build kingdoms, fight for land, and trade. In general, everything goes its own way in the world of Fritris.\n\n" +
-                "Until one day, an incredible chain of events broke the measured flow of life and put the entire civilization on the brink of a disastrous abyss.\n\n" +
-                "At the foot of the ancient mountains, in the distant kingdom of Dalmyr, on the borderlands, along a dusty rural road, a squad of mercenaries was walking…"
+            text: "Fritris is a world inhabited by beastfolk. Across its continents, amidst seas and towering mountains, they conduct their affairs, build kingdoms, fight for land, and trade. Life in Fritris proceeds in a steady rhythm until an extraordinary series of events disrupts this balance and pushes the entire civilization to the brink of disaster.\n\n" +
+                "At the foot of ancient mountains, in the distant kingdom of Dalmyr, a band of mercenaries marches along a dusty rural road..."
         },
         ending: {
             name: "Ending",
             image: "rezkarEnding",
-            text: "On the throne, dark and sticky with blood, sits the new king, looking at the empty halls of the palace, the empty streets of the city, the empty lands, and the emptiness within himself. And next to him, with a hand on Rezkar's shoulder, Evil was gleefully and contentedly chuckling, no longer hiding in the depths of an ancient wonderful artifact from the ruined monastery."
+            text: "Seated on the dark, bloodstained throne, the new king gazed at the empty halls, the desolate streets, and the barren lands. Beside him, a sinister presence, now openly visible, rested a hand on Rezkar’s shoulder, chuckling with satisfaction. The darkness from the ancient relic had fully claimed its prize."
         },
     },
     levels: {
         lvl1: {
             num: "1",
             name: "First Skirmish",
-            intro: "Rezkar, a mighty lizard mercenary, arrives with his squad in a quiet village where he learns that the villagers suffer from bandit raids. The village elder was generous with coins and quickly convinced the mercenaries to defend the settlement. At sunset, under blood-red clouds, a battle erupted, with the dark figures of the robbers meeting the steel of the mercenaries.",
-            ending: "When the last robber fell, the grateful villagers invited them to celebrate and raise frothy mugs to victory. Over drinks, a merchant approached Rezkar and asked him to escort him to Forkar. 'Lately, there have been many ruffians in the area, it seems some unknown force is drawing them here,' said the merchant."
+            intro: "Rezkar, a mighty lizard mercenary, arrives with his band in a quiet village where they learn the residents suffer from frequent bandit raids. The village elder, not sparing any coins, quickly convinces the mercenaries to protect the settlement. At sunset, beneath blood-red clouds, a battle erupts as the mercenaries' steel meets the shadowy figures of the raiders.",
+            ending: "When the last bandit falls, the grateful villagers invite the mercenaries to celebrate and raise frothy mugs in victory. During the festivities, a merchant approaches Rezkar, asking for an escort to Forkar. «Lately, there have been many rogues in the area; it seems some unknown force draws them here,» the merchant explains."
         },
         lvl2: {
             num: "2",
             name: "The Caravan",
-            intro: "The road from the village to the port city of Forkar has been unsafe lately. The mercenary group takes on the task of escorting a merchant caravan through dangerous lands.\n\n" +
-                "Halfway there, sensing a rich haul, a band of robbers ambushes them. Rezkar raises his hand, signaling the squad to take a defensive position.",
-            ending: "The fleeing enemies were caught by the mercenaries in the forest near the bandits' camp. Among the items and weapons, a monk sat alone on a stump, shackled. 'My name is Sholok and I am grateful to you for my liberation,' he said as the mercenary broke his chains. They took the monk with them to the city, where his ship and fellow believers awaited him.\n\n" +
-                "When the caravan delivered the cargo, the merchant handed a few coins to Rezkar and left satisfied. 'You saw how we dealt with the robbers!'— Rezkar shouted at the merchant as he counted the coins."
+            intro: "The road from the village to the port city of Forkar has grown perilous. The mercenaries agree to escort a merchant caravan through these dangerous lands.\n\n" +
+                "Halfway through the journey, sensing a lucrative opportunity, a band of robbers ambushes them. Rezkar raises his hand, signaling his troops to take defensive positions.",
+            ending: "The mercenaries chase the fleeing robbers into the forest, discovering their camp. Among the loot and weapons, they find a monk shackled to a stump.\n\n" +
+                "«My name is Sholoh, and I am grateful for my liberation,» he says as a mercenary breaks his chains.\n\n" +
+                "They take the monk with them to the city, where a ship and his brethren await him. After delivering the goods, the merchant hands a few coins to Rezkar and leaves contentedly.\n\n" +
+                "«You saw how we deal with bandits!» Rezkar calls after the merchant, counting the coins.",
         },
         lvl3: {
             num: "3",
             name: "Vile Revenge",
-            intro: "The stingy merchant had to pay the agreed amount in full before Rezkar released him from his strong grip. However, the merchant did not forget the humiliation and, seeking revenge, skillfully slandered the lizard before the City Council, accusing him of attacking caravans. The Council ordered the city guards to attack the mercenaries. The battle in the narrow streets of the city will be a tough trial...",
-            ending: "The mercenaries tried to break through to the city gates, but the superior forces of the enemy pushed them back. Confused, the mercenaries did not know how to escape the trap. But then Sholok appeared: 'Follow me, to my ship!' he said, pointing towards the port. The squad fought their way to the port and climbed aboard the ship, finally escaping the unjust and brutal wrath of the guards."
+            intro: "The stingy merchant is forced to pay the agreed amount in full before Rezkar releases him from his grip. Harboring a grudge, the merchant falsely accuses Rezkar of attacking caravans, successfully defaming him before the city council. Under the council's orders, city guards launch an assault on the mercenaries. The fight in the narrow city streets proves challenging...",
+            ending: "The mercenaries fight their way towards the city gates but are eventually overwhelmed by the guards. Desperate and trapped, they don't know how to escape. Suddenly, Sholoh appears. «Follow me to my ship!» the monk says, pointing towards the port. The mercenaries fight their way to the harbor and board the ship, fleeing from the unjust and brutal wrath of the city guards."
         },
         lvl4: {
             num: "4",
             name: "Sea Battle",
-            intro: "Sailing away on the ship, the mercenaries do not find the salvation they desired. Over the horizon, a frigate with a black flag rushed towards them. The pirates quickly caught up with Rezkar's ship and boarded it. 'Too many unexpected adventures lately. Steel doesn't have time to dry,' said the lizard, unsheathing his weapon.",
-            ending: "Many warriors died in the sea battle, but the surviving ship finally docked. The city they arrived at was called Brisel. Warmly bidding farewell to the mercenaries, the monks continued on their way, heading northwest where mountain ranges rose in the distance. As for Rezkar's warriors, there was always good work to be found in such a large city."
+            intro: "The mercenaries sail away on Sholoh's ship but find no solace. A frigate flying a black flag emerges from the horizon, rapidly closing in. Pirates soon board Rezkar's vessel.\n\n" +
+                "«Damn it… Can’t we let our steel dry for a moment?» Rezkar curses, drawing his weapon.",
+            ending: "Many warriors perish in the naval skirmish. The ship survives the battle and after a grueling voyage, docks at the city of Kronbri." +
+                "The monks bid the mercenaries a warm farewell and head northwest towards the distant mountains. For Rezkar and his seasoned warriors, there is always work in the big city."
         },
         lvl5: {
             num: "5",
             name: "Treasures of Antiquity",
-            intro: "In the first port tavern he entered, Rezkar saw a recruitment drive for the local Lord's army. An unexpected threat loomed over these lands, as a huge horde descended from the mountains and quickly moved towards the city, destroying everything in its path. Brisel prepared for a heavy siege. Rezkar and his men were ordered by the authorities to raid the mountains and find the source of the invasion.\n\n" +
-                "Soon, the mercenaries found themselves at the walls of an ancient monastery where the horde's leader was hiding. Rezkar immediately sensed a heavy aura emanating from this place. The squad infiltrated the walls under the cover of darkness and launched a surprise attack on the enemy...",
-            ingame: "Rezkar was not the only one seeking to enter the monastery; Sholok and the monks had been nearby for days, hoping to enter their once home. They seized the moment when the mercenaries distracted the guards...",
-            ending: "Caught off guard by the mercenaries, the enemy was defeated. However, to Rezkar's surprise, someone continued fighting inside the temple. Entering, the mercenaries saw the bodies of the monks, their recent companions. In the center of the hall stood the leader, his hand holding a sword, buried to the hilt in Sholok's flesh. Sholok, in turn, gripped a chain around the leader's neck, pulling with such force as if the object held all the meaning of his life. Rezkar noticed the monk's lips moving. The uttered spell exploded the air between them, and their bodies were thrown against the stone walls. Searching the room, the mercenaries found a hidden passage, apparently used by the monks."
+            intro: "At the first port tavern Rezkar visits, he learns that volunteers are being recruited for the local lord’s army. An unexpected threat looms over these lands; a massive horde has descended from the mountains, swiftly advancing towards the city, destroying everything in its path. Kronbri braces for a harsh siege. The authorities order Rezkar to lead a raid into the mountains to find the source of the invasion.\n\n" +
+                "Soon, the mercenaries find themselves at the walls of an ancient monastery where the horde's leader hides. Rezkar senses a dark aura emanating from this place. Under the cover of darkness, the mercenaries infiltrate the monastery and launch a surprise attack on their enemies.",
+            ingame: "Sholoh and his monks have also been trying to enter the monastery, their former home, for days. They seize the opportunity to slip inside as the mercenaries distract the guards...",
+            ending: "The mercenaries catch their foes off guard and defeat them. To Rezkar's surprise, fighting continues inside the temple. The group enters to find the monks’ bodies. In the center of the hall stands the horde leader, gripping a sword buried to the hilt in Sholoh’s flesh. In turn, Sholoh clutches a chain around the leader's neck, pulling with such force it seems to hold the saint's entire purpose.\n\n" +
+                "Rezkar notices the monk's lips moving, uttering a spell. Magic explodes between them, their bodies flung against the stone walls.\n\n" +
+                "The mercenaries search the room and find a hidden passage, presumably used by the monks."
         },
         lvl6: {
             num: "6",
             name: "The Bridge",
-            intro: "Rezkar continued to work for the Lord, carrying out the most dangerous orders. Gaining favor, he became one of Brisel's generals. His fame grew, emanating a sinister but alluring aura, and he quickly became a renowned hero in the eyes of warriors and commoners alike. Every time he ended a battle with a decisive victory, the warrior felt more and more power within himself. His army also grew.\n\n" +
-                "Sensing such power at his disposal, the Lord decided to seize control of the entire kingdom of Dulmir and ordered an attack on the King's garrison at the bridge on the road to the capital.",
-            ending: "Fighting on the narrow bridge, Rezkar felt light in his movements and mercilessly cut down the soldiers defending the crossing. The bridge was captured. In the camp on the opposite bank, in the Lord's tent, a war council was in session. Rezkar sat in a chair, intently studying a small dark seed inside his amulet. He remembered the last time he saw darkness in the crystal when he took it from the lifeless hands of the monk who had fought so desperately for the artifact in the gloomy mountain halls. Rezkar decided to keep it in memory of Sholok's valor."
+            intro: "Rezkar continued serving the Lord, taking on the most dangerous missions. Gaining the Lord's favor, he rose to become one of Kronbri's generals. His fame grew, a dark but alluring aura surrounding him, making him a revered hero among soldiers and common folk alike. Each victory filled Rezkar with more power, and his army grew in size and strength.\n\n" +
+                "Sensing his newfound power, the Lord became ambitious and sought to seize control of the entire kingdom of Dalmyr. He ordered an attack on the King’s garrison at the bridge leading to the capital.",
+            ending: "Fighting on the narrow bridge, Rezkar felt an effortless power in his movements, mercilessly cutting down the defending soldiers. The bridge was captured.\n\n" +
+                "In the camp on the opposite bank, within the Lord’s tent, a war council convened. Rezkar sat in a chair, studying a small dark seed within his amulet. He recalled the last time he saw the darkness in the crystal—it was when he took it from the lifeless hands of Sholoh, who had fought so desperately for this artifact in the gloomy mountain halls. Rezkar had kept it as a token of the monk's bravery."
         },
         lvl7: {
             num: "7",
             name: "The Grand Battle",
-            intro: "'What is this?' the Lord asked, reaching for the amulet. In the moment the chubby hand touched the item in Rezkar's palm, the former mercenary ended his lord's life with a swift sword strike. 'Do not dare,' was the only thought that flashed in his mind. The onlookers made no sound, frozen, captivated by the lizard's mighty will.\n\n" +
-                "...And so, on the endless autumn field, Rezkar met the King's army, unfurling all its banners, not as a mercenary leader but as the commander of an entire army.",
-            ending: "The King retreated. The mixed smell of death and burning fields filled the air. Inhaling its bitter taste deeply, Rezkar involuntarily smiled, feeling satisfaction from what had been accomplished. Although victory was his, he could not stop and knew it would only end with the King's demise."
+            intro: "«What is that?» the Lord asked, reaching for the amulet. In a swift motion, Rezkar’s blade ended his master’s life\n\n" +
+                "«Don’t you dare,» was the last thought of the Lord. The attendees stood in stunned silence, captivated by Rezkar’s commanding presence.\n\n" +
+                "...On a vast autumn field, Rezkar now faced the King’s fully deployed army. Commanding an entire army, he barely remembered his days as a mere mercenary.",
+            ending: "The King’s forces retreated. The mixed scent of death and burning fields filled the air. Breathing in the bitter taste, Rezkar couldn’t help but smile, feeling a deep satisfaction. Though victorious, he realized he couldn’t stop until the King himself was dead."
         },
         lvl8: {
             num: "8",
             name: "The Breach in the Walls",
-            intro: "Rezkar's army gathered its forces around the ancient city of Dalmyr — the kingdom's capital. The walls, adorned with centuries-old carvings and frescoes, rose before them, blocking the way. Rezkar felt his mind plunging into darkness and madness under the influence of the acquired relic. But in return, from this darkness, he drew fierce strength. With a mighty movement, the lizard struck the ground, directing energy towards the city. The air vibrated with power, a wave swept through the land, and the city trembled. The seemingly monolithic stone walls couldn't withstand it and collapsed, creating a massive breach. The troops charged in...",
-            ending: "Rezkar's soldiers, as if possessed, moved through the city's streets, leaving only destruction behind. The former mercenary himself led the charge, knowing no fatigue or pity. The battle lasted until dawn, and as the first rays of sunlight illuminated the ravaged streets, Rezkar stood in the central square of Dalmyr, surrounded by his warriors."
+            intro: "Rezkar’s army gathered their forces around the ancient city of Myrdan—the kingdom’s capital. The walls, adorned with centuries-old carvings and frescoes, stood as a formidable barrier.\n\n" +
+                "Rezkar felt his mind succumbing to the darkness and madness invoked by the amulet, yet from this darkness, he drew immense power. With a mighty strike, he channeled energy towards the city. The air vibrated, a wave of force shook the ground, and the once-monolithic walls crumbled, creating a massive breach. His troops charged in...",
+            ending: "Like possessed beings, Rezkar’s soldiers swept through the streets, leaving destruction in their wake. Unfaltering and devoid of pity, Rezkar led the charge. \n\n" +
+                "The battle raged until dawn. As the first rays of sunlight touched the desolate streets, Rezkar stood on the central square, surrounded by his warriors."
         },
         lvl9: {
             num: "9",
             name: "Last Hope",
-            intro: "The remnants of the garrison and armed residents of Dalmir gathered at the opposite edge of the square. In their hearts burned a spark of last hope and faith that even against Reskar's insane power, they had a chance. With battle cries and prayers, they bravely faced the enemy. Though Reskar, consumed by the power of the artifact, continued his path of destruction, the heroic spirit of Dalmir's defenders caused his heart to momentarily stir in the face of their steadfastness and courage.",
-            ending: "The city square, once a place of joy and celebration, had become an arena of tragedy. A dead city... The last tattered remnants of Reskar's army moved toward the king's castle. There were too few of them left, they were covered in blood, sweat, and dirt, but filled with triumph and rage."
+            intro: "The remnants of Myrdan's garrison and armed citizens gathered at the far end of the square. A spark of hope and faith burned in their hearts, believing they could stand against Rezkar’s madness. With battle cries and prayers, they faced the enemy with courage. Despite being consumed by the amulet’s power, Rezkar felt a flicker of admiration for their bravery and resilience.",
+            ending: "The once joyful square became a scene of tragedy. The dead city lay in ruins...\n\n" +
+                "The battered remnants of Rezkar’s army advanced towards the King’s castle. Their numbers were few, but they were driven by triumph and fury."
         },
         lvl10: {
             num: "10",
             name: "Whose Crown?",
-            intro: "In the heart of the fortress, under the arches of the ancient castle, the final battle unfolded. Reskar, along with his loyal warriors, clashed with the great ruler's personal guard. The echoes of clashing steel and the groans of the wounded filled the halls. The ruler, hearing the approaching roar of the fight, gripped the staff of power more tightly, ready to defend his throne to the last breath. He knew that every moment could be decisive in this battle for the kingdom's fate.",
-            ending: "The ruler, exhausted but resolute, faced Reskar. The blades clashed with a deafening clang. With each strike, Reskar pressed harder, until finally, his blade broke through the defense and plunged into the ruler's chest. The ruler fell to his knees, blood gushing from the wound. The staff fell from his weakened fingers and clattered across the marble tiles of the throne room, coming to rest at Reskar's feet. The halls of the castle shook with triumphant shouts – victory was achieved."
+            intro: "In the heart of the fortress, under the ancient castle’s vaults, the final battle erupted. Rezkar, with his loyal warriors, clashed with the King’s personal guard. The clash of steel and cries of the wounded echoed through the halls.\n\n" +
+                "The Ruler heared the approaching chaos and tightened his grip on his scepter. Ready to defend his throne to the last breath, he knew every moment could be decisive in this battle for the kingdom’s fate.",
+            ending: "The exhausted but unyielding ruler met Rezkar face to face. Their blades clashed with a resounding clang. With each strike, Rezkar pressed the King back until his sword finally broke through and pierced the ruler's chest. The King fell to his knees, blood gushing from the wound. His scepter slipped from his weakening fingers, clattering against the marble tiles at Rezkar’s feet.\n\n" +
+                "The halls of the castle resounded with triumphant shouts of «Victory!»"
         },
         lvl_arena: {
             num: "...",
