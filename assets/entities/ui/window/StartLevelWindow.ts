@@ -210,7 +210,7 @@ export class StartLevelWindow extends Service {
         this.scenarioTxt.string = t(`levels.${this._levelName}.intro`);
 
         if (this._settings.playerCurrentGameState.levelExists(this._levelName)) {
-            this.scenarioTxt.string += "\n-\n";
+            this.scenarioTxt.string += "\n\n—\n\n";
             this.scenarioTxt.string += t(`levels.${this._levelName}.ending`);
         }
 
