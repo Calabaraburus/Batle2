@@ -27,7 +27,8 @@ export class CardInfoPage extends Service {
     public setInfo(cardModel: BonusModel) {
         this.cardImage.spriteFrame = cardModel.sprite;
         this.cardName.string = t(`cards.${cardModel.mnemonic}.name`);
-        this.cardDescription.string = t(`cards.${cardModel.mnemonic}.description`);
+        this.cardDescription.string = t(`cards.${cardModel.mnemonic}.description`) + "\n\n"
+            + t(`cards.${cardModel.mnemonic}.application`);
         this.updateLevelSprite(cardModel);
     }
 

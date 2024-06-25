@@ -4,11 +4,12 @@ const win = window as any;
 export const languages = {
     languages: {
         ru: "Русский",
-        ua: "Українська",
-        en: "English"
+        uk: "Українська",
+        en: "English",
+        zh: "简体中文 (AI)"
     },
     label_text: {
-        gamename: "LAND OF BEASTS",
+        gamename: "RIFT OF THE RUNKS",
         autorsname: "Authors",
         audioname: "Sounds\\Music",
         autorstxt: "Idea, design, programming, animations, effects, etc.\n\nA. and T. Natalchishin",
@@ -160,113 +161,195 @@ export const languages = {
     },
     cards: {
         meteorRain: {
-            name: "Meteor Rain",
-            description: "Cracks spread across the sky, and burning fragments of cosmic origin begin to fall. Their impacts explode like fiery projectiles, leaving whirlwinds of dust and fire in their wake. \n\n Destroys 15 random enemy tiles."
+            name: "Meteor Shower",
+            description: "Cracks appear in the sky, releasing burning fragments of cosmic origin. Their impacts explode like fiery projectiles, leaving whirlwinds of dust and fire.",
+            application: "Destroys 15 random enemy tiles."
         },
         champion: {
             name: "Champion",
-            description: "Under the king's banner stands a legendary fighter, a warrior beyond measure, an embodiment of strength and destructive force. His name is a curse to enemies and sacred to allies. \n\n Replaces one random player tile with a Champion. Has 2 lives. Destroys 2 enemy tiles in front."
+            description: "Under the king's banner stands a legendary fighter, a warrior of immense strength and relentless force. His name is a curse to enemies and sacred to allies.",
+            application: "Replaces one random player tile with a Champion. Has 2 lives. Destroys 2 enemy tiles in front."
         },
         firewall: {
             name: "Firewall (Strong)",
-            description: "The air thickens, filled with the pungent smell of sulfur, enveloping the space and igniting into an all-consuming wall of fire in an instant. \n\n Burns 7 tiles in an enemy column."
+            description: "The air thickens, filled with the acrid smell of sulfur, enveloping the space, and then ignites into an all-consuming wall of fire.",
+            application: "Burns 7 tiles in the enemy column."
         },
         firewallLow: {
             name: "Firewall (Weak)",
-            description: "The air thickens, filled with the pungent smell of sulfur, enveloping the space and igniting into an all-consuming wall of fire in an instant. \n\n Burns 3 tiles in an enemy column."
+            description: "The air thickens, filled with the acrid smell of sulfur, enveloping the space, and then ignites into an all-consuming wall of fire.",
+            application: "Burns 3 tiles in the enemy column."
         },
         firewallMiddle: {
             name: "Firewall (Medium)",
-            description: "The air thickens, filled with the pungent smell of sulfur, enveloping the space and igniting into an all-consuming wall of fire in an instant. \n\n Burns 5 tiles in an enemy column."
+            description: "The air thickens, filled with the acrid smell of sulfur, enveloping the space, and then ignites into an all-consuming wall of fire.",
+            application: "Burns 5 tiles in the enemy column."
         },
         lightning: {
             name: "Lightning (Strong)",
-            description: "The sky splits open with a blinding light. Lightning bolts, like sparkling daggers of the gods, tear through space with their relentless dance. \n\n Attacks the enemy field and destroys 11 random cells."
+            description: "The sky splits with a blinding light. Lightning, like the gods' shimmering daggers, tears through the air in a ruthless dance.",
+            application: "Destroys 11 random cells."
         },
         lightningLow: {
             name: "Lightning (Weak)",
-            description: "The sky splits open with a blinding light. Lightning bolts, like sparkling daggers of the gods, tear through space with their relentless dance. \n\n Attacks the enemy field and destroys 5 random cells."
+            description: "The sky splits with a blinding light. Lightning, like the gods' shimmering daggers, tears through the air in a ruthless dance.",
+            application: "Destroys 5 random cells."
         },
         lightningMiddle: {
             name: "Lightning (Medium)",
-            description: "The sky splits open with a blinding light. Lightning bolts, like sparkling daggers of the gods, tear through space with their relentless dance. \n\n Attacks the enemy field and destroys 8 random cells."
+            description: "The sky splits with a blinding light. Lightning, like the gods' shimmering daggers, tears through the air in a ruthless dance.",
+            application: "Destroys 8 random cells."
         },
         totem: {
             name: "Totem (Strong)",
-            description: "A carved pillar rises on the hill, its surface adorned with mysterious runes. Like a guardian of ancient secrets, it gazes unshakably through the ages. \n\n Replaces 2 random player tiles with totems. Totems have 2 lives."
+            description: "A carved pillar rises on the hill, its surface adorned with mysterious runes. It stands unwavering, like a guardian of ancient secrets, gazing through time.",
+            application: "Replaces 2 random player tiles with totems. Totems have 2 lives."
         },
         totemLow: {
             name: "Totem (Weak)",
-            description: "A carved pillar rises on the hill, its surface adorned with mysterious runes. Like a guardian of ancient secrets, it gazes unshakably through the ages. \n\n Replaces 2 random player tiles with totems."
+            description: "A carved pillar rises on the hill, its surface adorned with mysterious runes. It stands unwavering, like a guardian of ancient secrets, gazing through time.",
+            application: "Replaces 2 random player tiles with totems."
         },
         mine: {
             name: "Mine (Strong)",
-            description: "The desert plain is deceptively calm, but a deadly trap lies within its heart. The ground suddenly erupts, spewing fire and the smell of metal. \n\n The mine is placed on the enemy field and explodes after the opponent's turn, destroying 5 enemy tiles."
+            description: "The desert plain is deceptively calm, but in its heart lies a deadly trap. The ground suddenly heaves, spewing fire and the metallic scent.",
+            application: "The mine is placed in the chosen spot on the enemy's field and explodes after the opponent's turn, destroying 5 enemy tiles."
         },
         mineLow: {
             name: "Mine (Weak)",
-            description: "The desert plain is deceptively calm, but a deadly trap lies within its heart. The ground suddenly erupts, spewing fire and the smell of metal. \n\n The mine is placed on the enemy field and explodes after the opponent's turn, destroying 3 enemy tiles in the column."
+            description: "The desert plain is deceptively calm, but in its heart lies a deadly trap. The ground suddenly heaves, spewing fire and the metallic scent.",
+            application: "The mine is placed in the chosen spot on the enemy's field and explodes after the opponent's turn, destroying 3 enemy tiles in the column."
         },
         meteorite: {
             name: "Meteorite (Strong)",
-            description: "The heavens split as a fiery meteorite bursts into the atmosphere, leaving a sparkling trail and the anticipation of inevitable catastrophe. \n\n Destroys 9 enemy tiles."
+            description: "The heavens shatter as a fiery meteorite bursts into the atmosphere, leaving a dazzling trail and the anticipation of imminent catastrophe.",
+            application: "Destroys 9 enemy tiles."
         },
         meteoriteLow: {
             name: "Meteorite (Weak)",
-            description: "The heavens split as a fiery meteorite bursts into the atmosphere, leaving a sparkling trail and the anticipation of inevitable catastrophe. \n\n Destroys 1 enemy tile."
+            description: "The heavens shatter as a fiery meteorite bursts into the atmosphere, leaving a dazzling trail and the anticipation of imminent catastrophe.",
+            application: "Destroys one enemy tile."
         },
         meteoriteMiddle: {
             name: "Meteorite (Medium)",
-            description: "The heavens split as a fiery meteorite bursts into the atmosphere, leaving a sparkling trail and the anticipation of inevitable catastrophe. \n\n Destroys 5 enemy tiles."
+            description: "The heavens shatter as a fiery meteorite bursts into the atmosphere, leaving a dazzling trail and the anticipation of imminent catastrophe.",
+            application: "Destroys 5 enemy tiles."
         },
         recruit: {
-            name: "Recruit",
-            description: "A fresh and determined recruit joins the battle. His potential is great, and he is ready to fend off the enemy. \n\n Replaces one random player tile with a Recruit. Destroys 1 enemy tile in front."
+            name: "",
+            description: "",
+            application: ""
         },
         catapult: {
             name: "Ballista (Strong)",
-            description: "On the hill stands a massive ballista, its wooden levers tense, ropes drawn taut, just a moment before deadly flight. \n\n Ballista replaces a tile on the player's field. Each time the opponent's turn ends, the ballista deducts 5 HP from the enemy hero."
+            description: "A massive ballista stands on the hill, its wooden levers taut, ropes stretched to the limit, just a moment before its deadly flight.",
+            application: "The ballista replaces the chosen tile on the player's field. Each time the opponent's turn ends, the ballista takes 5 life points from the enemy hero."
         },
         catapultLow: {
             name: "Ballista (Weak)",
-            description: "On the hill stands a massive ballista, its wooden levers tense, ropes drawn taut, just a moment before deadly flight. \n\n Ballista replaces a tile on the player's field. Each time the opponent's turn ends, the ballista deducts 3 HP from the enemy hero."
+            description: "A massive ballista stands on the hill, its wooden levers taut, ropes stretched to the limit, just a moment before its deadly flight.",
+            application: "The ballista replaces the indicated tile on the player's field. Each time the opponent's turn ends, the ballista takes 3 life points from the enemy hero."
         },
         shaman: {
             name: "Shaman (Strong)",
-            description: "The rhythmic beat of the drum and deep guttural chant summon the forces of nature and the shadows of ancient spirits. In the shaman's eyes reflects the boundless power of the forest, becoming an ingredient in his great healing essence. \n\n Shaman replaces a tile on the player's field. Each time the opponent's turn ends, the shaman increases the hero's health by 5 HP."
+            description: "The rhythmic beating of the drum and deep guttural chants summon the forces of nature and the shadows of ancient spirits. In the shaman's eyes, the boundless power of the forest reflects and becomes an ingredient in his great healing essence.",
+            application: "The shaman replaces the chosen tile on the player's field. Each time the opponent's turn ends, the shaman increases the hero's health by 5 points."
         },
         shamanLow: {
             name: "Shaman (Weak)",
-            description: "The rhythmic beat of the drum and deep guttural chant summon the forces of nature and the shadows of ancient spirits. In the shaman's eyes reflects the boundless power of the forest, becoming an ingredient in his great healing essence. \n\n Shaman replaces a tile on the player's field. Each time the opponent's turn ends, the shaman increases the hero's health by 3 HP."
+            description: "The rhythmic beating of the drum and deep guttural chants summon the forces of nature and the shadows of ancient spirits. In the shaman's eyes, the boundless power of the forest reflects and becomes an ingredient in his great healing essence.",
+            application: "The shaman replaces the chosen tile on the player's field. Each time the opponent's turn ends, the shaman increases the hero's health by 3 points."
         },
         c_attack: {
             name: "Counterattack",
-            description: "Those who were on the brink of death, who had lost all hope, suddenly find inspiration and, gathering the remnants of their strength, repel the enemy when the hero's majestic cry echoes between the ranks. \n\n Destroys 3 enemy tiles in 3 random columns."
+            description: "Those on the brink of death, who have lost all hope, suddenly find inspiration and, gathering their remaining strength, repel the enemy as the Hero's majestic call echoes through the ranks.",
+            application: "In 3 random columns, 3 enemy tiles are destroyed."
         },
         worm: {
             name: "Worm (Strong)",
-            description: "The ground trembles and cracks, an omen of impending doom. From the bottomless depths rises the Worm. It relentlessly devours the enemy's ranks. The cries and moans of the consumed enemies echo long underground, the temporary satisfaction of an eternally hungry beast. \n\n Destroys up to 8 enemy tiles one after another."
+            description: "The ground trembles and cracks, a sign of impending doom. From the bottomless depths rises the Worm. It relentlessly devours the ranks of the enemy troops. The cries and moans of the swallowed enemies echo long underground, the echo of a temporarily sated but eternally hungry beast.",
+            application: "Destroys up to 8 enemy tiles one by one."
         },
         wormMiddle: {
             name: "Worm (Medium)",
-            description: "The ground trembles and cracks, an omen of impending doom. From the bottomless depths rises the Worm. It relentlessly devours the enemy's ranks. The cries and moans of the consumed enemies echo long underground, the temporary satisfaction of an eternally hungry beast. \n\n Destroys up to 6 enemy tiles one after another."
+            description: "The ground trembles and cracks, a sign of impending doom. From the bottomless depths rises the Worm. It relentlessly devours the ranks of the enemy troops. The cries and moans of the swallowed enemies echo long underground, the echo of a temporarily sated but eternally hungry beast.",
+            application: "Destroys up to 6 enemy tiles one by one."
         },
         wormLow: {
             name: "Worm (Weak)",
-            description: "The ground trembles and cracks, an omen of impending doom. From the bottomless depths rises the Worm. It relentlessly devours the enemy's ranks. The cries and moans of the consumed enemies echo long underground, the temporary satisfaction of an eternally hungry beast. \n\n Destroys up to 4 enemy tiles one after another."
+            description: "The ground trembles and cracks, a sign of impending doom. From the bottomless depths rises the Worm. It relentlessly devours the ranks of the enemy troops. The cries and moans of the swallowed enemies echo long underground, the echo of a temporarily sated but eternally hungry beast.",
+            application: "Destroys up to 4 enemy tiles one by one."
         },
         pike: {
             name: "God's Spear (Strong)",
-            description: "A mighty weapon, radiating the bright light of divine energy. Its tip pierces through enemy ranks with unerring precision, leaving only ash in its wake. \n\n Destroys 9 enemy tiles forming the tip of the spear."
+            description: "A mighty weapon radiating a bright light of divine energy. Its tip pierces the ranks of enemies with unrelenting precision, leaving only ashes behind.",
+            application: "Destroys 9 enemy tiles."
         },
         pikeLow: {
             name: "God's Spear (Weak)",
-            description: "A mighty weapon, radiating the bright light of divine energy. Its tip pierces through enemy ranks with unerring precision, leaving only ash in its wake. \n\n Destroys 3 enemy tiles forming the tip of the spear."
+            description: "A mighty weapon radiating a bright light of divine energy. Its tip pierces the ranks of enemies with unrelenting precision, leaving only ashes behind.",
+            application: "Destroys 3 enemy tiles."
         },
         pikeMiddle: {
-            name: "God's Spear (Medium)",
-            description: "A mighty weapon, radiating the bright light of divine energy. Its tip pierces through enemy ranks with unerring precision, leaving only ash in its wake. \n\n Destroys 5 enemy tiles forming the tip of the spear."
+            name: "God's Pike (Medium)",
+            description: "A mighty weapon radiating bright divine energy. Its tip pierces through enemy ranks with relentless precision, leaving only ashes behind.",
+            application: "Destroys 5 enemy tiles.",
         },
+        push: {
+            name: "Onslaught",
+            description: "The army prepares for attack, swords gleam, shields clash, and the soldiers' eyes burn with the fire of determination. In this moment, the battle horn sounds.",
+            application: "Destroys the back row of enemy tiles.",
+        },
+        berserk: {
+            name: "Berserk (Strong)",
+            description: "At the heart of the battle appears a warrior engulfed in frenzy. His eyes are wild with passion, and every strike is an unstoppable fury.",
+            application: "Randomly places 2 berserkers on the player's field, replacing 2 tiles. Each turn, they attack enemy tiles.",
+        },
+        berserkLow: {
+            name: "Berserk (Weak)",
+            description: "At the heart of the battle appears a warrior engulfed in frenzy. His eyes are wild with passion, and every strike is an unstoppable fury.",
+            application: "Randomly places 1 berserker on the player's field, replacing a friendly tile. Each turn, it attacks an enemy tile.",
+        },
+        assassin: {
+            name: "Assassin (Strong)",
+            description: "Silently, unseen by the eye, he approaches his target like a shadow in the night, a harbinger of the inevitable.",
+            application: "Replaces a selected tile on the player's field with an assassin. At the end of the enemy's turn, the assassin destroys 2 random enemy tiles.",
+        },
+        assassinLow: {
+            name: "Assassin (Weak)",
+            description: "Silently, unseen by the eye, he approaches his target like a shadow in the night, a harbinger of the inevitable.",
+            application: "Replaces a selected tile on the player's field with an assassin. At the end of the enemy's turn, the assassin destroys a random enemy tile.",
+        },
+        shield: {
+            name: "Shield",
+            description: "Soldiers form an armored position, raising shields and bristling with spears, ready to repel any attack.",
+            application: "A group of selected cells becomes invulnerable until the player's next turn.",
+        },
+        hammer: {
+            name: "God's Hammer (Strong)",
+            description: "On the arena of great battles, the God's Hammer rises, its destructive blows explode with thunderclaps, and the earth tears apart under the onslaught of ancient power.",
+            application: "Destroys 9 enemy tiles.",
+        },
+        hammerLow: {
+            name: "God's Hammer (Weak)",
+            description: "On the arena of great battles, the God's Hammer rises, its destructive blows explode with thunderclaps, and the earth tears apart under the onslaught of ancient power.",
+            application: "Destroys 3 enemy tiles.",
+        },
+        hammerMiddle: {
+            name: "God's Hammer (Medium)",
+            description: "On the arena of great battles, the God's Hammer rises, its destructive blows explode with thunderclaps, and the earth tears apart under the onslaught of ancient power.",
+            application: "Destroys 6 enemy tiles.",
+        },
+        maneuver: {
+            name: "Maneuver",
+            description: "Clouds of dust rise among the battlefield, the army rapidly repositions like a living organism obeying the invisible commands of a skilled commander.",
+            application: "Shuffles the field around the target tile.",
+        },
+        panic: {
+            name: "Panic",
+            description: "Unfathomable fear slowly creeps among enemy ranks. Cries of terror merge into a faceless mass, like a curse. In this moment, the troops lose their remaining resolve.",
+            application: "Tiles adjacent to the target turn into the same type.",
+        }
     }
 };
 
