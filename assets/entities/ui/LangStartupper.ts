@@ -20,14 +20,12 @@ export class LangStartupper extends Service {
                     langkey = key;
                 }
             }
-        }
 
-        if (this._loader.gameParameters.language != langkey) {
             this._loader.gameParameters.language = langkey;
             this._loader.saveParameters();
         }
 
-        init_i18t(langkey);
+        init_i18t(this._loader.gameParameters.language);
         updateSceneRenderers();
     }
 

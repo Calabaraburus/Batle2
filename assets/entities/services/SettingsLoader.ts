@@ -70,6 +70,7 @@ export class SettingsLoader extends Service {
         this._gameParameters.editMode = tmp.editMode;
         this._gameParameters.musicLevel = tmp.musicLevel;
         this._gameParameters.soundLevel = tmp.soundLevel;
+
       }
 
     }
