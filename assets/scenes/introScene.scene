@@ -1849,7 +1849,7 @@
     "_isSystemFontUsed": false,
     "_spacingX": 0,
     "_isItalic": false,
-    "_isBold": true,
+    "_isBold": false,
     "_isUnderline": false,
     "_underlineHeight": 2,
     "_cacheMode": 0,
@@ -2027,7 +2027,7 @@
     "_overflow": 2,
     "_enableWrapText": true,
     "_font": {
-      "__uuid__": "ec9715aa-99e1-4144-ae03-3f9113d06b43",
+      "__uuid__": "9bc601d5-dd6c-4952-a9c0-7eb64996d7d1",
       "__expectedType__": "cc.TTFFont"
     },
     "_isSystemFontUsed": false,
