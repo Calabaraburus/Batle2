@@ -9,7 +9,7 @@ export const languages = {
         zh: "简体中文 (AI)"
     },
     label_text: {
-        gamename: "RIFT OF THE RUNKS",
+        gamename: "RIFT OF THE RANKS",
         autorsname: "Authors",
         audioname: "Sounds\\Music",
         autorstxt: "Idea, design, programming, animations, effects, etc.\n\nA. and T. Natalchishin",
