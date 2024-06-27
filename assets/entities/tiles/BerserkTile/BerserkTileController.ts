@@ -85,9 +85,7 @@ export class AssassinTileController
 
       this._effectsManager.PlayEffectNow(() => this.playEffect(aimTile), 0.6);
 
-      const oponentModel = this._cardService.getOponentModel();
-
-      if (aimTile.playerModel == oponentModel) {
+      if (aimTile.playerModel == this.playerModel) {
         this.exchangeTile(aimTile);
       } else {
         this.destroyAimTile(aimTile);
@@ -158,8 +156,7 @@ export class AssassinTileController
     const timeObj = { time: 0 };
     const animator = tween(timeObj);
 
-    const oponentModel = this._cardService.getOponentModel();
-    if (aimTile.playerModel == oponentModel) {
+    if (aimTile.playerModel != this.playerModel && aimTile.playerModel != null) {
       this._audio.playSoundEffect(
         "berserk_attack"
       );

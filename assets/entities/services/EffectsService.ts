@@ -13,7 +13,7 @@ export class EffectsService extends Service {
   start() {
     const scene = director.getScene();
     if (scene != undefined) {
-      this._effectsNode = scene.getChildByName("LevelView")?.getChildByName("ParticleEffects")!;
+      this._effectsNode = scene.getChildByPath("LevelView/MainField/ParticleEffects")!;
     }
   }
 }

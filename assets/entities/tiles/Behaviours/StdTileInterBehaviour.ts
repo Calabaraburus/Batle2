@@ -17,6 +17,7 @@ import { CardEffect } from "../../effects/CardEffect";
 import { Behaviour } from "../../behaviours/Behaviour";
 import { SoulEffect } from "../../effects/soulEffect";
 import { EffectsManagerForBot } from "../../../bot/EffectsManagerForBot";
+import { ToScreenResizer } from "../../ui/ToScreenResizer";
 
 const { ccclass } = _decorator;
 
@@ -165,6 +166,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
     const effects: CardEffect[] = [];
     const cards = this.dataService.playerFieldController.cardField.cards;
     // this.parent.audioManager.playSoundEffect("firewall");
+    const resizer = this.getServiceOrThrow(ToScreenResizer);
 
     const getCard = (tileTags: string[]) => {
       const c = cards.filter((c) => tileTags.includes(c.model.activateType));
@@ -188,8 +190,8 @@ export class StdTileInterBehaviour extends GameBehaviour {
           return;
         }
 
-        effect.node.position = t.node.position;
-        effect.node.parent = this.effectsService.effectsNode;
+        effect.node.parent = t.node.parent;
+        effect.node.position = t.node.position.clone();
         effect.play();
 
         effects.push(effect);
@@ -212,7 +214,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
               }
 
               soulEffect.node.parent = this.effectsService.effectsNode;
-              soulEffect.node.position = t.node.position;
+              soulEffect.node.worldPosition = t.node.worldPosition;
               soulEffect?.playSoul(card.node, () => {
                 card.PlaySoulEffect();
               });
