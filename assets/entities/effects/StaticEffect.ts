@@ -26,7 +26,7 @@ export class StaticEffect extends Service {
 
   start() {
     const scene = director.getScene();
-    const gw = scene?.getChildByPath("LevelView/GraphicsView");
+    const gw = scene?.getChildByPath("LevelView/MainField/GraphicsView");
     if (gw == null) return;
     const tg = gw?.getComponent(Graphics);
 

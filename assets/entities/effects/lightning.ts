@@ -50,7 +50,7 @@ export class lightning extends Component {
 
   start() {
     this._cache = ObjectsCache.instance;
-    this._effectsNode = director.getScene()?.getChildByName("ParticleEffects");
+    this._effectsNode = director.getScene()?.getChildByPath("LevelView/MainField/ParticleEffects");
   }
   // Draw a line segment. The parameters such as the width and color of the line segment are set in the external Graphics panel.
   drawLine(x1: number, y1: number, x2: number, y2: number) {
