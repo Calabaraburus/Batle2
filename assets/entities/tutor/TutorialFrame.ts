@@ -28,6 +28,7 @@ export class TutorialFrame extends Component {
             frontTransform.contentSize = thisTransform.contentSize;
             //this.back.setWorldPosition(new Vec3(0, 0, 0));
             backTransform.contentSize = view.getVisibleSize();
+            backTransform.node.worldScale = new Vec3(1, 1, 1);
         }
 
         onPositionChanged();

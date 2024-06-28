@@ -8,7 +8,7 @@ export const languages = {
         zh: "简体中文 (AI)"
     },
     label_text: {
-        gamename: "РАЗРЫВ СТРОЯ",
+        gamename: "РАЗЛОМ СТРОЯ",
         autorsname: "Авторы",
         audioname: "Звуки\\Музыка",
         autorstxt: "Идея, дизайн, программирование, анимации, эффекты и др.\n\nА. и Т. Натальчишины",
