@@ -6,7 +6,8 @@ import {
     RichText,
     Label,
     System, Prefab, instantiate, PageView, tween, SpriteFrame,
-    resources
+    resources,
+    UITransform
 } from 'cc';
 import { Service } from '../../services/Service';
 import { SettingsLoader } from '../../services/SettingsLoader';
@@ -80,13 +81,14 @@ export class StartLevelWindow extends Service {
     private _isInit = false;
     protected _gameManager: GameManager | null;
     private _inGameLoader: InGameLevelLoaderService | null;
+    protected _uiTransform: UITransform | null;
 
     start(): void {
         this._settings = this.getServiceOrThrow(SettingsLoader);
         this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
         this._wndOverlay = this.getComponent(OverlayWindow);
         this._wnd = this.getComponent(Window);
-
+        this._uiTransform = this.cardInfoPagesView.getComponent(UITransform);
         this._gameManager = this.getService(GameManager);
         this._inGameLoader = this.getService(InGameLevelLoaderService);
 
@@ -247,6 +249,12 @@ export class StartLevelWindow extends Service {
             const cardPage = page.getComponent(CardInfoPage);
 
             if (cardPage) {
+                var trfrm = cardPage.getComponent(UITransform);
+
+                if (trfrm && this._uiTransform) {
+                    trfrm.width = this._uiTransform.width;
+                }
+
                 cardPage.node.active = true;
                 cardPage.setInfo(cardModel);
 
@@ -268,6 +276,13 @@ export class StartLevelWindow extends Service {
         const cardPage = page.getComponent(CardInfoPage);
 
         if (cardPage) {
+
+            var trfrm = cardPage.getComponent(UITransform);
+
+            if (trfrm && this._uiTransform) {
+                trfrm.width = this._uiTransform.width;
+            }
+
             cardPage.node.active = true;
             cardPage.setInfo(cardModel);
 

@@ -5,7 +5,8 @@ import {
     assert,
     RichText,
     Label,
-    System, Prefab, instantiate, PageView, tween
+    System, Prefab, instantiate, PageView, tween,
+    UITransform
 } from 'cc';
 import { Service } from '../../services/Service';
 import { SettingsLoader } from '../../services/SettingsLoader';
@@ -115,6 +116,13 @@ export class InfoWindow extends StartLevelWindow {
             const cardPage = page.getComponent(CardInfoPage);
 
             if (cardPage) {
+
+                var trfrm = cardPage.getComponent(UITransform);
+
+                if (trfrm && this._uiTransform) {
+                    trfrm.width = this._uiTransform.width;
+                }
+
                 cardPage.node.active = true;
                 cardPage.setInfo(cardModel);
 
@@ -136,6 +144,13 @@ export class InfoWindow extends StartLevelWindow {
         const cardPage = page.getComponent(CardInfoPage);
 
         if (cardPage) {
+
+            var trfrm = cardPage.getComponent(UITransform);
+
+            if (trfrm && this._uiTransform) {
+                trfrm.width = this._uiTransform.width;
+            }
+
             cardPage.node.active = true;
             cardPage.setInfo(cardModel);
 
