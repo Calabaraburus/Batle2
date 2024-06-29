@@ -1,10 +1,10 @@
-import { Component, UIOpacity, _decorator, assert, tween } from "cc";
+import { CCFloat, Component, UIOpacity, _decorator, assert, tween } from "cc";
 
 const { ccclass, property } = _decorator;
 @ccclass("StartWndLabel")
 export class StartWndLabel extends Component {
 
-    @property()
+    @property(CCFloat)
     startTime = 3;
 
     start() {
