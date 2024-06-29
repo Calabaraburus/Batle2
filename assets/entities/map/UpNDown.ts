@@ -3,10 +3,10 @@ const { ccclass, property } = _decorator;
 
 @ccclass('UpNDown')
 export class UpNDown extends Component {
-    @property()
+    @property(CCFloat)
     k = 0.1;
 
-    @property()
+    @property(CCFloat)
     time = 1;
 
     start() {

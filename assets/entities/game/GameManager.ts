@@ -65,10 +65,10 @@ export class GameManager extends Service {
   private _bot: IBot | null;
   private _isStarted = false;
 
-  @property({ type: LevelController })
+  //@property(LevelController)
   levelController: LevelController;
 
-  @property({ type: BehaviourSelector })
+  //@property({ type: BehaviourSelector })
   behaviourSeletor: BehaviourSelector;
 
   public get needToSkipBotTurn() {
@@ -88,8 +88,6 @@ export class GameManager extends Service {
   }
 
   private readonly _stateMachineConfig = Finity.configure()
-
-
 
     // initial state #######################################
 
@@ -222,6 +220,8 @@ export class GameManager extends Service {
     this._matchStatistic = this.getServiceOrThrow(MatchStatisticService);
     this._audioManager = this.getServiceOrThrow(AudioManagerService);
     this._startTurnMessage = this.getServiceOrThrow(StartTurnMessage);
+    this.levelController = this.getServiceOrThrow(LevelController);
+    this.behaviourSeletor = this.getServiceOrThrow(BehaviourSelector);
 
     //this._menuSelector = this.getServiceOrThrow(MenuSelectorController);
     this._gameState = this.getServiceOrThrow(GameStateWritable);

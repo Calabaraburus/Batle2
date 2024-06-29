@@ -3,16 +3,16 @@ const { ccclass, property } = _decorator;
 
 @ccclass('RotateNGrow')
 export class RotateNGrow extends Component {
-    @property()
+    @property(CCFloat)
     KRotate = 0.1;
 
-    @property()
+    @property(CCFloat)
     KGrow = 0.1;
 
-    @property()
+    @property(CCFloat)
     timeRotate = 1;
 
-    @property()
+    @property(CCFloat)
     timeGrow = 1;
 
     start() {
