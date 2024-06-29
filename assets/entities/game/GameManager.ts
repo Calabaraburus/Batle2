@@ -79,7 +79,17 @@ export class GameManager extends Service {
     return this._isStarted;
   }
 
+  private gameEndsCondition() {
+    try {
+      return !this.isGameEnded();
+    } catch (error) {
+      return false;
+    }
+  }
+
   private readonly _stateMachineConfig = Finity.configure()
+
+
 
     // initial state #######################################
 
@@ -103,7 +113,7 @@ export class GameManager extends Service {
 
     .on("endTurnEvent")
     .transitionTo("beforeEndTurn")
-    .withCondition(() => this.canEndTurn() && !this._needToSkipBotTurn)
+    .withCondition(() => this.canEndTurn() && !this._needToSkipBotTurn).ignore()
 
     //-------------------------------------------------------
 
@@ -128,24 +138,13 @@ export class GameManager extends Service {
     .on("end")
     .transitionTo("endGame")
 
-    .onTimeout(50)
-    .transitionTo("beforeBotTurn")
-    .withCondition(() => {
-      try {
-        return this._gameState.isPlayerTurn == true && !this.isGameEnded();
-      } catch (error) {
-        return false;
-      }
+    .do(() => {
+      return this._gameState.isPlayerTurn ? Promise.resolve() : Promise.reject();
     })
-
-    .transitionTo("beforePlayerTurn")
-    .withCondition(() => {
-      try {
-        return this._gameState.isPlayerTurn == false && !this.isGameEnded();
-      } catch (error) {
-        return false;
-      }
-    })
+    .onSuccess().transitionTo("beforeBotTurn")
+    .withCondition(() => this.gameEndsCondition()).ignore()
+    .onFailure().transitionTo("beforePlayerTurn")
+    .withCondition(() => this.gameEndsCondition()).ignore()
 
     //-------------------------------------------------------
 
