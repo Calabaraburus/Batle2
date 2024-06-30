@@ -321,7 +321,13 @@ export class GameManager extends Service {
       tween(this)
         .call(() => {
           if (!this._effectsManager.effectIsRunning) {
-            action();
+
+            try {
+              action();
+            } catch (error) {
+              if (IN_DEBUG()) console.error(error);
+            }
+
             waiter.stop();
           }
         })
@@ -434,45 +440,56 @@ export class GameManager extends Service {
   }
 
   private endTurnStateMachine() {
+    try {
+      this._field.analizeTiles();
+      this._field.fixTiles();
+      this._field.moveTilesAnimate();
 
-
-    this._field.analizeTiles();
-    this._field.fixTiles();
-    this._field.moveTilesAnimate();
-
-    this.updatePlayersLifeData();
-    this.showEndLevelWindowIfNeeded();
+      this.updatePlayersLifeData();
+      this.showEndLevelWindowIfNeeded();
+    } catch (error) {
+      if (IN_DEBUG()) console.error(error);
+    }
   }
 
   updatePlayersLifeData() {
-    const playerModel = this.levelController.playerField.playerModel;
-    const enemyModel = this.levelController.enemyField.playerModel;
+    try {
+      const playerModel = this.levelController.playerField.playerModel;
+      const enemyModel = this.levelController.enemyField.playerModel;
 
-    if (this._gameState.isPlayerTurn) {
-      enemyModel.life -= this.countAttackingTiles("end") * playerModel.power;
-      this.levelController.signalController.atack(false);
-    } else {
-      playerModel.life -= this.countAttackingTiles("start") * enemyModel.power;
-      this.levelController.signalController.atack(true);
+      if (this._gameState.isPlayerTurn) {
+        enemyModel.life -= this.countAttackingTiles("end") * playerModel.power;
+        this.levelController.signalController.atack(false);
+      } else {
+        playerModel.life -= this.countAttackingTiles("start") * enemyModel.power;
+        this.levelController.signalController.atack(true);
+      }
+
+      this.levelController.updateData();
+
+    } catch (error) {
+      if (IN_DEBUG()) console.error(error);
     }
-
-
-    this.levelController.updateData();
   }
 
   showEndLevelWindowIfNeeded() {
-    const playerModel = this.levelController.playerField.playerModel;
-    const enemyModel = this.levelController.enemyField.playerModel;
+    try {
+      const playerModel = this.levelController.playerField.playerModel;
+      const enemyModel = this.levelController.enemyField.playerModel;
 
-    if (playerModel.life <= 0) {
-      this._matchStatistic?.loadStatistic("lose");
-      this.levelController.showLoseView(true);
+      if (playerModel.life <= 0) {
+        this._matchStatistic?.loadStatistic("lose");
+        this.levelController.showLoseView(true);
+      }
+
+      if (enemyModel.life <= 0) {
+        this.levelController.showWinView(true);
+        //   this._menuSelector?.openSectionMenu(this, "RewardBlock");
+      }
+    } catch (error) {
+      if (IN_DEBUG()) console.error(error);
     }
 
-    if (enemyModel.life <= 0) {
-      this.levelController.showWinView(true);
-      //   this._menuSelector?.openSectionMenu(this, "RewardBlock");
-    }
   }
 
   public skipBotTurn(skip = true) {
@@ -519,7 +536,13 @@ export class GameManager extends Service {
     this._field.fieldMatrix
       .filter(() => true)
       .forEach((t) => {
-        if (!t.isDestroied) action(t);
+        if (!t.isDestroied) {
+          try {
+            action(t);
+          } catch (error) {
+            if (IN_DEBUG()) console.error(error);
+          }
+        }
       });
   }
 
