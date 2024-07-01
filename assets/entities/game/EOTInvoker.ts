@@ -22,6 +22,10 @@ export class EOTInvoker {
         this._isStarted = true;
     }
 
+    public stop() {
+        this._isStarted = false;
+    }
+
     public update() {
         if (this._isStarted) {
             if (!this._effectsManager.effectIsRunning) {

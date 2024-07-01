@@ -15,6 +15,7 @@ import { SceneLoaderService } from "../services/SceneLoaderService";
 import { GameManager } from "../game/GameManager";
 import { LevelSelectorController } from "./LevelSelectorController";
 import { Queue } from "../../scripts/Queue";
+import { EffectsManager } from "../game/EffectsManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("InGameLevelLoaderService")
@@ -23,11 +24,14 @@ export class InGameLevelLoaderService extends Service {
     private _gameManager: GameManager | null;
     private _lvlSelector: LevelSelectorController;
     private _task: (() => void) | null = null;
+    private _effectsManager: EffectsManager | null;
 
     start() {
         this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
         this._gameManager = this.getService(GameManager);
         this._lvlSelector = this.getServiceOrThrow(LevelSelectorController);
+        this._effectsManager = this.getService(EffectsManager);
+
         this._task = null;
     }
 
@@ -73,7 +77,9 @@ export class InGameLevelLoaderService extends Service {
     }
 
     update(dt: number): void {
-        if (this._task != null && !this._gameManager?.isStarted) {
+        if (this._task != null &&
+            !this._gameManager?.isStarted &&
+            (this._effectsManager == null || !this._effectsManager.effectIsRunning)) {
             this._task();
             this._task = null;
         }

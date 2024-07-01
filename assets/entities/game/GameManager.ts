@@ -46,6 +46,7 @@ import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { FieldModel } from "../../models/FieldModel";
 import { StartTurnMessage } from "../ui/StartTurnMessage";
 import { IN_DEBUG } from "../../globals/globals";
+import { DEBUG } from "cc/env";
 
 const { ccclass, property } = _decorator;
 
@@ -188,16 +189,19 @@ export class GameManager extends Service {
     // end game state #######################################
 
     .state("endGame")
-    .onEnter(() => { this._isStarted = false; })
+    .onEnter(() => {
+      this._isStarted = false;
+      this._eotInvoker.stop();
+    })
 
     //-------------------------------------------------------
 
     .global()
     .onStateEnter((state) => {
-      this._debug?.log(`Entering state '${state}'`);
+      if (DEBUG) console.log(`Entering state '${state}'`);
     })
     .onStateExit((state) => {
-      this._debug?.log(`Exit state '${state}'`);
+      if (DEBUG) console.log(`Exit state '${state}'`);
     });
 
   private _stateMachine: StateMachine<string, string>;

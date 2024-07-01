@@ -1332,15 +1332,15 @@
         "__expectedType__": "cc.AudioClip"
       },
       {
-        "__uuid__": "b1dbb091-fe77-4a3b-9fe7-4d3a32726bd9",
+        "__uuid__": "cea0107d-7ff9-4298-a731-34713adb56e3",
         "__expectedType__": "cc.AudioClip"
       },
       {
-        "__uuid__": "9234b6b5-f65a-4730-b2fd-cd53e039b0b8",
+        "__uuid__": "362ab767-b7e6-4802-9131-a99a5298168d",
         "__expectedType__": "cc.AudioClip"
       },
       {
-        "__uuid__": "4c8f155c-555f-438c-9cc3-f96a7903d2e8",
+        "__uuid__": "2bf1e8a2-80d2-470b-be5f-d6c4a41cf63e",
         "__expectedType__": "cc.AudioClip"
       },
       {
@@ -1999,7 +1999,7 @@
       "b": 255,
       "a": 142
     },
-    "_string": "РАЗРЫВ СТРОЯ",
+    "_string": "РАЗЛОМ СТРОЯ",
     "_horizontalAlign": 1,
     "_verticalAlign": 0,
     "_actualFontSize": 89,
