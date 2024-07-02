@@ -3,7 +3,7 @@
 //  Calabaraburus (c) 2023
 //
 
-import { _decorator, Sprite, Prefab, Node, tween, UITransform } from "cc";
+import { _decorator, Sprite, Prefab, Node, tween, UITransform, CCInteger } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
@@ -36,7 +36,7 @@ export class ShamanTileController
   @property(Prefab)
   destroyPartycles: Prefab;
 
-  @property(Number)
+  @property(CCInteger)
   healLife = 5;
 
   private _effectsService: EffectsService | null;

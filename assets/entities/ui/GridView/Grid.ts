@@ -1,10 +1,10 @@
-import { _decorator, assert, Component, EditBox, instantiate, Layout, Node, Prefab, UITransform, Widget } from 'cc';
+import { _decorator, assert, CCInteger, Component, EditBox, instantiate, Layout, Node, Prefab, UITransform, Widget } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Grid')
 export class Grid extends Component {
 
-    @property(Number)
+    @property(CCInteger)
     rowCount: number = 2;
 
     @property(Prefab)

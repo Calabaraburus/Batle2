@@ -4,7 +4,7 @@
 //
 //  Author:Natalchishin Taras
 
-import { _decorator, Sprite, Vec3, instantiate, Prefab, UITransform, assert } from "cc";
+import { _decorator, Sprite, Vec3, instantiate, Prefab, UITransform, assert, CCFloat } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
 import { TileState } from "../TileState";
@@ -28,10 +28,10 @@ export class TotemTileController extends TileController implements IAttackable {
   @property(Prefab)
   destroyPartycles: Prefab;
 
-  @property(Number)
+  @property(CCFloat)
   power = 2;
 
-  @property(Number)
+  @property(CCFloat)
   lifeAmount = 1;
 
   get attacksCountToDestroy() {

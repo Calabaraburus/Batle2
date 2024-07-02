@@ -15,6 +15,7 @@ import {
   Vec2,
   Quat,
   assert,
+  CCInteger,
 } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
@@ -52,7 +53,7 @@ export class AssassinTileController
   @property(Prefab)
   destroyPartycles: Prefab;
 
-  @property(Number)
+  @property(CCInteger)
   maxCount = 2;
 
   _tilesToDestroy: TileController[] | undefined;

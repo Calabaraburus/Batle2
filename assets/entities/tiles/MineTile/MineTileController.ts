@@ -9,7 +9,7 @@
 //
 //  Author:Natalchishin Taras
 
-import { _decorator, assert, tween } from "cc";
+import { CCInteger, _decorator, assert, tween } from "cc";
 import { TileController } from "../TileController";
 import { CardService } from "../../services/CardService";
 import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
@@ -25,7 +25,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass("MineTileController")
 export class MineTileController extends TileController {
-  @property(Number)
+  @property(CCInteger)
   lvl = 2;
 
   private _cardService: CardService;

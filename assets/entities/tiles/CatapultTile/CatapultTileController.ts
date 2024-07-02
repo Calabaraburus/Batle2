@@ -11,6 +11,7 @@ import {
   error,
   assert,
   UITransform,
+  CCInteger,
 } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
@@ -33,10 +34,10 @@ const { ccclass, property } = _decorator;
 export class CatapultTileController
   extends TileController
   implements IAttackable {
-  @property(Number)
+  @property(CCInteger)
   damageLife = 5;
 
-  @property(Number)
+  @property(CCInteger)
   life = 1;
 
   private _cardService: CardService;

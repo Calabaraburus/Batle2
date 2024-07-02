@@ -1,4 +1,4 @@
-import { _decorator, assetManager, director } from "cc";
+import { CCBoolean, _decorator, assetManager, director } from "cc";
 import { Service } from "./Service";
 import { LoaderScreen } from "../menu/LoaderScreen";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
@@ -11,7 +11,7 @@ const { ccclass, property } = _decorator;
 export class SceneLoaderService extends Service {
   loaderScreen: LoaderScreen;
 
-  @property(Boolean)
+  @property(CCBoolean)
   persThisNode: boolean = true;
 
   private _tasksQueue: Queue<() => void> = new Queue<() => void>();
