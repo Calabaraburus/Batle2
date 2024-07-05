@@ -273,7 +273,6 @@ export class GameManager extends Service {
   }
 
   public stop() {
-    Tween.stopAll();
     if (this._isStarted) this._stateMachine.handle("end");
   }
 

@@ -22,6 +22,8 @@ export class LoaderScreen extends Component {
   private _isShowed = false;
   public readonly wndIsShowedEvent: EventTarget = new EventTarget();
   public readonly wndIsHidedEvent: EventTarget = new EventTarget();
+  private _isShowing: boolean;
+  private _isHiding: boolean;
 
   @property(Node)
   loaderNode: Node;
@@ -29,9 +31,19 @@ export class LoaderScreen extends Component {
   @property(Label)
   errorTxt: Label;
 
+
   public get isShowed() {
     return this._isShowed;
   }
+
+  public get isShowing() {
+    return this._isShowing;
+  }
+
+  public get isHiding() {
+    return this._isHiding;
+  }
+
 
   start() {
     this._opacity = this.loaderNode.getComponent(UIOpacity);
@@ -43,6 +55,7 @@ export class LoaderScreen extends Component {
       .to(this.timeToShow, { opacity: 255 }, { easing: "linear" })
       .call(() => {
         this._isShowed = true;
+        this._isShowing = false;
         this.wndIsShowedEvent.emit("wndIsShowed", this);
       });
 
@@ -52,18 +65,28 @@ export class LoaderScreen extends Component {
       .to(this.timeToShow, { opacity: 0 }, { easing: "linear" })
       .call(() => {
         this.node.active = false;
-        this._isShowed = false
+        this._isShowed = false;
+        this._isHiding = false;
       });
   }
 
   show() {
+    if (this.isShowing) return;
+
+    this._isShowing = true;
+    this._isHiding = false;
+
     this.hideTween.stop();
     this.node.active = true;
     this.showTween.start();
   }
 
   hide() {
+    if (this.isHiding) return;
 
+    this._isShowing = false;
+    this._isHiding = true;
+    this.showTween.stop();
     this.hideTween.start();
   }
 }

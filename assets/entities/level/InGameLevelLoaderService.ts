@@ -1,22 +1,14 @@
-import {
-    Component,
-    director,
-    _decorator,
-    randomRangeInt,
-    random,
-    AudioSource,
-    LineComponent,
-    assert,
-    resources,
-    TextAsset,
-} from "cc";
+import { Tween, _decorator } from "cc";
 import { Service } from "../services/Service";
 import { SceneLoaderService } from "../services/SceneLoaderService";
 import { GameManager } from "../game/GameManager";
 import { LevelSelectorController } from "./LevelSelectorController";
 import { Queue } from "../../scripts/Queue";
 import { EffectsManager } from "../game/EffectsManager";
+import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
 const { ccclass, property } = _decorator;
+
+const SCHEDULE_TIME = 1.5;
 
 @ccclass("InGameLevelLoaderService")
 export class InGameLevelLoaderService extends Service {
@@ -25,12 +17,14 @@ export class InGameLevelLoaderService extends Service {
     private _lvlSelector: LevelSelectorController;
     private _task: (() => void) | null = null;
     private _effectsManager: EffectsManager | null;
+    private _audio: AudioManagerService;
 
     start() {
         this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
         this._gameManager = this.getService(GameManager);
         this._lvlSelector = this.getServiceOrThrow(LevelSelectorController);
         this._effectsManager = this.getService(EffectsManager);
+        this._audio = this.getServiceOrThrow(AudioManagerService);
 
         this._task = null;
     }
@@ -46,6 +40,9 @@ export class InGameLevelLoaderService extends Service {
 
                 if (cfgAction == null)
                     throw Error("No configuration for " + levelName + " level");
+
+                Tween.stopAll();
+
                 this._sceneLoader.loadGameScene("scene_game_field", cfgAction);
             }
         );
@@ -56,6 +53,8 @@ export class InGameLevelLoaderService extends Service {
 
         this.runTask(
             () => {
+                Tween.stopAll();
+
                 this._sceneLoader.loadLevel(sceneName);
             }
         );
@@ -63,8 +62,12 @@ export class InGameLevelLoaderService extends Service {
 
     runTask(task: () => void) {
 
+        this._audio.stop();
+
         if (this._gameManager == null) {
-            task();
+            this.scheduleOnce(() => {
+                task();
+            }, SCHEDULE_TIME);
         } else {
             this._gameManager.stop();
 
@@ -80,7 +83,9 @@ export class InGameLevelLoaderService extends Service {
         if (this._task != null &&
             !this._gameManager?.isStarted &&
             (this._effectsManager == null || !this._effectsManager.effectIsRunning)) {
-            this._task();
+
+            const task = this._task;
+            this.scheduleOnce(() => task(), SCHEDULE_TIME);
             this._task = null;
         }
     }

@@ -78,15 +78,20 @@ export class AudioManager {
    * @param sound clip or url for the audio
    * @param volume
    */
-  playOneShot(sound: AudioClip | string) {
+  playEffect(sound: AudioClip | string, oneShot = true) {
     if (sound instanceof AudioClip) {
-      this._soundSource.playOneShot(sound, this._volumeSound);
+      if (oneShot) {
+        this._soundSource.playOneShot(sound);
+      } else {
+        this._soundSource.clip = sound;
+        this._soundSource.play();
+      }
     } else {
       resources.load(sound, (err, clip: AudioClip) => {
         if (err) {
           console.log(err);
         } else {
-          this._soundSource.playOneShot(clip, this._volumeSound);
+          this._soundSource.playOneShot(clip);
         }
       });
     }
@@ -124,8 +129,16 @@ export class AudioManager {
    * stop the audio play
    */
   stop() {
-    this._audioSource.stop();
+    this.stopMusic();
+    this.soundSource.stop();
+    this.soundSource.clip = null;
   }
+
+  stopMusic() {
+    this._audioSource.stop();
+    this._audioSource.clip = null;
+  }
+
 
   /**
    * pause the audio play

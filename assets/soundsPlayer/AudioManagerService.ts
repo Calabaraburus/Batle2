@@ -30,10 +30,10 @@ export class AudioManagerService extends Service {
   start() {
   }
 
-  playSoundEffect(soundName: string) {
+  playSoundEffect(soundName: string, oneShot = true) {
     const sound = this.getTargetSound(soundName);
     if (!sound) return;
-    AudioManager.instance.playOneShot(sound);
+    AudioManager.instance.playEffect(sound, oneShot);
   }
 
   playMusic(audioName: string) {
@@ -44,10 +44,13 @@ export class AudioManagerService extends Service {
   }
 
   stopMusic() {
-    // const music = this.getTargetMusic(audioName);
-    // if (!music) return;
     AudioManager.instance.stop();
     this._musicStoped = true;
+  }
+
+  stop() {
+    this.stopMusic();
+    AudioManager.instance.soundSource.stop();
   }
 
   getTargetSound(soundName: string) {

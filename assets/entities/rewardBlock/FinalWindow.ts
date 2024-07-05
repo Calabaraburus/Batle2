@@ -255,7 +255,7 @@ export class FinalWindow extends Service {
         this._audio.applyList(this._audio.endGameMusicList);
       }).start();
 
-      this._audio.audioManager.playSoundEffect("victory");
+      this._audio.audioManager.playSoundEffect("victory", false);
 
       if (this._config!.endLevelBonuses.length > 0 &&
         this.canUpdateCurStateData()) {
@@ -268,7 +268,7 @@ export class FinalWindow extends Service {
       tween(this).delay(9).call(() => {
         this._audio.applyList(this._audio.endGameMusicList);
       }).start();
-      this._audio.audioManager.playSoundEffect("defeated");
+      this._audio.audioManager.playSoundEffect("defeated", false);
     }
   }
 

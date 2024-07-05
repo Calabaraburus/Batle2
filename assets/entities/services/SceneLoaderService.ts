@@ -48,6 +48,7 @@ export class SceneLoaderService extends Service {
       director.loadScene(levelName, (e) => {
         if (e) this.loaderScreen.errorTxt.string = e.message;
         this.loaderScreen.hide();
+        this.loaderScreen.wndIsShowedEvent.off("wndIsShowed");
       });
     });
   }
