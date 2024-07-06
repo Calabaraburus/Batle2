@@ -18,6 +18,7 @@ export class InGameLevelLoaderService extends Service {
     private _task: (() => void) | null = null;
     private _effectsManager: EffectsManager | null;
     private _audio: AudioManagerService;
+    private _wait = true;
 
     start() {
         this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
@@ -64,28 +65,29 @@ export class InGameLevelLoaderService extends Service {
 
         this._audio.stop();
 
-        if (this._gameManager == null) {
-            this.scheduleOnce(() => {
-                task();
-            }, SCHEDULE_TIME);
-        } else {
+        if (this._gameManager != null) {
             this._gameManager.stop();
+        }
 
-            if (this._task == null) {
-                this._task = task;
-            } else {
-                throw new Error("Task already exists");
-            }
+        if (this._task == null) {
+            this._task = task;
+
+            this.scheduleOnce(() => this._wait = false, SCHEDULE_TIME)
+
+        } else {
+            throw new Error("Task already exists");
         }
     }
 
     update(dt: number): void {
         if (this._task != null &&
-            !this._gameManager?.isStarted &&
+            this._wait == false &&
+            (this._gameManager == null || !this._gameManager?.isStarted) &&
             (this._effectsManager == null || !this._effectsManager.effectIsRunning)) {
+            this._wait = true;
 
-            const task = this._task;
-            this.scheduleOnce(() => task(), SCHEDULE_TIME);
+            this._task();
+
             this._task = null;
         }
     }
