@@ -17868,14 +17868,8 @@
       "__uuid__": "019e7e77-83cb-4468-ba82-30b20e975e09@19aee",
       "__expectedType__": "cc.SpriteFrame"
     },
-    "_hoverSprite": {
-      "__uuid__": "da3aabcf-ec91-44d1-8e74-5a5f7c0c3501@a6427",
-      "__expectedType__": "cc.SpriteFrame"
-    },
-    "_pressedSprite": {
-      "__uuid__": "da3aabcf-ec91-44d1-8e74-5a5f7c0c3501@a6427",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_hoverSprite": null,
+    "_pressedSprite": null,
     "_disabledSprite": null,
     "_duration": 0.1,
     "_zoomScale": 1.2,
