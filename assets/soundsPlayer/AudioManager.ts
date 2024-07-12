@@ -10,12 +10,30 @@ import { Node, AudioSource, AudioClip, resources, director, assert } from "cc";
  * this is a sington class for audio play, can be easily called from anywhere in you project.
  */
 export class AudioManager {
-  private mgrNodeName = "__audioMgr__";
+  private static mgrNodeName = "__audioMgr__";
 
-  _volumeSound = 0.4;
-  _volumeMusic = 0.4;
+  private _volumeSound = 0.4;
+  private _volumeMusic = 0.4;
 
-  private static _inst: AudioManager;
+  public get volumeSound() {
+    return this._volumeSound;
+  }
+
+  public set volumeSound(value) {
+    this._volumeSound = value;
+    this._soundSource.volume = value;
+  }
+
+  public get volumeMusic() {
+    return this._volumeMusic;
+  }
+
+  public set volumeMusic(value) {
+    this._volumeMusic = value;
+    this._audioSource.volume = value
+  }
+
+  private static _inst: AudioManager | null;
 
   public static get instance(): AudioManager {
     if (this._inst == null) {
@@ -34,12 +52,12 @@ export class AudioManager {
 
     assert(scene != null, "Scene is null");
 
-    let audioMgr = scene.getChildByName(this.mgrNodeName);
+    let audioMgr = scene.getChildByName(AudioManager.mgrNodeName);
 
     if (audioMgr == null) {
       // create a node as audioMgr
       audioMgr = new Node();
-      audioMgr.name = this.mgrNodeName;
+      audioMgr.name = AudioManager.mgrNodeName;
 
       scene.addChild(audioMgr);
 
@@ -169,5 +187,21 @@ export class AudioManager {
    */
   resume() {
     this._audioSource.play();
+  }
+
+  public static Clear() {
+    const scene = director.getScene();
+
+    assert(scene != null, "Scene is null");
+
+    let audioMgr = scene.getChildByName(AudioManager.mgrNodeName);
+
+    if (audioMgr != null) {
+      this._inst?.stop();
+      scene.removeChild(audioMgr);
+      audioMgr.destroy();
+    }
+
+    this._inst = null;
   }
 }

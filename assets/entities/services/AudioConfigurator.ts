@@ -25,8 +25,8 @@ export class AudioConfigurator extends Service {
         this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
         this._audio = this.getServiceOrThrow(AudioManagerService);
 
-        this._audio.changeVolume(this._settingsLoader.gameParameters.musicLevel, "music");
-        this._audio.changeVolume(this._settingsLoader.gameParameters.soundLevel, "sound");
+        this._audio.changeMusicVolume(this._settingsLoader.gameParameters.musicLevel);
+        this._audio.changeSoundVolume(this._settingsLoader.gameParameters.soundLevel);
 
         this.applyList(["music_intro"]);
     }

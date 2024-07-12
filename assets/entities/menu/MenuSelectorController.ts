@@ -55,7 +55,7 @@ export class MenuSelectorController extends Service {
     //this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
     this._inGameLoader = this.getService(InGameLevelLoaderService);
     this._gameManager = this.getService(GameManager);
-    //this._aManager = this.getService(AudioManagerService);
+    this._aManager = this.getService(AudioManagerService);
     this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
     this._levelSelector = this.getServiceOrThrow(LevelSelectorController);
 
@@ -115,7 +115,7 @@ export class MenuSelectorController extends Service {
     const volumeId = parseInt(volumeIdStr);
     const volume = this.volumeList[volumeId];
 
-    this._aManager?.changeVolume(volume, "sound");
+    this._aManager?.changeSoundVolume(volume);
 
     this.parameters.soundLevel = volume;
     this.settingsLoader.saveParameters();
@@ -127,7 +127,7 @@ export class MenuSelectorController extends Service {
     const volumeId = parseInt(volumeIdStr);
     const volume = this.volumeList[volumeId];
 
-    this._aManager?.changeVolume(volume, "music");
+    this._aManager?.changeMusicVolume(volume);
 
     this.parameters.musicLevel = volume;
     this.settingsLoader.saveParameters();

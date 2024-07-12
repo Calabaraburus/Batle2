@@ -10,6 +10,8 @@ export class AudioManagerService extends Service {
   private _currentMusicId: number = 0;
   private _musicStoped = true;
   private _taskQueue: Queue<() => void> = new Queue<() => void>;
+  private _soundVolume = 0;
+  private _musicVolume = 0;
 
   @property(AudioClip)
   sounds: AudioClip[] = [];
@@ -71,6 +73,9 @@ export class AudioManagerService extends Service {
     const music = this.getTargetMusic(audioName);
     if (!music) return;
 
+    this.changeMusicVolume(this._musicVolume);
+    this.changeSoundVolume(this._soundVolume);
+
     AudioManager.instance.play(music);
 
     this._musicStoped = false;
@@ -88,15 +93,14 @@ export class AudioManagerService extends Service {
     });
   }
 
-  changeVolume(volume: number, audioType: string) {
-    if (audioType == "music") {
-      AudioManager.instance.audioSource.volume = volume;
-      AudioManager.instance._volumeMusic = volume;
-    }
-    if (audioType == "sound") {
-      AudioManager.instance.soundSource.volume = volume;
-      AudioManager.instance._volumeSound = volume;
-    }
+  changeMusicVolume(volume: number) {
+    this._musicVolume = volume;
+    AudioManager.instance.volumeMusic = volume;
+  }
+
+  changeSoundVolume(volume: number) {
+    this._soundVolume = volume;
+    AudioManager.instance.volumeSound = volume;
   }
 
   protected update(dt: number): void {

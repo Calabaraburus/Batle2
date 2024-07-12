@@ -5,6 +5,7 @@ import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { Queue } from "../../scripts/Queue";
 import { DEBUG } from "cc/env";
 import { IN_DEBUG } from "../../globals/globals";
+import { AudioManager } from "../../soundsPlayer/AudioManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("SceneLoaderService")
@@ -54,10 +55,13 @@ export class SceneLoaderService extends Service {
   }
 
   loadLevelEventData(event: Event, levelName: string): void {
+    AudioManager.Clear();
     this.loadLevel(levelName);
   }
 
   runTaskForScreen(task: () => void) {
+    AudioManager.Clear();
+
     if (this.loaderScreen.isShowed) {
       this._tasksQueue.enqueue(() => {
         task();
@@ -76,7 +80,7 @@ export class SceneLoaderService extends Service {
 
   loadLevelNoScreen(event: Event, levelName: string): void {
     director.getScene()?.children.forEach(n => n.pauseSystemEvents(true));
-
+    AudioManager.Clear();
     director.preloadScene(levelName, () => {
       director.loadScene(levelName);
     });
@@ -86,6 +90,7 @@ export class SceneLoaderService extends Service {
     sceneName = "mainGameLevel",
     configurate: (config: LevelConfiguration) => void
   ) {
+    AudioManager.Clear();
     this.runTaskForScreen(() => {
       director.loadScene(sceneName, (e, s) => {
         if (e) this.loaderScreen.errorTxt.string = e.message;

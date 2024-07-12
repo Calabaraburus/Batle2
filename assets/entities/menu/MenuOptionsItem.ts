@@ -60,12 +60,12 @@ export class MenuOptionsItem extends Service {
 
   getCurrentVolume() {
     if (this.node.parent?.name == "Music") {
-      if (this.volume == AudioManager.instance._volumeMusic) {
+      if (this.volume == AudioManager.instance.volumeMusic) {
         this.flagSprite.active = true;
       }
     }
     if (this.node.parent?.name == "Sound") {
-      if (this.volume == AudioManager.instance._volumeSound) {
+      if (this.volume == AudioManager.instance.volumeSound) {
         this.flagSprite.active = true;
       }
     }
@@ -74,9 +74,9 @@ export class MenuOptionsItem extends Service {
   setupVolume() {
     this.activeNodes();
     if (this.node.parent?.name == "Music") {
-      this._audio?.changeVolume(this.volume, "music");
+      this._audio?.changeMusicVolume(this.volume);
     } else if (this.node.parent?.name == "Sound") {
-      this._audio?.changeVolume(this.volume, "sound");
+      this._audio?.changeSoundVolume(this.volume);
     }
     this._audio?.playSoundEffect("click");
     // let currentVolume;
