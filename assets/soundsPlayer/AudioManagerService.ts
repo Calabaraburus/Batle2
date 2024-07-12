@@ -22,12 +22,8 @@ export class AudioManagerService extends Service {
   set currentMusicList(value: string[]) {
     this._currentMusicList = value;
     this._currentMusicId = 0;
-    this.stopMusic();
-    this.playMusic(this._currentMusicList[this._currentMusicId]);
-  }
 
-
-  start() {
+    this.refreshMusic()
   }
 
   playSoundEffect(soundName: string, oneShot = true) {
@@ -36,21 +32,28 @@ export class AudioManagerService extends Service {
     AudioManager.instance.playEffect(sound, oneShot);
   }
 
+  refreshMusic() {
+    AudioManager.instance.stop();
+    this._musicStoped = false;
+  }
+
   playMusic(audioName: string) {
     const music = this.getTargetMusic(audioName);
     if (!music) return;
+
+    AudioManager.instance.stop();
     AudioManager.instance.play(music);
+
     this._musicStoped = false;
   }
 
   stopMusic() {
-    AudioManager.instance.stop();
     this._musicStoped = true;
+    AudioManager.instance.stop();
   }
 
   stop() {
     this.stopMusic();
-    AudioManager.instance.soundSource.stop();
   }
 
   getTargetSound(soundName: string) {

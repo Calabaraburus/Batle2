@@ -24,6 +24,8 @@ export class AudioManager {
     return this._inst;
   }
 
+  private _empty: AudioClip;
+
   private _audioSource: AudioSource;
   private _soundSource: AudioSource;
   constructor() {
@@ -48,6 +50,15 @@ export class AudioManager {
       this._audioSource = audioMgr.addComponent(AudioSource);
 
       this._soundSource = audioMgr.addComponent(AudioSource);
+
+      resources.load("audio/empty", AudioClip, (err, clip) => {
+        if (err) {
+          throw Error("Can't load empty.mp3");
+        }
+
+        this._empty = clip;
+      });
+
     } else {
       const ast = audioMgr.getComponents(AudioSource);
 
@@ -85,6 +96,8 @@ export class AudioManager {
       } else {
         this._soundSource.clip = sound;
         this._soundSource.play();
+
+        console.log("[am] play m2");
       }
     } else {
       resources.load(sound, (err, clip: AudioClip) => {
@@ -106,11 +119,15 @@ export class AudioManager {
    * @param volume
    */
   play(sound: AudioClip | string) {
+
     if (sound instanceof AudioClip) {
       this._audioSource.clip = sound;
 
       this._audioSource.play();
       this.audioSource.volume = this._volumeMusic;
+
+      console.log("[am] play m");
+
     } else {
       resources.load(sound, (err, clip: AudioClip) => {
         if (err) {
@@ -130,15 +147,30 @@ export class AudioManager {
    */
   stop() {
     this.stopMusic();
-    this.soundSource.stop();
-    this.soundSource.clip = null;
+    this.stopSound();
   }
 
   stopMusic() {
+    //this._audioSource.playOneShot(new AudioClip(), 1);
+    //
+    //this._audioSource.clip = this._empty;
+    //this._audioSource.play();
     this._audioSource.stop();
-    this._audioSource.clip = null;
+
+    console.log("[am] stop");
+
   }
 
+  stopSound() {
+    //    this._soundSource.playOneShot(new AudioClip(), 1);
+    //this._soundSource.stop();
+    //this._soundSource.clip = this._empty;
+    //  this._soundSource.play();
+    this._soundSource.stop();
+
+    console.log("[am] stop2");
+
+  }
 
   /**
    * pause the audio play
