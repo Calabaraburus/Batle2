@@ -106,6 +106,7 @@ export class AudioManager {
         }
       });
     }
+    this._soundSource.volume = this._volumeSound;
   }
 
   /**
@@ -147,10 +148,12 @@ export class AudioManager {
   }
 
   stopMusic() {
+    this._audioSource.volume = 0;
     this._audioSource.stop();
   }
 
   stopSound() {
+    this._soundSource.volume = 0
     this._soundSource.stop();
   }
 

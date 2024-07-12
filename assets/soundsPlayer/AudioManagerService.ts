@@ -31,12 +31,20 @@ export class AudioManagerService extends Service {
   playSoundEffect(soundName: string, oneShot = true) {
     const sound = this.getTargetSound(soundName);
     if (!sound) return;
-    AudioManager.instance.playEffect(sound, oneShot);
+    if (!oneShot) {
+      this._taskQueue.enqueue(() => AudioManager.instance.playEffect(sound, oneShot));
+    } else {
+      AudioManager.instance.playEffect(sound, oneShot);
+    }
   }
 
   refreshMusic() {
+    this.stopMusic();
+
     this._taskQueue.enqueue(() => this.internalRefreshMusic());
   }
+
+
 
   playMusic(audioName: string) {
     this._taskQueue.enqueue(() => this.internalPlayMusic(audioName));
@@ -51,7 +59,6 @@ export class AudioManagerService extends Service {
   }
 
   private internalRefreshMusic() {
-    AudioManager.instance.stop();
     this._musicStoped = false;
   }
 
