@@ -96,8 +96,6 @@ export class AudioManager {
       } else {
         this._soundSource.clip = sound;
         this._soundSource.play();
-
-        console.log("[am] play m2");
       }
     } else {
       resources.load(sound, (err, clip: AudioClip) => {
@@ -126,8 +124,6 @@ export class AudioManager {
       this._audioSource.play();
       this.audioSource.volume = this._volumeMusic;
 
-      console.log("[am] play m");
-
     } else {
       resources.load(sound, (err, clip: AudioClip) => {
         if (err) {
@@ -151,25 +147,11 @@ export class AudioManager {
   }
 
   stopMusic() {
-    //this._audioSource.playOneShot(new AudioClip(), 1);
-    //
-    //this._audioSource.clip = this._empty;
-    //this._audioSource.play();
     this._audioSource.stop();
-
-    console.log("[am] stop");
-
   }
 
   stopSound() {
-    //    this._soundSource.playOneShot(new AudioClip(), 1);
-    //this._soundSource.stop();
-    //this._soundSource.clip = this._empty;
-    //  this._soundSource.play();
     this._soundSource.stop();
-
-    console.log("[am] stop2");
-
   }
 
   /**
