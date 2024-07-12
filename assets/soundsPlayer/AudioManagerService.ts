@@ -1,6 +1,7 @@
 import { _decorator, AudioClip, CCString, Component, Node } from "cc";
 import { Service } from "../entities/services/Service";
 import { AudioManager } from "./AudioManager";
+import { Queue } from "../scripts/Queue";
 const { ccclass, property } = _decorator;
 
 @ccclass("AudioManagerService")
@@ -8,6 +9,7 @@ export class AudioManagerService extends Service {
   private _currentMusicList: string[] = [];
   private _currentMusicId: number = 0;
   private _musicStoped = true;
+  private _taskQueue: Queue<() => void> = new Queue<() => void>;
 
   @property(AudioClip)
   sounds: AudioClip[] = [];
@@ -38,22 +40,29 @@ export class AudioManagerService extends Service {
   }
 
   playMusic(audioName: string) {
-    const music = this.getTargetMusic(audioName);
-    if (!music) return;
-
-    AudioManager.instance.stop();
-    AudioManager.instance.play(music);
-
-    this._musicStoped = false;
+    this._taskQueue.enqueue(() => this.internalPlayMusic(audioName));
   }
 
   stopMusic() {
-    this._musicStoped = true;
-    AudioManager.instance.stop();
+    this._taskQueue.enqueue(() => this.internalStopMusic());
   }
 
   stop() {
     this.stopMusic();
+  }
+
+  private internalStopMusic() {
+    this._musicStoped = true;
+    AudioManager.instance.stop();
+  }
+
+  private internalPlayMusic(audioName: string) {
+    const music = this.getTargetMusic(audioName);
+    if (!music) return;
+
+    AudioManager.instance.play(music);
+
+    this._musicStoped = false;
   }
 
   getTargetSound(soundName: string) {
@@ -80,6 +89,13 @@ export class AudioManagerService extends Service {
   }
 
   protected update(dt: number): void {
+
+    if (!this._taskQueue.isEmpty) {
+      var task = this._taskQueue.dequeue();
+      task();
+      return;
+    }
+
     if (!AudioManager.instance.isMusicPlaying && !this._musicStoped) {
       this.playMusic(this.currentMusicList[this._currentMusicId]);
 

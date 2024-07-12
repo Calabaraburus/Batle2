@@ -277,14 +277,6 @@ export class GameManager extends Service {
   }
 
   initGame(): void {
-    director
-      .getScene()
-      ?.getChildByName("__audioMgr__")
-      ?.getComponent(AudioSource)
-      ?.stop();
-
-    this._audioManager.playMusic("epic");
-
     this._field.tileClickedEvent.on("FieldController", this.tileClicked, this);
     this._field.generateTiles();
     this._field.moveTiles();

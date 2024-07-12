@@ -55,14 +55,13 @@ export class MenuSelectorController extends Service {
     //this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
     this._inGameLoader = this.getService(InGameLevelLoaderService);
     this._gameManager = this.getService(GameManager);
-    this._aManager = this.getService(AudioManagerService);
+    //this._aManager = this.getService(AudioManagerService);
     this._levelConfig = this.getServiceOrThrow(LevelConfiguration);
     this._levelSelector = this.getServiceOrThrow(LevelSelectorController);
 
-    assert(this._aManager != null, "Can't find AudioManagerService");
+    //    assert(this._aManager != null, "Can't find AudioManagerService");
 
-
-    this._aManager.playMusic("start_menu");
+    //  this._aManager.playMusic("start_menu");
 
     const tService = this.getService(SettingsLoader);
 
