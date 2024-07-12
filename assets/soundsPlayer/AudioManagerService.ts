@@ -35,8 +35,7 @@ export class AudioManagerService extends Service {
   }
 
   refreshMusic() {
-    AudioManager.instance.stop();
-    this._musicStoped = false;
+    this._taskQueue.enqueue(() => this.internalRefreshMusic());
   }
 
   playMusic(audioName: string) {
@@ -49,6 +48,11 @@ export class AudioManagerService extends Service {
 
   stop() {
     this.stopMusic();
+  }
+
+  private internalRefreshMusic() {
+    AudioManager.instance.stop();
+    this._musicStoped = false;
   }
 
   private internalStopMusic() {
