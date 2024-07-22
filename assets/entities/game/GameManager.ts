@@ -66,6 +66,9 @@ export class GameManager extends Service {
   private _bot: IBot | null;
   private _isStarted = false;
 
+  // remove this
+  public fakeTiles: TileController[] = []
+
   //@property(LevelController)
   levelController: LevelController;
 
@@ -513,10 +516,14 @@ export class GameManager extends Service {
 
   private notifyTilesAboutEndOfTurn() {
     this.forAllNotDestroiedTiles((t) => t.turnEnds());
+
+    this.fakeTiles.forEach((t) => t.turnEnds());
   }
 
   private notifyTilesAboutStartOfTurn() {
     this.forAllNotDestroiedTiles((t) => t.turnBegins());
+
+    this.fakeTiles.forEach((t) => t.turnBegins());
   }
 
   private notifyTilesToAnimateEndOfTurn() {

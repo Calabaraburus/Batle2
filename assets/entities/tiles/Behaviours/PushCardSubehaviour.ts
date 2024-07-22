@@ -19,10 +19,10 @@ export class PushCardSubehaviour extends CardsSubBehaviour {
   prepare(): boolean {
     const targetTile = this.parent.target as StdTileController;
 
-    let targetRow = this.parent.startTilesP2[0].row - 1; // should be 10 in default wariation of game
+    let targetRow = this.parent.startTilesP2[0].row - 1; // should be 10 in default variation of game
     this._direction = 1;
     if (!this.parent.gameState.isPlayerTurn) {
-      targetRow = this.parent.startTilesP1[0].row + 1; // should be 1 in default wariation of game
+      targetRow = this.parent.startTilesP1[0].row + 1; // should be 1 in default variation of game
       this._direction = -1;
     }
 

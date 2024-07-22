@@ -21,19 +21,20 @@ import { SceneLoaderService } from "../services/SceneLoaderService";
 import { LevelConfiguration } from "../configuration/LevelConfiguration";
 import { BonusModel } from "../../models/BonusModel";
 import { PlayerModel } from "../../models/PlayerModel";
-import { MeteoriteLowCardSubehaviour } from "../tiles/Behaviours/MeteoriteLowCardSubehaviour";
-import { AudioManagerService } from "../../soundsPlayer/AudioManagerService";
 import { EndLevelCardSelectorBonusModel } from "../configuration/EndLevelCardSelectorBonusModel";
 import { EndLevelLifeBonusModel } from "../configuration/EndLevelLifeBonusModel";
 import { EndLevelCardUpdateBonusModel } from "../configuration/EndLevelCardUpdateBonusModel";
 import { SettingsLoader } from "../services/SettingsLoader";
-import { GameConfigurationModel } from "../game/GameConfiguration";
 import { GameLevelCfgModel } from "../game/GameLevelCfgModel";
 import { PlayerCurrentGameState } from "../services/PlayerCurrentGameState";
 import { GameCardCfgModel } from "../game/GameCardCfgModel";
 import { FieldModel } from "../../models/FieldModel";
 import { Tutorial1Logic } from "../tutor/Tutorial1Logic";
 import { AudioConfigurator } from "../services/AudioConfigurator";
+import { GameManager } from "../game/GameManager";
+import { TileCreator } from "../field/TileCreator";
+import { TileController } from "../tiles/TileController";
+import { ObjectsCache } from "../../ObjectsCache/ObjectsCache";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
@@ -164,6 +165,20 @@ export class LevelSelectorController extends Service {
       t1.setupGraph();
       t1.node.active = true;
 
+    });
+
+    // lvl_monastery
+    specAlgs.set("lvl5", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+
+      std_init(config, lvl, "map_monastery");
+      const gManager = this.getServiceOrThrow(GameManager);
+      const creator = this.getServiceOrThrow(TileCreator);
+      const monkGenerator = ObjectsCache.instance?.getObjectByPrefabName<TileController>("MonkSummonerTilePrefab");
+
+      if (monkGenerator != null && monkGenerator != undefined) {
+        monkGenerator.start();
+        gManager.fakeTiles.push(monkGenerator);
+      }
     });
 
     // lvl_walls
