@@ -35,6 +35,7 @@ import { GameManager } from "../game/GameManager";
 import { TileCreator } from "../field/TileCreator";
 import { TileController } from "../tiles/TileController";
 import { ObjectsCache } from "../../ObjectsCache/ObjectsCache";
+import { LevelView } from "./LevelView";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
@@ -172,13 +173,17 @@ export class LevelSelectorController extends Service {
 
       std_init(config, lvl, "map_monastery");
       const gManager = this.getServiceOrThrow(GameManager);
-      const creator = this.getServiceOrThrow(TileCreator);
+      const levelView = this.getServiceOrThrow(LevelView);
+
       const monkGenerator = ObjectsCache.instance?.getObjectByPrefabName<TileController>("MonkSummonerTilePrefab");
 
       if (monkGenerator != null && monkGenerator != undefined) {
         monkGenerator.start();
         gManager.fakeTiles.push(monkGenerator);
       }
+
+      levelView.turnOffEnemySide();
+
     });
 
     // lvl_walls

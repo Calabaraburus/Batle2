@@ -12,8 +12,10 @@ import {
   Node,
   Sprite,
   SpriteFrame,
+  UIOpacity,
   Vec3,
   _decorator,
+  assert,
 } from "cc";
 import { LevelModel } from "../../models/LevelModel";
 import { ILevelView } from "./ILevelView";
@@ -28,7 +30,6 @@ export class LevelView extends Component implements ILevelView {
   Bonus1Price: number;
   Bonus2Price: number;
   Bonus3Price: number;
-  //#region Privates
 
   statisticService: MatchStatisticService;
 
@@ -38,10 +39,7 @@ export class LevelView extends Component implements ILevelView {
   private _enemyMaxLife = 0;
   private _playerMaxLife = 0;
   private _pointsCount = 0;
-
-  //#endregion
-
-  //#region Cocos properties
+  private _lightsBkgStackUp: Node | null
 
   /** Turns count label */
   @property({ type: Label })
@@ -66,8 +64,8 @@ export class LevelView extends Component implements ILevelView {
   /** Load line max pos */
   @property({ type: CCFloat })
   loadLineEndPos = 1;
+  private _enemySignalBlock: Node | null;
 
-  //#endregion
 
   //#region IListView
 
@@ -91,6 +89,28 @@ export class LevelView extends Component implements ILevelView {
   public set PointsCount(value: number) {
     this.pointsCountLbl.string = value.toString();
     this._pointsCount = value;
+  }
+
+  getSignalNodes(): void {
+    this._lightsBkgStackUp = this.node.getChildByPath("MainField/TilesFieldFrame/up/stack");
+    this._enemySignalBlock = this.node.getChildByPath("MainField/AttackSignalBlock/enemySide");
+  }
+
+  public turnOffEnemySide(turnOff = true) {
+    this.getSignalNodes();
+    assert(this._lightsBkgStackUp != null);
+    assert(this._enemySignalBlock != null);
+
+    this._lightsBkgStackUp.active = !turnOff;
+    var opacity = this._enemySignalBlock.getComponent(UIOpacity);
+
+    assert(opacity != null);
+
+    if (turnOff) {
+      opacity.opacity = 0;
+    } else {
+      opacity.opacity = 255;
+    }
   }
 
   public showWin(show: boolean) {

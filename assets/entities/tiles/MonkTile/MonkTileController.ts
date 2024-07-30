@@ -12,7 +12,10 @@ import {
   UITransform,
   randomRangeInt,
   tween,
-  CCFloat
+  Node,
+  CCFloat,
+  math,
+  director
 } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
@@ -30,6 +33,7 @@ import { Service } from "../../services/Service";
 import { DataService } from "../../services/DataService";
 import { EffectsManager } from "../../game/EffectsManager";
 import { LifeIndicator_v2 } from "../LifeIndicator_v2";
+import { loseLifeLabel } from "../../playerField/loseLifeEffect/loseLifeLabel";
 const { ccclass, property } = _decorator;
 
 @ccclass("MonkTileController")
@@ -50,6 +54,8 @@ export class MonkTileController
   public Life: number = 6;
   private _lifeIndicator: LifeIndicator_v2 | null;
   private _created = true;
+  private _lvlViewNode: Node;
+
   start() {
     super.start();
     this.isFixed = true;
@@ -60,6 +66,8 @@ export class MonkTileController
     this._effectsManager = Service.getServiceOrThrow(EffectsManager);
     this._audio = Service.getServiceOrThrow(AudioManagerService);
     this._lifeIndicator = this.getComponentInChildren(LifeIndicator_v2);
+
+    this.loadLvlViewNode();
     this.updateSprite();
     this.setLife();
     this._created = true;
@@ -115,12 +123,12 @@ export class MonkTileController
         return;
       }
 
-      this._effectsManager.PlayEffectNow(() => this.playEffect1(aimTile), 0.6);
-
       this.exchangeTile(aimTile);
 
       this.fieldController.moveTilesLogicaly(this._gameManager.playerTurn);
       this.fieldController.fixTiles();
+
+      this._effectsManager.PlayEffectNow(() => this.playMoveEffect(), 0.6)
     }
   }
 
@@ -129,14 +137,11 @@ export class MonkTileController
 
     this.fieldController.moveTilesLogicaly(this._gameManager.playerTurn);
     this.fieldController.fixTiles();
+    this.playDestroyEffect();
   }
 
   exchangeTile(aimTile: TileController) {
     this.fieldController.exchangeTiles(aimTile, this);
-  }
-
-  public get state(): TileState {
-    return this._state;
   }
 
   public cacheCreate(): void {
@@ -160,30 +165,47 @@ export class MonkTileController
    */
   public attack(power = 1) {
     this._curLife -= power;
+    this._effectsManager.PlayEffectNow(() => this.playAttackEffect(), 0.6);
 
-    if (this._curLife < 0) {
+    if (this._curLife <= 0) {
       this.destroyMonk();
     } else {
-      if (this._lifeIndicator)
+      if (this._lifeIndicator) {
         this._lifeIndicator.activeLifes = this._curLife;
+      }
     }
   }
 
-  playEffect1(aimTile: TileController) {
-    console.log("monk effect");
+  playAttackEffect() {
+    console.log("monk attack effect");
 
-    const timeObj = { time: 0 };
-    const animator = tween(timeObj);
+    const cache = ObjectsCache.instance;
+    if (cache == null) return;
 
-    //      this._audio.playSoundEffect(
-    //        "berserk_attack"
-    //      );
+    const label = cache.getObjectByName<loseLifeLabel>("loseLifeLabel");
+    if (label) {
+      label.node.parent = null;
+      label.node.parent = this._lvlViewNode;
+    }
+    const pos = this.node.worldPosition.clone();
+    pos.x += math.randomRange(-50, 50);
+    pos.y += math.randomRange(-50, 50);
+    label?.play(-1, pos);
+  }
 
-    animator
-      .delay(0.2)
-      .call(() => this._fieldViewController.moveTilesAnimate());
+  playDestroyEffect() {
+    this.node.active = false;
+    this._fieldViewController.moveTilesAnimate();
+  }
 
-    animator.start();
-    return true;
+  playMoveEffect() {
+    this._fieldViewController.moveTilesAnimate();
+  }
+
+  loadLvlViewNode() {
+    const tlvlViewNode = director.getScene()?.getChildByName("LevelView");
+    if (tlvlViewNode) {
+      this._lvlViewNode = tlvlViewNode;
+    }
   }
 }

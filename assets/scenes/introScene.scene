@@ -634,7 +634,7 @@
     "tileName": "monk",
     "baseTileName": "monk",
     "sprite": {
-      "__uuid__": "73e04c35-d9c3-43c3-82f8-67f76a7baeb0@f9941",
+      "__uuid__": "34adee50-9c4a-45cd-92af-8c33bb039d24@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "starColor": {
