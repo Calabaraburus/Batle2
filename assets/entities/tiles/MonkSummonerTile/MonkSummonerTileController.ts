@@ -45,7 +45,7 @@ export class MonkSummonerTileController extends TileController {
   private _gameManager: GameManager;
   private _taskInfo: TaskInfo;
 
-  private maxMonks = 9;
+  private maxMonks = 10;
   private maxMonksDeaths = 5;
 
   private _curMonksCount: number;
@@ -53,7 +53,7 @@ export class MonkSummonerTileController extends TileController {
   private _curMonksSurvCount: number;
 
   start(): void {
-    this._curMonksCount = this.maxMonks;
+    this._curMonksCount = this.maxMonks - 1; // -1 b'cose first monk is on field at start of a round
     this._curMonksDthCount = this.maxMonksDeaths;
     this._curMonksSurvCount = 0;
 
@@ -120,16 +120,24 @@ export class MonkSummonerTileController extends TileController {
 
     this._fieldController.moveTilesLogicaly(this._gameManager.playerTurn);
     this._fieldController.fixTiles();
-
   }
 
   public informAboutMonkDeath() {
     this._curMonksDthCount--;
+
+    if (this._curMonksDthCount <= 0) {
+      this._dataService.playerModel.life = 0;
+    }
+
     this.updateTaskInfo();
   }
 
   public informAboutMonkSurvive() {
     this._curMonksSurvCount++;
+
+    if (this._curMonksSurvCount + this._curMonksDthCount >= this.maxMonks) {
+      this._dataService.botModel.life = 0;
+    }
 
     this.updateTaskInfo();
   }

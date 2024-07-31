@@ -124,6 +124,7 @@ export class MonkTileController
 
     if ((this.row + vectorAttack) == this.fieldController.getEndTile(this.col)?.row) {
       this.destroyMonk();
+      this.infoAboutSurvive();
     } else {
       const matrix = this.fieldController.fieldMatrix;
 
@@ -177,7 +178,7 @@ export class MonkTileController
     this._curLife -= power;
     this._effectsManager.PlayEffectNow(() => this.playAttackEffect(), 0.6);
 
-    if (this._curLife <= 0) {
+    if (this._curLife < 0) {
       this.destroyMonk();
       this.infoAboutDth();
     } else {
@@ -206,6 +207,10 @@ export class MonkTileController
 
   infoAboutDth() {
     this._summoner.informAboutMonkDeath();
+  }
+
+  infoAboutSurvive() {
+    this._summoner.informAboutMonkSurvive();
   }
 
   playDestroyEffect() {

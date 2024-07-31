@@ -172,6 +172,10 @@ export class LevelSelectorController extends Service {
     // lvl_monastery
     specAlgs.set("lvl5", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
 
+      lvl.playerHeroName = "monk";
+      lvl.playerLife = "60";
+      lvl.botLife = "99999"
+
       std_init(config, lvl, "map_monastery");
       const gManager = this.getServiceOrThrow(GameManager);
       const levelView = this.getServiceOrThrow(LevelView);
@@ -187,6 +191,7 @@ export class LevelSelectorController extends Service {
       levelView.turnOffEnemySide();
       levelView.showTaskInfo();
       eField.playerLifeLine.show(false);
+      eField.turnOffEffects();
     });
 
     // lvl_walls

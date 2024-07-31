@@ -6,6 +6,9 @@ const { ccclass, property } = _decorator;
 
 @ccclass("EnemyFieldController")
 export class EnemyFieldController extends Component {
+
+  private _playEffect = true;
+
   @property(PlayerModel)
   playerModel: PlayerModel;
 
@@ -34,6 +37,10 @@ export class EnemyFieldController extends Component {
 
   }
 
+  public turnOffEffects(turnoff = true) {
+    this._playEffect = !turnoff;
+  }
+
   public get PlayerMaxLife(): number {
     return this.playerLifeLine.Max;
   }
@@ -47,7 +54,7 @@ export class EnemyFieldController extends Component {
 
     this.playerImage.spriteFrame = this.playerModel.heroImage;
     this.playerLifeLine.Max = this.playerModel.lifeMax;
-    if (this.playerLifeLine.Value > this.playerModel.life) {
+    if (this.playerLifeLine.Value > this.playerModel.life && this._playEffect) {
       this.loseLifeEffect.playEffect(this.playerModel.life - this.playerLifeLine.Value);
     }
     this.playerLifeLine.Value = this.playerModel.life;
