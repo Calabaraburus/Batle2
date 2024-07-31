@@ -27,6 +27,8 @@ import { ObjectsCache } from "../../../ObjectsCache/ObjectsCache";
 import { EffectsService } from "../../services/EffectsService";
 import { FieldController } from "../../field/FieldController";
 import { GameManager } from "../../game/GameManager";
+import { TaskInfo } from "../../ui/taskInfo/TaskInfo";
+import { MonkTileController } from "../MonkTile/MonkTileController";
 const { ccclass, property } = _decorator;
 
 @ccclass("MonkSummonerTileController")
@@ -41,15 +43,28 @@ export class MonkSummonerTileController extends TileController {
   private _effectsService: EffectsService;
   private _fieldController: FieldController;
   private _gameManager: GameManager;
+  private _taskInfo: TaskInfo;
+
+  private maxMonks = 9;
+  private maxMonksDeaths = 5;
+
+  private _curMonksCount: number;
+  private _curMonksDthCount: number;
+  private _curMonksSurvCount: number;
 
   start(): void {
-    // super.start();
+    this._curMonksCount = this.maxMonks;
+    this._curMonksDthCount = this.maxMonksDeaths;
+    this._curMonksSurvCount = 0;
 
     this._curPeriod = this.SummonPeriod;
     this._fieldController = Service.getServiceOrThrow(FieldController);
     this._dataService = Service.getServiceOrThrow(DataService);
     this._effectsService = Service.getServiceOrThrow(EffectsService);
     this._gameManager = Service.getServiceOrThrow(GameManager)
+
+    this._taskInfo = Service.getServiceOrThrow(TaskInfo);
+    this.updateTaskInfo();
   }
 
   turnEnds(): void {
@@ -62,7 +77,18 @@ export class MonkSummonerTileController extends TileController {
     }
   }
 
+  updateTaskInfo() {
+    this._taskInfo.setAllCount(this._curMonksCount);
+    this._taskInfo.setDthCount(this._curMonksDthCount);
+  }
+
   summon() {
+
+    if (this._curMonksCount <= 0) return;
+
+    this._curMonksCount--;
+    this.updateTaskInfo();
+
     const model = this._fieldController.fieldModel.getTileModel(this.monkModelName);
 
     if (model == null) { throw Error("Can't find model"); }
@@ -84,6 +110,10 @@ export class MonkSummonerTileController extends TileController {
       putOnField: true,
     });
 
+    if (tile instanceof MonkTileController) {
+      tile.setSummoner(this);
+    }
+
     if (tile) {
       this.effect(tile);
     }
@@ -91,6 +121,17 @@ export class MonkSummonerTileController extends TileController {
     this._fieldController.moveTilesLogicaly(this._gameManager.playerTurn);
     this._fieldController.fixTiles();
 
+  }
+
+  public informAboutMonkDeath() {
+    this._curMonksDthCount--;
+    this.updateTaskInfo();
+  }
+
+  public informAboutMonkSurvive() {
+    this._curMonksSurvCount++;
+
+    this.updateTaskInfo();
   }
 
   effect(tile: TileController) {

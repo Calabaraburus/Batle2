@@ -23,6 +23,7 @@ import { LevelController } from "./LevelController";
 import { MatchStatisticService } from "../services/MatchStatisticService";
 import { Window } from "../ui/window/Window";
 import { FinalWindow } from "../rewardBlock/FinalWindow";
+import { TaskInfo } from "../ui/taskInfo/TaskInfo";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelView")
@@ -111,6 +112,13 @@ export class LevelView extends Component implements ILevelView {
     } else {
       opacity.opacity = 255;
     }
+  }
+
+  public showTaskInfo(show = true) {
+    const ti = this.node.getComponentInChildren(TaskInfo);
+    assert(ti != null);
+
+    ti.show(show);
   }
 
   public showWin(show: boolean) {

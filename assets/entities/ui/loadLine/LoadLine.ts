@@ -11,7 +11,9 @@ import {
   Sprite,
   Node,
   UITransform,
-  Vec3, CCFloat
+  Vec3, CCFloat,
+  UIOpacity,
+  assert
 } from "cc";
 const { ccclass, property } = _decorator;
 
@@ -73,5 +75,17 @@ export class LoadLine extends Component {
       this.loadLineNode.position.y,
       this.loadLineNode.position.z
     );
+  }
+
+  show(show = true) {
+    var opacity = this.getComponent(UIOpacity);
+
+    assert(opacity != null);
+
+    if (show) {
+      opacity.opacity = 255;
+    } else {
+      opacity.opacity = 0;
+    }
   }
 }

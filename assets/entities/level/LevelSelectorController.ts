@@ -36,6 +36,7 @@ import { TileCreator } from "../field/TileCreator";
 import { TileController } from "../tiles/TileController";
 import { ObjectsCache } from "../../ObjectsCache/ObjectsCache";
 import { LevelView } from "./LevelView";
+import { EnemyFieldController } from "../enemyField/EnemyFieldController";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
@@ -174,6 +175,7 @@ export class LevelSelectorController extends Service {
       std_init(config, lvl, "map_monastery");
       const gManager = this.getServiceOrThrow(GameManager);
       const levelView = this.getServiceOrThrow(LevelView);
+      const eField = this.getServiceOrThrow(EnemyFieldController);
 
       const monkGenerator = ObjectsCache.instance?.getObjectByPrefabName<TileController>("MonkSummonerTilePrefab");
 
@@ -183,7 +185,8 @@ export class LevelSelectorController extends Service {
       }
 
       levelView.turnOffEnemySide();
-
+      levelView.showTaskInfo();
+      eField.playerLifeLine.show(false);
     });
 
     // lvl_walls

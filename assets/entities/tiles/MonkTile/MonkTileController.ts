@@ -15,7 +15,8 @@ import {
   Node,
   CCFloat,
   math,
-  director
+  director,
+  assert
 } from "cc";
 import { TileController } from "../TileController";
 import { TileModel } from "../../../models/TileModel";
@@ -34,6 +35,8 @@ import { DataService } from "../../services/DataService";
 import { EffectsManager } from "../../game/EffectsManager";
 import { LifeIndicator_v2 } from "../LifeIndicator_v2";
 import { loseLifeLabel } from "../../playerField/loseLifeEffect/loseLifeLabel";
+import { TaskInfo } from "../../ui/taskInfo/TaskInfo";
+import { MonkSummonerTileController } from "../MonkSummonerTile/MonkSummonerTileController";
 const { ccclass, property } = _decorator;
 
 @ccclass("MonkTileController")
@@ -55,6 +58,9 @@ export class MonkTileController
   private _lifeIndicator: LifeIndicator_v2 | null;
   private _created = true;
   private _lvlViewNode: Node;
+  private _info: TaskInfo | null;
+
+  private _summoner: MonkSummonerTileController;
 
   start() {
     super.start();
@@ -71,6 +77,10 @@ export class MonkTileController
     this.updateSprite();
     this.setLife();
     this._created = true;
+  }
+
+  setSummoner(summoner: MonkSummonerTileController) {
+    this._summoner = summoner;
   }
 
   setLife() {
@@ -169,6 +179,7 @@ export class MonkTileController
 
     if (this._curLife <= 0) {
       this.destroyMonk();
+      this.infoAboutDth();
     } else {
       if (this._lifeIndicator) {
         this._lifeIndicator.activeLifes = this._curLife;
@@ -191,6 +202,10 @@ export class MonkTileController
     pos.x += math.randomRange(-50, 50);
     pos.y += math.randomRange(-50, 50);
     label?.play(-1, pos);
+  }
+
+  infoAboutDth() {
+    this._summoner.informAboutMonkDeath();
   }
 
   playDestroyEffect() {
