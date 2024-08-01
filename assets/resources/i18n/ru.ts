@@ -12,7 +12,7 @@ export const languages = {
         autorsname: "Авторы",
         audioname: "Звуки\\Музыка",
         autorstxt: "Идея, дизайн, программирование, анимации, эффекты и др.\n\nА. и Т. Натальчишины",
-        audiotxt: "MattRuthSound\nMateusz_Chenc\ndermotte\nJoelAudio\nmarb7e\nlsprice\nMrOwn1\nSDLx\nThalamus_Lab\niainmccurdy\nInspectorJ\nbendodge\nzimbot\nCGEffex\nsteveygos93\nBenboncan\nERH\ndatasoundsample\nsandyrb\nhykenfreak\ntwisterman\nEminYILDIRIM\nhumanoide9000\nAshot Danielyan\nWilliam_King\nStudioKolomna\nGioeleFazzeri\nLesfm\nVitalii Korol\nSergePavkinMusic",
+        audiotxt: "MattRuthSound\nMateusz_Chenc\ndermotte\nJoelAudio\nmarb7e\nlsprice\nMrOwn1\nSDLx\nThalamus_Lab\niainmccurdy\nInspectorJ\nbendodge\nzimbot\nCGEffex\nsteveygos93\nBenboncan\nERH\ndatasoundsample\nsandyrb\nhykenfreak\ntwisterman\nEminYILDIRIM\nhumanoide9000\nAshot Danielyan\nWilliam_King\nStudioKolomna\nGioeleFazzeri\nLesfm\nVitalii Korol\nSergePavkinMusic\nCarlosCarty",
         editorcaption: "Игровой движок",
         editortxt: "Cocos Creator",
         mapgeneratorcaption: "Генератор карты",
@@ -58,6 +58,9 @@ export const languages = {
         applycard: "Выбери воина противника\nдля атаки магией",
         aboutcard: "Если зажать карту,\nоткроется её описание\n\nОписание карт противника\nможно посмотреть нажав\nна его героя",
         endtutor2: "А теперь, закончи бой!",
+        totor3p1: "Это монах\n\nРаз в ход он продвигается\nна одну клетку",
+        totor3p2: "Табличка показывает\nоставшихся монахов",
+        totor3p3: "Надо провести монахов\nдо конца поля\n\nЕсли погибнет 50%\nТы проиграешь!",
     },
     scrolls: {
         intro: {

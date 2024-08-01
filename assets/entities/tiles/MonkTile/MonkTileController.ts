@@ -37,6 +37,7 @@ import { LifeIndicator_v2 } from "../LifeIndicator_v2";
 import { loseLifeLabel } from "../../playerField/loseLifeEffect/loseLifeLabel";
 import { TaskInfo } from "../../ui/taskInfo/TaskInfo";
 import { MonkSummonerTileController } from "../MonkSummonerTile/MonkSummonerTileController";
+import { SoulEffect } from "../../effects/soulEffect";
 const { ccclass, property } = _decorator;
 
 @ccclass("MonkTileController")
@@ -52,6 +53,7 @@ export class MonkTileController
   private _effectsManager: EffectsManager;
   private _audio: AudioManagerService;
   private _curLife: number;
+  private _prevAtack = false;
 
   @property(CCFloat)
   public Life: number = 6;
@@ -61,6 +63,7 @@ export class MonkTileController
   private _info: TaskInfo | null;
 
   private _summoner: MonkSummonerTileController;
+  private _effectsService: EffectsService;
 
   start() {
     super.start();
@@ -70,6 +73,7 @@ export class MonkTileController
     this._gameManager = Service.getServiceOrThrow(GameManager);
     this._fieldViewController = Service.getServiceOrThrow(FieldController);
     this._effectsManager = Service.getServiceOrThrow(EffectsManager);
+    this._effectsService = Service.getServiceOrThrow(EffectsService);
     this._audio = Service.getServiceOrThrow(AudioManagerService);
     this._lifeIndicator = this.getComponentInChildren(LifeIndicator_v2);
 
@@ -95,23 +99,39 @@ export class MonkTileController
   turnBegins(): void {
     if (this._created) {
       this._created = false;
-      return;
+    } else {
+
+      if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
+        this.moveMonk();
+      } else {
+        this.tryToAttackMonk();
+      }
     }
 
-    if (this._cardService?.getCurrentPlayerModel() != this.playerModel) {
-      this.moveMonk();
-    } else {
-      this.tryToAttackMonk();
-    }
+    this.tryToChangeBckg();
+    this._prevAtack = this.isInAtackZone();
+  }
+
+  turnEnds(): void {
+    this.tryToChangeBckg();
+    this._prevAtack = this.isInAtackZone();
   }
 
   tryToAttackMonk() {
-    const prev = this.fieldController.fieldMatrix.get(this.row + 1, this.col);
-    const nxt = this.fieldController.fieldMatrix.get(this.row + 1, this.col);
-
-    if (prev.playerModel == nxt.playerModel && prev.playerModel != this.playerModel) {
+    if (this.isInAtackZone()) {
       this.attack(1);
     }
+  }
+
+  isInAtackZone() {
+    const nxt = this.fieldController.fieldMatrix.get(this.row + 1, this.col);
+    const prev = this.fieldController.fieldMatrix.get(this.row > 1 ? this.row - 1 : this.row, this.col);
+
+    if (nxt.playerModel != this.playerModel || prev.playerModel != this.playerModel) {
+      return true;
+    }
+
+    return false;
   }
 
   moveMonk() {
@@ -125,6 +145,7 @@ export class MonkTileController
     if ((this.row + vectorAttack) == this.fieldController.getEndTile(this.col)?.row) {
       this.destroyMonk();
       this.infoAboutSurvive();
+      this.playSurviveEffect();
     } else {
       const matrix = this.fieldController.fieldMatrix;
 
@@ -140,6 +161,17 @@ export class MonkTileController
       this.fieldController.fixTiles();
 
       this._effectsManager.PlayEffectNow(() => this.playMoveEffect(), 0.6)
+    }
+  }
+
+  tryToChangeBckg() {
+    const curAtack = this.isInAtackZone();
+    if (curAtack != this._prevAtack) {
+      if (curAtack) {
+        this.setBackground("emergencyBackground");
+      } else {
+        this.setBackground("playerBackground");
+      }
     }
   }
 
@@ -180,6 +212,7 @@ export class MonkTileController
 
     if (this._curLife < 0) {
       this.destroyMonk();
+      this.playDestroyEffect();
       this.infoAboutDth();
     } else {
       if (this._lifeIndicator) {
@@ -189,10 +222,14 @@ export class MonkTileController
   }
 
   playAttackEffect() {
+    if (this.isDestroied) return;
+
     console.log("monk attack effect");
 
     const cache = ObjectsCache.instance;
     if (cache == null) return;
+
+    this._audio.playSoundEffect("hitSound4");
 
     const label = cache.getObjectByName<loseLifeLabel>("loseLifeLabel");
     if (label) {
@@ -216,6 +253,42 @@ export class MonkTileController
   playDestroyEffect() {
     this.node.active = false;
     this._fieldViewController.moveTilesAnimate();
+
+    const effect =
+      ObjectsCache.instance?.getObjectByPrefabName<CardEffect>("TilesCrushEffect");
+
+    if (effect == null) {
+      return;
+    }
+
+    effect.node.parent = null;
+    effect.node.parent = this.node.parent;
+    effect.node.position = this.node.position.clone();
+    effect.play();
+
+    const animator = tween(this);
+    animator
+      .delay(2)
+      .call(() => effect.cacheDestroy());
+
+    animator.start();
+  }
+
+  playSurviveEffect() {
+    const soulEffect =
+      ObjectsCache.instance?.getObjectByPrefabName<SoulEffect>("tileSoulEffect");
+
+    if (soulEffect) {
+
+      this._audio.playSoundEffect("monkSurvive");
+
+      soulEffect.node.parent = this._effectsService.effectsNode;
+      soulEffect.node.worldPosition = this.node.worldPosition;
+
+      const aim = this.dataService.enemyFieldController?.playerImage.node;
+
+      soulEffect?.playSoul(aim, () => { });
+    }
   }
 
   playMoveEffect() {

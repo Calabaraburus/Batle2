@@ -77,13 +77,19 @@ export class AttackSignalController extends Service {
     }
   }
 
+  activateEnemySide(activate = true) {
+    this._enemySideIsActive = activate;
+  }
+
+  _enemySideIsActive = false;
+
   atack(player = true) {
     let signals: AttackSignalComponent[];
 
     if (player) {
       signals = this.playerSide;
     } else {
-      signals = this.enemySide;
+      signals = this._enemySideIsActive ? this.enemySide : [];
     }
 
     signals.forEach(s => s.attack());

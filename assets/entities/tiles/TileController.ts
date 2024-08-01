@@ -225,6 +225,18 @@ export class TileController extends CacheObject {
     }
   }
 
+  setBackground(bkgModelName: string) {
+    if (this._backgroundSprite == null)
+      this._backgroundSprite = this.getSpriteInChild("Background");
+
+    if (this._backgroundSprite != null && this.playerModel != null) {
+
+      const tm = this.fieldController.fieldModel.getTileModel(bkgModelName);
+
+      this._backgroundSprite.spriteFrame = this.getRndSpriteFromModel(tm);
+    }
+  }
+
   private getRndSpriteFromModel(tm: TileModel) {
     const arr: SpriteFrame[] = [];
 

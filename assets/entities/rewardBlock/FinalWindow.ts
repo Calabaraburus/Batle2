@@ -93,7 +93,7 @@ export class FinalWindow extends Service {
   timeTurn = 0.6;
 
   private _selectedBonus: { name: string, price: string } = { name: "", price: "" };
-
+  private _wndIsClosed = false;
   private _overlayWnd: OverlayWindow | null;
   private _wnd: Window | null;
   private _infoWnd: InfoWindow;
@@ -108,7 +108,7 @@ export class FinalWindow extends Service {
     this._infoWnd = this.getServiceOrThrow(InfoWindow);
     this._audio = this.getServiceOrThrow(AudioConfigurator);
     this._cardFlagSelector = "empty";
-
+    this._wndIsClosed = true;
     const tService = this.getService(SettingsLoader);
 
     assert(tService != null, "SettingsLoader can't be found");
@@ -266,10 +266,12 @@ export class FinalWindow extends Service {
     } else {
       this._wnd?.showContentGroup('lose');
       tween(this).delay(9).call(() => {
-        this._audio.applyList(this._audio.endGameMusicList);
+        if (!this._wndIsClosed) this._audio.applyList(this._audio.endGameMusicList);
       }).start();
       this._audio.audioManager.playSoundEffect("defeated", false);
     }
+
+    this._wndIsClosed = false;
   }
 
   hideWindow() {
@@ -415,7 +417,7 @@ export class FinalWindow extends Service {
 
       this._settingsLoader.saveGameState();
     }
-
+    this._wndIsClosed = true;
     this._inGameLoader?.loadScene(this, "LvlScene");
   }
 

@@ -37,6 +37,10 @@ import { TileController } from "../tiles/TileController";
 import { ObjectsCache } from "../../ObjectsCache/ObjectsCache";
 import { LevelView } from "./LevelView";
 import { EnemyFieldController } from "../enemyField/EnemyFieldController";
+import { MonkSummonerTileController } from "../tiles/MonkSummonerTile/MonkSummonerTileController";
+import { DataService } from "../services/DataService";
+import { FieldController } from "../field/FieldController";
+import { AttackSignalController } from "../attackSignal/AttackSignalController";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
@@ -147,14 +151,18 @@ export class LevelSelectorController extends Service {
 
     const field_maps = this.field_maps;
 
+    const setTutor = (id: number) => {
+      const t1 = this.getServiceOrThrow(Tutorial1Logic);
+      t1.currentTutorialGraphId = id;
+      t1.setupGraph();
+      t1.node.active = true;
+    }
+
     // tutor1
     specAlgs.set("lvl1", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
 
       std_init(config, lvl, "map_tutor1");
-      const t1 = this.getServiceOrThrow(Tutorial1Logic);
-      t1.currentTutorialGraphId = 0;
-      t1.setupGraph();
-      t1.node.active = true;
+      setTutor(0);
 
     });
 
@@ -162,26 +170,33 @@ export class LevelSelectorController extends Service {
     specAlgs.set("lvl2", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
 
       std_init(config, lvl, "map6");
-      const t1 = this.getServiceOrThrow(Tutorial1Logic);
-      t1.currentTutorialGraphId = 1;
-      t1.setupGraph();
-      t1.node.active = true;
+      setTutor(1);
 
     });
 
     // lvl_monastery
     specAlgs.set("lvl5", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
 
+      setTutor(2);
+
       lvl.playerHeroName = "monk";
       lvl.playerLife = "60";
       lvl.botLife = "99999"
+      lvl.playerCards =
+        [
+          { mnemonic: "pikeMiddle", price: "4" },
+          { mnemonic: "shamanLow", price: "8" },
+          { mnemonic: "panic", price: "4" }
+        ];
+
 
       std_init(config, lvl, "map_monastery");
       const gManager = this.getServiceOrThrow(GameManager);
       const levelView = this.getServiceOrThrow(LevelView);
       const eField = this.getServiceOrThrow(EnemyFieldController);
+      const signal = this.getServiceOrThrow(AttackSignalController);
 
-      const monkGenerator = ObjectsCache.instance?.getObjectByPrefabName<TileController>("MonkSummonerTilePrefab");
+      const monkGenerator = ObjectsCache.instance?.getObjectByPrefabName<MonkSummonerTileController>("MonkSummonerTilePrefab");
 
       if (monkGenerator != null && monkGenerator != undefined) {
         monkGenerator.start();
@@ -192,6 +207,7 @@ export class LevelSelectorController extends Service {
       levelView.showTaskInfo();
       eField.playerLifeLine.show(false);
       eField.turnOffEffects();
+      signal.activateEnemySide(false);
     });
 
     // lvl_walls

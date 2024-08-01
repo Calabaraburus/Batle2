@@ -190,6 +190,7 @@ export class StdTileInterBehaviour extends GameBehaviour {
           return;
         }
 
+        effect.node.parent = null;
         effect.node.parent = t.node.parent;
         effect.node.position = t.node.position.clone();
         effect.play();

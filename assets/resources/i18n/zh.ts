@@ -12,7 +12,7 @@ export const languages = {
         autorsname: "作者",
         audioname: "音效\\音乐",
         autorstxt: "创意、设计、编程、动画、效果等。\n\nA. 和 T. Natalchishin",
-        audiotxt: "MattRuthSound\nMateusz_Chenc\ndermotte\nJoelAudio\nmarb7e\nlsprice\nMrOwn1\nSDLx\nThalamus_Lab\niainmccurdy\nInspectorJ\nbendodge\nzimbot\nCGEffex\nsteveygos93\nBenboncan\nERH\ndatasoundsample\nsandyrb\nhykenfreak\ntwisterman\nEminYILDIRIM\nhumanoide9000\nAshot Danielyan\nWilliam_King\nStudioKolomna\nGioeleFazzeri\nLesfm\nVitalii Korol\nSergePavkinMusic",
+        audiotxt: "MattRuthSound\nMateusz_Chenc\ndermotte\nJoelAudio\nmarb7e\nlsprice\nMrOwn1\nSDLx\nThalamus_Lab\niainmccurdy\nInspectorJ\nbendodge\nzimbot\nCGEffex\nsteveygos93\nBenboncan\nERH\ndatasoundsample\nsandyrb\nhykenfreak\ntwisterman\nEminYILDIRIM\nhumanoide9000\nAshot Danielyan\nWilliam_King\nStudioKolomna\nGioeleFazzeri\nLesfm\nVitalii Korol\nSergePavkinMusic\nCarlosCarty",
         editorcaption: "游戏引擎",
         editortxt: "Cocos Creator",
         mapgeneratorcaption: "地图生成器",

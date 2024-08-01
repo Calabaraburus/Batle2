@@ -29,6 +29,8 @@ import { FieldController } from "../../field/FieldController";
 import { GameManager } from "../../game/GameManager";
 import { TaskInfo } from "../../ui/taskInfo/TaskInfo";
 import { MonkTileController } from "../MonkTile/MonkTileController";
+import { ITileFieldController } from "../../field/ITileFieldController";
+import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
 const { ccclass, property } = _decorator;
 
 @ccclass("MonkSummonerTileController")
@@ -44,6 +46,7 @@ export class MonkSummonerTileController extends TileController {
   private _fieldController: FieldController;
   private _gameManager: GameManager;
   private _taskInfo: TaskInfo;
+  private _isInitUpdated = false;
 
   private maxMonks = 10;
   private maxMonksDeaths = 5;
@@ -51,6 +54,7 @@ export class MonkSummonerTileController extends TileController {
   private _curMonksCount: number;
   private _curMonksDthCount: number;
   private _curMonksSurvCount: number;
+  private _audioSrvc: AudioManagerService;
 
   start(): void {
     this._curMonksCount = this.maxMonks - 1; // -1 b'cose first monk is on field at start of a round
@@ -62,12 +66,17 @@ export class MonkSummonerTileController extends TileController {
     this._dataService = Service.getServiceOrThrow(DataService);
     this._effectsService = Service.getServiceOrThrow(EffectsService);
     this._gameManager = Service.getServiceOrThrow(GameManager)
-
+    this._audioSrvc = Service.getServiceOrThrow(AudioManagerService);
     this._taskInfo = Service.getServiceOrThrow(TaskInfo);
     this.updateTaskInfo();
   }
 
   turnEnds(): void {
+
+    if (!this._isInitUpdated) {
+      this.updateSummonerOnField(this._dataService.field);
+      this._isInitUpdated = true;
+    }
 
     this._curPeriod--;
 
@@ -122,6 +131,14 @@ export class MonkSummonerTileController extends TileController {
     this._fieldController.fixTiles();
   }
 
+  public updateSummonerOnField(field: ITileFieldController) {
+    field.fieldMatrix.forEach(tile => {
+      if (tile instanceof MonkTileController) {
+        tile.setSummoner(this);
+      }
+    })
+  }
+
   public informAboutMonkDeath() {
     this._curMonksDthCount--;
 
@@ -135,7 +152,7 @@ export class MonkSummonerTileController extends TileController {
   public informAboutMonkSurvive() {
     this._curMonksSurvCount++;
 
-    if (this._curMonksSurvCount + this._curMonksDthCount >= this.maxMonks) {
+    if ((this._curMonksSurvCount + (this.maxMonksDeaths - this._curMonksDthCount)) >= this.maxMonks) {
       this._dataService.botModel.life = 0;
     }
 
@@ -157,7 +174,7 @@ export class MonkSummonerTileController extends TileController {
     effect.node.parent = this._effectsService.effectsNode;
     effect.play();
 
-    //    this.parent.audioManager.playSoundEffect("totem");
+    this._audioSrvc.playSoundEffect("monk");
 
     const animator = tween(this);
     animator.delay(1).call(() => effect.cacheDestroy());
