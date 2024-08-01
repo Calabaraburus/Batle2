@@ -57,7 +57,10 @@ export const languages = {
         thisisyourcard: "Choose a magic card",
         applycard: "Select an enemy soldier\nfor a magic attack",
         aboutcard: "Hold the card to\nsee its description\n\nYou can view descriptions\nof the opponent's cards\nby clicking on their hero",
-        endtutor2: "Now, finish the fight!"
+        endtutor2: "Now, finish the fight!",
+        totor3p1: "This is a monk\n\nOnce per turn, he moves one square",
+        totor3p2: "The board shows the remaining monks",
+        totor3p3: "You need to guide the monks to the end of the field\n\nIf 50% die, you lose!"
     },
     scrolls: {
         intro: {

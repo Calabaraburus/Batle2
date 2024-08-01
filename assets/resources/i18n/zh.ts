@@ -56,7 +56,10 @@ export const languages = {
         thisisyourcard: "选择一张魔法卡",
         applycard: "选择一个敌军士兵进行魔法攻击",
         aboutcard: "按住卡片查看其描述\n\n你可以通过点击敌方英雄查看敌方卡片的描述",
-        endtutor2: "现在，结束战斗！"
+        endtutor2: "现在，结束战斗！",
+        totor3p1: "这是一个和尚\n\n每回合他移动一格",
+        totor3p2: "板子显示剩余的和尚",
+        totor3p3: "你需要引导和尚到达田地的尽头\n\n如果50%死亡，你就输了！"
     },
     scrolls: {
         intro: {

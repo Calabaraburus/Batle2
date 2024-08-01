@@ -39,7 +39,7 @@ export class AttackSignalComponent extends Component {
     }
   }
 
-  showWindow() {
+  show() {
     this._isShowed = true;
     tween(this.opacity)
       .to(0.2, { opacity: 255 }, { easing: "quadIn" }).call(() => {
@@ -48,7 +48,7 @@ export class AttackSignalComponent extends Component {
       .start();
   }
 
-  hideWindow() {
+  hide() {
     this._isShowed = false;
     tween(this.opacity)
       .to(0.2, { opacity: 0 }, { easing: "quadOut" }).call(() => {

@@ -69,11 +69,14 @@ export class AttackSignalController extends Service {
         this.playerSide[colNum],
         this.dataService.botModel
       );
-      this.updateSignalState(
-        eSideTile,
-        this.enemySide[colNum],
-        this.dataService.playerModel
-      );
+
+      if (this._enemySideIsActive) {
+        this.updateSignalState(
+          eSideTile,
+          this.enemySide[colNum],
+          this.dataService.playerModel
+        );
+      }
     }
   }
 
@@ -111,11 +114,11 @@ export class AttackSignalController extends Service {
   ) {
     if (tile?.playerModel == currentPlayerModel) {
       if (signalComponent.active == false) {
-        signalComponent.showWindow();
+        signalComponent.show();
         signalComponent.active = true;
       }
     } else if (signalComponent.active == true) {
-      signalComponent.hideWindow();
+      signalComponent.hide();
       signalComponent.active = false;
     }
   }
