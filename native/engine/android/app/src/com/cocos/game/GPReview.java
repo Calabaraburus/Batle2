@@ -9,11 +9,12 @@ import com.google.android.play.core.review.model.ReviewErrorCode;
 import com.google.android.play.core.review.ReviewException;
 import android.content.Context;
 import com.google.android.gms.tasks.Task;
+import com.cocos.lib.CocosActivity;
 
 public class GPReview {
-    public void start(Context context){
+    public void start(CocosActivity activity){
 
-        ReviewManager manager = ReviewManagerFactory.create(context);
+        ReviewManager manager = ReviewManagerFactory.create(activity);
 
         //Original method
         JsbBridgeWrapper jbw = JsbBridgeWrapper.getInstance();
@@ -25,6 +26,11 @@ public class GPReview {
                 if (task.isSuccessful()) {
                     // We can get the ReviewInfo object
                     ReviewInfo reviewInfo = task.getResult();
+
+                    Task<Void> flow = manager.launchReviewFlow(activity, reviewInfo);
+                    flow.addOnCompleteListener(flowTask -> {
+                    });
+
                 } else {
                     // There was some problem, log or handle the error code.
 
