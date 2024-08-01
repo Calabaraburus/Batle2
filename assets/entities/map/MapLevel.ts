@@ -6,6 +6,7 @@ import { PlayerCurrentGameState } from '../services/PlayerCurrentGameState';
 import { AudioConfigurator } from '../services/AudioConfigurator';
 import { StartLevelWindow } from '../ui/window/StartLevelWindow';
 import { GameParameters } from '../game/GameParameters';
+import { ReviewCaller } from '../../scripts/review/reviewCaller';
 const { ccclass, property, executeInEditMode } = _decorator;
 
 @ccclass('MapLevel')
@@ -50,6 +51,17 @@ export class MapLevel extends Service {
         if (this._playerState.eventExists('ending') && this._playerState.isGameFinished()) {
             this._strtWnd.showWindow(null, "scroll:ending");
             this._playerState.removeEvent('ending');
+
+            this._settingsLoader.saveGameState();
+        }
+
+        if (this._playerState.eventExists('review') && this._playerState.currentLvl == "lvl6") {
+
+            const reviewCaller = new ReviewCaller();
+
+            reviewCaller.callReview();
+
+            this._playerState.removeEvent('review');
 
             this._settingsLoader.saveGameState();
         }
