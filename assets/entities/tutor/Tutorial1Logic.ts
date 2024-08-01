@@ -19,7 +19,7 @@ export class Tutorial1Logic extends Service {
     private _animator: animation.AnimationController | null;
     private _gameManager: GameManager | null;
     private _endTutor = false;
-    private _cardField: CardFieldController;
+    private _cardField: CardFieldController | null;
     private _field: FieldController | null;
 
     @property(Button)
@@ -30,6 +30,7 @@ export class Tutorial1Logic extends Service {
 
     @property(CCInteger)
     currentTutorialGraphId = 0;
+    private _activateCards: boolean;
 
 
     @property(CCBoolean)
@@ -59,6 +60,29 @@ export class Tutorial1Logic extends Service {
         this._endTutor = val;
     }
 
+    @property(CCBoolean)
+    public get activateCards() {
+        return this._activateCards;
+    }
+
+    public set activateCards(val: boolean) {
+
+        if (this._activateCards != val) {
+            this._activateCards = val
+
+            if (val == true) {
+                this._cardField?.bonuses.forEach(b => {
+                    b.currentAmmountToActivate = b.priceToActivate;
+                    b.active = true;
+                }
+                );
+
+                this._cardField?.updateData();
+            }
+        }
+
+    }
+
     start() {
         //this._animator = this.getComponent(animation.AnimationController);
         this._gameManager = this.getService(GameManager);
@@ -68,13 +92,6 @@ export class Tutorial1Logic extends Service {
         if (playerField) {
             this._cardField = playerField.cardField;
             this._cardField.node.on("selectedCardChanged", this.cardSelect, this)
-
-            this._cardField.bonuses.forEach(b => {
-                b.currentAmmountToActivate = b.priceToActivate;
-                b.active = true;
-            }
-            );
-            this._cardField.updateData();
         }
 
         //  if (this._animator) {
@@ -115,7 +132,7 @@ export class Tutorial1Logic extends Service {
 
     removeSubscriptions() {
         this._field?.tileClickedEvent.off("FieldController", this.tileClicked, this);
-        this._cardField.node.off("selectedCardChanged", this.cardSelect, this);
+        this._cardField?.node.off("selectedCardChanged", this.cardSelect, this);
     }
 
 }
