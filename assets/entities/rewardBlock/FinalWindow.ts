@@ -252,7 +252,9 @@ export class FinalWindow extends Service {
 
     if (win) {
       tween(this).delay(3).call(() => {
-        this._audio.applyList(this._audio.endGameMusicList);
+        if (!this._wndIsClosed) {
+          this._audio.applyList(this._audio.endGameMusicList);
+        }
       }).start();
 
       this._audio.audioManager.playSoundEffect("victory", false);
