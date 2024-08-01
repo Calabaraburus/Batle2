@@ -11,7 +11,7 @@ export class PlayerCurrentGameState {
     static getDefault() {
         const state = new PlayerCurrentGameState();
 
-        state.events = ['intro', 'arena', ' review', 'ending'];
+        state.events = ['intro', 'arena', 'review', 'ending'];
 
         return state;
     }

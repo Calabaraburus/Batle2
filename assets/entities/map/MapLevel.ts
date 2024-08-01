@@ -55,7 +55,7 @@ export class MapLevel extends Service {
             this._settingsLoader.saveGameState();
         }
 
-        if (this._playerState.eventExists('review') && this._playerState.currentLvl == "lvl6") {
+        if (this._playerState.eventExists('review') && this._playerState.getLastLvlId() + 1 == 5) {
 
             const reviewCaller = new ReviewCaller();
 

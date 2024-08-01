@@ -33,12 +33,16 @@ import com.cocos.lib.CocosActivity;
 
 public class AppActivity extends CocosActivity {
 
+    private GPReview rev;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // DO OTHER INITIALIZATION BELOW
         SDKWrapper.shared().init(this);
-
+        
+        rev = new GPReview();
+        rev.start(this);
     }
 
     @Override

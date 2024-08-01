@@ -266,7 +266,9 @@ export class FinalWindow extends Service {
     } else {
       this._wnd?.showContentGroup('lose');
       tween(this).delay(9).call(() => {
-        if (!this._wndIsClosed) this._audio.applyList(this._audio.endGameMusicList);
+        if (!this._wndIsClosed) {
+          this._audio.applyList(this._audio.endGameMusicList);
+        }
       }).start();
       this._audio.audioManager.playSoundEffect("defeated", false);
     }
@@ -417,6 +419,7 @@ export class FinalWindow extends Service {
 
       this._settingsLoader.saveGameState();
     }
+
     this._wndIsClosed = true;
     this._inGameLoader?.loadScene(this, "LvlScene");
   }

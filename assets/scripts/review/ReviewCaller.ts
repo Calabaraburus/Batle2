@@ -1,7 +1,17 @@
-import { native } from 'cc';
+import { log, native } from 'cc';
 
 export class ReviewCaller {
     public callReview() {
-        native.jsbBridgeWrapper.dispatchEventToNative("requestReviewCall");
+        try {
+            native.jsbBridgeWrapper.dispatchEventToNative("requestReviewCall");
+        } catch (e) {
+
+            if (typeof e === "string") {
+                console.error(e);
+            } else if (e instanceof Error) {
+                console.error(e.message);
+            }
+        }
+
     }
 }
