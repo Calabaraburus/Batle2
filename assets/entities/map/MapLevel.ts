@@ -6,7 +6,7 @@ import { PlayerCurrentGameState } from '../services/PlayerCurrentGameState';
 import { AudioConfigurator } from '../services/AudioConfigurator';
 import { StartLevelWindow } from '../ui/window/StartLevelWindow';
 import { GameParameters } from '../game/GameParameters';
-import { ReviewCaller } from '../../scripts/review/reviewCaller';
+import { ReviewCaller } from '../../scripts/review/ReviewCaller';
 const { ccclass, property, executeInEditMode } = _decorator;
 
 @ccclass('MapLevel')
