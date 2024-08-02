@@ -15,6 +15,7 @@ export class AttackSignalController extends Service {
   playerSide: AttackSignalComponent[] = [];
   enemySide: AttackSignalComponent[] = [];
   sides: Node[] = [];
+  _enemySideIsActive = true;
 
   start() {
     const f = this.getService(FieldController);
@@ -83,8 +84,6 @@ export class AttackSignalController extends Service {
   activateEnemySide(activate = true) {
     this._enemySideIsActive = activate;
   }
-
-  _enemySideIsActive = false;
 
   atack(player = true) {
     let signals: AttackSignalComponent[];

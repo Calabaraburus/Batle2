@@ -20,7 +20,7 @@ android {
     defaultConfig {
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
-        versionCode 12
+        versionCode 13
         versionName "1.2.3.3"
 
         externalNativeBuild {
