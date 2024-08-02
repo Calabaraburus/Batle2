@@ -146,6 +146,10 @@ export class MonkSummonerTileController extends TileController {
       this._dataService.playerModel.life = 0;
     }
 
+    if ((this._curMonksSurvCount + (this.maxMonksDeaths - this._curMonksDthCount)) >= this.maxMonks) {
+      this._dataService.botModel.life = 0;
+    }
+
     this.updateTaskInfo();
   }
 

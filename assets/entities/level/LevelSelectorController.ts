@@ -185,7 +185,7 @@ export class LevelSelectorController extends Service {
       lvl.playerCards =
         [
           { mnemonic: "pikeMiddle", price: "4" },
-          { mnemonic: "shamanLow", price: "8" },
+          { mnemonic: "shamanLow", price: "6" },
           { mnemonic: "panic", price: "4" }
         ];
 
