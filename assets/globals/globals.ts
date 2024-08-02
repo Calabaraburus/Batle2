@@ -1,6 +1,6 @@
 import { DEBUG } from "cc/env";
 
-export const GAME_VERSION = "1.2.3.2"
+export const GAME_VERSION = "1.2.3.3"
 
 export const GAME_DEBUG = false;
 

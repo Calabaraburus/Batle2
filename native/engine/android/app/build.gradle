@@ -20,8 +20,8 @@ android {
     defaultConfig {
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
-        versionCode 11
-        versionName "1.2.3.2"
+        versionCode 12
+        versionName "1.2.3.3"
 
         externalNativeBuild {
             cmake {
