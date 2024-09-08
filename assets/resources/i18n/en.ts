@@ -71,7 +71,7 @@ export const languages = {
         },
         ending: {
             name: "Ending",
-            image: "rezkarEnding",
+            image: "rezkarEnding2",
             text: "Seated on the dark, bloodstained throne, the new king gazed at the empty halls, the desolate streets, and the barren lands. Beside him, a sinister presence, now openly visible, rested a hand on Rezkar’s shoulder, chuckling with satisfaction. The darkness from the ancient relic had fully claimed its prize."
         },
     },

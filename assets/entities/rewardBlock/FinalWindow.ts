@@ -31,6 +31,7 @@ import { InfoWindow } from "../ui/window/InfoWindow";
 import { t } from "../../../extensions/i18n/assets/LanguageData";
 import { AudioConfigurator } from "../services/AudioConfigurator";
 import { InGameLevelLoaderService } from "../level/InGameLevelLoaderService";
+import { Analitics } from "../../scripts/analitics/Analitics";
 
 const { ccclass, property } = _decorator;
 
@@ -99,6 +100,7 @@ export class FinalWindow extends Service {
   private _infoWnd: InfoWindow;
   private _audio: AudioConfigurator;
   private _inGameLoader: InGameLevelLoaderService | null;
+  private _analitics: Analitics;
 
   start() {
     this._config = this.getServiceOrThrow(LevelConfiguration);
@@ -110,6 +112,8 @@ export class FinalWindow extends Service {
     this._cardFlagSelector = "empty";
     this._wndIsClosed = true;
     const tService = this.getService(SettingsLoader);
+
+    this._analitics = new Analitics();
 
     assert(tService != null, "SettingsLoader can't be found");
 
@@ -420,6 +424,11 @@ export class FinalWindow extends Service {
       }
 
       this._settingsLoader.saveGameState();
+
+      this._analitics.finishLevelWin(this._config.levelName);
+    } else {
+
+      this._analitics.finishLevelLose(this._config.levelName);
     }
 
     this._wndIsClosed = true;

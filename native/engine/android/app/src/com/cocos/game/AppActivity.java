@@ -34,6 +34,7 @@ import com.cocos.lib.CocosActivity;
 public class AppActivity extends CocosActivity {
 
     private GPReview rev;
+    private AppMetricaJsb metrika;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,9 @@ public class AppActivity extends CocosActivity {
         
         rev = new GPReview();
         rev.start(this);
+
+        metrika = new AppMetricaJsb();
+        metrika.start(this);
     }
 
     @Override

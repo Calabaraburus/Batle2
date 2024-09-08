@@ -41,11 +41,13 @@ import { MonkSummonerTileController } from "../tiles/MonkSummonerTile/MonkSummon
 import { DataService } from "../services/DataService";
 import { FieldController } from "../field/FieldController";
 import { AttackSignalController } from "../attackSignal/AttackSignalController";
+import { Analitics } from "../../scripts/analitics/Analitics";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
 export class LevelSelectorController extends Service {
   private _sceneLoader: SceneLoaderService;
+  private _analitics: Analitics;
   //private _bonusSorted: BonusModel[][];
   configDict = new Map<string, (config: LevelConfiguration) => void>();
   private _settingsLoader: SettingsLoader;
@@ -64,6 +66,7 @@ export class LevelSelectorController extends Service {
       });
     });
 
+    this._analitics = new Analitics();
     this._sceneLoader = this.getServiceOrThrow(SceneLoaderService);
     this._settingsLoader = this.getServiceOrThrow(SettingsLoader);
     this._audoConfig = this.getServiceOrThrow(AudioConfigurator);
@@ -145,6 +148,8 @@ export class LevelSelectorController extends Service {
       }
 
       config.updateData();
+
+      this._analitics.startLevel(lvl.lvlName);
     }
 
     const specAlgs = new Map<string, (config: LevelConfiguration, lvl: GameLevelCfgModel) => void>();
@@ -265,6 +270,9 @@ export class LevelSelectorController extends Service {
       this.addBonuses(config, playerHero, bonusList);
 
       config.updateData();
+
+      this._analitics.startLevel(lvl.lvlName);
+
     });
 
     settingsLoader.gameConfiguration.levels.forEach(lvl => {
