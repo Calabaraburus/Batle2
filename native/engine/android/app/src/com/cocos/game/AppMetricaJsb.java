@@ -11,6 +11,9 @@ public class AppMetricaJsb {
     public void start(CocosActivity activity) {
         // Creating an extended library configuration.
         AppMetricaConfig config = AppMetricaConfig.newConfigBuilder("143de702-7cc9-4e58-a63c-59a915e6caa6").build();
+
+        // Automatic tracking user activity.
+        AppMetrica.enableActivityAutoTracking(this)
         // Initializing the AppMetrica SDK.
         AppMetrica.activate(activity, config);
 

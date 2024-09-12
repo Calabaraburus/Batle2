@@ -255,6 +255,9 @@ export class FinalWindow extends Service {
     this._audio.audioManager.stopMusic();
 
     if (win) {
+
+      this._analitics.finishLevelWin(this._config.levelName);
+
       tween(this).delay(3).call(() => {
         if (!this._wndIsClosed) {
           this._audio.applyList(this._audio.endGameMusicList);
@@ -263,13 +266,14 @@ export class FinalWindow extends Service {
 
       this._audio.audioManager.playSoundEffect("victory", false);
 
-      if (this._config!.endLevelBonuses.length > 0 &&
+      if (this._config.endLevelBonuses.length > 0 &&
         this.canUpdateCurStateData()) {
         this._wnd?.showContentGroup('reward');
       } else {
         this._wnd?.showContentGroup('win');
       }
     } else {
+      this._analitics.finishLevelLose(this._config.levelName);
       this._wnd?.showContentGroup('lose');
       tween(this).delay(9).call(() => {
         if (!this._wndIsClosed) {
@@ -424,11 +428,6 @@ export class FinalWindow extends Service {
       }
 
       this._settingsLoader.saveGameState();
-
-      this._analitics.finishLevelWin(this._config.levelName);
-    } else {
-
-      this._analitics.finishLevelLose(this._config.levelName);
     }
 
     this._wndIsClosed = true;
