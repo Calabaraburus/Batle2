@@ -20,8 +20,8 @@ android {
     defaultConfig {
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
-        versionCode 16
-        versionName "1.2.5.0"
+        versionCode 17
+        versionName "1.2.6.0"
 
         externalNativeBuild {
             cmake {
@@ -99,6 +99,14 @@ android {
     }
 }
 
+plugins {
+  id 'com.android.application'
+
+  // Add the dependency for the Google services Gradle plugin
+  id 'com.google.gms.google-services' version '4.4.2' apply false
+
+}
+
 dependencies {
     implementation fileTree(dir: '../libs', include: ['*.jar','*.aar'])
     implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
@@ -115,4 +123,11 @@ dependencies {
 	
 	// Yandex appmetrika dependencies
 	implementation 'io.appmetrica.analytics:analytics:7.0.0'
+	
+	 // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:33.2.0')
+
+    // When using the BoM, don't specify versions in Firebase dependencies
+    implementation 'com.google.firebase:firebase-analytics'
+
 }

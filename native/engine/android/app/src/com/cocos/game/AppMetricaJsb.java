@@ -24,13 +24,13 @@ public class AppMetricaJsb {
         });
 
         jbw.addScriptEventListener("requestAppMetricaLevelFinishWinCall", arg ->{
-            String eventParameters = "{\"" + arg + "\": \"win\"}";
+            String eventParameters = "{\"" + arg + "\"}";
             AppMetrica.reportEvent("finishedLevels", eventParameters);
         });
     
         jbw.addScriptEventListener("requestAppMetricaLevelFinishLoseCall", arg ->{
-            String eventParameters = "{\"" + arg + "\": \"lose\"}";
-            AppMetrica.reportEvent("finishedLevels", eventParameters);
+            String eventParameters = "{\"" + arg + "\"}";
+            AppMetrica.reportEvent("losedLevels", eventParameters);
         });
     }
 }
