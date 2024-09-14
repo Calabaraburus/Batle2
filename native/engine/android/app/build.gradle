@@ -6,6 +6,7 @@ RES_PATH = RES_PATH.replace("\\", "/")
 COCOS_ENGINE_PATH = COCOS_ENGINE_PATH.replace("\\", "/")
 
 buildDir = "${RES_PATH}/proj/build/$project.name"
+
 android {
     compileSdkVersion PROP_COMPILE_SDK_VERSION.toInteger()
     buildToolsVersion PROP_BUILD_TOOLS_VERSION
@@ -30,6 +31,8 @@ android {
             }
             ndk { abiFilters PROP_APP_ABI.split(':') }
         }
+		
+        //multiDexEnabled true
     }
 
     sourceSets.main {
@@ -99,15 +102,8 @@ android {
     }
 }
 
-plugins {
-  id 'com.android.application'
-
-  // Add the dependency for the Google services Gradle plugin
-  id 'com.google.gms.google-services' version '4.4.2' apply false
-
-}
-
 dependencies {
+	//implementation "androidx.multidex:multidex:2.0.1"
     implementation fileTree(dir: '../libs', include: ['*.jar','*.aar'])
     implementation fileTree(dir: 'libs', include: ['*.jar','*.aar'])
     implementation fileTree(dir: "${COCOS_ENGINE_PATH}/cocos/platform/android/java/libs", include: ['*.jar'])
@@ -124,10 +120,12 @@ dependencies {
 	// Yandex appmetrika dependencies
 	implementation 'io.appmetrica.analytics:analytics:7.0.0'
 	
-	 // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:33.2.0')
+	// Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:32.1.0')
 
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics'
 
 }
+
+apply plugin: 'com.google.gms.google-services'

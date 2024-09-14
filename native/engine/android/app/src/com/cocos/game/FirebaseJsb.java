@@ -12,24 +12,24 @@ public class FirebaseJsb {
     public void start(CocosActivity activity) {
         
         // Obtain the FirebaseAnalytics instance.
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(activity);
 
         JsbBridgeWrapper jbw = JsbBridgeWrapper.getInstance();
         jbw.addScriptEventListener("requestFirebaseLevelStartCall", arg ->{
             Bundle params = new Bundle();
-            params.putString("lvl_name", name);
+            params.putString("lvl_name", arg);
             mFirebaseAnalytics.logEvent("startedLevels", params);
         });
 
         jbw.addScriptEventListener("requestFirebaseLevelFinishWinCall", arg ->{
             Bundle params = new Bundle();
-            params.putString("lvl_name", name);
+            params.putString("lvl_name", arg);
             mFirebaseAnalytics.logEvent("finishedLevels", params);
         });
     
         jbw.addScriptEventListener("requestFirebaseLevelFinishLoseCall", arg ->{
             Bundle params = new Bundle();
-            params.putString("lvl_name", name);
+            params.putString("lvl_name", arg);
             mFirebaseAnalytics.logEvent("losedLevels", params);
         });
     }

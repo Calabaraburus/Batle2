@@ -1,6 +1,6 @@
 import { log, native } from 'cc';
 
-export class AppMetricaCaller {
+export class FirebaseCaller {
     public startLevel(level: string) {
         try {
             native.jsbBridgeWrapper.dispatchEventToNative("requestFirebaseLevelStartCall", level);
