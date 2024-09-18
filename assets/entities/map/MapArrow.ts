@@ -1,7 +1,8 @@
 import { _decorator, CCFloat, Component, Node, tween, Vec3 } from 'cc';
-const { ccclass, property } = _decorator;
+const { ccclass, property, executeInEditMode } = _decorator;
 
 @ccclass('MapArrow')
+@executeInEditMode()
 export class MapArrow extends Component {
 
     @property(CCFloat)
