@@ -18,6 +18,7 @@ import { Service } from "../../services/Service";
 import { CardFieldController } from "./CardFieldController";
 import { WindowManager } from "../../infoPanel/WindowManager";
 import { AudioManagerService } from "../../../soundsPlayer/AudioManagerService";
+import { SpriteDictionaryItem } from "./SpriteDictionaryItem";
 const { ccclass, property } = _decorator;
 
 @ccclass("CardController")
@@ -60,8 +61,15 @@ export class CardController extends Service {
   @property(SpriteFrame)
   lvlSprites: SpriteFrame[] = [];
 
+  @property(SpriteDictionaryItem)
+  tileTypeSprites: SpriteDictionaryItem[] = [];
+
   @property(Sprite)
   crystalSprite: Sprite;
+
+  @property(Sprite)
+  tileTypeSprite: Sprite;
+
 
   @property(Node)
   soulEffectNode: Node;
@@ -167,6 +175,7 @@ export class CardController extends Service {
     }
 
     this.updateLevelSprite();
+    this.updateTileTypeSprite();
 
     this._button.interactable =
       this._model.active && !this.model.alreadyUsedOnTurn;
@@ -184,6 +193,11 @@ export class CardController extends Service {
       this.sprite.node.active = this._button.interactable;
     }
   }
+
+  updateTileTypeSprite() {
+    this.tileTypeSprite.spriteFrame = this.tileTypeSprites.find(f => f.key == this._model.activateType)?.sprite ?? null;
+  }
+
 
   updateLevelSprite() {
     switch (this._model.bonusLevel) {
@@ -242,8 +256,4 @@ export class CardController extends Service {
       )
       .start();
   }
-
-
 }
-
-
