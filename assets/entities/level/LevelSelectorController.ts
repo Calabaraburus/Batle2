@@ -42,6 +42,7 @@ import { DataService } from "../services/DataService";
 import { FieldController } from "../field/FieldController";
 import { AttackSignalController } from "../attackSignal/AttackSignalController";
 import { Analitics } from "../../scripts/analitics/Analitics";
+import { Bot_v2 } from "../../bot/Bot_v2";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelSelectorController")
@@ -149,6 +150,8 @@ export class LevelSelectorController extends Service {
 
       config.updateData();
 
+      setBotLevel(1, 1);
+
       this._analitics.startLevel(lvl.lvlName);
     }
 
@@ -163,12 +166,20 @@ export class LevelSelectorController extends Service {
       t1.node.active = true;
     }
 
+    const setBotLevel = (strengthMin: number, strengthMax: number) => {
+
+      const settingsLoader = this.getServiceOrThrow(Bot_v2);
+
+      settingsLoader.strengthMin = strengthMin;
+      settingsLoader.strengthMax = strengthMax;
+    }
+
     // tutor1
     specAlgs.set("lvl1", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
 
       std_init(config, lvl, "map_tutor1");
       setTutor(0);
-
+      setBotLevel(0.1, 0.3);
     });
 
     // tutor2
@@ -176,8 +187,14 @@ export class LevelSelectorController extends Service {
 
       std_init(config, lvl, "map6");
       setTutor(1);
-
+      setBotLevel(0.7, 0.9);
     });
+
+    specAlgs.set("lvl3", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
+      std_init(config, lvl, "map6");
+      setBotLevel(0.65, 0.8);
+    });
+
 
     // lvl_monastery
     specAlgs.set("lvl5", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
@@ -193,7 +210,6 @@ export class LevelSelectorController extends Service {
           { mnemonic: "shamanLow", price: "6" },
           { mnemonic: "panic", price: "4" }
         ];
-
 
       std_init(config, lvl, "map_monastery");
       const gManager = this.getServiceOrThrow(GameManager);
@@ -213,6 +229,8 @@ export class LevelSelectorController extends Service {
       eField.playerLifeLine.show(false);
       eField.turnOffEffects();
       signal.activateEnemySide(false);
+
+      setBotLevel(0.7, 0.9);
     });
 
     // lvl_walls
@@ -235,6 +253,8 @@ export class LevelSelectorController extends Service {
       configurateAudio();
 
       setMap(config, "map6");
+
+      setBotLevel(1, 1);
 
       config.endLevelBonuses.length = 0;
       config.levelName = lvl.lvlName;

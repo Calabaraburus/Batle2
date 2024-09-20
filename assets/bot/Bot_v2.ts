@@ -92,6 +92,8 @@ export class Bot_v2 extends Service implements IBot {
   private _effectsManager: EffectsManager;
   private _stdTileBehave: StdTileInterBehaviour;
   private _queue: Queue<() => void>;
+  private _strengthMin: number = 1;
+  private _strengthMax: number = 1;
 
   public get dataService() {
     return this._dataService;
@@ -108,6 +110,23 @@ export class Bot_v2 extends Service implements IBot {
   public get botModel() {
     return this._botModel;
   }
+
+  public get strengthMin() {
+    return this._strengthMin;
+  }
+
+  public set strengthMin(value: number) {
+    this._strengthMin = value;
+  }
+
+  public get strengthMax() {
+    return this._strengthMax;
+  }
+
+  public set strengthMax(value: number) {
+    this._strengthMax = value;
+  }
+
 
   start() {
     this._dataService = this.getServiceOrThrow(DataService);
@@ -344,31 +363,26 @@ export class Bot_v2 extends Service implements IBot {
 
       if (IN_DEBUG()) console.log(`[Bot] ratings ${results.map(r => r.rating).join("|")}`);
 
-      const result = results[0];
+      const result = this.selectTileBasedOnStrength(results);
       //      this.debugTile(tile);
       if (IN_DEBUG()) console.log(`[Bot] Activate tile {${result.row},${result.col}}`);
 
       this.pressTileRC(result.row, result.col)
-      // clonedField.reset();
+
     });
-    /*
-        const conv = tween(this);
-    
-        const waiter = tween(this).call(() => {
-          if (!this._effectsManager.effectIsRunning) {
-            if (queue.length <= 0) {
-              conv.stop();
-            } else {
-              const action = queue.dequeue();
-              action();
-            }
-          }
-        }).delay(0.3);
-    
-        conv.repeatForever(waiter);
-    
-        conv.start();
-    */
+  }
+
+  selectTileBasedOnStrength(results: RatingResult[]) {
+    const tmp = [... new Set(results)];
+
+    const maxC = Math.round(tmp.length * (1 - this._strengthMin));
+    const minC = Math.round(tmp.length * (1 - this._strengthMax));
+
+    if (minC == maxC) return tmp[0];
+
+    const index = Math.round(Math.random() * (maxC - minC) + minC);
+
+    return tmp[index];
   }
 
   cloneField() {
