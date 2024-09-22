@@ -21,8 +21,8 @@ android {
     defaultConfig {
         minSdkVersion PROP_MIN_SDK_VERSION
         targetSdkVersion PROP_TARGET_SDK_VERSION
-        versionCode 19
-        versionName "1.2.7.0"
+        versionCode 20
+        versionName "1.2.7.1"
 
         externalNativeBuild {
             cmake {

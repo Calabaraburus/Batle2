@@ -192,7 +192,13 @@ export class LevelSelectorController extends Service {
 
     specAlgs.set("lvl3", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
       std_init(config, lvl, "map6");
-      setBotLevel(0.65, 0.8);
+      const botCard = config.botModel.bonuses.length > 0 ? config.botModel.bonuses[0] : null;
+
+      if (botCard) {
+        botCard.currentAmmountToActivate = botCard.priceToActivate;
+      }
+
+      setBotLevel(0.75, 1);
     });
 
 
@@ -230,13 +236,14 @@ export class LevelSelectorController extends Service {
       eField.turnOffEffects();
       signal.activateEnemySide(false);
 
-      setBotLevel(0.7, 0.9);
+      setBotLevel(0.8, 1);
     });
 
     // lvl_walls
     specAlgs.set("lvl8", (config: LevelConfiguration, lvl: GameLevelCfgModel) => {
 
       std_init(config, lvl, "map_walls");
+      setBotLevel(0.85, 1);
 
     });
 
