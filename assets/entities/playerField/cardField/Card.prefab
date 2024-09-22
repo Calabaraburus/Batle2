@@ -2053,7 +2053,7 @@
     "__type__": "SpriteDictionaryItem",
     "key": "close_range",
     "sprite": {
-      "__uuid__": "de0a8e2b-c0a8-4062-9308-027537001dac@f9941",
+      "__uuid__": "4e356ebb-b3b4-485d-a125-09157eb54c66@f9941",
       "__expectedType__": "cc.SpriteFrame"
     }
   },
@@ -2061,7 +2061,7 @@
     "__type__": "SpriteDictionaryItem",
     "key": "long_range",
     "sprite": {
-      "__uuid__": "bcae1623-9122-460f-ae97-1935521b4c64@f9941",
+      "__uuid__": "44ebb638-3465-43f8-ad95-2565d90ba35c@f9941",
       "__expectedType__": "cc.SpriteFrame"
     }
   },
@@ -2069,7 +2069,7 @@
     "__type__": "SpriteDictionaryItem",
     "key": "protect",
     "sprite": {
-      "__uuid__": "af69a46c-1349-4413-a6df-03c5873aa328@f9941",
+      "__uuid__": "535cb97d-9f1b-489a-9100-0f9fa31acbbc@f9941",
       "__expectedType__": "cc.SpriteFrame"
     }
   },
